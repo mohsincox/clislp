@@ -1,7 +1,34 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
+import { useContext, useEffect, useState } from "react";
+import { UserContext } from "../App";
 
 function AdminLayout() {
+  const navigate = useNavigate();
+
+  const { authUser, setAuthUser } = useContext(UserContext);
+  const [name, setName] = useState("");
+
+  const getLoginData = localStorage.getItem("loginData");
+
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const data = JSON.parse(getLoginData);
+      const token = data.accessToken;
+      const nameUser = data.name;
+      setName(nameUser);
+    }
+  }, []);
+
+  const logout = () => {
+    localStorage.removeItem("loginData");
+    navigate("/register");
+    setAuthUser((previousState) => {
+      return { ...previousState, isLoggedIn: false };
+    });
+  };
   return (
     <>
       <Navbar bg="light" expand="lg">
@@ -29,21 +56,11 @@ function AdminLayout() {
               <NavLink className="nav-link" to="/admin/players">
                 Player
               </NavLink>
-              <NavLink className="nav-link" to="/admin/sliders">
+              {/* <NavLink className="nav-link" to="/admin/sliders">
                 Sliders
-              </NavLink>
-              <NavDropdown title="Dropdown" id="basic-nav-dropdown">
-                <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.2">
-                  Another action
-                </NavDropdown.Item>
-                <NavDropdown.Item href="#action/3.3">
-                  Something
-                </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action/3.4">
-                  Separated link
-                </NavDropdown.Item>
+              </NavLink> */}
+              <NavDropdown title={name} id="basic-nav-dropdown">
+                <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
               </NavDropdown>
             </Nav>
           </Navbar.Collapse>
