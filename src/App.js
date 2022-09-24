@@ -39,6 +39,8 @@ import ViewTeam from "./pages/ViewTeam";
 import WelcomeTeam from "./pages/WelcomeTeam";
 import SliderList from "./pages/admin/slider/SliderList";
 import SliderCreate from "./pages/admin/slider/SliderCreate";
+import MatchList from "./pages/admin/match/MatchList";
+import MatchCreate from "./pages/admin/match/MatchCreate";
 
 export const UserContext = React.createContext(null);
 
@@ -192,6 +194,17 @@ function App() {
                 path={`/admin/sliders/create`}
                 exact={true}
                 element={<SliderCreate />}
+              />
+
+              <Route
+                path={`/admin/matches`}
+                exact={true}
+                element={<MatchList />}
+              />
+              <Route
+                path={`/admin/matches/create`}
+                exact={true}
+                element={<MatchCreate />}
               />
 
               <Route

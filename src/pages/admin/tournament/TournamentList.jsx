@@ -117,7 +117,6 @@ export default function TournamentList() {
                 <td>{tournament.id}</td>
                 <td>{tournament.name}</td>
                 <td>
-                  {/* {tournament.game["name"]} */}
                   {tournament.game == null ? "" : tournament.game["name"]}
                 </td>
                 <td>{tournament.month}</td>

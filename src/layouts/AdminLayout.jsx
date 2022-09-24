@@ -59,6 +59,9 @@ function AdminLayout() {
               {/* <NavLink className="nav-link" to="/admin/sliders">
                 Sliders
               </NavLink> */}
+              <NavLink className="nav-link" to="/admin/matches">
+                Match
+              </NavLink>
               <NavDropdown title={name} id="basic-nav-dropdown">
                 <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
               </NavDropdown>

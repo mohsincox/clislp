@@ -130,7 +130,7 @@ export default function PlayerList() {
                     </span>
                   )}
                 </td>
-                <td>{player.country["name"]}</td>
+                <td>{player.country == null ? "" : player.country["name"]}</td>
                 <td>{player.jersey_no}</td>
                 <td>{player.batting_position}</td>
                 <td>{player.point}</td>
