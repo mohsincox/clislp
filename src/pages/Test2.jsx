@@ -1,198 +1,66 @@
 import React, { useState } from "react";
+import { Container } from "react-bootstrap";
 
 function Test2() {
-  const [userinfo, setUserInfo] = useState({
-    languages: [],
-    response: [],
-  });
+  const [showhide, setShowhide] = useState("");
 
-  const handleChange = (e) => {
-    // Destructuring
-    const { value, checked } = e.target;
-    const { languages } = userinfo;
-
-    console.log(`${value} is ${checked}`);
-
-    // Case 1 : The user checks the box
-    if (checked) {
-      setUserInfo({
-        languages: [...languages, value],
-        response: [...languages, value],
-      });
-    }
-
-    // Case 2 : The user unchecks the box
-    else {
-      setUserInfo({
-        languages: languages.filter((e) => e !== value),
-        response: languages.filter((e) => e !== value),
-      });
-    }
+  const handleshowhide = (event) => {
+    const getuser = event.target.value;
+    setShowhide(getuser);
   };
 
   return (
-    <>
-      <div className="container-fluid top ">
-        <div className="container mt-5 pb-5 pt-5">
-          <h3 className="form-head-contact-h3 ">
-            Your programming expertise lies in what languages?{" "}
-          </h3>
+    <React.Fragment>
+      <Container>
+        <div className="row fthight">
+          <div className="col-sm-6">
+            <h4 className="mt-3">
+              Show Hide DIV Element on Selection option in ReactJs
+            </h4>
 
-          <form>
-            <div className="row">
-              <div className="col-md-6">
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="Javascript"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Javascript
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="Python"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Python
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="Java"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Java
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="PHP"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    PHP
-                  </label>
-                </div>
-              </div>
-              <div className="col-md-6">
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="C#"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    C#
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="C++"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    C++
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="C"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    C
-                  </label>
-                </div>
-                <div className="form-check m-3">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    name="languages"
-                    value="Typescript"
-                    id="flexCheckDefault"
-                    onChange={handleChange}
-                  />
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexCheckDefault"
-                  >
-                    Typescript
-                  </label>
-                </div>
-              </div>
+            <div className="col-md-10 form-group mb-3">
+              <label className="mb-2">Username</label>
+              <input type="text" name="username" className="form-control" />
             </div>
 
-            <div className="form-floating mt-3 mb-3 text-center">
-              <label htmlFor="exampleFormControlTextarea1">
-                You're proficient in the following languages :{" "}
-              </label>
-              <textarea
-                className="form-control text"
-                name="response"
-                value={userinfo.response}
-                placeholder="The checkbox values will be displayed here "
-                id="floatingTextarea2"
-                style={{ height: "150px" }}
-                onChange={handleChange}
-              ></textarea>
+            <div className="col-md-10 form-group mb-3">
+              <label className="mb-2">User Type</label>
+              <select
+                name="usertype"
+                className="form-control"
+                onChange={(e) => handleshowhide(e)}
+              >
+                <option value="">--Select User Type--</option>
+                <option value="1">User Type 1</option>
+                <option value="2">User Type 2</option>
+                <option value="3">User Type 3</option>
+              </select>
             </div>
-          </form>
+
+            {showhide === "1" && (
+              <div className="col-md-10 form-group">
+                <label className="mb-2">User Address 1</label>
+                <textarea name="address1" className="form-control"></textarea>
+              </div>
+            )}
+
+            {showhide === "2" && (
+              <div className="col-md-10 form-group">
+                <label className="mb-2">User Address 2</label>
+                <textarea name="address2" className="form-control"></textarea>
+              </div>
+            )}
+
+            {showhide === "3" && (
+              <div className="col-md-10 form-group">
+                <label className="mb-2">User Address 3</label>
+                <textarea name="address3" className="form-control"></textarea>
+              </div>
+            )}
+          </div>
         </div>
-      </div>
-    </>
+      </Container>
+    </React.Fragment>
   );
 }
-
 export default Test2;

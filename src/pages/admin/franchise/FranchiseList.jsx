@@ -1,0 +1,129 @@
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { API_PUBLIC_URL } from "../../../constants";
+
+export default function FranchiseList() {
+  const [franchiseList, setFranchiseList] = useState([]);
+  const navigate = useNavigate();
+  const getLoginData = localStorage.getItem("loginData");
+
+  const getData = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/franchises`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setFranchiseList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
+  useEffect(() => {
+    getData();
+  }, []);
+
+  function deleteFranchise(id) {
+    const storageData = JSON.parse(getLoginData);
+    const token = storageData.accessToken;
+    axios
+      .delete(`${API_PUBLIC_URL}api/franchises/${id}`, {
+        headers: {
+          Authorization: token,
+        },
+      })
+      .then(() => {
+        toast.error("Deleted successfully");
+        getData();
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 403) {
+          toast.error("No Permission");
+          navigate("/admin/no-permission");
+        }
+      });
+  }
+
+  return (
+    <>
+      <div className="container">
+        <div>
+          <div className="float-start">
+            <h3>Franchise List</h3>
+          </div>
+          <div className="float-end">
+            <Link to={`/admin/franchises/create`} className="btn btn-info">
+              + Create New
+            </Link>
+          </div>
+        </div>
+
+        <table className="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Franchise Name</th>
+              <th>Country</th>
+              <th>Logo</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {franchiseList.map((franchise, index) => (
+              <tr key={franchise.id}>
+                <td>{franchise.id}</td>
+                <td>{franchise.name}</td>
+                <td>
+                  {franchise.country == null ? "" : franchise.country["name"]}
+                </td>
+                <td>
+                  <img
+                    src={`${API_PUBLIC_URL}${franchise.logo}`}
+                    alt=""
+                    width="80px"
+                  />
+                </td>
+                <td>
+                  <Link
+                    to={`/admin/franchises/${franchise.id}`}
+                    className="btn btn-success btn-sm"
+                  >
+                    Edit
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {
+                      window.confirm("Want to delete?") &&
+                        deleteFranchise(franchise.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </>
+  );
+}

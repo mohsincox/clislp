@@ -37,7 +37,7 @@ function AdminLayout() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="me-auto">
-              <Nav.Link href="#home">Home</Nav.Link>
+              {/* <Nav.Link href="#home">Home</Nav.Link> */}
               <NavLink className="nav-link" to="/admin/roles">
                 Role
               </NavLink>
@@ -50,15 +50,18 @@ function AdminLayout() {
               <NavLink className="nav-link" to="/admin/countries">
                 Country
               </NavLink>
+              <NavLink className="nav-link" to="/admin/franchises">
+                Franchise
+              </NavLink>
               <NavLink className="nav-link" to="/admin/tournaments">
                 Tournament
               </NavLink>
               <NavLink className="nav-link" to="/admin/players">
                 Player
               </NavLink>
-              {/* <NavLink className="nav-link" to="/admin/sliders">
-                Sliders
-              </NavLink> */}
+              <NavLink className="nav-link" to="/admin/sliders">
+                Slider
+              </NavLink>
               <NavLink className="nav-link" to="/admin/matches">
                 Match
               </NavLink>

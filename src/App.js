@@ -41,6 +41,10 @@ import SliderList from "./pages/admin/slider/SliderList";
 import SliderCreate from "./pages/admin/slider/SliderCreate";
 import MatchList from "./pages/admin/match/MatchList";
 import MatchCreate from "./pages/admin/match/MatchCreate";
+import FranchiseList from "./pages/admin/franchise/FranchiseList";
+import FranchiseCreate from "./pages/admin/franchise/FranchiseCreate";
+import FranchiseEdit from "./pages/admin/franchise/FranchiseEdit";
+import SliderEdit from "./pages/admin/slider/SliderEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -195,6 +199,11 @@ function App() {
                 exact={true}
                 element={<SliderCreate />}
               />
+              <Route
+                path={`/admin/sliders/:id`}
+                exact={true}
+                element={<SliderEdit />}
+              />
 
               <Route
                 path={`/admin/matches`}
@@ -205,6 +214,22 @@ function App() {
                 path={`/admin/matches/create`}
                 exact={true}
                 element={<MatchCreate />}
+              />
+
+              <Route
+                path={`/admin/franchises`}
+                exact={true}
+                element={<FranchiseList />}
+              />
+              <Route
+                path={`/admin/franchises/create`}
+                exact={true}
+                element={<FranchiseCreate />}
+              />
+              <Route
+                path={`/admin/franchises/:id`}
+                exact={true}
+                element={<FranchiseEdit />}
               />
 
               <Route

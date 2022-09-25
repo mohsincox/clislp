@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function SliderCreate() {
+export default function SliderEdit() {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
+  const [im, setIm] = useState("");
   let navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     handleLogin();
@@ -18,6 +20,22 @@ export default function SliderCreate() {
   const handleLogin = () => {
     if (getLoginData === null) {
       navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/sliders/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setName(response.data.name);
+            setIm(response.data.image);
+            console.log(response.data);
+          });
+      })();
     }
   };
 
@@ -26,8 +44,6 @@ export default function SliderCreate() {
 
     if (name.trim() === "") {
       toast.error("Slider Name field is required!");
-    } else if (image === null) {
-      toast.error("Image file is required!");
     } else {
       const formData = new FormData();
       formData.append("name", name);
@@ -37,7 +53,7 @@ export default function SliderCreate() {
       const token = storageData.accessToken;
 
       await axios
-        .post(`${API_PUBLIC_URL}api/sliders`, formData, {
+        .put(`${API_PUBLIC_URL}api/sliders/${id}`, formData, {
           headers: {
             Authorization: token,
           },
@@ -47,7 +63,7 @@ export default function SliderCreate() {
           setName("");
           setImage(null);
 
-          toast.success("Successfully created!");
+          toast.success("Successfully updated!");
           navigate("/admin/sliders");
         })
         .catch((error) => {
@@ -89,6 +105,15 @@ export default function SliderCreate() {
                     name="image"
                     onChange={(e) => setImage(e.target.files[0])}
                   />
+
+                  <div style={{ marginTop: "10px" }}>
+                    <img
+                      src={`${API_PUBLIC_URL}${im}`}
+                      alt=""
+                      width="80px"
+                      height="50px"
+                    />
+                  </div>
                 </div>
               </div>
 

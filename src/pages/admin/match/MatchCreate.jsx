@@ -8,7 +8,6 @@ function MatchCreate() {
   const initialValues = {
     stage_name: "",
     tournament_id: "",
-    stage_id: "",
     country_one_id: "",
     country_two_id: "",
     start_date: "",
@@ -85,8 +84,19 @@ function MatchCreate() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
+
+    if (formValues.stage_name.trim() == "") {
+      toast.error("Stage Name field is required!");
+    } else if (formValues.tournament_id.trim() == "") {
+      toast.error("Tournament field is required!");
+    } else if (formValues.country_one_id.trim() == "") {
+      toast.error("Country one field is required!");
+    } else if (formValues.country_two_id.trim() == "") {
+      toast.error("Country two field is required!");
+    } else {
+      setFormErrors(validate(formValues));
+      setIsSubmit(true);
+    }
   };
 
   useEffect(() => {
@@ -135,43 +145,37 @@ function MatchCreate() {
 
   const validate = (values) => {
     const errors = {};
+    /*
     if (!values.stage_name) {
       toast.error("Stage Name is required");
       //   errors.stage_name = "stage_name";
-      return errors;
     }
     if (!values.tournament_id) {
       console.log("values.tournament_id---------", values.tournament_id);
       toast.error("tournament_id is required");
       //   errors.tournament_id = "tournament_id";
-      return errors;
     }
     if (!values.country_one_id) {
       toast.error("country_one_id is required");
       //   errors.country_one_id = "country_one_id";
-      return errors;
     }
     if (!values.country_two_id) {
       toast.error("country_two_id is required");
       //   errors.country_two_id = "country_two_id";
-      return errors;
     }
     if (values.country_one_id === values.country_two_id) {
       toast.error("Both countries can not be same");
       //   errors.country_two_id = "Both countries can not be same";
-      return errors;
     }
     if (!values.start_date) {
       toast.error("start_date is required");
       //   errors.start_date = "start_date";
-      return errors;
     }
     if (!values.start_time) {
       toast.error("start_time is required");
       //   errors.start_time = "start_time";
-      return errors;
     }
-
+    */
     return errors;
   };
 
