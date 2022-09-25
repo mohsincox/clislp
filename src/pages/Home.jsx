@@ -15,8 +15,8 @@ export default function Home() {
       <SlideShow />
       <Fixtures />
       <hr />
-      <Matches />
-      <hr />
+      {/* <Matches />
+      <hr /> */}
       <AddSponsor />
       <Dream />
       <LatestNews />
