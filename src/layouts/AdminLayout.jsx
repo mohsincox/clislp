@@ -62,6 +62,9 @@ function AdminLayout() {
               <NavLink className="nav-link" to="/admin/sliders">
                 Slider
               </NavLink>
+              <NavLink className="nav-link" to="/admin/tournament-teams">
+                Team
+              </NavLink>
               <NavLink className="nav-link" to="/admin/matches">
                 Match
               </NavLink>

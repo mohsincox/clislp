@@ -45,6 +45,9 @@ import FranchiseList from "./pages/admin/franchise/FranchiseList";
 import FranchiseCreate from "./pages/admin/franchise/FranchiseCreate";
 import FranchiseEdit from "./pages/admin/franchise/FranchiseEdit";
 import SliderEdit from "./pages/admin/slider/SliderEdit";
+import TournamentTeamList from "./pages/admin/tournament_team/TournamentTeamList";
+import TournamentTeamCreate from "./pages/admin/tournament_team/TournamentTeamCreate";
+import TournamentTeamEdit from "./pages/admin/tournament_team/TournamentTeamEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -230,6 +233,22 @@ function App() {
                 path={`/admin/franchises/:id`}
                 exact={true}
                 element={<FranchiseEdit />}
+              />
+
+              <Route
+                path={`/admin/tournament-teams`}
+                exact={true}
+                element={<TournamentTeamList />}
+              />
+              <Route
+                path={`/admin/tournament-teams/create`}
+                exact={true}
+                element={<TournamentTeamCreate />}
+              />
+              <Route
+                path={`/admin/tournament-teams/:id`}
+                exact={true}
+                element={<TournamentTeamEdit />}
               />
 
               <Route
