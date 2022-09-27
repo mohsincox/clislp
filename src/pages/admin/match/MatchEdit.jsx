@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { API_PUBLIC_URL } from "./../../../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-export default function MatchCreate() {
+export default function MatchEdit() {
   const [stage_name, setStage_name] = useState("");
   const [tournament_id, setTournament_id] = useState("");
   const [tournament_team_one_id, setTournament_team_one_id] = useState("");
@@ -15,13 +15,41 @@ export default function MatchCreate() {
   const [tournamentList, setTournamentList] = useState([]);
   const [tourTeamList, setTourTeamList] = useState([]);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const getLoginData = localStorage.getItem("loginData");
 
   useEffect(() => {
     getSelectTournament();
-    // getSelectCountry();
+    getMatchDetails();
   }, []);
+
+  const getMatchDetails = () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/matches/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setStage_name(response.data.stage_name);
+            setTournament_id(response.data.tournament_id);
+            setTournament_team_one_id(response.data.tournament_team_one_id);
+            setTournament_team_two_id(response.data.tournament_team_two_id);
+            setStart_date(response.data.start_date);
+            setStart_time(response.data.start_time);
+            setVenue(response.data.venue);
+            console.log(response.data);
+          });
+      })();
+    }
+  };
 
   const getSelectTournament = async () => {
     if (getLoginData === null) {
@@ -114,7 +142,7 @@ export default function MatchCreate() {
       const token = storageData.accessToken;
 
       await axios
-        .post(`${API_PUBLIC_URL}api/matches`, postBody, {
+        .put(`${API_PUBLIC_URL}api/matches/${id}`, postBody, {
           headers: {
             Authorization: token,
           },

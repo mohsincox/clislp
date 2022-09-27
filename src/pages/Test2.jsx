@@ -1,66 +1,79 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Container } from "react-bootstrap";
 
 function Test2() {
-  const [showhide, setShowhide] = useState("");
+  const [country, setCountry] = useState([]);
+  const [countryid, setCountryid] = useState("");
+  const [stetes, setSat] = useState([]);
 
-  const handleshowhide = (event) => {
-    const getuser = event.target.value;
-    setShowhide(getuser);
+  useEffect(() => {
+    const getcountry = async () => {
+      const req = await fetch("http://localhost:8080/api/ws-fixtures");
+      const getres = await req.json();
+      console.log(getres);
+      setCountry(await getres);
+    };
+    getcountry();
+  }, []);
+
+  const handlecountry = (event) => {
+    const getcoutryid = event.target.value;
+    setCountryid(getcoutryid);
+    event.preventDefault();
   };
 
+  useEffect(() => {
+    const getstate = async () => {
+      const resstate = await fetch(
+        `http://localhost:8080/api/ws-fixtures/tt/${countryid}`
+      );
+      const getst = resstate.json();
+      setSat(await getst);
+    };
+    getstate();
+  }, [countryid]);
+
   return (
-    <React.Fragment>
-      <Container>
-        <div className="row fthight">
-          <div className="col-sm-6">
-            <h4 className="mt-3">
-              Show Hide DIV Element on Selection option in ReactJs
-            </h4>
+    <Container className="content">
+      <div className="row">
+        <div className="col-sm-12">
+          <h5 className="mt-4 mb-4 fw-bold">Output {}</h5>
 
-            <div className="col-md-10 form-group mb-3">
-              <label className="mb-2">Username</label>
-              <input type="text" name="username" className="form-control" />
-            </div>
-
-            <div className="col-md-10 form-group mb-3">
-              <label className="mb-2">User Type</label>
+          <div className="row mb-3">
+            <div className="form-group col-md-4">
+              <label className="mb-2">Country</label>
               <select
-                name="usertype"
+                name="country"
                 className="form-control"
-                onChange={(e) => handleshowhide(e)}
+                onChange={(e) => handlecountry(e)}
               >
-                <option value="">--Select User Type--</option>
-                <option value="1">User Type 1</option>
-                <option value="2">User Type 2</option>
-                <option value="3">User Type 3</option>
+                <option>--Select Country--</option>
+                {country.map((getcon) => (
+                  <option key={getcon.id} value={getcon.id}>
+                    {getcon.name}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-group col-md-4">
+              <label className="mb-2">State</label>
+              <select name="state" className="form-control">
+                <option>--Select State--</option>
+                {stetes.map((st, index) => (
+                  <option key={index} value={st.id}>
+                    {st.name}
+                  </option>
+                ))}
               </select>
             </div>
 
-            {showhide === "1" && (
-              <div className="col-md-10 form-group">
-                <label className="mb-2">User Address 1</label>
-                <textarea name="address1" className="form-control"></textarea>
-              </div>
-            )}
-
-            {showhide === "2" && (
-              <div className="col-md-10 form-group">
-                <label className="mb-2">User Address 2</label>
-                <textarea name="address2" className="form-control"></textarea>
-              </div>
-            )}
-
-            {showhide === "3" && (
-              <div className="col-md-10 form-group">
-                <label className="mb-2">User Address 3</label>
-                <textarea name="address3" className="form-control"></textarea>
-              </div>
-            )}
+            <div className="form-group col-md-2 mt-4">
+              <button className="btn btn-success mt-2">Submit</button>
+            </div>
           </div>
         </div>
-      </Container>
-    </React.Fragment>
+      </div>
+    </Container>
   );
 }
 export default Test2;

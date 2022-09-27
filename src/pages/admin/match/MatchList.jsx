@@ -81,9 +81,12 @@ export default function MatchList() {
               <th>Stage Name</th>
               <th>Tournament</th>
               <th>VS</th>
+              <th>VS img</th>
               <th>VS</th>
+              <th>VS img</th>
               <th>Date</th>
               <th>Time</th>
+              <th>Venue</th>
               <th>Edit</th>
               <th>Delete</th>
             </tr>
@@ -97,17 +100,61 @@ export default function MatchList() {
                   {match.tournament == null ? "" : match.tournament["name"]}
                 </td>
                 <td>
-                  {match.country_one == null ? "" : match.country_one["name"]}
+                  {/* {match.country_one == null ? "" : match.country_one["name"]} */}
+                  {match.tournament_team_one.name == null
+                    ? ""
+                    : match.tournament_team_one.name}
                 </td>
                 <td>
-                  {match.country_two == null ? "" : match.country_two["name"]}
+                  {/* {match.tournament_team_one.country == null
+                    ? match.tournament_team_one.franchise.logo
+                    : match.tournament_team_one.country.flag} */}
+
+                  {match.tournament_team_one.country == null ? (
+                    <img
+                      src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
+                      alt=""
+                      width="80px"
+                    />
+                  ) : (
+                    <img
+                      src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
+                      alt=""
+                      width="80px"
+                    />
+                  )}
+                </td>
+                <td>
+                  {match.tournament_team_two.name == null
+                    ? ""
+                    : match.tournament_team_two.name}
+                  {/* {match.country_two == null ? "" : match.country_two["name"]} */}
+                </td>
+                <td>
+                  {/* {match.tournament_team_two.country == null
+                    ? match.tournament_team_two.franchise.logo
+                    : match.tournament_team_two.country.flag} */}
+
+                  {match.tournament_team_two.country == null ? (
+                    <img
+                      src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
+                      alt=""
+                      width="80px"
+                    />
+                  ) : (
+                    <img
+                      src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
+                      alt=""
+                      width="80px"
+                    />
+                  )}
                 </td>
                 <td>{match.start_date}</td>
                 <td>{match.start_time}</td>
-
+                <td>{match.venue}</td>
                 <td>
                   <Link
-                    to={`/admin/players/${match.id}`}
+                    to={`/admin/matches/${match.id}`}
                     className="btn btn-success btn-sm"
                   >
                     Edit

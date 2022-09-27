@@ -48,6 +48,7 @@ import SliderEdit from "./pages/admin/slider/SliderEdit";
 import TournamentTeamList from "./pages/admin/tournament_team/TournamentTeamList";
 import TournamentTeamCreate from "./pages/admin/tournament_team/TournamentTeamCreate";
 import TournamentTeamEdit from "./pages/admin/tournament_team/TournamentTeamEdit";
+import MatchEdit from "./pages/admin/match/MatchEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -217,6 +218,11 @@ function App() {
                 path={`/admin/matches/create`}
                 exact={true}
                 element={<MatchCreate />}
+              />
+              <Route
+                path={`/admin/matches/:id`}
+                exact={true}
+                element={<MatchEdit />}
               />
 
               <Route
