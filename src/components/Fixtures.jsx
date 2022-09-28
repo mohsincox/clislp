@@ -39,80 +39,85 @@ export default function Fixtures() {
                     className="col-sm-3"
                     style={{ marginTop: "10px" }}
                   >
-                    <div className="card">
-                      <div className="card-body">
-                        <p>{match.stage_name}</p>
-                        <div className="row">
-                          <div className="col-sm-5">
-                            {/* <img
+                    {match.tournament_team_one != null &&
+                      match.tournament_team_two != null && (
+                        <div className="card">
+                          <div className="card-body">
+                            <p>{match.stage_name}</p>
+                            <div className="row">
+                              <div className="col-sm-5">
+                                {/* <img
                               src={`${API_PUBLIC_URL}${match.country_one.flag}`}
                               alt=""
                               width="78px"
                               height="59px"
                             /> */}
-                            {match.tournament_team_one.country == null ? (
-                              <img
-                                src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
-                                alt=""
-                                width="78px"
-                                height="59px"
-                              />
-                            ) : (
-                              <img
-                                src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
-                                alt=""
-                                width="78px"
-                                height="59px"
-                              />
-                            )}
-                          </div>
-                          <div
-                            className="col-sm-2 text-center"
-                            style={{ fontSize: "15px" }}
-                          >
-                            VS
-                          </div>
-                          <div className="col-sm-5">
-                            {/* <img
+                                {match.tournament_team_one.country == null ? (
+                                  <img
+                                    src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
+                                    alt=""
+                                    width="78px"
+                                    height="59px"
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
+                                    alt=""
+                                    width="78px"
+                                    height="59px"
+                                  />
+                                )}
+                              </div>
+                              <div
+                                className="col-sm-2 text-center"
+                                style={{ fontSize: "15px" }}
+                              >
+                                VS
+                              </div>
+                              <div className="col-sm-5">
+                                {/* <img
                               src={`${API_PUBLIC_URL}${match.country_two.flag}`}
                               alt=""
                               width="78px"
                               height="59px"
                             /> */}
 
-                            {match.tournament_team_two.country == null ? (
-                              <img
-                                src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
-                                alt=""
-                                width="78px"
-                                height="59px"
-                              />
-                            ) : (
-                              <img
-                                src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
-                                alt=""
-                                width="78px"
-                                height="59px"
-                              />
-                            )}
+                                {match.tournament_team_two.country == null ? (
+                                  <img
+                                    src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
+                                    alt=""
+                                    width="78px"
+                                    height="59px"
+                                  />
+                                ) : (
+                                  <img
+                                    src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
+                                    alt=""
+                                    width="78px"
+                                    height="59px"
+                                  />
+                                )}
+                              </div>
+                            </div>
+                            <div>
+                              <div className="float-start">
+                                {match.tournament_team_one.name}
+                              </div>
+                              <div className="float-end">
+                                {match.tournament_team_two.name}
+                              </div>
+                            </div>
+                          </div>
+                          <div className="card-footer">
+                            <div className="float-start">
+                              {match.start_date}
+                            </div>
+                            <div className="float-end">
+                              Starts at {match.start_time}
+                            </div>
                           </div>
                         </div>
-                        <div>
-                          <div className="float-start">
-                            {match.tournament_team_one.name}
-                          </div>
-                          <div className="float-end">
-                            {match.tournament_team_two.name}
-                          </div>
-                        </div>
-                      </div>
-                      <div className="card-footer">
-                        <div className="float-start">{match.start_date}</div>
-                        <div className="float-end">
-                          Starts at {match.start_time}
-                        </div>
-                      </div>
-                    </div>
+                      )}
                   </div>
                 ))}
               </div>
