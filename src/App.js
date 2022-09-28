@@ -49,6 +49,9 @@ import TournamentTeamList from "./pages/admin/tournament_team/TournamentTeamList
 import TournamentTeamCreate from "./pages/admin/tournament_team/TournamentTeamCreate";
 import TournamentTeamEdit from "./pages/admin/tournament_team/TournamentTeamEdit";
 import MatchEdit from "./pages/admin/match/MatchEdit";
+import UserList from "./pages/admin/user/UserList";
+import UserCreate from "./pages/admin/user/UserCreate";
+import RolePermissionEdit from "./pages/admin/role/RolePermissionEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -122,6 +125,11 @@ function App() {
                 path={`/admin/roles/permissions/:id`}
                 exact={true}
                 element={<RolePermissionCreate />}
+              />
+              <Route
+                path={`/admin/roles/permissions/edit/:id`}
+                exact={true}
+                element={<RolePermissionEdit />}
               />
 
               <Route
@@ -255,6 +263,17 @@ function App() {
                 path={`/admin/tournament-teams/:id`}
                 exact={true}
                 element={<TournamentTeamEdit />}
+              />
+
+              <Route
+                path={`/admin/users`}
+                exact={true}
+                element={<UserList />}
+              />
+              <Route
+                path={`/admin/users/create`}
+                exact={true}
+                element={<UserCreate />}
               />
 
               <Route

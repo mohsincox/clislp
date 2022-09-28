@@ -1,79 +1,76 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Container } from "react-bootstrap";
 
 function Test2() {
-  const [country, setCountry] = useState([]);
-  const [countryid, setCountryid] = useState("");
-  const [stetes, setSat] = useState([]);
+  const [name, setName] = useState("");
+  const [newdate, setNewdate] = useState([]);
 
-  useEffect(() => {
-    const getcountry = async () => {
-      const req = await fetch("http://localhost:8080/api/ws-fixtures");
-      const getres = await req.json();
-      console.log(getres);
-      setCountry(await getres);
-    };
-    getcountry();
-  }, []);
-
-  const handlecountry = (event) => {
-    const getcoutryid = event.target.value;
-    setCountryid(getcoutryid);
-    event.preventDefault();
+  const handlename = (e) => {
+    const getnamevalue = e.target.value;
+    setName(getnamevalue);
+    //console.log(getdatevalue);
+  };
+  const handledate = (e) => {
+    const getdatevalue = e.target.value;
+    setNewdate(getdatevalue);
+    //console.log(getdatevalue);
   };
 
-  useEffect(() => {
-    const getstate = async () => {
-      const resstate = await fetch(
-        `http://localhost:8080/api/ws-fixtures/tt/${countryid}`
-      );
-      const getst = resstate.json();
-      setSat(await getst);
-    };
-    getstate();
-  }, [countryid]);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    alert("get name" + name + " get date" + newdate);
+  };
 
   return (
-    <Container className="content">
-      <div className="row">
-        <div className="col-sm-12">
-          <h5 className="mt-4 mb-4 fw-bold">Output {}</h5>
+    <React.Fragment>
+      <Container>
+        <div className="row fthight">
+          <div className="col-sm-8  mt-3">
+            <h4 className="mb-4">How to select date picker in react js </h4>
 
-          <div className="row mb-3">
-            <div className="form-group col-md-4">
-              <label className="mb-2">Country</label>
-              <select
-                name="country"
-                className="form-control"
-                onChange={(e) => handlecountry(e)}
-              >
-                <option>--Select Country--</option>
-                {country.map((getcon) => (
-                  <option key={getcon.id} value={getcon.id}>
-                    {getcon.name}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="form-group col-md-4">
-              <label className="mb-2">State</label>
-              <select name="state" className="form-control">
-                <option>--Select State--</option>
-                {stetes.map((st, index) => (
-                  <option key={index} value={st.id}>
-                    {st.name}
-                  </option>
-                ))}
-              </select>
-            </div>
+            <form onSubmit={handleSubmit}>
+              <div className="row mb-4 ">
+                <label className="col-sm-2 col-form-label">
+                  Name<span className="astriccolor">*</span>
+                </label>
+                <div className="col-sm-5">
+                  <input
+                    type="text"
+                    className="form-control"
+                    name="name"
+                    onChange={(e) => handlename(e)}
+                  />
+                  <span className="text-danger"> </span>
+                </div>
+              </div>
 
-            <div className="form-group col-md-2 mt-4">
-              <button className="btn btn-success mt-2">Submit</button>
-            </div>
+              <div className="row mb-4 ">
+                <label className="col-sm-2 col-form-label">
+                  Date<span className="astriccolor">*</span>
+                </label>
+                <div className="col-sm-5">
+                  <input
+                    type="date"
+                    className="form-control"
+                    name="todate"
+                    placeholder="dd-mm-yyyy"
+                    onChange={(e) => handledate(e)}
+                  />
+                </div>
+              </div>
+
+              <div className="row mb-4 ">
+                <label className="col-sm-2 col-form-label"></label>
+                <div className="col-sm-5">
+                  <button className="btn btn-success"> Submit </button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </React.Fragment>
   );
 }
 export default Test2;

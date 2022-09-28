@@ -41,8 +41,11 @@ function AdminLayout() {
               <NavLink className="nav-link" to="/admin/roles">
                 Role
               </NavLink>
-              <NavLink className="nav-link" to="/admin/permissions">
+              {/* <NavLink className="nav-link" to="/admin/permissions">
                 Permission
+              </NavLink> */}
+              <NavLink className="nav-link" to="/admin/users">
+                User
               </NavLink>
               <NavLink className="nav-link" to="/admin/games">
                 Game

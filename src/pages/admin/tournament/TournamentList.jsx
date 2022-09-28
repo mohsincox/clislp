@@ -29,8 +29,8 @@ export default function TournamentList() {
             console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
+              navigate("/admin/no-permission");
             }
-            navigate("/admin/no-permission");
           });
       })();
     }
@@ -77,8 +77,8 @@ export default function TournamentList() {
             console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
+              navigate("/admin/no-permission");
             }
-            navigate("/admin/no-permission");
           });
       })();
     }
