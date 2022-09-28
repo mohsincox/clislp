@@ -101,52 +101,67 @@ export default function MatchList() {
                 </td>
                 <td>
                   {/* {match.country_one == null ? "" : match.country_one["name"]} */}
-                  {match.tournament_team_one.name == null
-                    ? ""
-                    : match.tournament_team_one.name}
+                  {match.tournament_team_one != null && (
+                    <span>
+                      {match.tournament_team_one.name == null
+                        ? ""
+                        : match.tournament_team_one.name}
+                    </span>
+                  )}
                 </td>
                 <td>
                   {/* {match.tournament_team_one.country == null
                     ? match.tournament_team_one.franchise.logo
                     : match.tournament_team_one.country.flag} */}
 
-                  {match.tournament_team_one.country == null ? (
-                    <img
-                      src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
-                      alt=""
-                      width="80px"
-                    />
-                  ) : (
-                    <img
-                      src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
-                      alt=""
-                      width="80px"
-                    />
+                  {match.tournament_team_one != null && (
+                    <span>
+                      {match.tournament_team_one.country == null ? (
+                        <img
+                          src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
+                          alt=""
+                          width="80px"
+                        />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
+                          alt=""
+                          width="80px"
+                        />
+                      )}
+                    </span>
                   )}
                 </td>
                 <td>
-                  {match.tournament_team_two.name == null
-                    ? ""
-                    : match.tournament_team_two.name}
+                  {match.tournament_team_two != null && (
+                    <span>
+                      {match.tournament_team_two.name == null
+                        ? ""
+                        : match.tournament_team_two.name}
+                    </span>
+                  )}
                   {/* {match.country_two == null ? "" : match.country_two["name"]} */}
                 </td>
                 <td>
                   {/* {match.tournament_team_two.country == null
                     ? match.tournament_team_two.franchise.logo
                     : match.tournament_team_two.country.flag} */}
-
-                  {match.tournament_team_two.country == null ? (
-                    <img
-                      src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
-                      alt=""
-                      width="80px"
-                    />
-                  ) : (
-                    <img
-                      src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
-                      alt=""
-                      width="80px"
-                    />
+                  {match.tournament_team_two != null && (
+                    <span>
+                      {match.tournament_team_two.country == null ? (
+                        <img
+                          src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
+                          alt=""
+                          width="80px"
+                        />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
+                          alt=""
+                          width="80px"
+                        />
+                      )}
+                    </span>
                   )}
                 </td>
                 <td>{match.start_date}</td>
