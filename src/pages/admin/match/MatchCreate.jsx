@@ -110,6 +110,9 @@ export default function MatchCreate() {
         venue: venue,
       };
 
+      // console.log("first.......", start_date);
+      // return;
+
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
 
@@ -228,11 +231,13 @@ export default function MatchCreate() {
                 <div className="col-sm-9">
                   <input
                     className="form-control"
-                    type="text"
-                    placeholder="Enter start date"
+                    type="date"
+                    placeholder="dd-mm-yyyy"
                     value={start_date}
                     name="start_date"
                     onChange={(e) => setStart_date(e.target.value)}
+                    min="2022-01-01"
+                    max="2030-12-31"
                   />
                 </div>
               </div>

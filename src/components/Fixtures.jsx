@@ -44,12 +44,27 @@ export default function Fixtures() {
                         <p>{match.stage_name}</p>
                         <div className="row">
                           <div className="col-sm-5">
-                            <img
+                            {/* <img
                               src={`${API_PUBLIC_URL}${match.country_one.flag}`}
                               alt=""
                               width="78px"
                               height="59px"
-                            />
+                            /> */}
+                            {match.tournament_team_one.country == null ? (
+                              <img
+                                src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
+                                alt=""
+                                width="78px"
+                                height="59px"
+                              />
+                            ) : (
+                              <img
+                                src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
+                                alt=""
+                                width="78px"
+                                height="59px"
+                              />
+                            )}
                           </div>
                           <div
                             className="col-sm-2 text-center"
@@ -58,20 +73,36 @@ export default function Fixtures() {
                             VS
                           </div>
                           <div className="col-sm-5">
-                            <img
+                            {/* <img
                               src={`${API_PUBLIC_URL}${match.country_two.flag}`}
                               alt=""
                               width="78px"
                               height="59px"
-                            />
+                            /> */}
+
+                            {match.tournament_team_two.country == null ? (
+                              <img
+                                src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
+                                alt=""
+                                width="78px"
+                                height="59px"
+                              />
+                            ) : (
+                              <img
+                                src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
+                                alt=""
+                                width="78px"
+                                height="59px"
+                              />
+                            )}
                           </div>
                         </div>
                         <div>
                           <div className="float-start">
-                            {match.country_one.name}
+                            {match.tournament_team_one.name}
                           </div>
                           <div className="float-end">
-                            {match.country_two.name}
+                            {match.tournament_team_two.name}
                           </div>
                         </div>
                       </div>

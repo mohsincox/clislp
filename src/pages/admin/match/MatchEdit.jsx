@@ -254,13 +254,23 @@ export default function MatchEdit() {
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">Start Date</label>
                 <div className="col-sm-9">
-                  <input
+                  {/* <input
                     className="form-control"
                     type="text"
                     placeholder="Enter start date"
                     value={start_date}
                     name="start_date"
                     onChange={(e) => setStart_date(e.target.value)}
+                  /> */}
+                  <input
+                    className="form-control"
+                    type="date"
+                    placeholder="dd-mm-yyyy"
+                    value={start_date}
+                    name="start_date"
+                    onChange={(e) => setStart_date(e.target.value)}
+                    min="2022-01-01"
+                    max="2030-12-31"
                   />
                 </div>
               </div>
@@ -292,34 +302,6 @@ export default function MatchEdit() {
                   />
                 </div>
               </div>
-
-              {/* <div className="form-group col-md-4">
-                <label className="mb-2">Country</label>
-                <select
-                  name="country"
-                  className="form-control"
-                  onChange={(e) => setTournament_id(e.target.value)}
-                >
-                  <option value={""}>Select Tournament</option>
-                  {tournamentList.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-
-              {/* <div className="form-group col-md-4">
-                <label className="mb-2">State</label>
-                <select name="state" className="form-control">
-                  <option value={""}>Select State</option>
-                  {teamTourList.map((st, index) => (
-                    <option key={index} value={st.id}>
-                      {st.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
 
               <button className="btn btn-primary">Submit</button>
             </form>
