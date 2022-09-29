@@ -86,7 +86,7 @@ export default function GameList() {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div>
           <div className="float-start">
             <h3>Game List</h3>
@@ -101,7 +101,7 @@ export default function GameList() {
         <table className="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>SL</th>
               <th>Game</th>
               <th>Detail</th>
               <th>Edit</th>
@@ -111,7 +111,7 @@ export default function GameList() {
           <tbody>
             {gameList.map((game, index) => (
               <tr key={game.id}>
-                <td>{game.id}</td>
+                <td>{index + 1}</td>
                 <td>{game.name}</td>
                 <td>{game.detail}</td>
                 <td>
@@ -126,7 +126,8 @@ export default function GameList() {
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => {
-                      window.confirm("Want to delete?") && deleteGame(game.id);
+                      window.confirm("Are You Delete This Item?") &&
+                        deleteGame(game.id);
                     }}
                   >
                     Delete

@@ -25,7 +25,6 @@ import CountryCreate from "./pages/admin/country/CountryCreate";
 import GameList from "./pages/admin/game/GameList";
 import GameCreate from "./pages/admin/game/GameCreate";
 import GameEdit from "./pages/admin/game/GameEdit";
-import CountryCreatebk from "./pages/admin/country/CountryCreate_bk";
 import CountryList from "./pages/admin/country/CountryList";
 import CountryEdit from "./pages/admin/country/CountryEdit";
 import TournamentList from "./pages/admin/tournament/TournamentList";
@@ -153,15 +152,10 @@ function App() {
                 exact={true}
                 element={<CountryList />}
               />
-              {/* <Route
-                path={`/admin/countries/create`}
-                exact={true}
-                element={<CountryCreate />}
-              /> */}
               <Route
                 path={`/admin/countries/create`}
                 exact={true}
-                element={<CountryCreatebk />}
+                element={<CountryCreate />}
               />
               <Route
                 path={`/admin/countries/:id`}

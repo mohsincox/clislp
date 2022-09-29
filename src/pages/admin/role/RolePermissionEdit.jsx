@@ -5,27 +5,17 @@ import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
 export default function RolePermissionEdit() {
-  const [allPerm, setAllPerm] = useState([]);
-  const [selectedPerm, setSelectedPerm] = useState([]);
-  const [existPerm, setExistPerm] = useState([4, 8]);
+  const [permissions, setPermissions] = useState({
+    allPermissions: [],
+  });
+  const [userPermissions, setUserPermissions] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
 
-  //   useEffect(() => {
-  //     setExistPerm([4, 8])
-  //   }, []);
-
-  useEffect(() => {
-    setSelectedPerm([4, 8]);
-  }, []);
-
   useEffect(() => {
     getPermissionDetails();
+    getUserPermissionDetails();
   }, []);
-
-  useEffect(() => {
-    console.log(selectedPerm);
-  }, [selectedPerm]);
 
   const getLoginData = localStorage.getItem("loginData");
 
@@ -43,84 +33,134 @@ export default function RolePermissionEdit() {
             },
           })
           .then((response) => {
-            setAllPerm(response.data);
+            setPermissions({ ...permissions, allPermissions: response.data });
             console.log(response.data);
           });
       })();
     }
   };
 
+  const getUserPermissionDetails = () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/roles/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setUserPermissions(response.data.role_permissions);
+            console.log("response.data User", response.data.role_permissions);
+          });
+      })();
+    }
+  };
+
+  const arr = [];
+  for (let i = 0; i < userPermissions.length; i++) {
+    arr.push(userPermissions[i].perm_id);
+  }
+  console.log("arr-----------", arr);
+
   const submitForm = (e) => {
     e.preventDefault();
 
     const answer = window.confirm("are you sure?");
-    if (answer) {
-      if (getLoginData === null) {
-        navigate("/login");
-      } else {
-        const storageData = JSON.parse(getLoginData);
-        const token = storageData.accessToken;
-        (async () => {
-          await axios
-            .post(
-              `${API_PUBLIC_URL}api/roles/permissions/${id}`,
-              { permissions: JSON.stringify(selectedPerm) },
-              {
-                headers: {
-                  Authorization: token,
-                },
-              }
-            )
-            .then((response) => {
-              toast.success("Role premission Created Successfully");
-              navigate("/admin/roles");
-            })
-            .catch((error) => {
-              console.log(error);
-              if (error.response.status === 400) {
-                toast.error(error.response.data.message);
-              }
-              if (error.response.status === 401) {
-                toast.error(error.response.data.message);
-              }
-              if (error.response.status === 403) {
-                toast.error("No Permission");
-                navigate("/admin/no-permission");
-              }
-            });
-        })();
+    // if (answer) {
+    //   if (getLoginData === null) {
+    //     navigate("/login");
+    //   } else {
+    //     const storageData = JSON.parse(getLoginData);
+    //     const token = storageData.accessToken;
+    //     (async () => {
+    //       await axios
+    //         .post(
+    //           `${API_PUBLIC_URL}api/roles/permissions/${id}`,
+    //           { permissions: JSON.stringify(selectedPerm) },
+    //           {
+    //             headers: {
+    //               Authorization: token,
+    //             },
+    //           }
+    //         )
+    //         .then((response) => {
+    //           toast.success("Role premission Created Successfully");
+    //           navigate("/admin/roles");
+    //         })
+    //         .catch((error) => {
+    //           console.log(error);
+    //           if (error.response.status === 400) {
+    //             toast.error(error.response.data.message);
+    //           }
+    //           if (error.response.status === 401) {
+    //             toast.error(error.response.data.message);
+    //           }
+    //           if (error.response.status === 403) {
+    //             toast.error("No Permission");
+    //             navigate("/admin/no-permission");
+    //           }
+    //         });
+    //     })();
+    //   }
+    //   // Save it!
+    //   console.log("Thing was saved to the database.");
+    // } else {
+    //   // Do nothing!
+    //   console.log("Thing was not saved to the database.");
+    // }
+  };
+
+  function checkObjectInArray(obj, array, uniqueParam) {
+    for (let i = 0; i < array.length; i++) {
+      if (array[i][uniqueParam] === obj[uniqueParam]) {
+        return true;
       }
-      // Save it!
-      console.log("Thing was saved to the database.");
-    } else {
-      // Do nothing!
-      console.log("Thing was not saved to the database.");
     }
+    return false;
+  }
+
+  // useEffect(() => {
+  //   let permissionsData = { ...permissions };
+  //   let allPermissionsData = getPermissionsMasterData();
+  //   allPermissionsData.forEach((item, index) => {
+  //     item.isChecked = checkObjectInArray(item, role.permissions, "id");
+  //     permissionsData.allPermissions.push(item);
+  //   });
+  //   setPermissions(permissionsData);
+  // }, [setPermissions]);
+
+  const checkPermission = (e, index) => {
+    // const checkedStatus = e.target.checked;
+    console.log("first e.target.checked", e.target.checked);
+    console.log("first e", e);
+    console.log("first e target", e.target);
+    console.log("first e.target.value", e.target.value);
+    let permissionsData = { ...permissions };
+    console.log("permissionsData---", permissionsData);
+    const checkedStatus = e.target.checked;
+    permissionsData.allPermissions[index].isChecked = checkedStatus;
+    setPermissions(permissionsData);
   };
 
   return (
     <div className="container">
       <h4>Edit</h4>
       <form onSubmit={submitForm}>
-        {allPerm.map((item, index) => {
+        {permissions.allPermissions.map((item, index) => {
           return (
             <span key={index}>
               <input
-                // checked={existPerm.includes(item.id) ? true : false}
-                onChange={(e) => {
-                  // add to list
-                  if (e.target.checked) {
-                    setSelectedPerm([...selectedPerm, item.id]);
-                  } else {
-                    // remove from list
-                    setSelectedPerm(
-                      selectedPerm.filter((selected) => selected.id !== item.id)
-                    );
-                  }
-                }}
                 value={item.id}
                 style={{ margin: "10px" }}
                 type="checkbox"
+                checked={item.isChecked ? true : false}
+                // checked={arr.includes(item.id) ? true : false}
+                onChange={(e) => checkPermission(e, index)}
               />
               <span style={{ width: "300px" }}>
                 {item.perm_name}{" "}

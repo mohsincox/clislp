@@ -18,8 +18,12 @@ function GameCreate() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
+    if (formValues.name.trim() === "") {
+      toast.error("Game Name field is required!");
+    } else {
+      setFormErrors(validate(formValues));
+      setIsSubmit(true);
+    }
   };
 
   useEffect(() => {
@@ -46,7 +50,7 @@ function GameCreate() {
             },
           })
           .then((response) => {
-            toast.success("Game Created Successfully");
+            toast.success("Created Successfully");
             navigate("/admin/games");
           })
           .catch((error) => {
@@ -76,43 +80,64 @@ function GameCreate() {
   };
 
   return (
-    <div className="container">
-      <div className="card">
-        <div className="card-body">
-          <h5 className="card-title">Game Create</h5>
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3 row">
-              <label className="form-label col-sm-3"> Name</label>
-              <div className="col-sm-9">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Enter game Name"
-                  value={formValues.name}
-                  name="name"
-                  onChange={handleChange}
-                />
-                <p className="text-danger">{formErrors.name}</p>
+    <div className="container mt-2">
+      <div className="col-sm-8 offset-sm-2">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Game Create</h5>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Enter game Name"
+                    value={formValues.name}
+                    name="name"
+                    onChange={handleChange}
+                  />
+                  {/* <p className="text-danger">{formErrors.name}</p> */}
+                </div>
               </div>
-            </div>
 
-            <div className="mb-3 row">
-              <label className="form-label col-sm-3">Detail</label>
-              <div className="col-sm-9">
-                <input
-                  className="form-control"
-                  type="text"
-                  placeholder="Enter Detail"
-                  value={formValues.detail}
-                  name="detail"
-                  onChange={handleChange}
-                />
-                <p className="text-danger">{formErrors.detail}</p>
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">Detail</label>
+                <div className="col-sm-9">
+                  <textarea
+                    className="form-control"
+                    type="text"
+                    placeholder="Enter Detail"
+                    value={formValues.detail}
+                    name="detail"
+                    onChange={handleChange}
+                  />
+                  {/* <p className="text-danger">{formErrors.detail}</p> */}
+                </div>
               </div>
-            </div>
 
-            <button className="btn btn-primary">Submit</button>
-          </form>
+              <div className="float-end">
+                <button
+                  className="btn btn-danger me-3"
+                  onClick={() => {
+                    navigate("/admin/games");
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

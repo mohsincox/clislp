@@ -92,7 +92,7 @@ export default function CountryEdit() {
           setShort_name("");
           setSelectedFile(null);
 
-          toast.success("Successfully updated!");
+          toast.success("Updated Successfully");
           navigate("/admin/countries");
         })
         .catch((error) => {
@@ -113,64 +113,83 @@ export default function CountryEdit() {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Country Create</h3>
-          </div>
-          <div>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Country Name</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Country Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Short Name</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="type"
-                    placeholder="Enter Short Name"
-                    value={short_name}
-                    onChange={(e) => setShort_name(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Image</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="file"
-                    placeholder="Enter Image"
-                    name="selectedFile"
-                    onChange={(e) => setSelectedFile(e.target.files[0])}
-                  />
-
-                  <div style={{ marginTop: "10px" }}>
-                    <img
-                      src={`${API_PUBLIC_URL}${im}`}
-                      alt=""
-                      width="80px"
-                      height="50px"
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Country Edit</h5>
+              <form onSubmit={submitForm} encType="multipart/form-data">
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Country Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter Country Name"
+                      value={name}
+                      name="name"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
-              </div>
 
-              <button className="btn btn-primary">Submit</button>
-            </form>
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Short Name</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="type"
+                      placeholder="Enter Short Name"
+                      value={short_name}
+                      onChange={(e) => setShort_name(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Image</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="file"
+                      placeholder="Enter Image"
+                      name="selectedFile"
+                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                    />
+
+                    <div style={{ marginTop: "10px" }}>
+                      <img
+                        src={`${API_PUBLIC_URL}${im}`}
+                        alt=""
+                        width="80px"
+                        height="50px"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="float-end">
+                  <button
+                    className="btn btn-danger me-3"
+                    onClick={() => {
+                      navigate("/admin/countries");
+                    }}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitForm}
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

@@ -86,7 +86,7 @@ export default function CountryList() {
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div>
           <div className="float-start">
             <h3>Country List</h3>
@@ -101,10 +101,9 @@ export default function CountryList() {
         <table className="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>SL</th>
               <th>Country</th>
               <th>Short Name</th>
-              {/* <th>Flag</th> */}
               <th>Flag</th>
               <th>Edit</th>
               <th>Delete</th>
@@ -113,10 +112,9 @@ export default function CountryList() {
           <tbody>
             {countryList.map((country, index) => (
               <tr key={country.id}>
-                <td>{country.id}</td>
+                <td>{index + 1}</td>
                 <td>{country.name}</td>
                 <td>{country.short_name}</td>
-                {/* <td>{country.flag}</td> */}
                 <td>
                   <img
                     src={`${API_PUBLIC_URL}${country.flag}`}
@@ -136,7 +134,7 @@ export default function CountryList() {
                   <button
                     className="btn btn-danger btn-sm"
                     onClick={() => {
-                      window.confirm("Want to delete?") &&
+                      window.confirm("Are You Delete This Item?") &&
                         deleteCountry(country.id);
                     }}
                   >
