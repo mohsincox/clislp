@@ -12,13 +12,14 @@ export default function RolePermissionE() {
   const { id } = useParams();
 
   useEffect(() => {
-    getPermissionDetails();
     getUserPermissionDetails();
+    // getPermissionDetails();
   }, []);
 
   useEffect(() => {
-    console.log(selectedPerm);
-  }, [selectedPerm]);
+    // console.log("HHHHHHHHHHiiiiiiiiii", userPermissions);
+    getPermissionDetails();
+  }, [userPermissions]);
 
   const getLoginData = localStorage.getItem("loginData");
 
@@ -36,14 +37,30 @@ export default function RolePermissionE() {
             },
           })
           .then((response) => {
-            setAllPerm(response.data);
-            console.log(response.data);
+            console.log("Result:", userPermissions);
+            // modified data by checked value
+            const modifiedData = response.data.map((item) => {
+              const itemChecked = userPermissions.find(
+                (value) => value.perm_id === item.id
+              )
+                ? true
+                : false;
+              return {
+                ...item,
+                checked: itemChecked,
+              };
+            });
+
+            setAllPerm(modifiedData);
+
+            console.log("ResponseData:", modifiedData);
           });
       })();
     }
   };
 
   const getUserPermissionDetails = () => {
+    // console.log("Sadik");
     if (getLoginData === null) {
       navigate("/login");
     } else {
@@ -58,28 +75,33 @@ export default function RolePermissionE() {
           })
           .then((response) => {
             setUserPermissions(response.data.role_permissions);
-            console.log("response.data User", response.data.role_permissions);
+            // console.log("response.data User", userPermissions);
+
+            // getPermissionDetails();
           });
       })();
     }
   };
 
-  const arr = [];
-  for (let i = 0; i < userPermissions.length; i++) {
-    arr.push(userPermissions[i].perm_id);
-  }
-  console.log("arr-----------", arr);
+  // const arr = [];
+  // for (let i = 0; i < userPermissions.length; i++) {
+  //   arr.push(userPermissions[i].perm_id);
+  // }
+  // console.log("arr-----------", arr);
 
-  useEffect(() => {
-    setSelectedPerm(arr);
-  }, []);
+  // useEffect(() => {
+  //   setSelectedPerm(arr);
+  // }, []);
 
-  console.log("first ========", selectedPerm);
+  // console.log("first ========", selectedPerm);
 
   //   setSelectedPerm((prevProducts) => [...prevProducts, 9]);
 
   const submitForm = (e) => {
     e.preventDefault();
+
+    console.log("Submitteddddddddddddd", allPerm);
+    return;
 
     const answer = window.confirm("are you sure?");
     if (answer) {
@@ -104,7 +126,7 @@ export default function RolePermissionE() {
               navigate("/admin/roles");
             })
             .catch((error) => {
-              console.log(error);
+              // console.log(error);
               if (error.response.status === 400) {
                 toast.error(error.response.data.message);
               }
@@ -119,48 +141,56 @@ export default function RolePermissionE() {
         })();
       }
       // Save it!
-      console.log("Thing was saved to the database.");
+      // console.log("Thing was saved to the database.");
     } else {
       // Do nothing!
-      console.log("Thing was not saved to the database.");
+      // console.log("Thing was not saved to the database.");
     }
   };
+
+  function handleCheck(e, item) {
+    // const fileteredData = allPerm.filter((value) => value.id != item.id);
+    const newItem = { ...item, checked: !item.checked };
+
+    // search index no
+    const findIndex = allPerm.findIndex((value) => value.id == item.id);
+
+    console.log(findIndex);
+
+    setAllPerm(() => {
+      return [
+        ...allPerm.slice(0, findIndex),
+        newItem,
+        ...allPerm.slice(findIndex + 1),
+      ];
+    });
+
+    console.log("item:", item);
+  }
 
   return (
     <div className="container">
       <h1>EEEEEEEEEEEEEEEEEEE</h1>
       <form onSubmit={submitForm}>
-        {allPerm.map((item, index) => {
-          return (
-            <span key={index}>
-              <input
-                // checked={arr.includes(item.id) ? true : false}
-                onChange={(e) => {
-                  // add to list
-                  if (e.target.checked) {
-                    console.log("e.target.checked", e.target.checked);
-                    setSelectedPerm([...selectedPerm, item.id]);
-                  } else {
-                    console.log("e.target.checked", e.target.checked);
-                    // remove from list
-                    setSelectedPerm(
-                      selectedPerm.filter((selected) => selected.id !== item.id)
-                    );
-                  }
-                }}
-                value={item.id}
-                style={{ margin: "10px" }}
-                type="checkbox"
-              />
-              <span style={{ width: "300px" }}>
-                {item.perm_name}{" "}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-              </span>
-              <div className="vr" />
-            </span>
-          );
-        })}
-        <br />
+        <ol>
+          {allPerm.map((item, index) => {
+            // console.log("SelectedItem: ", item);
+
+            return (
+              <li key={index}>
+                <input
+                  checked={item.checked ? "checked" : ""}
+                  onChange={(e) => handleCheck(e, item)}
+                  value={item.id}
+                  style={{ margin: "10px" }}
+                  type="checkbox"
+                />
+                <span>{item.perm_name}</span>
+              </li>
+            );
+          })}
+        </ol>
+
         <button className="btn btn-primary">Submit</button>
       </form>
     </div>
