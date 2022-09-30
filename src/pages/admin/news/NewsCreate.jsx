@@ -1,21 +1,19 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function FranchiseEdit() {
-  const [name, setName] = useState("");
-  const [country_id, setCountry_id] = useState("");
-  const [countryList, setCountryList] = useState([]);
-  const [logo, setLogo] = useState(null);
-  const [im, setIm] = useState("");
+export default function NewsCreate() {
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+  const [tournament_id, setTournament_id] = useState("");
+  const [tournamentList, setTournamentList] = useState([]);
+  const [image, setImage] = useState(null);
   let navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
     handleLogin();
-    getFranchiseDetails();
   }, []);
 
   const getLoginData = localStorage.getItem("loginData");
@@ -26,29 +24,6 @@ export default function FranchiseEdit() {
     }
   };
 
-  const getFranchiseDetails = () => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      (async () => {
-        await axios
-          .get(`${API_PUBLIC_URL}api/franchises/${id}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((response) => {
-            setName(response.data.name);
-            setCountry_id(response.data.country_id);
-            setIm(response.data.logo);
-            console.log(response.data);
-          });
-      })();
-    }
-  };
-
   useEffect(() => {
     if (getLoginData === null) {
       navigate("/login");
@@ -57,20 +32,20 @@ export default function FranchiseEdit() {
       const token = storageData.accessToken;
       (async () => {
         await axios
-          .get(`${API_PUBLIC_URL}api/countries`, {
+          .get(`${API_PUBLIC_URL}api/tournaments`, {
             headers: {
               Authorization: token,
             },
           })
           .then((response) => {
-            setCountryList(response.data);
+            setTournamentList(response.data);
           })
           .catch((error) => {
             console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
+              navigate("/admin/no-permission");
             }
-            navigate("/admin/no-permission");
           });
       })();
     }
@@ -79,19 +54,20 @@ export default function FranchiseEdit() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (name.trim() === "") {
-      toast.error("Franchise Name field is required!");
-    } else if (country_id === "") {
-      toast.error("Country Name field is required!");
-    }
-    // else if (logo === null) {
-    //   toast.error("Image file is required!");
-    // }
-    else {
+    if (title.trim() === "") {
+      toast.error("News Title field is required!");
+    } else if (body.trim() === "") {
+      toast.error("News Body field is required!");
+    } else if (tournament_id === "") {
+      toast.error("Tournament Name field is required!");
+    } else if (image === null) {
+      toast.error("Image file is required!");
+    } else {
       const formData = new FormData();
-      formData.append("name", name);
-      formData.append("country_id", country_id);
-      formData.append("logo", logo);
+      formData.append("title", title);
+      formData.append("body", body);
+      formData.append("tournament_id", tournament_id);
+      formData.append("image", image);
 
       //   for (var [key, value] of formData.entries()) {
       //     console.log(key, value);
@@ -102,20 +78,21 @@ export default function FranchiseEdit() {
       const token = storageData.accessToken;
 
       await axios
-        .put(`${API_PUBLIC_URL}api/franchises/${id}`, formData, {
+        .post(`${API_PUBLIC_URL}api/news`, formData, {
           headers: {
             Authorization: token,
           },
         })
         .then((response) => {
           console.log(response);
-          setName("");
-          setCountry_id("");
-          setCountryList([]);
-          setLogo(null);
+          setTitle("");
+          setBody("");
+          setTournament_id("");
+          setTournamentList([]);
+          setImage(null);
 
-          toast.success("Successfully created!");
-          navigate("/admin/franchises");
+          toast.success("Created Successfully");
+          navigate("/admin/news");
         })
         .catch((error) => {
           console.log(error);
@@ -139,35 +116,55 @@ export default function FranchiseEdit() {
         <div className="col-sm-8 offset-sm-2">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">Franchise Edit</h5>
+              <h5 className="card-title">News Create</h5>
               <form onSubmit={submitForm} encType="multipart/form-data">
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Franchise Name</label>
+                  <label className="form-label col-sm-3">
+                    News Title <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Enter Franchise Name"
-                      value={name}
-                      name="name"
-                      onChange={(e) => setName(e.target.value)}
+                      placeholder="Enter News Title"
+                      value={title}
+                      name="title"
+                      onChange={(e) => setTitle(e.target.value)}
                     />
                   </div>
                 </div>
 
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Country Name</label>
+                  <label className="form-label col-sm-3">
+                    News Body <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <textarea
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter News Body"
+                      value={body}
+                      name="body"
+                      onChange={(e) => setBody(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Tournament <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <select
                       className="form-select"
-                      value={country_id}
-                      name="country_id"
-                      onChange={(e) => setCountry_id(e.target.value)}
+                      value={tournament_id}
+                      name="tournament_id"
+                      onChange={(e) => setTournament_id(e.target.value)}
                     >
-                      <option value="">Select Country</option>
-                      {countryList.map((sm, index) => (
-                        <option key={sm.id} value={sm.id}>
-                          {sm.name}
+                      <option value="">Select Tournament</option>
+                      {tournamentList.map((item, index) => (
+                        <option key={item.id} value={item.id}>
+                          {item.name}
                         </option>
                       ))}
                     </select>
@@ -175,24 +172,17 @@ export default function FranchiseEdit() {
                 </div>
 
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Logo</label>
+                  <label className="form-label col-sm-3">
+                    Image <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <input
                       className="form-control"
                       type="file"
                       placeholder="Enter Image"
                       name="logo"
-                      onChange={(e) => setLogo(e.target.files[0])}
+                      onChange={(e) => setImage(e.target.files[0])}
                     />
-
-                    <div style={{ marginTop: "10px" }}>
-                      <img
-                        src={`${API_PUBLIC_URL}${im}`}
-                        alt=""
-                        width="80px"
-                        height="50px"
-                      />
-                    </div>
                   </div>
                 </div>
 
@@ -200,7 +190,7 @@ export default function FranchiseEdit() {
                   <button
                     className="btn btn-danger me-3"
                     onClick={() => {
-                      navigate("/admin/franchises");
+                      navigate("/admin/news");
                     }}
                   >
                     Cancel

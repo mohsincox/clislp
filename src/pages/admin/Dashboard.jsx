@@ -16,7 +16,7 @@ function Dashboard() {
 
   return (
     <>
-      <div className="container">Dashboard</div>
+      <div style={{ height: "400px" }}>Dashboard</div>
     </>
   );
 }

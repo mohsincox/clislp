@@ -4,14 +4,16 @@ import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function RolePermissionCreate() {
+export default function RolePermissionE() {
   const [allPerm, setAllPerm] = useState([]);
   const [selectedPerm, setSelectedPerm] = useState([]);
+  const [userPermissions, setUserPermissions] = useState([]);
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
     getPermissionDetails();
+    getUserPermissionDetails();
   }, []);
 
   useEffect(() => {
@@ -40,6 +42,41 @@ export default function RolePermissionCreate() {
       })();
     }
   };
+
+  const getUserPermissionDetails = () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/roles/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setUserPermissions(response.data.role_permissions);
+            console.log("response.data User", response.data.role_permissions);
+          });
+      })();
+    }
+  };
+
+  const arr = [];
+  for (let i = 0; i < userPermissions.length; i++) {
+    arr.push(userPermissions[i].perm_id);
+  }
+  console.log("arr-----------", arr);
+
+  useEffect(() => {
+    setSelectedPerm(arr);
+  }, []);
+
+  console.log("first ========", selectedPerm);
+
+  //   setSelectedPerm((prevProducts) => [...prevProducts, 9]);
 
   const submitForm = (e) => {
     e.preventDefault();
@@ -91,17 +128,20 @@ export default function RolePermissionCreate() {
 
   return (
     <div className="container">
-      <h1>Create</h1>
+      <h1>EEEEEEEEEEEEEEEEEEE</h1>
       <form onSubmit={submitForm}>
         {allPerm.map((item, index) => {
           return (
             <span key={index}>
               <input
+                // checked={arr.includes(item.id) ? true : false}
                 onChange={(e) => {
                   // add to list
                   if (e.target.checked) {
+                    console.log("e.target.checked", e.target.checked);
                     setSelectedPerm([...selectedPerm, item.id]);
                   } else {
+                    console.log("e.target.checked", e.target.checked);
                     // remove from list
                     setSelectedPerm(
                       selectedPerm.filter((selected) => selected.id !== item.id)

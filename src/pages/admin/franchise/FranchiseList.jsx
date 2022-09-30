@@ -48,7 +48,7 @@ export default function FranchiseList() {
         },
       })
       .then(() => {
-        toast.error("Deleted successfully");
+        toast.error("Deleted Successfully");
         getData();
       })
       .catch((error) => {
@@ -62,68 +62,72 @@ export default function FranchiseList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>Franchise List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Franchise List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/franchises/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/franchises/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Franchise Name</th>
-              <th>Country</th>
-              <th>Logo</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {franchiseList.map((franchise, index) => (
-              <tr key={franchise.id}>
-                <td>{franchise.id}</td>
-                <td>{franchise.name}</td>
-                <td>
-                  {franchise.country == null ? "" : franchise.country["name"]}
-                </td>
-                <td>
-                  <img
-                    src={`${API_PUBLIC_URL}${franchise.logo}`}
-                    alt=""
-                    width="80px"
-                  />
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/franchises/${franchise.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") &&
-                        deleteFranchise(franchise.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Franchise Name</th>
+                <th>Country</th>
+                <th>Logo</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {franchiseList.map((franchise, index) => (
+                <tr key={franchise.id}>
+                  <td>{index + 1}</td>
+                  <td>{franchise.name}</td>
+                  <td>
+                    {franchise.country == null ? "" : franchise.country["name"]}
+                  </td>
+                  <td>
+                    <img
+                      src={`${API_PUBLIC_URL}${franchise.logo}`}
+                      alt=""
+                      width="80px"
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/franchises/${franchise.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteFranchise(franchise.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

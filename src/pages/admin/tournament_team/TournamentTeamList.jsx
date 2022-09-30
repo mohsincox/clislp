@@ -62,71 +62,75 @@ export default function TournamentTeamList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>Tournament Team List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Tournament Team List</h4>
+            </div>
+            <div className="float-end">
+              <Link
+                to={`/admin/tournament-teams/create`}
+                className="btn btn-info"
+              >
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link
-              to={`/admin/tournament-teams/create`}
-              className="btn btn-info"
-            >
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>T. Team Name</th>
-              <th>Tournament Name</th>
-              <th>Category</th>
-              <th>Country</th>
-              <th>Franchise</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tournamentTeamList.map((tTeam, index) => (
-              <tr key={tTeam.id}>
-                <td>{tTeam.id}</td>
-                <td>{tTeam.name}</td>
-                <td>
-                  {tTeam.tournament == null ? "" : tTeam.tournament["name"]}
-                </td>
-                <td>{tTeam.category}</td>
-                <td>{tTeam.country == null ? "" : tTeam.country["name"]}</td>
-                <td>
-                  {tTeam.franchise == null ? "" : tTeam.franchise["name"]}
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/tournament-teams/${tTeam.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") &&
-                        deleteFranchise(tTeam.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>T. Team Name</th>
+                <th>Tournament Name</th>
+                <th>Category</th>
+                <th>Country</th>
+                <th>Franchise</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tournamentTeamList.map((tTeam, index) => (
+                <tr key={tTeam.id}>
+                  <td>{tTeam.id}</td>
+                  <td>{tTeam.name}</td>
+                  <td>
+                    {tTeam.tournament == null ? "" : tTeam.tournament["name"]}
+                  </td>
+                  <td>{tTeam.category}</td>
+                  <td>{tTeam.country == null ? "" : tTeam.country["name"]}</td>
+                  <td>
+                    {tTeam.franchise == null ? "" : tTeam.franchise["name"]}
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/tournament-teams/${tTeam.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteFranchise(tTeam.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

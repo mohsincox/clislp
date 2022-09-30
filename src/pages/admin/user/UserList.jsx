@@ -62,59 +62,64 @@ export default function UserList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>User List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">User List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/users/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/users/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {userList.map((user, index) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{user.name}</td>
-                <td>{user.email}</td>
-                <td>{user.role == null ? "" : user.role.role_name}</td>
-                <td>
-                  <Link
-                    to={`/admin/users/${user.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") && deleteUser(user.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {userList.map((user, index) => (
+                <tr key={user.id}>
+                  <td>{index + 1}</td>
+                  <td>{user.name}</td>
+                  <td>{user.email}</td>
+                  <td>{user.role == null ? "" : user.role.role_name}</td>
+                  <td>
+                    <Link
+                      to={`/admin/users/${user.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteUser(user.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

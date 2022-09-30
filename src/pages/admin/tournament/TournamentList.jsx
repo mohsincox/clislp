@@ -86,72 +86,76 @@ export default function TournamentList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>Tournament List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Tournament List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/tournaments/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/tournaments/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Tournament</th>
-              <th>Game</th>
-              <th>Month</th>
-              <th>Year</th>
-              <th>Logo</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {tournamentList.map((tournament, index) => (
-              <tr key={tournament.id}>
-                <td>{tournament.id}</td>
-                <td>{tournament.name}</td>
-                <td>
-                  {tournament.game == null ? "" : tournament.game["name"]}
-                </td>
-                <td>{tournament.month}</td>
-                <td>{tournament.year}</td>
-                <td>
-                  <img
-                    src={`${API_PUBLIC_URL}${tournament.logo}`}
-                    alt=""
-                    width="80px"
-                  />
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/tournaments/${tournament.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") &&
-                        deleteTournament(tournament.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Tournament</th>
+                <th>Game</th>
+                <th>Month</th>
+                <th>Year</th>
+                <th>Logo</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {tournamentList.map((tournament, index) => (
+                <tr key={tournament.id}>
+                  <td>{index + 1}</td>
+                  <td>{tournament.name}</td>
+                  <td>
+                    {tournament.game == null ? "" : tournament.game["name"]}
+                  </td>
+                  <td>{tournament.month}</td>
+                  <td>{tournament.year}</td>
+                  <td>
+                    <img
+                      src={`${API_PUBLIC_URL}${tournament.logo}`}
+                      alt=""
+                      width="80px"
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/tournaments/${tournament.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteTournament(tournament.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

@@ -43,8 +43,8 @@ export default function FranchiseCreate() {
             console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
+              navigate("/admin/no-permission");
             }
-            navigate("/admin/no-permission");
           });
       })();
     }
@@ -53,9 +53,9 @@ export default function FranchiseCreate() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (name.trim() == "") {
+    if (name.trim() === "") {
       toast.error("Franchise Name field is required!");
-    } else if (country_id == "") {
+    } else if (country_id === "") {
       toast.error("Country Name field is required!");
     }
     // else if (logo === null) {
@@ -88,72 +88,103 @@ export default function FranchiseCreate() {
           setCountryList([]);
           setLogo(null);
 
-          toast.success("Successfully created!");
+          toast.success("Created Successfully");
           navigate("/admin/franchises");
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 401) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
         });
     }
   };
 
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Franchise Create</h3>
-          </div>
-          <div>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Franchise Name</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Franchise Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Franchise Create</h5>
+              <form onSubmit={submitForm} encType="multipart/form-data">
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter Franchise Name"
+                      value={name}
+                      name="name"
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Origin Country</label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={country_id}
-                    name="country_id"
-                    onChange={(e) => setCountry_id(e.target.value)}
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Origin Country <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <select
+                      className="form-select"
+                      value={country_id}
+                      name="country_id"
+                      onChange={(e) => setCountry_id(e.target.value)}
+                    >
+                      <option value="">Select Country</option>
+                      {countryList.map((sm, index) => (
+                        <option key={sm.id} value={sm.id}>
+                          {sm.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Logo</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="file"
+                      placeholder="Enter Image"
+                      name="logo"
+                      onChange={(e) => setLogo(e.target.files[0])}
+                    />
+                  </div>
+                </div>
+
+                <div className="float-end">
+                  <button
+                    className="btn btn-danger me-3"
+                    onClick={() => {
+                      navigate("/admin/franchises");
+                    }}
                   >
-                    <option value="">Select Country</option>
-                    {countryList.map((sm, index) => (
-                      <option key={sm.id} value={sm.id}>
-                        {sm.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+                    Cancel
+                  </button>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Logo</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="file"
-                    placeholder="Enter Image"
-                    name="logo"
-                    onChange={(e) => setLogo(e.target.files[0])}
-                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitForm}
+                  >
+                    Save
+                  </button>
                 </div>
-              </div>
-
-              <button className="btn btn-primary">Submit</button>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>

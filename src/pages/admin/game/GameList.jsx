@@ -86,58 +86,62 @@ export default function GameList() {
 
   return (
     <>
-      <div className="container mt-2">
-        <div>
-          <div className="float-start">
-            <h3>Game List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Game List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/games/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/games/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Game</th>
-              <th>Detail</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {gameList.map((game, index) => (
-              <tr key={game.id}>
-                <td>{index + 1}</td>
-                <td>{game.name}</td>
-                <td>{game.detail}</td>
-                <td>
-                  <Link
-                    to={`/admin/games/${game.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Are You Delete This Item?") &&
-                        deleteGame(game.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Game</th>
+                <th>Detail</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {gameList.map((game, index) => (
+                <tr key={game.id}>
+                  <td>{index + 1}</td>
+                  <td>{game.name}</td>
+                  <td>{game.detail}</td>
+                  <td>
+                    <Link
+                      to={`/admin/games/${game.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteGame(game.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

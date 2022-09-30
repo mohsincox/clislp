@@ -86,57 +86,62 @@ export default function RoleList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>Role List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Role List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/roles/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/roles/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Role Name</th>
-              <th>Role Description</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {roleList.map((role, index) => (
-              <tr key={role.id}>
-                <td>{role.id}</td>
-                <td>{role.role_name}</td>
-                <td>{role.role_description}</td>
-                <td>
-                  <Link
-                    to={`/admin/roles/permissions/${role.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    p add
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") && deleteRole(role.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Role Name</th>
+                <th>Role Description</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {roleList.map((role, index) => (
+                <tr key={role.id}>
+                  <td>{index + 1}</td>
+                  <td>{role.role_name}</td>
+                  <td>{role.role_description}</td>
+                  <td>
+                    <Link
+                      to={`/admin/roles/permissions/${role.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      p add
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteRole(role.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

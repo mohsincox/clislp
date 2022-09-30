@@ -86,66 +86,70 @@ export default function CountryList() {
 
   return (
     <>
-      <div className="container mt-2">
-        <div>
-          <div className="float-start">
-            <h3>Country List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Country List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/countries/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/countries/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>SL</th>
-              <th>Country</th>
-              <th>Short Name</th>
-              <th>Flag</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {countryList.map((country, index) => (
-              <tr key={country.id}>
-                <td>{index + 1}</td>
-                <td>{country.name}</td>
-                <td>{country.short_name}</td>
-                <td>
-                  <img
-                    src={`${API_PUBLIC_URL}${country.flag}`}
-                    alt=""
-                    width="80px"
-                  />
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/countries/${country.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Are You Delete This Item?") &&
-                        deleteCountry(country.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Country</th>
+                <th>Short Name</th>
+                <th>Flag</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {countryList.map((country, index) => (
+                <tr key={country.id}>
+                  <td>{index + 1}</td>
+                  <td>{country.name}</td>
+                  <td>{country.short_name}</td>
+                  <td>
+                    <img
+                      src={`${API_PUBLIC_URL}${country.flag}`}
+                      alt=""
+                      width="80px"
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/countries/${country.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deleteCountry(country.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

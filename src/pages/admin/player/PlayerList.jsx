@@ -62,110 +62,117 @@ export default function PlayerList() {
 
   return (
     <>
-      <div className="container">
-        <div>
-          <div className="float-start">
-            <h3>Players List</h3>
+      {/* <div className="container mt-2"> */}
+      <div className="card">
+        <div className="card-body">
+          <div>
+            <div className="float-start">
+              <h4 className="card-title">Players List</h4>
+            </div>
+            <div className="float-end">
+              <Link to={`/admin/players/create`} className="btn btn-info">
+                + Create New
+              </Link>
+            </div>
           </div>
-          <div className="float-end">
-            <Link to={`/admin/players/create`} className="btn btn-info">
-              + Create New
-            </Link>
-          </div>
-        </div>
 
-        <table className="table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Player Name</th>
-              <th>Specification</th>
-              <th>Country</th>
-              <th>Jersey No</th>
-              <th>Batting Position</th>
-              <th>Point</th>
-              <th>Ranking</th>
-              <th>Image</th>
-              <th>Edit</th>
-              <th>Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            {playerList.map((player, index) => (
-              // (JSON.parse(player.specification))
-              <tr key={player.id}>
-                <td>{player.id}</td>
-                <td>{player.name}</td>
-                <td>
-                  {JSON.parse(player.specification)["All Rounder"] === true && (
-                    <span
-                      className="badge bg-secondary"
-                      style={{ marginRight: "3px" }}
-                    >
-                      All Rounder
-                    </span>
-                  )}
-                  {JSON.parse(player.specification)["Batsman"] === true && (
-                    <span
-                      className="badge bg-secondary"
-                      style={{ marginRight: "3px" }}
-                    >
-                      Batsman
-                    </span>
-                  )}
-                  {JSON.parse(player.specification)["Bowler"] === true && (
-                    <span
-                      className="badge bg-secondary"
-                      style={{ marginRight: "3px" }}
-                    >
-                      Bowler
-                    </span>
-                  )}
-                  {JSON.parse(player.specification)["Keeper"] === true && (
-                    <span
-                      className="badge bg-secondary"
-                      style={{ marginRight: "3px" }}
-                    >
-                      Wicket Keeper
-                    </span>
-                  )}
-                </td>
-                <td>{player.country == null ? "" : player.country["name"]}</td>
-                <td>{player.jersey_no}</td>
-                <td>{player.batting_position}</td>
-                <td>{player.point}</td>
-                <td>{player.ranking}</td>
-                <td>
-                  <img
-                    src={`${API_PUBLIC_URL}${player.image}`}
-                    alt=""
-                    width="80px"
-                  />
-                </td>
-                <td>
-                  <Link
-                    to={`/admin/players/${player.id}`}
-                    className="btn btn-success btn-sm"
-                  >
-                    Edit
-                  </Link>
-                </td>
-                <td>
-                  <button
-                    className="btn btn-danger btn-sm"
-                    onClick={() => {
-                      window.confirm("Want to delete?") &&
-                        deletePlayer(player.id);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </td>
+          <table className="table">
+            <thead>
+              <tr>
+                <th>SL</th>
+                <th>Player Name</th>
+                <th>Specification</th>
+                <th>Country</th>
+                <th>Jersey No</th>
+                <th>Batting Position</th>
+                <th>Point</th>
+                <th>Ranking</th>
+                <th>Image</th>
+                <th>Edit</th>
+                <th>Delete</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {playerList.map((player, index) => (
+                // (JSON.parse(player.specification))
+                <tr key={player.id}>
+                  <td>{index + 1}</td>
+                  <td>{player.name}</td>
+                  <td>
+                    {JSON.parse(player.specification)["All Rounder"] ===
+                      true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        All Rounder
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Batsman"] === true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Batsman
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Bowler"] === true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Bowler
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Keeper"] === true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Wicket Keeper
+                      </span>
+                    )}
+                  </td>
+                  <td>
+                    {player.country == null ? "" : player.country["name"]}
+                  </td>
+                  <td>{player.jersey_no}</td>
+                  <td>{player.batting_position}</td>
+                  <td>{player.point}</td>
+                  <td>{player.ranking}</td>
+                  <td>
+                    <img
+                      src={`${API_PUBLIC_URL}${player.image}`}
+                      alt=""
+                      width="80px"
+                    />
+                  </td>
+                  <td>
+                    <Link
+                      to={`/admin/players/${player.id}`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Edit
+                    </Link>
+                  </td>
+                  <td>
+                    <button
+                      className="btn btn-danger btn-sm"
+                      onClick={() => {
+                        window.confirm("Are You Delete This Item?") &&
+                          deletePlayer(player.id);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

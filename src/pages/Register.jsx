@@ -46,8 +46,24 @@ function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
+
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (formValues.name.trim() === "") {
+      toast.error("Name is required!");
+    } else if (formValues.email.trim() === "") {
+      toast.error("Email is required!");
+    } else if (!regex.test(formValues.email)) {
+      toast.error("Not valid email format!");
+    } else if (formValues.password === "") {
+      toast.error("Password is required!");
+    } else if (formValues.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+    } else if (formValues.policy === "") {
+      toast.error("Policy is required!");
+    } else {
+      setFormErrors(validate(formValues));
+      setIsSubmit(true);
+    }
   };
 
   useEffect(() => {
@@ -101,28 +117,30 @@ function Register() {
 
   const validate = (values) => {
     const errors = {};
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.name) {
-      errors.name = "Name is required!";
-    }
-    if (!values.email) {
-      errors.email = "Email is required!";
-    } else if (!regex.test(values.email)) {
-      errors.email = "This is not a valid email format!";
-    }
-    if (!values.password) {
-      errors.password = "Password is required";
-    } else if (values.password.length < 6) {
-      errors.password = "Password must be at least 6 characters";
-    }
+    // const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    // if (!values.name) {
+    //   errors.name = "Name is required!";
+    // }
+    // if (!values.email) {
+    //   errors.email = "Email is required!";
+    // } else if (!regex.test(values.email)) {
+    //   errors.email = "This is not a valid email format!";
+    // }
+    // if (!values.password) {
+    //   errors.password = "Password is required";
+    // } else if (values.password.length < 6) {
+    //   errors.password = "Password must be at least 6 characters";
+    // }
+
     // if (!values.confirmPassword) {
     //   errors.confirmPassword = "Confirm Password is required";
     // } else if (values.password !== values.confirmPassword) {
     //   errors.confirmPassword = "Password and Confirm Password does not match.";
     // }
-    if (!values.policy) {
-      errors.policy = "Policy is required!";
-    }
+
+    // if (!values.policy) {
+    //   errors.policy = "Policy is required!";
+    // }
 
     return errors;
   };
@@ -175,7 +193,9 @@ function Register() {
             <hr />
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
-                <label className="form-label">Name</label>
+                <label className="form-label">
+                  Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <input
                   type="text"
                   className="form-control"
@@ -184,10 +204,12 @@ function Register() {
                   value={formValues.name}
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.name}</p>
+                {/* <p className="text-danger">{formErrors.name}</p> */}
               </div>
               <div className="mb-3">
-                <label className="form-label">Email address</label>
+                <label className="form-label">
+                  Email address <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <input
                   type="email"
                   className="form-control"
@@ -196,7 +218,7 @@ function Register() {
                   value={formValues.email}
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.email}</p>
+                {/* <p className="text-danger">{formErrors.email}</p> */}
               </div>
 
               <div className="row">
@@ -229,7 +251,9 @@ function Register() {
                 </div>
               </div>
               <div className="mb-3">
-                <label className="form-label">Password</label>
+                <label className="form-label">
+                  Password <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <input
                   type="password"
                   className="form-control"
@@ -238,7 +262,7 @@ function Register() {
                   value={formValues.password}
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.password}</p>
+                {/* <p className="text-danger">{formErrors.password}</p> */}
               </div>
               <div className="mb-3">
                 <label className="form-label">Phone Number</label>
@@ -261,9 +285,10 @@ function Register() {
                   onChange={handleChange}
                 />
                 <label className="form-check-label">
-                  I accept the terms and privacy policy
+                  I accept the terms and privacy policy{" "}
+                  <span style={{ color: "#ff0000" }}>*</span>
                 </label>
-                <p className="text-danger">{formErrors.policy}</p>
+                {/* <p className="text-danger">{formErrors.policy}</p> */}
               </div>
 
               {/* <br />

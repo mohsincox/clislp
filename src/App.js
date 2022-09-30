@@ -51,6 +51,10 @@ import MatchEdit from "./pages/admin/match/MatchEdit";
 import UserList from "./pages/admin/user/UserList";
 import UserCreate from "./pages/admin/user/UserCreate";
 import RolePermissionEdit from "./pages/admin/role/RolePermissionEdit";
+import NewsList from "./pages/admin/news/NewsList";
+import NewsCreate from "./pages/admin/news/NewsCreate";
+import NewsEdit from "./pages/admin/news/NewsEdit";
+import RolePermissionE from "./pages/admin/role/RolePermissionE";
 
 export const UserContext = React.createContext(null);
 
@@ -129,6 +133,11 @@ function App() {
                 path={`/admin/roles/permissions/edit/:id`}
                 exact={true}
                 element={<RolePermissionEdit />}
+              />
+              <Route
+                path={`/admin/roles/permissions/e/:id`}
+                exact={true}
+                element={<RolePermissionE />}
               />
 
               <Route
@@ -268,6 +277,18 @@ function App() {
                 path={`/admin/users/create`}
                 exact={true}
                 element={<UserCreate />}
+              />
+
+              <Route path={`/admin/news`} exact={true} element={<NewsList />} />
+              <Route
+                path={`/admin/news/create`}
+                exact={true}
+                element={<NewsCreate />}
+              />
+              <Route
+                path={`/admin/news/:id`}
+                exact={true}
+                element={<NewsEdit />}
               />
 
               <Route

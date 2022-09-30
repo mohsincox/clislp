@@ -18,8 +18,14 @@ function RoleCreate() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setFormErrors(validate(formValues));
-    setIsSubmit(true);
+    if (formValues.role_name.trim() === "") {
+      toast.error("Role Name field is required!");
+    } else if (formValues.role_description.trim() === "") {
+      toast.error("Role Description field is required!");
+    } else {
+      setFormErrors(validate(formValues));
+      setIsSubmit(true);
+    }
   };
 
   useEffect(() => {
@@ -68,12 +74,12 @@ function RoleCreate() {
 
   const validate = (values) => {
     const errors = {};
-    if (!values.role_name) {
-      errors.role_name = "Role Name is required";
-    }
-    if (!values.role_description) {
-      errors.role_description = "Role description is required";
-    }
+    // if (!values.role_name) {
+    //   errors.role_name = "Role Name is required";
+    // }
+    // if (!values.role_description) {
+    //   errors.role_description = "Role description is required";
+    // }
     return errors;
   };
 
@@ -81,7 +87,7 @@ function RoleCreate() {
     <div className="container">
       <div className="card">
         <div className="card-body">
-          <h5 className="card-title">Form</h5>
+          <h5 className="card-title">Role Create</h5>
           <form onSubmit={handleSubmit}>
             <div className="mb-3 row">
               <label className="form-label col-sm-3">Role Name</label>
@@ -94,7 +100,7 @@ function RoleCreate() {
                   name="role_name"
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.role_name}</p>
+                {/* <p className="text-danger">{formErrors.role_name}</p> */}
               </div>
             </div>
 
@@ -109,7 +115,7 @@ function RoleCreate() {
                   name="role_description"
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.role_description}</p>
+                {/* <p className="text-danger">{formErrors.role_description}</p> */}
               </div>
             </div>
 
