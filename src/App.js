@@ -130,7 +130,7 @@ function App() {
                 element={<RolePermissionCreate />}
               />
               <Route
-                path={`/admin/roles/permissions/edit/:id`}
+                path={`/admin/roles/permissions/:id/edit`}
                 exact={true}
                 element={<RolePermissionEdit />}
               />

@@ -106,7 +106,7 @@ export default function RoleList() {
                 <th>SL</th>
                 <th>Role Name</th>
                 <th>Role Description</th>
-                <th>Edit</th>
+                <th>Permission Update</th>
                 <th>Delete</th>
               </tr>
             </thead>
@@ -118,10 +118,10 @@ export default function RoleList() {
                   <td>{role.role_description}</td>
                   <td>
                     <Link
-                      to={`/admin/roles/permissions/${role.id}`}
+                      to={`/admin/roles/permissions/${role.id}/edit`}
                       className="btn btn-success btn-sm"
                     >
-                      p add
+                      Permission Update
                     </Link>
                   </td>
                   <td>

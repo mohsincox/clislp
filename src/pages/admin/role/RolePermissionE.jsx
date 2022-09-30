@@ -101,7 +101,17 @@ export default function RolePermissionE() {
     e.preventDefault();
 
     console.log("Submitteddddddddddddd", allPerm);
-    return;
+
+    const arr = [];
+    for (let i = 0; i < allPerm.length; i++) {
+      if (allPerm[i].checked) {
+        arr.push(allPerm[i].id);
+      }
+    }
+
+    console.log("AAAAAAAA:", arr);
+
+    // return;
 
     const answer = window.confirm("are you sure?");
     if (answer) {
@@ -114,7 +124,7 @@ export default function RolePermissionE() {
           await axios
             .post(
               `${API_PUBLIC_URL}api/roles/permissions/${id}`,
-              { permissions: JSON.stringify(selectedPerm) },
+              { permissions: JSON.stringify(arr) },
               {
                 headers: {
                   Authorization: token,
