@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../constants";
 
-function Login() {
+function LoginAdmin() {
   const initialValues = { email: "", password: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
@@ -44,9 +44,9 @@ function Login() {
             Authorization: token,
           },
         })
-        .then((res) => navigate("/tournament"))
+        .then((res) => navigate("/admin"))
         .catch((err) => {
-          navigate("/login");
+          navigate("/admin-login");
         });
     }
   }, []);
@@ -68,8 +68,8 @@ function Login() {
         // localStorage.setItem("token", user.data.accessToken);
         localStorage.setItem("loginData", JSON.stringify(response.data));
         console.log("user is successfully login");
-        // navigate("/tournament");
-        window.location.href = "/tournament";
+        // navigate("/admin");
+        window.location.href = "/admin";
       })
       .catch((error) => {
         console.log(error);
@@ -79,7 +79,7 @@ function Login() {
         if (error.response.status === 401) {
           toast.error("Invalid Password!");
         }
-        navigate("/login");
+        navigate("/admin-login");
       });
   };
 
@@ -98,44 +98,69 @@ function Login() {
   };
 
   return (
-    <div className="container">
-      {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
+    <div className="container mt-5">
+      <div className="col-sm-6 offset-sm-3">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Login</h5>
+
+            <center>
+              {" "}
+              <img
+                src={require("../images/sl_logo.png")}
+                alt="logo"
+                width={"200px"}
+                height={"70px"}
+              />
+            </center>
+            {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
         <div className="ui message success">Signed in successfully</div>
       ) : (
         <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
       )} */}
 
-      <form onSubmit={handleSubmit}>
-        <p>Login Form</p>
-        <div className="ui divider"></div>
-        <div className="ui form">
-          <div className="field">
-            <label>Email</label>
-            <input
-              type="text"
-              name="email"
-              placeholder="Email"
-              value={formValues.email}
-              onChange={handleChange}
-            />
+            <form onSubmit={handleSubmit} className="mt-3">
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Email <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="email"
+                    placeholder="Email"
+                    value={formValues.email}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              {/* <p>{formErrors.email}</p> */}
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Password<span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <input
+                    className="form-control"
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    value={formValues.password}
+                    onChange={handleChange}
+                  />
+                </div>
+              </div>
+              {/* <p>{formErrors.password}</p> */}
+              <div className="float-end">
+                <button className="btn btn-primary">Login</button>
+              </div>
+            </form>
           </div>
-          {/* <p>{formErrors.email}</p> */}
-          <div className="field">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={formValues.password}
-              onChange={handleChange}
-            />
-          </div>
-          {/* <p>{formErrors.password}</p> */}
-          <button className="fluid ui button blue">Submit</button>
         </div>
-      </form>
+      </div>
     </div>
   );
 }
 
-export default Login;
+export default LoginAdmin;

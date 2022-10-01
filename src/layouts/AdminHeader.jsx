@@ -9,7 +9,7 @@ const AdminHeader = () => {
   // console.log(authUser);
   const logout = () => {
     localStorage.removeItem("loginData");
-    navigate("/login");
+    navigate("/admin-login");
     setAuthUser((previousState) => {
       return { ...previousState, isLoggedIn: false };
     });
@@ -53,7 +53,7 @@ const AdminHeader = () => {
           <div className="col-12 col-md-5 col-lg-8 d-flex align-items-center justify-content-md-end mt-3 mt-md-0 pe-3">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                Hello, {authUser.user.name}
+                {authUser.user.name} &nbsp;
               </Dropdown.Toggle>
 
               <Dropdown.Menu>

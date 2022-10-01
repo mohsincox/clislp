@@ -55,6 +55,7 @@ import NewsList from "./pages/admin/news/NewsList";
 import NewsCreate from "./pages/admin/news/NewsCreate";
 import NewsEdit from "./pages/admin/news/NewsEdit";
 import RolePermissionE from "./pages/admin/role/RolePermissionE";
+import LoginAdmin from "./pages/LoginAdmin";
 
 export const UserContext = React.createContext(null);
 
@@ -91,6 +92,7 @@ function App() {
             <Route path="/tournament" element={<Tournament />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/admin-login" element={<LoginAdmin />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/register-step-one" element={<RegStepOne />} />
             <Route path="/build-team/:id" element={<BuildTeam />} />
