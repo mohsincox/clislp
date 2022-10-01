@@ -7,7 +7,7 @@ function Dashboard() {
     // const token = localStorage.getItem("token");
     const getLoginData = localStorage.getItem("loginData");
     if (getLoginData === null) {
-      navigate("/login");
+      navigate("/admin-login");
     } else {
       const data = JSON.parse(getLoginData);
       const token = data.accessToken;

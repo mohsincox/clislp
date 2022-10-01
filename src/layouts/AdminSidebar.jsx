@@ -78,6 +78,12 @@ const AdminSidebar = () => {
                 <span className="ml-2">Match</span>
               </Link>
             </li>
+            <li className="nav-item">
+              <Link className="nav-link" to={`/admin/news`}>
+                <i className="fa fa-newspaper-o" aria-hidden="true"></i>{" "}
+                <span className="ml-2">News</span>
+              </Link>
+            </li>
 
             {/* <li className="nav-item">
               <NavDropdown title={"name"} id="basic-nav-dropdown">
