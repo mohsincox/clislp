@@ -94,7 +94,7 @@ function PermissionCreate() {
                   name="perm_name"
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.perm_name}</p>
+                {/* <p className="text-danger">{formErrors.perm_name}</p> */}
               </div>
             </div>
 
@@ -111,7 +111,7 @@ function PermissionCreate() {
                   name="perm_description"
                   onChange={handleChange}
                 />
-                <p className="text-danger">{formErrors.perm_description}</p>
+                {/* <p className="text-danger">{formErrors.perm_description}</p> */}
               </div>
             </div>
 

@@ -35,7 +35,7 @@ export default function RolePermissionEdit() {
             },
           })
           .then((response) => {
-            console.log("Result:", rolePermissions);
+            // console.log("Result:", rolePermissions);
             // modified data by checked value
             const modifiedData = response.data.map((item) => {
               const itemChecked = rolePermissions.find(
@@ -51,7 +51,7 @@ export default function RolePermissionEdit() {
 
             setAllPerm(modifiedData);
 
-            console.log("ResponseData:", modifiedData);
+            // console.log("ResponseData:", modifiedData);
           });
       })();
     }
@@ -141,7 +141,7 @@ export default function RolePermissionEdit() {
     // search index no
     const findIndex = allPerm.findIndex((value) => value.id == item.id);
 
-    console.log(findIndex);
+    // console.log("findIndex", findIndex);
 
     setAllPerm(() => {
       return [
@@ -151,14 +151,14 @@ export default function RolePermissionEdit() {
       ];
     });
 
-    console.log("item:", item);
+    // console.log("item:", item);
   }
 
   return (
     <div className="container">
       <h3>Permission Update for {role.role_name}</h3>
       <form onSubmit={submitForm}>
-        <ol>
+        <ul style={{ listStyle: "none" }}>
           {allPerm.map((item, index) => {
             // console.log("SelectedItem: ", item);
 
@@ -175,9 +175,9 @@ export default function RolePermissionEdit() {
               </li>
             );
           })}
-        </ol>
+        </ul>
 
-        <button className="btn btn-primary">Submit</button>
+        <button className="btn btn-primary">Update</button>
       </form>
     </div>
   );
