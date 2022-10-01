@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function UserCreate() {
+export default function UserEdit() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const [role_id, setRole_id] = useState("");
   const [roleList, setRoleList] = useState([]);
   let navigate = useNavigate();
+  const { id } = useParams();
 
   useEffect(() => {
     handleLogin();
@@ -21,6 +21,23 @@ export default function UserCreate() {
   const handleLogin = () => {
     if (getLoginData === null) {
       navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/users/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setName(response.data.name);
+            setEmail(response.data.email);
+            setRole_id(response.data.role_id);
+            console.log(response.data);
+          });
+      })();
     }
   };
 
@@ -61,10 +78,6 @@ export default function UserCreate() {
       toast.error("Email field is required!");
     } else if (!regex.test(email)) {
       toast.error("Not valid email format!");
-    } else if (password === "") {
-      toast.error("Password field is required!");
-    } else if (password.length < 6) {
-      toast.error("Password must be at least 6 characters");
     } else if (role_id === "") {
       toast.error("Role field is required!");
     } else {
@@ -80,7 +93,6 @@ export default function UserCreate() {
       const postBody = {
         name: name,
         email: email,
-        password: password,
         role_id: role_id,
       };
 
@@ -88,7 +100,7 @@ export default function UserCreate() {
       const token = storageData.accessToken;
 
       await axios
-        .post(`${API_PUBLIC_URL}api/users`, postBody, {
+        .put(`${API_PUBLIC_URL}api/users/${id}`, postBody, {
           headers: {
             Authorization: token,
           },
@@ -97,7 +109,6 @@ export default function UserCreate() {
           console.log(response);
           setName("");
           setEmail("");
-          setPassword("");
           setRole_id("");
           setRoleList([]);
 
@@ -123,7 +134,7 @@ export default function UserCreate() {
       <div className="col-sm-8 offset-sm-2">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">User Create</h5>
+            <h5 className="card-title">User Edit</h5>
             <form onSubmit={submitForm} encType="multipart/form-data">
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
@@ -153,22 +164,6 @@ export default function UserCreate() {
                     value={email}
                     name="email"
                     onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Password <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Password"
-                    value={password}
-                    name="password"
-                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>

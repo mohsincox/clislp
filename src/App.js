@@ -56,6 +56,7 @@ import NewsCreate from "./pages/admin/news/NewsCreate";
 import NewsEdit from "./pages/admin/news/NewsEdit";
 import RolePermissionE from "./pages/admin/role/RolePermissionE";
 import LoginAdmin from "./pages/LoginAdmin";
+import UserEdit from "./pages/admin/user/UserEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -279,6 +280,11 @@ function App() {
                 path={`/admin/users/create`}
                 exact={true}
                 element={<UserCreate />}
+              />
+              <Route
+                path={`/admin/users/:id`}
+                exact={true}
+                element={<UserEdit />}
               />
 
               <Route path={`/admin/news`} exact={true} element={<NewsList />} />
