@@ -57,6 +57,7 @@ import NewsEdit from "./pages/admin/news/NewsEdit";
 import RolePermissionE from "./pages/admin/role/RolePermissionE";
 import LoginAdmin from "./pages/LoginAdmin";
 import UserEdit from "./pages/admin/user/UserEdit";
+import RoleEdit from "./pages/admin/role/RoleEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -126,6 +127,11 @@ function App() {
                 path={`/admin/roles/create`}
                 exact={true}
                 element={<RoleCreate />}
+              />
+              <Route
+                path={`/admin/roles/:id`}
+                exact={true}
+                element={<RoleEdit />}
               />
               <Route
                 path={`/admin/roles/permissions/:id`}

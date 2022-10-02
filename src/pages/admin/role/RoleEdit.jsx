@@ -1,15 +1,16 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-function RoleCreate() {
+function RoleEdit() {
   const initialValues = { role_name: "", role_description: "" };
   const [formValues, setFormValues] = useState(initialValues);
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
+  const { id } = useParams();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,6 +30,7 @@ function RoleCreate() {
   };
 
   useEffect(() => {
+    getRoleDetails();
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(formValues);
@@ -38,6 +40,31 @@ function RoleCreate() {
 
   const getLoginData = localStorage.getItem("loginData");
 
+  const getRoleDetails = () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/roles/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setFormValues({
+              ...formValues,
+              role_name: response.data.role_name,
+              role_description: response.data.role_description,
+            });
+            console.log(response.data);
+          });
+      })();
+    }
+  };
+
   const handleLogin = () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -46,13 +73,13 @@ function RoleCreate() {
       const token = storageData.accessToken;
       (async () => {
         await axios
-          .post(`${API_PUBLIC_URL}api/roles`, formValues, {
+          .put(`${API_PUBLIC_URL}api/roles/${id}`, formValues, {
             headers: {
               Authorization: token,
             },
           })
           .then((response) => {
-            toast.success("Created Successfully");
+            toast.success("Updated Successfully");
             navigate("/admin/roles");
           })
           .catch((error) => {
@@ -88,7 +115,7 @@ function RoleCreate() {
       <div className="col-sm-8 offset-sm-2">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">Role Create</h5>
+            <h5 className="card-title">Role Edit</h5>
             <form onSubmit={handleSubmit}>
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
@@ -150,4 +177,4 @@ function RoleCreate() {
   );
 }
 
-export default RoleCreate;
+export default RoleEdit;

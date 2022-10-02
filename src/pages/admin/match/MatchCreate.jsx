@@ -20,7 +20,6 @@ export default function MatchCreate() {
 
   useEffect(() => {
     getSelectTournament();
-    // getSelectCountry();
   }, []);
 
   const getSelectTournament = async () => {
@@ -80,13 +79,13 @@ export default function MatchCreate() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (stage_name.trim() == "") {
+    if (stage_name.trim() === "") {
       toast.error("Stage Name field is required!");
-    } else if (tournament_id == "") {
+    } else if (tournament_id === "") {
       toast.error("Tournament field is required!");
-    } else if (tournament_team_one_id == "") {
+    } else if (tournament_team_one_id === "") {
       toast.error("Tournament Team One field is required!");
-    } else if (tournament_team_two_id == "") {
+    } else if (tournament_team_two_id === "") {
       toast.error("Tournament Team Two field is required!");
     } else if (tournament_team_one_id === tournament_team_two_id) {
       toast.error("Both Team can not be same");
@@ -144,15 +143,16 @@ export default function MatchCreate() {
 
   return (
     <>
-      <div className="container">
-        <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Match Create</h3>
-          </div>
-          <div>
+      {/* <div className="container mt-2"> */}
+      <div className="col-sm-10 offset-sm-1">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Match Create</h5>
             <form onSubmit={submitForm}>
               <div className="mb-3 row">
-                <label className="form-label col-sm-3">Stage Name</label>
+                <label className="form-label col-sm-3">
+                  Stage Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <div className="col-sm-9">
                   <input
                     className="form-control"
@@ -166,7 +166,9 @@ export default function MatchCreate() {
               </div>
 
               <div className="mb-3 row">
-                <label className="form-label col-sm-3">Tournament Name</label>
+                <label className="form-label col-sm-3">
+                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <div className="col-sm-9">
                   <select
                     className="form-select"
@@ -186,7 +188,8 @@ export default function MatchCreate() {
 
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
-                  Tournament Team One
+                  Tournament Team One{" "}
+                  <span style={{ color: "#ff0000" }}>*</span>
                 </label>
                 <div className="col-sm-9">
                   <select
@@ -207,7 +210,8 @@ export default function MatchCreate() {
 
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
-                  Tournament Team Two
+                  Tournament Team Two{" "}
+                  <span style={{ color: "#ff0000" }}>*</span>
                 </label>
                 <div className="col-sm-9">
                   <select
@@ -298,11 +302,29 @@ export default function MatchCreate() {
                 </select>
               </div> */}
 
-              <button className="btn btn-primary">Submit</button>
+              <div className="float-end">
+                <button
+                  className="btn btn-danger me-3"
+                  onClick={() => {
+                    navigate("/admin/matches");
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={submitForm}
+                >
+                  Save
+                </button>
+              </div>
             </form>
           </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

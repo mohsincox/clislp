@@ -17,6 +17,7 @@ export default function PlayerEdit() {
   const [isBowler, setIsBowler] = useState(false);
   const [isKeeper, setIsKeeper] = useState(false);
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState();
   const [im, setIm] = useState("");
   let navigate = useNavigate();
   const { id } = useParams();
@@ -101,9 +102,9 @@ export default function PlayerEdit() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (name == "") {
+    if (name.trim() === "") {
       toast.error("Player Name field is required!");
-    } else if (country_id == "") {
+    } else if (country_id === "") {
       toast.error("Country field is required!");
     } else {
       const formData = new FormData();
@@ -153,165 +154,213 @@ export default function PlayerEdit() {
     }
   };
 
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined);
+      return;
+    }
+    setImage(e.target.files[0]);
+  };
+
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Player Edit</h3>
-          </div>
-          <div>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Player Name</label>
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Player Edit</h5>
+              <form onSubmit={submitForm} encType="multipart/form-data">
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Player Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
 
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Player Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter Player Name"
+                      value={name}
+                      name="name"
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
                 </div>
-              </div>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Country Name</label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={country_id}
-                    name="country_id"
-                    onChange={(e) => setCountry_id(e.target.value)}
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Country Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <select
+                      className="form-select"
+                      value={country_id}
+                      name="country_id"
+                      onChange={(e) => setCountry_id(e.target.value)}
+                    >
+                      <option>Select Country</option>
+                      {countryList.map((sm, index) => (
+                        <option key={sm.id} value={sm.id}>
+                          {sm.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Specification</label>
+                  <div className="col-sm-9">
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={isAllRounder}
+                        onChange={handleAllRounder}
+                      />
+                      All Rounder
+                    </div>
+
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={isBatsman}
+                        onChange={handleBatsman}
+                      />
+                      Batsman
+                    </div>
+
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={isBowler}
+                        onChange={handleBowler}
+                      />
+                      Bowler
+                    </div>
+
+                    <div>
+                      <input
+                        type="checkbox"
+                        checked={isKeeper}
+                        onChange={handleKeeper}
+                      />
+                      Wicket Keeper
+                    </div>
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Jersey No</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="number"
+                      placeholder="Enter Jersey No"
+                      value={jersey_no}
+                      onChange={(e) => setJersey_no(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Batting Position
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="number"
+                      placeholder="Enter Batting Position"
+                      value={batting_position}
+                      onChange={(e) => setBatting_position(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Point</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="number"
+                      placeholder="Enter Point"
+                      value={point}
+                      onChange={(e) => setPoint(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Current Ranking</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="number"
+                      placeholder="Enter Current Ranking"
+                      value={ranking}
+                      onChange={(e) => setRanking(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">Image</label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="file"
+                      placeholder="Enter Image"
+                      name="image"
+                      // onChange={(e) => setImage(e.target.files[0])}
+                      onChange={onSelectFile}
+                    />
+
+                    <div style={{ marginTop: "10px" }}>
+                      {image ? (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${im}`}
+                          alt=""
+                          width="80px"
+                          height="50px"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="float-end">
+                  <button
+                    className="btn btn-danger me-3"
+                    onClick={() => {
+                      navigate("/admin/players");
+                    }}
                   >
-                    <option>Select Country</option>
-                    {countryList.map((sm, index) => (
-                      <option key={sm.id} value={sm.id}>
-                        {sm.name}
-                      </option>
-                    ))}
-                  </select>
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitForm}
+                  >
+                    Save
+                  </button>
                 </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Specification</label>
-                <div className="col-sm-9">
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={isAllRounder}
-                      onChange={handleAllRounder}
-                    />
-                    All Rounder
-                  </div>
-
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={isBatsman}
-                      onChange={handleBatsman}
-                    />
-                    Batsman
-                  </div>
-
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={isBowler}
-                      onChange={handleBowler}
-                    />
-                    Bowler
-                  </div>
-
-                  <div>
-                    <input
-                      type="checkbox"
-                      checked={isKeeper}
-                      onChange={handleKeeper}
-                    />
-                    Wicket Keeper
-                  </div>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Jersey No</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="number"
-                    placeholder="Enter Jersey No"
-                    value={jersey_no}
-                    onChange={(e) => setJersey_no(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Batting Position</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="number"
-                    placeholder="Enter Batting Position"
-                    value={batting_position}
-                    onChange={(e) => setBatting_position(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Point</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="number"
-                    placeholder="Enter Point"
-                    value={point}
-                    onChange={(e) => setPoint(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Current Ranking</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="number"
-                    placeholder="Enter Current Ranking"
-                    value={ranking}
-                    onChange={(e) => setRanking(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Image</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="file"
-                    placeholder="Enter Image"
-                    name="image"
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-                  <div style={{ marginTop: "10px" }}>
-                    <img
-                      src={`${API_PUBLIC_URL}${im}`}
-                      alt=""
-                      width="80px"
-                      height="50px"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              <button className="btn btn-primary">Submit</button>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       </div>

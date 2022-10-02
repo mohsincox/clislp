@@ -9,6 +9,7 @@ export default function FranchiseEdit() {
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
   const [logo, setLogo] = useState(null);
+  const [preview, setPreview] = useState();
   const [im, setIm] = useState("");
   let navigate = useNavigate();
   const { id } = useParams();
@@ -133,6 +134,25 @@ export default function FranchiseEdit() {
     }
   };
 
+  useEffect(() => {
+    if (!logo) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(logo);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [logo]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setLogo(undefined);
+      return;
+    }
+    setLogo(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="container mt-2">
@@ -142,7 +162,9 @@ export default function FranchiseEdit() {
               <h5 className="card-title">Franchise Edit</h5>
               <form onSubmit={submitForm} encType="multipart/form-data">
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Franchise Name</label>
+                  <label className="form-label col-sm-3">
+                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <input
                       className="form-control"
@@ -156,7 +178,9 @@ export default function FranchiseEdit() {
                 </div>
 
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Country Name</label>
+                  <label className="form-label col-sm-3">
+                    Origin Country <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <select
                       className="form-select"
@@ -182,16 +206,21 @@ export default function FranchiseEdit() {
                       type="file"
                       placeholder="Enter Image"
                       name="logo"
-                      onChange={(e) => setLogo(e.target.files[0])}
+                      // onChange={(e) => setLogo(e.target.files[0])}
+                      onChange={onSelectFile}
                     />
 
                     <div style={{ marginTop: "10px" }}>
-                      <img
-                        src={`${API_PUBLIC_URL}${im}`}
-                        alt=""
-                        width="80px"
-                        height="50px"
-                      />
+                      {logo ? (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${im}`}
+                          alt=""
+                          width="80px"
+                          height="50px"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>

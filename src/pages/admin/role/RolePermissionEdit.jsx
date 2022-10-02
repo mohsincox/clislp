@@ -35,7 +35,6 @@ export default function RolePermissionEdit() {
             },
           })
           .then((response) => {
-            // console.log("Result:", rolePermissions);
             // modified data by checked value
             const modifiedData = response.data.map((item) => {
               const itemChecked = rolePermissions.find(
@@ -50,8 +49,6 @@ export default function RolePermissionEdit() {
             });
 
             setAllPerm(modifiedData);
-
-            // console.log("ResponseData:", modifiedData);
           });
       })();
     }
@@ -72,7 +69,6 @@ export default function RolePermissionEdit() {
           })
           .then((response) => {
             setRolePermissions(response.data.role_permissions);
-            // console.log("response.data User", rolePermissions);
             setRole(response.data);
           });
       })();
@@ -89,7 +85,7 @@ export default function RolePermissionEdit() {
       }
     }
 
-    const answer = window.confirm("are you sure?");
+    const answer = window.confirm("Do you want to update?");
     if (answer) {
       if (getLoginData === null) {
         navigate("/login");
@@ -126,22 +122,13 @@ export default function RolePermissionEdit() {
             });
         })();
       }
-      // Save it!
-      // console.log("Thing was saved to the database.");
-    } else {
-      // Do nothing!
-      // console.log("Thing was not saved to the database.");
     }
   };
 
   function handleCheck(e, item) {
-    // const fileteredData = allPerm.filter((value) => value.id != item.id);
     const newItem = { ...item, checked: !item.checked };
 
-    // search index no
     const findIndex = allPerm.findIndex((value) => value.id == item.id);
-
-    // console.log("findIndex", findIndex);
 
     setAllPerm(() => {
       return [
@@ -150,8 +137,6 @@ export default function RolePermissionEdit() {
         ...allPerm.slice(findIndex + 1),
       ];
     });
-
-    // console.log("item:", item);
   }
 
   return (
@@ -160,8 +145,6 @@ export default function RolePermissionEdit() {
       <form onSubmit={submitForm}>
         <ul style={{ listStyle: "none" }}>
           {allPerm.map((item, index) => {
-            // console.log("SelectedItem: ", item);
-
             return (
               <li key={index}>
                 <input

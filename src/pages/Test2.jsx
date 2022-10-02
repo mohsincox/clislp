@@ -1,76 +1,39 @@
-import React, { useState } from "react";
-import { Container } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
-function Test2() {
-  const [name, setName] = useState("");
-  const [newdate, setNewdate] = useState([]);
+const ImageUpload = () => {
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
 
-  const handlename = (e) => {
-    const getnamevalue = e.target.value;
-    setName(getnamevalue);
-    //console.log(getdatevalue);
-  };
-  const handledate = (e) => {
-    const getdatevalue = e.target.value;
-    setNewdate(getdatevalue);
-    //console.log(getdatevalue);
-  };
+  // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
 
-    alert("get name" + name + " get date" + newdate);
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
   };
 
   return (
-    <React.Fragment>
-      <Container>
-        <div className="row fthight">
-          <div className="col-sm-8  mt-3">
-            <h4 className="mb-4">How to select date picker in react js </h4>
-
-            <form onSubmit={handleSubmit}>
-              <div className="row mb-4 ">
-                <label className="col-sm-2 col-form-label">
-                  Name<span className="astriccolor">*</span>
-                </label>
-                <div className="col-sm-5">
-                  <input
-                    type="text"
-                    className="form-control"
-                    name="name"
-                    onChange={(e) => handlename(e)}
-                  />
-                  <span className="text-danger"> </span>
-                </div>
-              </div>
-
-              <div className="row mb-4 ">
-                <label className="col-sm-2 col-form-label">
-                  Date<span className="astriccolor">*</span>
-                </label>
-                <div className="col-sm-5">
-                  <input
-                    type="date"
-                    className="form-control"
-                    name="todate"
-                    placeholder="dd-mm-yyyy"
-                    onChange={(e) => handledate(e)}
-                  />
-                </div>
-              </div>
-
-              <div className="row mb-4 ">
-                <label className="col-sm-2 col-form-label"></label>
-                <div className="col-sm-5">
-                  <button className="btn btn-success"> Submit </button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </Container>
-    </React.Fragment>
+    <div>
+      <input type="file" onChange={onSelectFile} />
+      {selectedFile && <img src={preview} alt="" width={"100px"} />}
+    </div>
   );
-}
-export default Test2;
+};
+
+export default ImageUpload;

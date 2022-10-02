@@ -9,6 +9,7 @@ export default function FranchiseCreate() {
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
   const [logo, setLogo] = useState(null);
+  const [preview, setPreview] = useState();
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -107,6 +108,25 @@ export default function FranchiseCreate() {
     }
   };
 
+  useEffect(() => {
+    if (!logo) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(logo);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [logo]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setLogo(undefined);
+      return;
+    }
+    setLogo(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="container mt-2">
@@ -160,8 +180,14 @@ export default function FranchiseCreate() {
                       type="file"
                       placeholder="Enter Image"
                       name="logo"
-                      onChange={(e) => setLogo(e.target.files[0])}
+                      // onChange={(e) => setLogo(e.target.files[0])}
+                      onChange={onSelectFile}
                     />
+                    <div style={{ marginTop: "10px" }}>
+                      {logo && (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      )}
+                    </div>
                   </div>
                 </div>
 

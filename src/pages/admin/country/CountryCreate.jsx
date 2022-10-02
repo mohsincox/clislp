@@ -8,6 +8,7 @@ export default function CountryCreate() {
   const [name, setName] = useState("");
   const [short_name, setShort_name] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
+  const [preview, setPreview] = useState();
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -80,6 +81,25 @@ export default function CountryCreate() {
     }
   };
 
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="container mt-2">
@@ -125,8 +145,14 @@ export default function CountryCreate() {
                       type="file"
                       placeholder="Enter Image"
                       name="selectedFile"
-                      onChange={(e) => setSelectedFile(e.target.files[0])}
+                      // onChange={(e) => setSelectedFile(e.target.files[0])}
+                      onChange={onSelectFile}
                     />
+                    <div style={{ marginTop: "10px" }}>
+                      {selectedFile && (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      )}
+                    </div>
                   </div>
                 </div>
 

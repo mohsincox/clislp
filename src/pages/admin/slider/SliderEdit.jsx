@@ -7,6 +7,7 @@ import { API_PUBLIC_URL } from "../../../constants";
 export default function SliderEdit() {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState();
   const [im, setIm] = useState("");
   let navigate = useNavigate();
   const { id } = useParams();
@@ -72,53 +73,98 @@ export default function SliderEdit() {
     }
   };
 
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined);
+      return;
+    }
+    setImage(e.target.files[0]);
+  };
+
   return (
     <>
-      <div className="container">
+      <div className="container mt-2">
         <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Slider Create</h3>
-          </div>
-          <div>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Slider Name</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Slider Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Image</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="file"
-                    placeholder="Enter Image"
-                    name="image"
-                    onChange={(e) => setImage(e.target.files[0])}
-                  />
-
-                  <div style={{ marginTop: "10px" }}>
-                    <img
-                      src={`${API_PUBLIC_URL}${im}`}
-                      alt=""
-                      width="80px"
-                      height="50px"
+          <div className="card">
+            <div className="card-body">
+              <h5 className="card-title">Slider Edit</h5>
+              <form onSubmit={submitForm} encType="multipart/form-data">
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Slider Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Enter Slider Name"
+                      value={name}
+                      name="name"
+                      onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                 </div>
-              </div>
 
-              <button className="btn btn-primary">Submit</button>
-            </form>
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Image <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="file"
+                      placeholder="Enter Image"
+                      name="image"
+                      // onChange={(e) => setImage(e.target.files[0])}
+                      onChange={onSelectFile}
+                    />
+
+                    <div style={{ marginTop: "10px" }}>
+                      {image ? (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${im}`}
+                          alt=""
+                          width="80px"
+                          height="50px"
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="float-end">
+                  <button
+                    className="btn btn-danger me-3"
+                    onClick={() => {
+                      navigate("/admin/sliders");
+                    }}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitForm}
+                  >
+                    Save
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>

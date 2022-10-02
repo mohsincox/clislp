@@ -10,6 +10,7 @@ export default function NewsEdit() {
   const [tournament_id, setTournament_id] = useState("");
   const [tournamentList, setTournamentList] = useState([]);
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState();
   const [im, setIm] = useState("");
   let navigate = useNavigate();
   const { id } = useParams();
@@ -139,13 +140,32 @@ export default function NewsEdit() {
     }
   };
 
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined);
+      return;
+    }
+    setImage(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="container mt-2">
         <div className="col-sm-8 offset-sm-2">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">News Create</h5>
+              <h5 className="card-title">News Edit</h5>
               <form onSubmit={submitForm} encType="multipart/form-data">
                 <div className="mb-3 row">
                   <label className="form-label col-sm-3">
@@ -208,16 +228,21 @@ export default function NewsEdit() {
                       type="file"
                       placeholder="Enter Image"
                       name="logo"
-                      onChange={(e) => setImage(e.target.files[0])}
+                      // onChange={(e) => setImage(e.target.files[0])}
+                      onChange={onSelectFile}
                     />
 
                     <div style={{ marginTop: "10px" }}>
-                      <img
-                        src={`${API_PUBLIC_URL}${im}`}
-                        alt=""
-                        width="80px"
-                        height="50px"
-                      />
+                      {image ? (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      ) : (
+                        <img
+                          src={`${API_PUBLIC_URL}${im}`}
+                          alt=""
+                          width="80px"
+                          height="50px"
+                        />
+                      )}
                     </div>
                   </div>
                 </div>

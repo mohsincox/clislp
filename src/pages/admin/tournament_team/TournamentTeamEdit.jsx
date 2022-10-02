@@ -128,15 +128,15 @@ export default function TournamentTeamEdit() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (name.trim() == "") {
+    if (name.trim() === "") {
       toast.error("Team Name field is required!");
-    } else if (tournament_id == "") {
+    } else if (tournament_id === "") {
       toast.error("Tournament field is required!");
-    } else if (category == "") {
+    } else if (category === "") {
       toast.error("Category field is required!");
-    } else if (category == "International" && country_id == "") {
+    } else if (category === "International" && country_id === "") {
       toast.error("Country field is required!");
-    } else if (category == "Franchise" && franchise_id == "") {
+    } else if (category === "Franchise" && franchise_id === "") {
       toast.error("Franchise field is required!");
     } else {
       //   const formData = new FormData();
@@ -187,15 +187,16 @@ export default function TournamentTeamEdit() {
 
   return (
     <>
-      <div className="container">
-        <div className="col-sm-8 offset-sm-2">
-          <div>
-            <h3>Tournament Team Edit</h3>
-          </div>
-          <div>
+      {/* <div className="container mt-2"> */}
+      <div className="col-sm-8 offset-sm-2">
+        <div className="card">
+          <div className="card-body">
+            <h5 className="card-title">Tournament Team Edit</h5>
             <form onSubmit={submitForm} encType="multipart/form-data">
               <div className="mb-3 row">
-                <label className="form-label col-sm-3">Team Name</label>
+                <label className="form-label col-sm-3">
+                  Team Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
 
                 <div className="col-sm-9">
                   <input
@@ -210,7 +211,9 @@ export default function TournamentTeamEdit() {
               </div>
 
               <div className="mb-3 row">
-                <label className="form-label col-sm-3">Tournament Name</label>
+                <label className="form-label col-sm-3">
+                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <div className="col-sm-9">
                   <select
                     className="form-select"
@@ -229,7 +232,9 @@ export default function TournamentTeamEdit() {
               </div>
 
               <div className="mb-3 row">
-                <label className="form-label col-sm-3">Team Category</label>
+                <label className="form-label col-sm-3">
+                  Team Category <span style={{ color: "#ff0000" }}>*</span>
+                </label>
                 <div className="col-sm-9">
                   <select
                     name="category"
@@ -246,7 +251,9 @@ export default function TournamentTeamEdit() {
 
               {category === "International" && (
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Country Name</label>
+                  <label className="form-label col-sm-3">
+                    Country Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <select
                       className="form-select"
@@ -267,7 +274,9 @@ export default function TournamentTeamEdit() {
 
               {category === "Franchise" && (
                 <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Franchise Name</label>
+                  <label className="form-label col-sm-3">
+                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <div className="col-sm-9">
                     <select
                       className="form-select"
@@ -286,11 +295,29 @@ export default function TournamentTeamEdit() {
                 </div>
               )}
 
-              <button className="btn btn-primary">Submit</button>
+              <div className="float-end">
+                <button
+                  className="btn btn-danger me-3"
+                  onClick={() => {
+                    navigate("/admin/tournament-teams");
+                  }}
+                >
+                  Cancel
+                </button>
+
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={submitForm}
+                >
+                  Save
+                </button>
+              </div>
             </form>
           </div>
         </div>
       </div>
+      {/* </div> */}
     </>
   );
 }

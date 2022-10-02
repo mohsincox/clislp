@@ -10,6 +10,7 @@ export default function NewsCreate() {
   const [tournament_id, setTournament_id] = useState("");
   const [tournamentList, setTournamentList] = useState([]);
   const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState();
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -110,6 +111,25 @@ export default function NewsCreate() {
     }
   };
 
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined);
+      return;
+    }
+    setImage(e.target.files[0]);
+  };
+
   return (
     <>
       <div className="container mt-2">
@@ -180,9 +200,15 @@ export default function NewsCreate() {
                       className="form-control"
                       type="file"
                       placeholder="Enter Image"
-                      name="logo"
-                      onChange={(e) => setImage(e.target.files[0])}
+                      // onChange={(e) => setImage(e.target.files[0])}
+                      onChange={onSelectFile}
                     />
+
+                    <div style={{ marginTop: "10px" }}>
+                      {image && (
+                        <img src={preview} alt="" width="80px" height="50px" />
+                      )}
+                    </div>
                   </div>
                 </div>
 
