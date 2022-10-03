@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
-import { UserContext } from "../App";
 import { API_PUBLIC_URL } from "../constants";
 import Header from "../components/Header";
 import "./regStepOne.css";
@@ -66,17 +65,6 @@ const Tournament = () => {
         });
     }
   }, []);
-
-  const { authUser, setAuthUser } = useContext(UserContext);
-  // console.log("authUser", authUser);
-  // console.log("authUser2", authUser.user.userrole);
-  const logout = () => {
-    localStorage.removeItem("loginData");
-    navigate("/register");
-    setAuthUser((previousState) => {
-      return { ...previousState, isLoggedIn: false };
-    });
-  };
 
   return (
     <>
@@ -201,8 +189,6 @@ const Tournament = () => {
         </div>
       </div>
       <Footer />
-      <p>Tournament Page</p>
-      <button onClick={logout}>Logout</button>
     </>
   );
 };

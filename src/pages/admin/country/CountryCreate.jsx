@@ -29,6 +29,16 @@ export default function CountryCreate() {
   const submitForm = async (e) => {
     e.preventDefault();
 
+    if (selectedFile !== null) {
+      const validExtensions = ["png", "jpeg", "jpg", "gif"];
+      const fileExtension = selectedFile.type.split("/")[1];
+      const exist = validExtensions.includes(fileExtension);
+      if (!exist) {
+        toast.error("Please give proper image format");
+        return;
+      }
+    }
+
     if (name.trim() === "") {
       toast.error("Name field is required!");
     }

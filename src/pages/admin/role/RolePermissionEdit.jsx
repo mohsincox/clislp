@@ -154,7 +154,7 @@ export default function RolePermissionEdit() {
                   style={{ margin: "10px" }}
                   type="checkbox"
                 />
-                <span>{item.perm_name}</span>
+                <span>{item.perm_description}</span>
               </li>
             );
           })}

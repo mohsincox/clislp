@@ -1,22 +1,8 @@
-import React, { useContext } from "react";
-import { UserContext } from "../App";
+import React from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { useNavigate } from "react-router-dom";
 
 export default function WelcomeTeam() {
-  const navigate = useNavigate();
-
-  const { authUser, setAuthUser } = useContext(UserContext);
-  // console.log("authUser", authUser);
-  // console.log("authUser2", authUser.user.userrole);
-  const logout = () => {
-    localStorage.removeItem("loginData");
-    navigate("/register");
-    setAuthUser((previousState) => {
-      return { ...previousState, isLoggedIn: false };
-    });
-  };
   return (
     <>
       <Header />
@@ -51,8 +37,6 @@ export default function WelcomeTeam() {
         </div>
       </div>
       <Footer />
-      <p>ViewTeam Page</p>
-      <button onClick={logout}>Logout</button>
     </>
   );
 }

@@ -58,6 +58,7 @@ import RolePermissionE from "./pages/admin/role/RolePermissionE";
 import LoginAdmin from "./pages/LoginAdmin";
 import UserEdit from "./pages/admin/user/UserEdit";
 import RoleEdit from "./pages/admin/role/RoleEdit";
+import GameTournaments from "./pages/GameTournamets";
 
 export const UserContext = React.createContext(null);
 
@@ -92,6 +93,7 @@ function App() {
             <Route path="/test2" element={<Test2 />} />
             <Route path="/test3" element={<Test3 />} />
             <Route path="/tournament" element={<Tournament />} />
+            <Route path="/game-tournaments" element={<GameTournaments />} />
             <Route path="/register" element={<Register />} />
             <Route path="/login" element={<Login />} />
             <Route path="/admin-login" element={<LoginAdmin />} />

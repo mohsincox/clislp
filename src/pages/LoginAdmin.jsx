@@ -39,7 +39,7 @@ function LoginAdmin() {
       const data = JSON.parse(getLoginData);
       const token = data.accessToken;
       axios
-        .get(`${API_PUBLIC_URL}api/users`, {
+        .get(`${API_PUBLIC_URL}api/ws-sliders`, {
           headers: {
             Authorization: token,
           },

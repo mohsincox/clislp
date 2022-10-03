@@ -1,15 +1,12 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { UserContext } from "../App";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { API_PUBLIC_URL } from "../constants";
 
 export default function BuildTeam() {
-  const { authUser, setAuthUser } = useContext(UserContext);
-
   const [playerList, setPlayerList] = useState([]);
 
   // console.log("authUser", authUser);
@@ -105,13 +102,6 @@ export default function BuildTeam() {
     }
   };
 
-  const logout = () => {
-    localStorage.removeItem("loginData");
-    navigate("/register");
-    setAuthUser((previousState) => {
-      return { ...previousState, isLoggedIn: false };
-    });
-  };
   return (
     <>
       <Header />
@@ -223,8 +213,6 @@ export default function BuildTeam() {
         </div>
       </div>
       <Footer />
-      <p>Build Team Page</p>
-      <button onClick={logout}>Logout</button>
     </>
   );
 }
