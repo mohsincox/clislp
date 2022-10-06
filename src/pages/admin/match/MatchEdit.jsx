@@ -5,7 +5,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 export default function MatchEdit() {
-  const [stage_name, setStage_name] = useState("");
+  // const [stage_name, setStage_name] = useState("");
   const [tournament_id, setTournament_id] = useState("");
   const [tournament_team_one_id, setTournament_team_one_id] = useState("");
   const [tournament_team_two_id, setTournament_team_two_id] = useState("");
@@ -38,7 +38,7 @@ export default function MatchEdit() {
             },
           })
           .then((response) => {
-            setStage_name(response.data.stage_name);
+            // setStage_name(response.data.stage_name);
             setTournament_id(response.data.tournament_id);
             setTournament_team_one_id(response.data.tournament_team_one_id);
             setTournament_team_two_id(response.data.tournament_team_two_id);
@@ -108,9 +108,10 @@ export default function MatchEdit() {
   const submitForm = async (e) => {
     e.preventDefault();
 
-    if (stage_name.trim() === "") {
-      toast.error("Stage Name field is required!");
-    } else if (tournament_id === "") {
+    // if (stage_name.trim() === "") {
+    //   toast.error("Stage Name field is required!");
+    // } else
+    if (tournament_id === "") {
       toast.error("Tournament field is required!");
     } else if (tournament_team_one_id === "") {
       toast.error("Tournament Team One field is required!");
@@ -129,7 +130,7 @@ export default function MatchEdit() {
       //   return;
 
       const postBody = {
-        stage_name: stage_name,
+        // stage_name: stage_name,
         tournament_id: tournament_id,
         tournament_team_one_id: tournament_team_one_id,
         tournament_team_two_id: tournament_team_two_id,
@@ -148,7 +149,7 @@ export default function MatchEdit() {
           },
         })
         .then((response) => {
-          setStage_name("");
+          // setStage_name("");
           setTournament_id("");
           setTournament_team_one_id("");
           setTournament_team_two_id("");
@@ -175,7 +176,7 @@ export default function MatchEdit() {
           <div className="card-body">
             <h5 className="card-title">Match Edit</h5>
             <form onSubmit={submitForm}>
-              <div className="mb-3 row">
+              {/* <div className="mb-3 row">
                 <label className="form-label col-sm-3">
                   Stage Name <span style={{ color: "#ff0000" }}>*</span>
                 </label>
@@ -189,7 +190,7 @@ export default function MatchEdit() {
                     onChange={(e) => setStage_name(e.target.value)}
                   />
                 </div>
-              </div>
+              </div> */}
 
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
@@ -225,9 +226,11 @@ export default function MatchEdit() {
                     onChange={(e) => setTournament_team_one_id(e.target.value)}
                   >
                     <option value={""}>Select team one</option>
-                    {tourTeamList.map((st, index) => (
-                      <option key={index} value={st.id}>
-                        {st.name}
+                    {tourTeamList.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.country == null
+                          ? item.franchise.name
+                          : item.country.name}
                       </option>
                     ))}
                   </select>
@@ -247,9 +250,11 @@ export default function MatchEdit() {
                     onChange={(e) => setTournament_team_two_id(e.target.value)}
                   >
                     <option value={""}>Select team Two</option>
-                    {tourTeamList.map((st, index) => (
-                      <option key={index} value={st.id}>
-                        {st.name}
+                    {tourTeamList.map((item, index) => (
+                      <option key={index} value={item.id}>
+                        {item.country == null
+                          ? item.franchise.name
+                          : item.country.name}
                       </option>
                     ))}
                   </select>

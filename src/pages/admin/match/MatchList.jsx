@@ -80,11 +80,11 @@ export default function MatchList() {
             <thead>
               <tr>
                 <th>SL</th>
-                <th>Stage Name</th>
+                {/* <th>Stage Name</th> */}
                 <th>Tournament</th>
-                <th>VS</th>
+                {/* <th>VS</th> */}
                 <th>VS img</th>
-                <th>VS</th>
+                {/* <th>VS</th> */}
                 <th>VS img</th>
                 <th>Date</th>
                 <th>Time</th>
@@ -97,12 +97,11 @@ export default function MatchList() {
               {matchList.map((match, index) => (
                 <tr key={match.id}>
                   <td>{index + 1}</td>
-                  <td>{match.stage_name}</td>
+                  {/* <td>{match.stage_name}</td> */}
                   <td>
                     {match.tournament == null ? "" : match.tournament["name"]}
                   </td>
-                  <td>
-                    {/* {match.country_one == null ? "" : match.country_one["name"]} */}
+                  {/* <td>
                     {match.tournament_team_one != null && (
                       <span>
                         {match.tournament_team_one.name == null
@@ -110,7 +109,7 @@ export default function MatchList() {
                           : match.tournament_team_one.name}
                       </span>
                     )}
-                  </td>
+                  </td> */}
                   <td>
                     {/* {match.tournament_team_one.country == null
                     ? match.tournament_team_one.franchise.logo
@@ -134,7 +133,7 @@ export default function MatchList() {
                       </span>
                     )}
                   </td>
-                  <td>
+                  {/* <td>
                     {match.tournament_team_two != null && (
                       <span>
                         {match.tournament_team_two.name == null
@@ -142,8 +141,7 @@ export default function MatchList() {
                           : match.tournament_team_two.name}
                       </span>
                     )}
-                    {/* {match.country_two == null ? "" : match.country_two["name"]} */}
-                  </td>
+                  </td> */}
                   <td>
                     {/* {match.tournament_team_two.country == null
                     ? match.tournament_team_two.franchise.logo

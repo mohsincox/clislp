@@ -55,7 +55,7 @@ const items = [
   getItem("Tournament", "sub2", <TrophyOutlined />, [
     getItem(
       <Link to={`/admin/tournaments`} style={{ textDecoration: "none" }}>
-        Tournament
+        Tournament List
       </Link>,
       "6"
     ),

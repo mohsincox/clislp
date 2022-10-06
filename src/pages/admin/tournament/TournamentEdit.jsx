@@ -12,6 +12,7 @@ export default function TournamentEdit() {
   const [year, setYear] = useState("");
   const [logo, setLogo] = useState(null);
   const [preview, setPreview] = useState();
+  const [category, setCategory] = useState("");
   const [im, setIm] = useState("");
   let navigate = useNavigate();
   const { id } = useParams();
@@ -47,6 +48,7 @@ export default function TournamentEdit() {
             setGame_id(response.data.game_id);
             setMonth(response.data.month);
             setYear(response.data.year);
+            setCategory(response.data.category);
             setIm(response.data.logo);
             console.log(response.data);
           });
@@ -88,6 +90,8 @@ export default function TournamentEdit() {
       toast.error("Game Name field is required!");
     } else if (name.trim() === "") {
       toast.error("Tournament Name field is required!");
+    } else if (category === "") {
+      toast.error("Tournament Type field is required!");
     }
     // else if (logo === null) {
     //   toast.error("Image file is required!");
@@ -98,6 +102,7 @@ export default function TournamentEdit() {
       formData.append("game_id", game_id);
       formData.append("month", month);
       formData.append("year", year);
+      formData.append("category", category);
       formData.append("logo", logo);
 
       // for (var [key, value] of formData.entries()) {
@@ -125,6 +130,7 @@ export default function TournamentEdit() {
           setGameList([]);
           setMonth("");
           setYear("");
+          setCategory("");
           setLogo(null);
 
           toast.success("Successfully created!");
@@ -207,6 +213,24 @@ export default function TournamentEdit() {
                     name="name"
                     onChange={(e) => setName(e.target.value)}
                   />
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Tournament Type <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <select
+                    name="category"
+                    value={category}
+                    className="form-control"
+                    onChange={(e) => setCategory(e.target.value)}
+                  >
+                    <option value="">Select Category</option>
+                    <option value="International">International</option>
+                    <option value="Franchise">Franchise</option>
+                  </select>
                 </div>
               </div>
 

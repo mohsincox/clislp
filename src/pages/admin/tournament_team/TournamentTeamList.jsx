@@ -83,7 +83,7 @@ export default function TournamentTeamList() {
             <thead>
               <tr>
                 <th>#</th>
-                <th>T. Team Name</th>
+                <th>Group Name</th>
                 <th>Tournament Name</th>
                 <th>Category</th>
                 <th>Country</th>

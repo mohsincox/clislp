@@ -106,6 +106,7 @@ export default function TournamentList() {
                 <th>SL</th>
                 <th>Tournament</th>
                 <th>Game</th>
+                <th>Type</th>
                 <th>Month</th>
                 <th>Year</th>
                 <th>Logo</th>
@@ -121,6 +122,7 @@ export default function TournamentList() {
                   <td>
                     {tournament.game == null ? "" : tournament.game["name"]}
                   </td>
+                  <td>{tournament.category}</td>
                   <td>{tournament.month}</td>
                   <td>{tournament.year}</td>
                   <td>

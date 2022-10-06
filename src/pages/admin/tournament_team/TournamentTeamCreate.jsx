@@ -48,6 +48,34 @@ export default function TournamentTeamCreate() {
     }
   };
 
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/tournaments/${tournament_id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setCategory(response.data.category);
+            console.log(response.data.category);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
+          });
+      })();
+    }
+  }, [tournament_id]);
+
   const getSelectCountryDetails = async () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -102,7 +130,7 @@ export default function TournamentTeamCreate() {
     e.preventDefault();
 
     if (name.trim() === "") {
-      toast.error("Team Name field is required!");
+      toast.error("Group Name field is required!");
     } else if (tournament_id === "") {
       toast.error("Tournament field is required!");
     } else if (category.trim() === "") {
@@ -168,14 +196,14 @@ export default function TournamentTeamCreate() {
             <form onSubmit={submitForm} encType="multipart/form-data">
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
-                  Team Name <span style={{ color: "#ff0000" }}>*</span>
+                  Group Name <span style={{ color: "#ff0000" }}>*</span>
                 </label>
 
                 <div className="col-sm-9">
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Enter Team Name"
+                    placeholder="Enter Grpup Name"
                     value={name}
                     name="name"
                     onChange={(e) => setName(e.target.value)}
@@ -204,7 +232,7 @@ export default function TournamentTeamCreate() {
                 </div>
               </div>
 
-              <div className="mb-3 row">
+              {/* <div className="mb-3 row">
                 <label className="form-label col-sm-3">
                   Team Category <span style={{ color: "#ff0000" }}>*</span>
                 </label>
@@ -220,7 +248,7 @@ export default function TournamentTeamCreate() {
                     <option value="Franchise">Franchise</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
 
               {category === "International" && (
                 <div className="mb-3 row">

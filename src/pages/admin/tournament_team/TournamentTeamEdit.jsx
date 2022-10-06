@@ -75,6 +75,34 @@ export default function TournamentTeamEdit() {
     }
   };
 
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/tournaments/${tournament_id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setCategory(response.data.category);
+            console.log(response.data.category);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
+          });
+      })();
+    }
+  }, [tournament_id]);
+
   const getSelectCountryDetails = async () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -128,15 +156,23 @@ export default function TournamentTeamEdit() {
   const submitForm = async (e) => {
     e.preventDefault();
 
+    console.log("cou ffffffffff", country_id);
+    console.log("fra ffffffffff", franchise_id);
+    // return;
+
+    // const letters = /^[A-Za-z]+$/;
+    const letters = /^[a-zA-Z\s]*$/;
     if (name.trim() === "") {
       toast.error("Team Name field is required!");
+    } else if (!name.match(letters)) {
+      toast.error("Please input alphabet characters only");
     } else if (tournament_id === "") {
       toast.error("Tournament field is required!");
     } else if (category === "") {
       toast.error("Category field is required!");
-    } else if (category === "International" && country_id === "") {
+    } else if (category === "International" && country_id === 0) {
       toast.error("Country field is required!");
-    } else if (category === "Franchise" && franchise_id === "") {
+    } else if (category === "Franchise" && franchise_id === 0) {
       toast.error("Franchise field is required!");
     } else {
       //   const formData = new FormData();
@@ -195,14 +231,14 @@ export default function TournamentTeamEdit() {
             <form onSubmit={submitForm} encType="multipart/form-data">
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
-                  Team Name <span style={{ color: "#ff0000" }}>*</span>
+                  Group Name <span style={{ color: "#ff0000" }}>*</span>
                 </label>
 
                 <div className="col-sm-9">
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Enter Team Name"
+                    placeholder="Enter Group Name"
                     value={name}
                     name="name"
                     onChange={(e) => setName(e.target.value)}
@@ -231,7 +267,7 @@ export default function TournamentTeamEdit() {
                 </div>
               </div>
 
-              <div className="mb-3 row">
+              {/* <div className="mb-3 row">
                 <label className="form-label col-sm-3">
                   Team Category <span style={{ color: "#ff0000" }}>*</span>
                 </label>
@@ -247,7 +283,7 @@ export default function TournamentTeamEdit() {
                     <option value="Franchise">Franchise</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
 
               {category === "International" && (
                 <div className="mb-3 row">
