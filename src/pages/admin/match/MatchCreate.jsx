@@ -129,7 +129,7 @@ export default function MatchCreate() {
           setTournament_team_two_id("");
           setVenue("");
 
-          toast.success("Successfully created!");
+          toast.success("Created Successfully");
           navigate("/admin/matches");
         })
         .catch((error) => {

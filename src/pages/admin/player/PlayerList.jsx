@@ -81,10 +81,10 @@ export default function PlayerList() {
               <tr>
                 <th>SL</th>
                 <th>Player Name</th>
+                <th>Game</th>
                 <th>Specification</th>
                 <th>Country</th>
-                <th>Jersey No</th>
-                <th>Batting Position</th>
+                <th>Franchise</th>
                 <th>Point</th>
                 <th>Ranking</th>
                 <th>Image</th>
@@ -98,6 +98,7 @@ export default function PlayerList() {
                 <tr key={player.id}>
                   <td>{index + 1}</td>
                   <td>{player.name}</td>
+                  <td>{player.game == null ? "" : player.game["name"]}</td>
                   <td>
                     {JSON.parse(player.specification)["All Rounder"] ===
                       true && (
@@ -132,12 +133,47 @@ export default function PlayerList() {
                         Wicket Keeper
                       </span>
                     )}
+                    {JSON.parse(player.specification)["Goalkeeper"] ===
+                      true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Goalkeeper
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Defender"] === true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Defender
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Midfielder"] ===
+                      true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Midfielder
+                      </span>
+                    )}
+                    {JSON.parse(player.specification)["Forward"] === true && (
+                      <span
+                        className="badge bg-secondary"
+                        style={{ marginRight: "3px" }}
+                      >
+                        Forward
+                      </span>
+                    )}
                   </td>
                   <td>
                     {player.country == null ? "" : player.country["name"]}
                   </td>
-                  <td>{player.jersey_no}</td>
-                  <td>{player.batting_position}</td>
+                  <td>
+                    {player.franchise == null ? "" : player.franchise["name"]}
+                  </td>
                   <td>{player.point}</td>
                   <td>{player.ranking}</td>
                   <td>

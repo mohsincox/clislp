@@ -155,7 +155,7 @@ export default function MatchEdit() {
           setTournament_team_two_id("");
           setVenue("");
 
-          toast.success("Successfully created!");
+          toast.success("Updated Successfully!");
           navigate("/admin/matches");
         })
         .catch((error) => {
