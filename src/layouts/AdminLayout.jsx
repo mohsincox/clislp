@@ -71,6 +71,15 @@ const items = [
       </Link>,
       "9"
     ),
+    getItem(
+      <Link
+        to={`/admin/tournament-team-players`}
+        style={{ textDecoration: "none" }}
+      >
+        Team Player
+      </Link>,
+      "10"
+    ),
   ]),
   // getItem("Files", "10", <FileOutlined />),
   getItem("Settings", "sub3", <SettingOutlined />, [

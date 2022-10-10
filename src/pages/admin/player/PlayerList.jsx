@@ -87,6 +87,7 @@ export default function PlayerList() {
                 <th>Franchise</th>
                 <th>Point</th>
                 <th>Ranking</th>
+                <th>Status</th>
                 <th>Image</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -176,6 +177,7 @@ export default function PlayerList() {
                   </td>
                   <td>{player.point}</td>
                   <td>{player.ranking}</td>
+                  <td>{player.status}</td>
                   <td>
                     <img
                       src={`${API_PUBLIC_URL}${player.image}`}

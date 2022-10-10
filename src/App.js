@@ -59,6 +59,9 @@ import LoginAdmin from "./pages/LoginAdmin";
 import UserEdit from "./pages/admin/user/UserEdit";
 import RoleEdit from "./pages/admin/role/RoleEdit";
 import GameTournaments from "./pages/GameTournamets";
+import TournamentTeamPlayerCreate from "./pages/admin/tournament_team_player/TournamentTeamPlayerCreate";
+import TournamentTeamPlayerList from "./pages/admin/tournament_team_player/TournamentTeamPlayerList";
+import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/TournamentTeamPlayerView";
 
 export const UserContext = React.createContext(null);
 
@@ -305,6 +308,22 @@ function App() {
                 path={`/admin/news/:id`}
                 exact={true}
                 element={<NewsEdit />}
+              />
+
+              <Route
+                path={`/admin/tournament-team-players`}
+                exact={true}
+                element={<TournamentTeamPlayerList />}
+              />
+              <Route
+                path={`/admin/tournament-team-players/create`}
+                exact={true}
+                element={<TournamentTeamPlayerCreate />}
+              />
+              <Route
+                path={`/admin/tournament-team-players/view/:id`}
+                exact={true}
+                element={<TournamentTeamPlayerView />}
               />
 
               <Route

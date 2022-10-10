@@ -165,10 +165,33 @@ export default function PlayerEdit() {
           setIsBatsman(specificationParse["Batsman"]);
           setIsBowler(specificationParse["Bowler"]);
           setIsKeeper(specificationParse["Keeper"]);
-          setIsGoalkeeper(specificationParse["Goalkeeper"]);
-          setIsDefender(specificationParse["Defender"]);
-          setIsMidfielder(specificationParse["Midfielder"]);
-          setIsForward(specificationParse["Forward"]);
+          if (specificationParse["Goalkeeper"] === undefined) {
+            setIsGoalkeeper(false);
+          } else {
+            setIsGoalkeeper(specificationParse["Goalkeeper"]);
+          }
+
+          if (specificationParse["Defender"] === undefined) {
+            setIsDefender(false);
+          } else {
+            setIsDefender(specificationParse["Defender"]);
+          }
+
+          if (specificationParse["Midfielder"] === undefined) {
+            setIsMidfielder(false);
+          } else {
+            setIsMidfielder(specificationParse["Midfielder"]);
+          }
+
+          if (specificationParse["Forward"] === undefined) {
+            setIsForward(false);
+          } else {
+            setIsForward(specificationParse["Forward"]);
+          }
+
+          // setIsDefender(specificationParse["Defender"]);
+          // setIsMidfielder(specificationParse["Midfielder"]);
+          // setIsForward(specificationParse["Forward"]);
           setStatus(response.data.status);
           setIm(response.data.image);
         });
