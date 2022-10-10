@@ -12,10 +12,13 @@ export default function TournamentTeamPlayerCreate() {
   const [game_id, setGame_id] = useState("");
   const [playerList, setPlayerList] = useState([]);
   const [state, setState] = useState({ selections: [] });
+  const [country_id, setCountry_id] = useState("");
+  const [countryList, setCountryList] = useState([]);
   let navigate = useNavigate();
 
   useEffect(() => {
     handleLogin();
+    getCountryDetails();
   }, []);
 
   const getLoginData = localStorage.getItem("loginData");
@@ -181,6 +184,31 @@ export default function TournamentTeamPlayerCreate() {
     });
   }
 
+  const getCountryDetails = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/countries`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setCountryList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -237,6 +265,27 @@ export default function TournamentTeamPlayerCreate() {
 
               {playerList.length > 0 && (
                 <>
+                  <div className="mb-3 row">
+                    <label className="form-label col-sm-3">
+                      Country <span style={{ color: "#ff0000" }}>*</span>
+                    </label>
+                    <div className="col-sm-9">
+                      <select
+                        className="form-select"
+                        value={country_id}
+                        name="country_id"
+                        onChange={(e) => setCountry_id(e.target.value)}
+                      >
+                        <option>Select Country</option>
+                        {countryList.map((item, index) => (
+                          <option key={item.id} value={item.id}>
+                            {item.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
                   <div className="mb-5">
                     <div className="float-start">Select Players:</div>
                     <div className="float-end">
@@ -245,94 +294,100 @@ export default function TournamentTeamPlayerCreate() {
                   </div>
                   <div className="row mt-4">
                     {playerList.map((player, index) => (
-                      <div
-                        className="col-sm-2 mb-3"
-                        style={{ textAlign: "center" }}
-                        key={player.id}
-                      >
-                        <input
-                          style={{ width: "20px", height: "20px" }}
-                          type="checkbox"
-                          checked={state.selections.includes(player.id)}
-                          onChange={() => handleCheckboxChange(player.id)}
-                        />
-                        <span style={{ position: "relative" }}>
-                          <img
-                            src={`${API_PUBLIC_URL}${player.image}`}
-                            alt=""
-                            width="80px"
-                          />
-                          <img
-                            src={`${API_PUBLIC_URL}${player.country.flag}`}
-                            alt=""
-                            width="30px"
-                            style={{
-                              position: "absolute",
-                              top: "36px",
-                              left: "24px",
-                            }}
-                          />
-                        </span>
-                        <p style={{ marginBottom: "0px" }}>{player.name}</p>
-                        <small>
-                          {JSON.parse(player.specification)["All Rounder"] ===
-                            true && (
-                            <>
-                              <small>All Rounder</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Batsman"] ===
-                            true && (
-                            <>
-                              <small>Batsman</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Bowler"] ===
-                            true && (
-                            <>
-                              <small>Bowler</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Keeper"] ===
-                            true && (
-                            <>
-                              <small>Wicket Keeper</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Goalkeeper"] ===
-                            true && (
-                            <>
-                              <small>Goalkeeper</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Defender"] ===
-                            true && (
-                            <>
-                              <small>Defender</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Midfielder"] ===
-                            true && (
-                            <>
-                              <small>Midfielder</small>
-                              <br />
-                            </>
-                          )}
-                          {JSON.parse(player.specification)["Forward"] ===
-                            true && (
-                            <>
-                              <small>Forward</small>
-                              <br />
-                            </>
-                          )}
-                        </small>
-                      </div>
+                      <React.Fragment key={player.id}>
+                        {player.country_id == country_id && (
+                          <div
+                            className="col-sm-2 mb-3"
+                            style={{ textAlign: "center" }}
+                          >
+                            <input
+                              style={{ width: "20px", height: "20px" }}
+                              type="checkbox"
+                              checked={state.selections.includes(player.id)}
+                              onChange={() => handleCheckboxChange(player.id)}
+                            />
+                            <span style={{ position: "relative" }}>
+                              <img
+                                src={`${API_PUBLIC_URL}${player.image}`}
+                                alt=""
+                                width="80px"
+                              />
+                              <img
+                                src={`${API_PUBLIC_URL}${player.country.flag}`}
+                                alt=""
+                                width="30px"
+                                style={{
+                                  position: "absolute",
+                                  top: "36px",
+                                  left: "24px",
+                                }}
+                              />
+                            </span>
+                            <p style={{ marginBottom: "0px" }}>{player.name}</p>
+                            <small>
+                              {JSON.parse(player.specification)[
+                                "All Rounder"
+                              ] === true && (
+                                <>
+                                  <small>All Rounder</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)["Batsman"] ===
+                                true && (
+                                <>
+                                  <small>Batsman</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)["Bowler"] ===
+                                true && (
+                                <>
+                                  <small>Bowler</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)["Keeper"] ===
+                                true && (
+                                <>
+                                  <small>Wicket Keeper</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)[
+                                "Goalkeeper"
+                              ] === true && (
+                                <>
+                                  <small>Goalkeeper</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)["Defender"] ===
+                                true && (
+                                <>
+                                  <small>Defender</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)[
+                                "Midfielder"
+                              ] === true && (
+                                <>
+                                  <small>Midfielder</small>
+                                  <br />
+                                </>
+                              )}
+                              {JSON.parse(player.specification)["Forward"] ===
+                                true && (
+                                <>
+                                  <small>Forward</small>
+                                  <br />
+                                </>
+                              )}
+                            </small>
+                          </div>
+                        )}
+                      </React.Fragment>
                     ))}
                   </div>
                 </>

@@ -83,9 +83,9 @@ export default function MatchList() {
                 {/* <th>Stage Name</th> */}
                 <th>Tournament</th>
                 {/* <th>VS</th> */}
-                <th>VS img</th>
+                <th>Team One</th>
                 {/* <th>VS</th> */}
-                <th>VS img</th>
+                <th>Team Two</th>
                 <th>Date</th>
                 <th>Time</th>
                 <th>Venue</th>
