@@ -63,6 +63,7 @@ import TournamentTeamPlayerCreate from "./pages/admin/tournament_team_player/Tou
 import TournamentTeamPlayerList from "./pages/admin/tournament_team_player/TournamentTeamPlayerList";
 import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/TournamentTeamPlayerView";
 import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
+import Widget from "./components/Widget";
 
 export const UserContext = React.createContext(null);
 
@@ -337,6 +338,12 @@ function App() {
                 path={`/admin/no-permission`}
                 exact={true}
                 element={<NoPermission />}
+              />
+
+              <Route
+                path={`/admin/widget`}
+                exact={true}
+                element={<Widget />}
               />
             </Route>
           </Routes>

@@ -120,6 +120,16 @@ const items = [
       "17"
     ),
   ]),
+
+
+  getItem("Adds", "sub4", <SettingOutlined />, [
+    getItem(
+        <Link to={`/admin/widget`} style={{ textDecoration: "none" }}>
+          Add Widget
+        </Link>,
+        "100"
+    )
+  ]),
 ];
 
 const AdminLayout = () => {
