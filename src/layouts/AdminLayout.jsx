@@ -128,6 +128,12 @@ const items = [
           Add Widget
         </Link>,
         "100"
+    ),
+    getItem(
+        <Link to={`/admin/ads`} style={{ textDecoration: "none" }}>
+          Add Ads
+        </Link>,
+        "101"
     )
   ]),
 ];

@@ -64,6 +64,7 @@ import TournamentTeamPlayerList from "./pages/admin/tournament_team_player/Tourn
 import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/TournamentTeamPlayerView";
 import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
 import Widget from "./components/Widget";
+import Ads from "./components/Ads";
 
 export const UserContext = React.createContext(null);
 
@@ -344,6 +345,12 @@ function App() {
                 path={`/admin/widget`}
                 exact={true}
                 element={<Widget />}
+              />
+
+              <Route
+                path={`/admin/ads`}
+                exact={true}
+                element={<Ads />}
               />
             </Route>
           </Routes>
