@@ -14,6 +14,7 @@ export default function MatchEdit() {
   const [venue, setVenue] = useState("");
   const [tournamentList, setTournamentList] = useState([]);
   const [tourTeamList, setTourTeamList] = useState([]);
+  const [status, setStatus] = useState("Active");
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -45,6 +46,7 @@ export default function MatchEdit() {
             setStart_date(response.data.start_date);
             setStart_time(response.data.start_time);
             setVenue(response.data.venue);
+            setStatus(response.data.status);
             console.log(response.data);
           });
       })();
@@ -119,6 +121,8 @@ export default function MatchEdit() {
       toast.error("Tournament Team Two field is required!");
     } else if (tournament_team_one_id === tournament_team_two_id) {
       toast.error("Both Team can not be same");
+    } else if (status === "") {
+      toast.error("Status field is required!");
     } else {
       //   const formData = new FormData();
       //   formData.append("name", name);
@@ -137,6 +141,7 @@ export default function MatchEdit() {
         start_date: start_date,
         start_time: start_time,
         venue: venue,
+        status: status,
       };
 
       const storageData = JSON.parse(getLoginData);
@@ -154,6 +159,7 @@ export default function MatchEdit() {
           setTournament_team_one_id("");
           setTournament_team_two_id("");
           setVenue("");
+          setStatus("");
 
           toast.success("Updated Successfully!");
           navigate("/admin/matches");
@@ -310,6 +316,24 @@ export default function MatchEdit() {
                     name="venue"
                     onChange={(e) => setVenue(e.target.value)}
                   />
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Status <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <select
+                    name="status"
+                    value={status}
+                    className="form-control"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
               </div>
 

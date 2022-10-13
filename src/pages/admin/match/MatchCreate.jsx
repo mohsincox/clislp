@@ -14,6 +14,7 @@ export default function MatchCreate() {
   const [venue, setVenue] = useState("");
   const [tournamentList, setTournamentList] = useState([]);
   const [tourTeamList, setTourTeamList] = useState([]);
+  const [status, setStatus] = useState("Active");
   const navigate = useNavigate();
 
   const getLoginData = localStorage.getItem("loginData");
@@ -90,6 +91,8 @@ export default function MatchCreate() {
       toast.error("Tournament Team Two field is required!");
     } else if (tournament_team_one_id === tournament_team_two_id) {
       toast.error("Both Team can not be same");
+    } else if (status === "") {
+      toast.error("Status field is required!");
     } else {
       //   const formData = new FormData();
       //   formData.append("name", name);
@@ -108,6 +111,7 @@ export default function MatchCreate() {
         start_date: start_date,
         start_time: start_time,
         venue: venue,
+        status: status,
       };
 
       // console.log("first.......", start_date);
@@ -128,6 +132,7 @@ export default function MatchCreate() {
           setTournament_team_one_id("");
           setTournament_team_two_id("");
           setVenue("");
+          setStatus("");
 
           toast.success("Created Successfully");
           navigate("/admin/matches");
@@ -276,6 +281,24 @@ export default function MatchCreate() {
                     name="venue"
                     onChange={(e) => setVenue(e.target.value)}
                   />
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Status <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <select
+                    name="status"
+                    value={status}
+                    className="form-control"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
                 </div>
               </div>
 

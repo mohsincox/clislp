@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function PointTableCreate() {
+export default function PointTableEdit() {
   const [match_id, setMatch_id] = useState("");
   const [matchList, setMatchList] = useState([]);
   const [tournament_team_id, setTournament_team_id] = useState("");
@@ -18,12 +18,43 @@ export default function PointTableCreate() {
   const [hundred, setHundred] = useState(false);
   const [five_wickets, setFive_wickets] = useState(false);
   let navigate = useNavigate();
+  const { id } = useParams();
 
   const getLoginData = localStorage.getItem("loginData");
 
   useEffect(() => {
     getGameDetails();
+    getPointTableDetails();
   }, []);
+
+  const getPointTableDetails = () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/point-tables/${id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            // setStage_name(response.data.stage_name);
+            setMatch_id(response.data.match_id);
+            setTournament_team_id(response.data.tournament_team_id);
+            setPlayer_id(response.data.player_id);
+            setRun(response.data.run);
+            setWicket(response.data.wicket);
+            setMan_of_the_match(response.data.man_of_the_match);
+            setFifty(response.data.fifty);
+            setHundred(response.data.hundred);
+            setFive_wickets(response.data.five_wickets);
+          });
+      })();
+    }
+  };
 
   const getGameDetails = async () => {
     if (getLoginData === null) {
@@ -164,7 +195,7 @@ export default function PointTableCreate() {
       const token = storageData.accessToken;
 
       await axios
-        .post(`${API_PUBLIC_URL}api/point-tables`, postBody, {
+        .put(`${API_PUBLIC_URL}api/point-tables/${id}`, postBody, {
           headers: {
             Authorization: token,
           },
@@ -199,7 +230,7 @@ export default function PointTableCreate() {
       <div className="col-sm-10 offset-sm-1">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">Point Table Create</h5>
+            <h5 className="card-title">Point Table Edit</h5>
             <form onSubmit={submitForm}>
               {/* <div className="mb-3 row">
                 <label className="form-label col-sm-3">

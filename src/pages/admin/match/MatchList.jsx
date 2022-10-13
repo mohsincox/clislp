@@ -89,6 +89,7 @@ export default function MatchList() {
                 <th>Date</th>
                 <th>Time</th>
                 <th>Venue</th>
+                <th>Status</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -167,6 +168,7 @@ export default function MatchList() {
                   <td>{match.start_date}</td>
                   <td>{match.start_time}</td>
                   <td>{match.venue}</td>
+                  <td>{match.status}</td>
                   <td>
                     <Link
                       to={`/admin/matches/${match.id}`}

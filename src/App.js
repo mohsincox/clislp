@@ -63,6 +63,8 @@ import TournamentTeamPlayerCreate from "./pages/admin/tournament_team_player/Tou
 import TournamentTeamPlayerList from "./pages/admin/tournament_team_player/TournamentTeamPlayerList";
 import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/TournamentTeamPlayerView";
 import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
+import PointTableList from "./pages/admin/point_table/PointTableList";
+import PointTableEdit from "./pages/admin/point_table/PointTableEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -328,9 +330,19 @@ function App() {
               />
 
               <Route
+                path={`/admin/point-tables`}
+                exact={true}
+                element={<PointTableList />}
+              />
+              <Route
                 path={`/admin/point-tables/create`}
                 exact={true}
                 element={<PointTableCreate />}
+              />
+              <Route
+                path={`/admin/point-tables/:id`}
+                exact={true}
+                element={<PointTableEdit />}
               />
 
               <Route

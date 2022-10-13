@@ -80,6 +80,12 @@ const items = [
       </Link>,
       "10"
     ),
+    getItem(
+      <Link to={`/admin/point-tables`} style={{ textDecoration: "none" }}>
+        Point Table
+      </Link>,
+      "99"
+    ),
   ]),
   // getItem("Files", "10", <FileOutlined />),
   getItem("Settings", "sub3", <SettingOutlined />, [
