@@ -62,109 +62,6 @@ export default function PointTableList() {
   }
 
   return (
-    // <>
-    //   {/* <div className="container mt-2"> */}
-    //   <div className="card">
-    //     <div className="card-body">
-    //       <div>
-    //         <div className="float-start">
-    //           <h4 className="card-title">Match List</h4>
-    //         </div>
-    //         <div className="float-end">
-    //           <Link to={`/admin/point-tables/create`} className="btn btn-info">
-    //             + Create New
-    //           </Link>
-    //         </div>
-    //       </div>
-
-    //       <table className="table">
-    //         <thead>
-    //           <tr>
-    //             <th>SL</th>
-    //             <th>Tournament</th>
-    //             <th>Team One</th>
-    //             <th>Team Two</th>
-    //             <th>Edit</th>
-    //             <th>Delete</th>
-    //           </tr>
-    //         </thead>
-    //         <tbody>
-    //           {pointTableList.map((pointTable, index) => (
-    //             <tr key={pointTable.id}>
-    //               <td>{index + 1}</td>
-    //               <td>
-    //                 {pointTable.match.tournament == null
-    //                   ? ""
-    //                   : pointTable.match.tournament["name"]}
-    //               </td>
-    //               <td>
-    //                 {pointTable.match.tournament_team_one != null && (
-    //                   <span>
-    //                     {pointTable.match.tournament_team_one.country ==
-    //                     null ? (
-    //                       <img
-    //                         src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.franchise.logo}`}
-    //                         alt=""
-    //                         width="80px"
-    //                       />
-    //                     ) : (
-    //                       <img
-    //                         src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.country.flag}`}
-    //                         alt=""
-    //                         width="80px"
-    //                       />
-    //                     )}
-    //                   </span>
-    //                 )}
-    //               </td>
-    //               <td>
-    //                 {pointTable.match.tournament_team_two != null && (
-    //                   <span>
-    //                     {pointTable.match.tournament_team_two.country ==
-    //                     null ? (
-    //                       <img
-    //                         src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.franchise.logo}`}
-    //                         alt=""
-    //                         width="80px"
-    //                       />
-    //                     ) : (
-    //                       <img
-    //                         src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.country.flag}`}
-    //                         alt=""
-    //                         width="80px"
-    //                       />
-    //                     )}
-    //                   </span>
-    //                 )}
-    //               </td>
-    //               <td>
-    //                 <Link
-    //                   to={`/admin/point-tables/${pointTable.id}`}
-    //                   className="btn btn-success btn-sm"
-    //                 >
-    //                   Edit
-    //                 </Link>
-    //               </td>
-    //               <td>
-    //                 <button
-    //                   className="btn btn-danger btn-sm"
-    //                   onClick={() => {
-    //                     window.confirm("Are You Delete This Item?") &&
-    //                       deletePointTable(pointTable.id);
-    //                   }}
-    //                 >
-    //                   Delete
-    //                 </button>
-    //               </td>
-    //             </tr>
-    //           ))}
-    //         </tbody>
-    //       </table>
-    //     </div>
-    //   </div>
-    //   {/* </div> */}
-    // </>
-
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
@@ -211,16 +108,19 @@ export default function PointTableList() {
                   <td>
                     {pointTable.match.tournament_team_one != null && (
                       <span>
-                        {pointTable.match.tournament_team_one.country ==
-                        null ? (
+                        {pointTable.match.tournament_team_one.country !=
+                          null && (
                           <img
-                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.franchise.logo}`}
+                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.country.flag}`}
                             alt=""
                             width="80px"
                           />
-                        ) : (
+                        )}
+
+                        {pointTable.match.tournament_team_one.franchise !=
+                          null && (
                           <img
-                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.country.flag}`}
+                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.franchise.logo}`}
                             alt=""
                             width="80px"
                           />
@@ -231,16 +131,19 @@ export default function PointTableList() {
                   <td>
                     {pointTable.match.tournament_team_two != null && (
                       <span>
-                        {pointTable.match.tournament_team_two.country ==
-                        null ? (
+                        {pointTable.match.tournament_team_two.country !=
+                          null && (
                           <img
-                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.franchise.logo}`}
+                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.country.flag}`}
                             alt=""
                             width="80px"
                           />
-                        ) : (
+                        )}
+
+                        {pointTable.match.tournament_team_two.franchise !=
+                          null && (
                           <img
-                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.country.flag}`}
+                            src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.franchise.logo}`}
                             alt=""
                             width="80px"
                           />
