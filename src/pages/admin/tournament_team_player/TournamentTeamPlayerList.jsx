@@ -102,9 +102,11 @@ export default function TournamentTeamPlayerList() {
                   </td>
                   <td>{tTeamPlayer.tournament_team.category}</td>
                   <td>
-                    {tTeamPlayer.tournament_team.country == null
-                      ? tTeamPlayer.tournament_team.franchise["name"]
-                      : tTeamPlayer.tournament_team.country["name"]}
+                    {tTeamPlayer.tournament_team.country != null &&
+                      tTeamPlayer.tournament_team.country["name"]}
+
+                    {tTeamPlayer.tournament_team.franchise != null &&
+                      tTeamPlayer.tournament_team.franchise["name"]}
                   </td>
                   {/* <td>
                     {tTeamPlayer.tournament_team.franchise == null

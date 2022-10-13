@@ -120,13 +120,13 @@ export default function MatchList() {
                       <span>
                         {match.tournament_team_one.country == null ? (
                           <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_one.franchise.logo}`}
+                            src={`${API_PUBLIC_URL}${match.tournament_team_one?.franchise?.logo}`}
                             alt=""
                             width="80px"
                           />
                         ) : (
                           <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_one.country.flag}`}
+                            src={`${API_PUBLIC_URL}${match.tournament_team_one?.country?.flag}`}
                             alt=""
                             width="80px"
                           />
@@ -151,13 +151,13 @@ export default function MatchList() {
                       <span>
                         {match.tournament_team_two.country == null ? (
                           <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_two.franchise.logo}`}
+                            src={`${API_PUBLIC_URL}${match.tournament_team_two?.franchise?.logo}`}
                             alt=""
                             width="80px"
                           />
                         ) : (
                           <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_two.country.flag}`}
+                            src={`${API_PUBLIC_URL}${match.tournament_team_two?.country?.flag}`}
                             alt=""
                             width="80px"
                           />
