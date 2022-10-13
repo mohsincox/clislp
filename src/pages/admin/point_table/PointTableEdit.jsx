@@ -265,13 +265,15 @@ export default function PointTableEdit() {
                       <option key={item.id} value={item.id}>
                         {item.tournament.name}
                         {" -- "}
-                        {item.tournament_team_one.country == null
-                          ? item.tournament_team_one.franchise.name
-                          : item.tournament_team_one.country.name}{" "}
+                        {item.tournament_team_one.country != null &&
+                          item.tournament_team_one.country.name}
+                        {item.tournament_team_one.franchise != null &&
+                          item.tournament_team_one.franchise.name}{" "}
                         VS{" "}
-                        {item.tournament_team_two.country == null
-                          ? item.tournament_team_two.franchise.name
-                          : item.tournament_team_two.country.name}{" "}
+                        {item.tournament_team_two.country != null &&
+                          item.tournament_team_two.country.name}
+                        {item.tournament_team_two.franchise != null &&
+                          item.tournament_team_two.franchise.name}{" "}
                         {item.start_date}
                       </option>
                     ))}

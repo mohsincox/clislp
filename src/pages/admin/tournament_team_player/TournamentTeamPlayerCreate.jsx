@@ -132,6 +132,8 @@ export default function TournamentTeamPlayerCreate() {
       toast.error("Tournament field is required!");
     } else if (tournament_team_id === "") {
       toast.error("Tournament Team field is required!");
+    } else if (state.selections.length < 1) {
+      toast.error("Please Select at least 11 players");
     } else {
       const postBody = {
         tournament_id: tournament_id,
@@ -253,9 +255,9 @@ export default function TournamentTeamPlayerCreate() {
                       <option value={""}>Select Team</option>
                       {tournamentTeamList.map((item, index) => (
                         <option key={item.id} value={item.id}>
-                          {item.country == null
-                            ? item.franchise.name
-                            : item.country.name}
+                          {item.country != null && item.country.name}
+
+                          {item.franchise != null && item.franchise.name}
                         </option>
                       ))}
                     </select>
