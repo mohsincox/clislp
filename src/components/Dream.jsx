@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import RegisterWidget from "./RegisterWidget";
 
 export default function Dream() {
   return (
@@ -271,13 +272,20 @@ export default function Dream() {
           </div>
 
           <div className="col-sm-3">
-            <p></p>
-            <div>
-              <img src={require("../images/add_spon_dr_side.png")} alt="" />
+            {/*<p></p>*/}
+            {/*<div>*/}
+            {/*  <img src={require("../images/add_spon_dr_side.png")} alt="" />*/}
+            {/*</div>*/}
+            {/*<p></p>*/}
+            {/*<div>*/}
+            {/*  <img src={require("../images/add_spon_dr_side.png")} alt="" />*/}
+            {/*</div>*/}
+            <div className="mb-5">
+              <RegisterWidget name="Right Sidebar One" style={{width: "100%", height: "400px"}} />
             </div>
-            <p></p>
-            <div>
-              <img src={require("../images/add_spon_dr_side.png")} alt="" />
+
+            <div className="mb-5">
+              <RegisterWidget name="Right Sidebar Two" style={{width: "100%", height: "400px"}} />
             </div>
           </div>
         </div>

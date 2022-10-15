@@ -1,5 +1,6 @@
 import React from "react";
 import "./footer.css";
+import RegisterWidget from "./RegisterWidget";
 
 export default function Footer() {
   return (
@@ -8,12 +9,13 @@ export default function Footer() {
         className="container-fluid"
         style={{ background: "#2E2E2E", color: "#FFFFFF" }}
       >
+
         <div
           className="container"
           style={{ paddingTop: "50px", marginTop: "10px" }}
         >
           <div className="row">
-            <div className="col-sm-5">
+            <div className="col-sm-3">
               <h5>SL PLAY 11...</h5>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
@@ -72,7 +74,6 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
             <div className="col-sm-2">
               <p>INFORMATION</p>
               <span>
@@ -148,6 +149,10 @@ export default function Footer() {
                 <br />
                 <span style={{ fontSize: "13px" }}>support@shoplover.com</span>
               </p>
+            </div>
+
+            <div className="col-sm-2">
+              <RegisterWidget name="Footer" style={{width: "100%", height: "100px"}} />
             </div>
           </div>
         </div>
