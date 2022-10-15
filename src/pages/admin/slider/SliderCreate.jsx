@@ -6,6 +6,7 @@ import { API_PUBLIC_URL } from "../../../constants";
 
 export default function SliderCreate() {
   const [name, setName] = useState("");
+  const [position, setPosition] = useState("");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState();
   let navigate = useNavigate();
@@ -27,11 +28,14 @@ export default function SliderCreate() {
 
     if (name.trim() === "") {
       toast.error("Slider Name field is required!");
+    } else if (position.trim() === "") {
+      toast.error("Position field is required!");
     } else if (image === null) {
       toast.error("Image file is required!");
     } else {
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("position", position);
       formData.append("image", image);
 
       const storageData = JSON.parse(getLoginData);
@@ -96,6 +100,22 @@ export default function SliderCreate() {
                       value={name}
                       name="name"
                       onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Position <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <input
+                      className="form-control"
+                      type="number"
+                      placeholder="Enter Position"
+                      value={position}
+                      name="position"
+                      onChange={(e) => setPosition(e.target.value)}
                     />
                   </div>
                 </div>

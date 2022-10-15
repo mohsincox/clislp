@@ -105,6 +105,7 @@ export default function SliderList() {
               <tr>
                 <th>#</th>
                 <th>Slider Name</th>
+                <th>Position</th>
                 <th>Slider Image</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -115,6 +116,7 @@ export default function SliderList() {
                 <tr key={slider.id}>
                   <td>{slider.id}</td>
                   <td>{slider.name}</td>
+                  <td>{slider.position}</td>
                   <td>
                     <img
                       src={`${API_PUBLIC_URL}${slider.image}`}

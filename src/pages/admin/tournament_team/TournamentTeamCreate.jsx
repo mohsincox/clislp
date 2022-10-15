@@ -203,7 +203,7 @@ export default function TournamentTeamCreate() {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Enter Grpup Name"
+                    placeholder="Enter Group Name"
                     value={name}
                     name="name"
                     onChange={(e) => setName(e.target.value)}

@@ -14,6 +14,7 @@ export default function TournamentTeamPlayerCreate() {
   const [state, setState] = useState({ selections: [] });
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
+  const [isInternational, setIsInternational] = useState("");
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -100,6 +101,40 @@ export default function TournamentTeamPlayerCreate() {
       const token = storageData.accessToken;
       (async () => {
         await axios
+          .get(`${API_PUBLIC_URL}api/tournament-teams/${tournament_team_id}`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            // setTournamentTeamList(response.data);
+            console.log("hamba----- ", response.data);
+            setCountry_id(response.data.country_id);
+            setIsInternational(response.data.category);
+            // if (response.data.length > 0) {
+            //   setGame_id(response.data[0].tournament.game_id);
+            //   console.log("first game ID", response.data[0].tournament.game_id);
+            // }
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
+          });
+      })();
+    }
+  }, [tournament_team_id]);
+
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
           .get(
             `${API_PUBLIC_URL}api/tournament-team-players/players/${game_id}`,
             {
@@ -131,7 +166,7 @@ export default function TournamentTeamPlayerCreate() {
     if (tournament_id === "") {
       toast.error("Tournament field is required!");
     } else if (tournament_team_id === "") {
-      toast.error("Tournament Team field is required!");
+      toast.error("Team field is required!");
     } else if (state.selections.length < 1) {
       toast.error("Please Select at least 11 players");
     } else {
@@ -267,26 +302,28 @@ export default function TournamentTeamPlayerCreate() {
 
               {playerList.length > 0 && (
                 <>
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">
-                      Country <span style={{ color: "#ff0000" }}>*</span>
-                    </label>
-                    <div className="col-sm-9">
-                      <select
-                        className="form-select"
-                        value={country_id}
-                        name="country_id"
-                        onChange={(e) => setCountry_id(e.target.value)}
-                      >
-                        <option>Select Country</option>
-                        {countryList.map((item, index) => (
-                          <option key={item.id} value={item.id}>
-                            {item.name}
-                          </option>
-                        ))}
-                      </select>
+                  {isInternational == "Franchise" && (
+                    <div className="mb-3 row">
+                      <label className="form-label col-sm-3">
+                        Country <span style={{ color: "#ff0000" }}>*</span>
+                      </label>
+                      <div className="col-sm-9">
+                        <select
+                          className="form-select"
+                          value={country_id}
+                          name="country_id"
+                          onChange={(e) => setCountry_id(e.target.value)}
+                        >
+                          <option>Select Country</option>
+                          {countryList.map((item, index) => (
+                            <option key={item.id} value={item.id}>
+                              {item.name}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
                     </div>
-                  </div>
+                  )}
 
                   <div className="mb-5">
                     <div className="float-start">Select Players:</div>

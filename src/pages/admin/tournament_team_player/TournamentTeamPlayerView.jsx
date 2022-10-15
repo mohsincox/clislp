@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
@@ -40,6 +40,7 @@ export default function TournamentTeamPlayerView() {
   return (
     <>
       <div className="row mt-4">
+        <Link to={`/admin/tournament-team-players`}> Back </Link>
         {teamDetail.tournament_team?.country != null && (
           <h5 className="text-center mb-3">
             Team Name: {teamDetail.tournament_team?.country.name}

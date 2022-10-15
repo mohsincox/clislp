@@ -74,7 +74,7 @@ export default function TournamentTeamPlayerList() {
                 to={`/admin/tournament-team-players/create`}
                 className="btn btn-info"
               >
-                + Create New
+                Create or Update
               </Link>
             </div>
           </div>

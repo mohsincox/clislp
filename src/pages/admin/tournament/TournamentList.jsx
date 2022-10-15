@@ -44,7 +44,7 @@ export default function TournamentList() {
       const token = storageData.accessToken;
       (async () => {
         await axios
-          .delete(`${API_PUBLIC_URL}api/countries/${id}`, {
+          .delete(`${API_PUBLIC_URL}api/tournaments/${id}`, {
             headers: {
               Authorization: token,
             },
@@ -56,7 +56,7 @@ export default function TournamentList() {
             const token = storageData.accessToken;
             (async () => {
               await axios
-                .get(`${API_PUBLIC_URL}api/countries`, {
+                .get(`${API_PUBLIC_URL}api/tournaments`, {
                   headers: {
                     Authorization: token,
                   },
