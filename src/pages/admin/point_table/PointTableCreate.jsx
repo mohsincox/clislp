@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import Select from "react-select";
 import { API_PUBLIC_URL } from "../../../constants";
 
 export default function PointTableCreate() {
@@ -185,6 +186,9 @@ export default function PointTableCreate() {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
           if (error.response.status === 403) {
             toast.error("No Permission");
             navigate("/admin/no-permission");
@@ -192,6 +196,40 @@ export default function PointTableCreate() {
         });
     }
   };
+
+  const options = [];
+
+  for (let i = 0; i < matchList.length; i++) {
+    let countryTeamOne = "";
+    let countryTeamTwo = "";
+    let franchiseTeamOne = "";
+    let franchiseTeamTwo = "";
+    if (matchList[i].tournament_team_one.country != null) {
+      countryTeamOne = matchList[i].tournament_team_one.country.name;
+    }
+    if (matchList[i].tournament_team_two.country != null) {
+      countryTeamTwo = matchList[i].tournament_team_two.country.name;
+    }
+    if (matchList[i].tournament_team_one.franchise != null) {
+      franchiseTeamOne = matchList[i].tournament_team_one.franchise.name;
+    }
+    if (matchList[i].tournament_team_two.franchise != null) {
+      franchiseTeamTwo = matchList[i].tournament_team_two.franchise.name;
+    }
+    options.push({
+      value: matchList[i].id,
+      label:
+        matchList[i].tournament.name +
+        " -- " +
+        countryTeamOne +
+        franchiseTeamOne +
+        " VS " +
+        countryTeamTwo +
+        franchiseTeamTwo +
+        " " +
+        matchList[i].start_date,
+    });
+  }
 
   return (
     <>
@@ -202,23 +240,6 @@ export default function PointTableCreate() {
             <h5 className="card-title">Point Table Create</h5>
             <form onSubmit={submitForm}>
               {/* <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Group Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Grpup Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div> */}
-
-              <div className="mb-3 row">
                 <label className="form-label col-sm-3">
                   Select Match <span style={{ color: "#ff0000" }}>*</span>
                 </label>
@@ -245,6 +266,18 @@ export default function PointTableCreate() {
                       </option>
                     ))}
                   </select>
+                </div>
+              </div> */}
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Select Match <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <Select
+                    onChange={(e) => setMatch_id(e.value)}
+                    options={options}
+                  />
                 </div>
               </div>
 
