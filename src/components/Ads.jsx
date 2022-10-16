@@ -29,6 +29,12 @@ export const Ads = () => {
     let [adsList, setAdsList] = useState([]);
     let navigate = useNavigate();
 
+    const getBase64 = (img, callback) => {
+        const reader = new FileReader();
+        reader.addEventListener('load', () => callback(reader.result));
+        reader.readAsDataURL(img);
+    };
+
     useEffect(() => {
         axios.get(`${API_PUBLIC_URL}api/widget`).then(res => {
             setWList(res.data);
@@ -140,6 +146,85 @@ export const Ads = () => {
         })
     }
 
+    function updateAdsFormData(e, ads) {
+        setAdsList(prevState => {
+            let newAdsList = prevState;
+            return newAdsList.map((adsL) => {
+                let adsLdata = adsL;
+                if(adsLdata.id == ads.id) {
+                    if(e.target.name == "img_src") {
+                         adsLdata[e.target.name] = e.target.files[0];
+                         adsLdata["preview_img"] = URL.createObjectURL(e.target.files[0]);
+                    } else {
+                        adsLdata[e.target.name] = e.target.value;
+                    }
+
+                }
+                return adsLdata;
+            });
+        });
+    }
+
+    function updateAds(e, ads) {
+        e.preventDefault();
+        if(!ads["name"]) {
+            toast.error("Name is required");
+            return;
+        } else if(!ads["link"]) {
+            toast.error("Link is required");
+            return;
+        } else if(!ads["page_name"]) {
+            toast.error("Position is required");
+            return;
+        } else if(!ads["position"]) {
+            toast.error("Gender is required");
+            return;
+        } else if(!ads["min_age"]) {
+            toast.error("Minimum is required");
+            return;
+        } else if(!ads["max_age"]) {
+            toast.error("Maximum is required");
+            return;
+        }
+
+        if (typeof ads["img_src"] !== "string") {
+            const validExtensions = ["png", "jpeg", "jpg", "gif"];
+            const fileExtension = ads["img_src"].type.split("/")[1];
+            const exist = validExtensions.includes(fileExtension);
+            if (!exist) {
+                toast.error("Please upload png, jpeg, jpg, gif format image");
+                return;
+            }
+        }
+
+        const formData = new FormData();
+        formData.append("name", ads["name"]);
+        formData.append("status", ads["status"]);
+        formData.append("img_src", ads["img_src"]);
+        formData.append("widget_id", ads["widget_id"]);
+        formData.append("widget_id", ads["widget_id"]);
+        formData.append("page_name", ads["page_name"]);
+        formData.append("position", ads["position"]);
+        formData.append("min_age", ads["min_age"]);
+        formData.append("max_age", ads["max_age"]);
+        formData.append("gender", ads["gender"]);
+
+
+        axios.put(`${API_PUBLIC_URL}api/ads/${ads["id"]}`, formData).then(res => {
+            setTimeout(function() {
+                setAdsList(prevState => {
+                    let newList = [...prevState]
+                    return newList.sort((a,b) => b.position - a.position );
+                });
+            }, 300);
+
+            toast.success("Ads updated successful");
+        }).catch(err => {
+            console.error("========", err, "=======");
+            toast.err("Ads updated unsuccessful");
+        })
+
+    }
 
 
 
@@ -273,28 +358,91 @@ export const Ads = () => {
                 {
                     wList.map(wl => (
                             <div className="col-md-6" key={wl.id}>
-                                <Collapse expandIconPosition="end" className="mb-5">
-                                    <CollapsePanel key={wl.id} header={<h5 className="card-title">{wl.name}</h5>}>
+                                <Collapse expandIconPosition="end" className="mb-2">
+                                    <CollapsePanel key={`widget-${wl.id}`} header={<h5 className="card-title">{wl.name}</h5>}>
                                         <ul className="list-group">
                                         {
                                             adsList.map(ads => {
                                                     if(ads.widget_id == wl.id) {
                                                         return (
-                                                            <li className="list-group-item d-flex justify-content-between align-items-center mb-2" key={ads.id}>
-                                                                <div className="d-flex align-items-center">
-                                                                    <Image
-                                                                        width={50}
-                                                                        height={50}
-                                                                        src={`${API_PUBLIC_URL}${ads["img_src"]}`}
-                                                                    />
-                                                                    <span className="ms-2">{ads.name}</span>
-                                                                </div>
-                                                                <div>
-                                                                    <span className="badge ant-badge-status-success badge-pill text-black ms-2">{ads.position}</span>
+                                                            <Collapse expandIconPosition="end" className="mb-1" key={`ads-${ads.id}`} style={{transition: "all 1s"}}>
+                                                                <CollapsePanel key={ads.id} header={<strong>{ads.name}</strong>}>
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsName">Name:</label>
+                                                                        <input type="text" id="adsName" name="name" className="form-control" defaultValue={ads.name} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+                                                                    <div className="form-group">
+                                                                        <label htmlFor="adsStatus">Status:</label>
+                                                                        <select name="status" id="adsStatus" defaultValue={ads.status} className="form-control" onChange={(e) => updateAdsFormData(e, ads)}>
+                                                                            <option value="1">Active</option>
+                                                                            <option value="0">Inactive</option>
+                                                                        </select>
+                                                                    </div>
 
-                                                                    <button className="btn btn-sm btn-danger ms-2" onClick={(e) => deleteAds(e, ads.id)}>delete</button>
-                                                                </div>
-                                                            </li>
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsLink">Link:</label>
+                                                                        <input type="text" id="adsLink" name="link" className="form-control" defaultValue={ads.link} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsImage">Ads Image:</label>
+                                                                        <div>
+
+                                                                            {ads['preview_img'] ? <Image
+                                                                                width={50}
+                                                                                height={50}
+                                                                                src={ads['preview_img']}
+                                                                            /> : <Image
+                                                                                width={50}
+                                                                                height={50}
+                                                                                src={`${API_PUBLIC_URL}${ads["img_src"]}`}
+                                                                            />}
+
+                                                                        </div>
+                                                                        <input type="file" id="adsImage" name="img_src" className="form-control" onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+
+
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsLink">Page:</label>
+                                                                        <input type="text" id="adsLink" name="page_name" className="form-control" defaultValue={ads["page_name"]} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsLink">Position:</label>
+                                                                        <input type="text" id="adsLink" name="position" className="form-control" defaultValue={ads.position} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsGender">Select Gender:</label>
+                                                                        <select id="adsGender" className="form-control" defaultValue={ads.gender} name="gender" onChange={(e) => updateAdsFormData(e, ads)}>
+                                                                            <option>Please Select One</option>
+                                                                            <option value="male">Male</option>
+                                                                            <option value="female">Female</option>
+                                                                        </select>
+                                                                    </div>
+
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsLink">Minimum Age:</label>
+                                                                        <input type="number" id="adsLink" name="min_age" className="form-control" defaultValue={ads["min_age"]} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+
+                                                                    <div className="form-group mb-2">
+                                                                        <label htmlFor="adsLink">Maximum Age:</label>
+                                                                        <input type="number" id="adsLink" name="max_age" className="form-control" defaultValue={ads["max_age"]} onChange={(e) => updateAdsFormData(e, ads)}/>
+                                                                    </div>
+
+                                                                    <div className="d-flex justify-content-end" style={{marginTop: "20px",
+                                                                        background: "#f7f7f7",
+                                                                        marginLeft: "-16px",
+                                                                        padding: "10px 20px",
+                                                                        marginRight: "-16px",
+                                                                        marginBottom: "-16px"}}>
+                                                                        <button className="btn btn-sm btn-danger ms-2" onClick={(e) => deleteAds(e, ads.id)}>Delete</button>
+                                                                        <button className="btn btn-sm btn-primary ms-2" onClick={(e) => updateAds(e, ads)}>Update</button>
+                                                                    </div>
+                                                                </CollapsePanel>
+                                                            </Collapse>
+
                                                         )
                                                     }
                                             })
