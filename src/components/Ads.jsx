@@ -202,7 +202,7 @@ export const Ads = () => {
         formData.append("status", ads["status"]);
         formData.append("img_src", ads["img_src"]);
         formData.append("widget_id", ads["widget_id"]);
-        formData.append("widget_id", ads["widget_id"]);
+        formData.append("link", ads["link"]);
         formData.append("page_name", ads["page_name"]);
         formData.append("position", ads["position"]);
         formData.append("min_age", ads["min_age"]);
