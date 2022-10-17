@@ -125,6 +125,12 @@ const items = [
       </Link>,
       "17"
     ),
+    getItem(
+      <Link to={`/admin/settings`} style={{ textDecoration: "none" }}>
+        Settings
+      </Link>,
+      "18"
+    ),
   ]),
 ];
 

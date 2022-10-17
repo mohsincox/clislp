@@ -15,6 +15,9 @@ export default function TournamentTeamPlayerCreate() {
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
   const [isInternational, setIsInternational] = useState("");
+  const [admin_cricket_player, setAdmin_cricket_player] = useState("");
+  const [admin_football_player, setAdmin_football_player] = useState("");
+  const [maxSelect, setMaxSelect] = useState("");
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +32,40 @@ export default function TournamentTeamPlayerCreate() {
       navigate("/login");
     }
   };
+
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/settings/1`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            console.log(
+              "response.data hhhhh",
+              response.data.admin_cricket_player,
+              "f",
+              response.data.admin_football_player
+            );
+            setAdmin_cricket_player(response.data.admin_cricket_player);
+            setAdmin_football_player(response.data.admin_football_player);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
+          });
+      })();
+    }
+  }, []);
 
   useEffect(() => {
     if (getLoginData === null) {
@@ -80,6 +117,14 @@ export default function TournamentTeamPlayerCreate() {
             if (response.data.length > 0) {
               setGame_id(response.data[0].tournament.game_id);
               console.log("first game ID", response.data[0].tournament.game_id);
+
+              if (response.data[0].tournament.game_id == 1) {
+                setMaxSelect(admin_cricket_player);
+              } else if (response.data[0].tournament.game_id == 2) {
+                setMaxSelect(admin_football_player);
+              } else {
+                setMaxSelect(18);
+              }
             }
           })
           .catch((error) => {
@@ -209,8 +254,8 @@ export default function TournamentTeamPlayerCreate() {
     if (find > -1) {
       sel.splice(find, 1);
     } else {
-      if (sel.length >= 18) {
-        toast.error("You have already 18 players");
+      if (sel.length >= maxSelect) {
+        toast.error(`You have already ${maxSelect} players`);
       } else {
         sel.push(key);
       }

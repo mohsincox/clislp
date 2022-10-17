@@ -65,6 +65,7 @@ import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/Tourn
 import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
 import PointTableList from "./pages/admin/point_table/PointTableList";
 import PointTableEdit from "./pages/admin/point_table/PointTableEdit";
+import SettingsShow from "./pages/admin/settings/SettingsShow";
 
 export const UserContext = React.createContext(null);
 
@@ -343,6 +344,12 @@ function App() {
                 path={`/admin/point-tables/:id`}
                 exact={true}
                 element={<PointTableEdit />}
+              />
+
+              <Route
+                path={`/admin/settings`}
+                exact={true}
+                element={<SettingsShow />}
               />
 
               <Route
