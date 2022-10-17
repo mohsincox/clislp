@@ -78,8 +78,8 @@ export default function BuildTeam() {
     };
 
     console.log(postBody);
-    if (state.selections.length < 2) {
-      toast.error("Please Select 2 Players");
+    if (state.selections.length < 18) {
+      toast.error("Please Select 18 Players");
     } else {
       await axios
         .post(`${API_PUBLIC_URL}api/ws-teams/build`, postBody, {
@@ -89,7 +89,7 @@ export default function BuildTeam() {
         })
         .then((response) => {
           setState({ selections: [] });
-          toast.success("Successfully created!");
+          toast.success("Created successfully");
           navigate("/view-team");
         })
         .catch((error) => {
