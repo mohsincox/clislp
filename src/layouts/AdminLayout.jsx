@@ -108,6 +108,12 @@ const items = [
       "13"
     ),
     getItem(
+      <Link to={`/admin/clubs`} style={{ textDecoration: "none" }}>
+        Club
+      </Link>,
+      "98"
+    ),
+    getItem(
       <Link to={`/admin/players`} style={{ textDecoration: "none" }}>
         Player
       </Link>,

@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
-export default function FranchiseEdit() {
+export default function ClubCreate() {
   const [name, setName] = useState("");
+  const [game_id, setGame_id] = useState("");
+  const [gameList, setGameList] = useState([]);
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
+  const [franchise_id, setFranchise_id] = useState("");
+  const [franchiseList, setFranchiseList] = useState([]);
   const [logo, setLogo] = useState(null);
   const [preview, setPreview] = useState();
-  const [im, setIm] = useState("");
   let navigate = useNavigate();
-  const { id } = useParams();
 
   useEffect(() => {
     handleLogin();
-    getFranchiseDetails();
   }, []);
 
   const getLoginData = localStorage.getItem("loginData");
@@ -27,7 +28,7 @@ export default function FranchiseEdit() {
     }
   };
 
-  const getFranchiseDetails = () => {
+  useEffect(() => {
     if (getLoginData === null) {
       navigate("/login");
     } else {
@@ -35,20 +36,24 @@ export default function FranchiseEdit() {
       const token = storageData.accessToken;
       (async () => {
         await axios
-          .get(`${API_PUBLIC_URL}api/franchises/${id}`, {
+          .get(`${API_PUBLIC_URL}api/games`, {
             headers: {
               Authorization: token,
             },
           })
           .then((response) => {
-            setName(response.data.name);
-            setCountry_id(response.data.country_id);
-            setIm(response.data.logo);
-            console.log(response.data);
+            setGameList(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
           });
       })();
     }
-  };
+  }, []);
 
   useEffect(() => {
     if (getLoginData === null) {
@@ -70,8 +75,35 @@ export default function FranchiseEdit() {
             console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
+              navigate("/admin/no-permission");
             }
-            navigate("/admin/no-permission");
+          });
+      })();
+    }
+  }, []);
+
+  useEffect(() => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      (async () => {
+        await axios
+          .get(`${API_PUBLIC_URL}api/franchises`, {
+            headers: {
+              Authorization: token,
+            },
+          })
+          .then((response) => {
+            setFranchiseList(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+            if (error.response.status === 403) {
+              toast.error("No Permission");
+              navigate("/admin/no-permission");
+            }
           });
       })();
     }
@@ -82,8 +114,12 @@ export default function FranchiseEdit() {
 
     if (name.trim() === "") {
       toast.error("Franchise Name field is required!");
+    } else if (game_id === "") {
+      toast.error("Game Name field is required!");
     } else if (country_id === "") {
       toast.error("Country Name field is required!");
+    } else if (franchise_id === "") {
+      toast.error("Franchise Name field is required!");
     }
     // else if (logo === null) {
     //   toast.error("Image file is required!");
@@ -91,7 +127,9 @@ export default function FranchiseEdit() {
     else {
       const formData = new FormData();
       formData.append("name", name);
+      formData.append("game_id", game_id);
       formData.append("country_id", country_id);
+      formData.append("franchise_id", franchise_id);
       formData.append("logo", logo);
 
       //   for (var [key, value] of formData.entries()) {
@@ -103,7 +141,7 @@ export default function FranchiseEdit() {
       const token = storageData.accessToken;
 
       await axios
-        .put(`${API_PUBLIC_URL}api/franchises/${id}`, formData, {
+        .post(`${API_PUBLIC_URL}api/clubs`, formData, {
           headers: {
             Authorization: token,
           },
@@ -111,12 +149,16 @@ export default function FranchiseEdit() {
         .then((response) => {
           console.log(response);
           setName("");
+          setGame_id("");
+          setGameList([]);
           setCountry_id("");
           setCountryList([]);
+          setFranchise_id("");
+          setFranchiseList([]);
           setLogo(null);
 
-          toast.success("Updated Successfully");
-          navigate("/admin/franchises");
+          toast.success("Created Successfully");
+          navigate("/admin/clubs");
         })
         .catch((error) => {
           console.log(error);
@@ -159,21 +201,42 @@ export default function FranchiseEdit() {
         <div className="col-sm-8 offset-sm-2">
           <div className="card">
             <div className="card-body">
-              <h5 className="card-title">Franchise Edit</h5>
+              <h5 className="card-title">Club Create</h5>
               <form onSubmit={submitForm} encType="multipart/form-data">
                 <div className="mb-3 row">
                   <label className="form-label col-sm-3">
-                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
+                    Club Name <span style={{ color: "#ff0000" }}>*</span>
                   </label>
                   <div className="col-sm-9">
                     <input
                       className="form-control"
                       type="text"
-                      placeholder="Enter Franchise Name"
+                      placeholder="Enter Club Name"
                       value={name}
                       name="name"
                       onChange={(e) => setName(e.target.value)}
                     />
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Game <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <select
+                      className="form-select"
+                      value={game_id}
+                      name="game_id"
+                      onChange={(e) => setGame_id(e.target.value)}
+                    >
+                      <option value="">Select Game</option>
+                      {gameList.map((sm, index) => (
+                        <option key={sm.id} value={sm.id}>
+                          {sm.name}
+                        </option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
@@ -199,6 +262,27 @@ export default function FranchiseEdit() {
                 </div>
 
                 <div className="mb-3 row">
+                  <label className="form-label col-sm-3">
+                    Origin Franchise <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
+                  <div className="col-sm-9">
+                    <select
+                      className="form-select"
+                      value={franchise_id}
+                      name="franchise_id"
+                      onChange={(e) => setFranchise_id(e.target.value)}
+                    >
+                      <option value="">Select Franchise</option>
+                      {franchiseList.map((sm, index) => (
+                        <option key={sm.id} value={sm.id}>
+                          {sm.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                <div className="mb-3 row">
                   <label className="form-label col-sm-3">Logo</label>
                   <div className="col-sm-9">
                     <input
@@ -209,17 +293,9 @@ export default function FranchiseEdit() {
                       // onChange={(e) => setLogo(e.target.files[0])}
                       onChange={onSelectFile}
                     />
-
                     <div style={{ marginTop: "10px" }}>
-                      {logo ? (
+                      {logo && (
                         <img src={preview} alt="" width="80px" height="50px" />
-                      ) : (
-                        <img
-                          src={`${API_PUBLIC_URL}${im}`}
-                          alt=""
-                          width="80px"
-                          height="50px"
-                        />
                       )}
                     </div>
                   </div>
@@ -229,7 +305,7 @@ export default function FranchiseEdit() {
                   <button
                     className="btn btn-danger me-3"
                     onClick={() => {
-                      navigate("/admin/franchises");
+                      navigate("/admin/clubs");
                     }}
                   >
                     Cancel

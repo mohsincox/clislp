@@ -66,6 +66,9 @@ import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
 import PointTableList from "./pages/admin/point_table/PointTableList";
 import PointTableEdit from "./pages/admin/point_table/PointTableEdit";
 import SettingsShow from "./pages/admin/settings/SettingsShow";
+import ClubList from "./pages/admin/club/ClubList";
+import ClubCreate from "./pages/admin/club/ClubCreate";
+import ClubEdit from "./pages/admin/club/ClubEdit";
 
 export const UserContext = React.createContext(null);
 
@@ -350,6 +353,22 @@ function App() {
                 path={`/admin/settings`}
                 exact={true}
                 element={<SettingsShow />}
+              />
+
+              <Route
+                path={`/admin/clubs`}
+                exact={true}
+                element={<ClubList />}
+              />
+              <Route
+                path={`/admin/clubs/create`}
+                exact={true}
+                element={<ClubCreate />}
+              />
+              <Route
+                path={`/admin/clubs/:id`}
+                exact={true}
+                element={<ClubEdit />}
               />
 
               <Route
