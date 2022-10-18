@@ -66,7 +66,7 @@ const ViewTeam = () => {
         },
       })
       .then((response) => {
-        toast.success("Successfully confirm!");
+        toast.success("Confirm Successfully");
         navigate("/welcome-team");
       })
       .catch((error) => {

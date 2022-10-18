@@ -154,6 +154,11 @@ const AdminLayout = () => {
       const token = data.accessToken;
       const nameUser = data.name;
       setName(nameUser);
+      const role_name = data.userrole.role.role_name;
+      console.log(role_name);
+      if (role_name === "customer") {
+        navigate("/");
+      }
     }
   }, []);
 

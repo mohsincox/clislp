@@ -66,21 +66,40 @@ function Register() {
     }
   };
 
-  useEffect(() => {
-    const getLoginData = localStorage.getItem("loginData");
+  // useEffect(() => {
+  //   const getLoginData = localStorage.getItem("loginData");
 
+  //   if (getLoginData !== null) {
+  //     const data = JSON.parse(getLoginData);
+  //     const token = data.accessToken;
+
+  //     axios
+  //       .get(`${API_PUBLIC_URL}api/users`, {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       })
+  //       .then((response) => navigate("/tournament"))
+  //       .catch((error) => {
+  //         navigate("/register");
+  //       });
+  //   }
+  // }, []);
+
+  useEffect(() => {
+    // const token = localStorage.getItem("token");
+    const getLoginData = localStorage.getItem("loginData");
     if (getLoginData !== null) {
       const data = JSON.parse(getLoginData);
       const token = data.accessToken;
-
       axios
-        .get(`${API_PUBLIC_URL}api/users`, {
+        .get(`${API_PUBLIC_URL}api/ws-sliders`, {
           headers: {
             Authorization: token,
           },
         })
-        .then((response) => navigate("/tournament"))
-        .catch((error) => {
+        .then((res) => navigate("/tournament"))
+        .catch((err) => {
           navigate("/register");
         });
     }
@@ -109,7 +128,7 @@ function Register() {
       .catch((error) => {
         console.log(error);
         if (error.response.status === 400) {
-          toast.error("Email already used");
+          toast.error("Somethings went wrong!");
         }
         navigate("/register");
       });
