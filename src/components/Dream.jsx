@@ -114,12 +114,7 @@ export default function Dream() {
               </span>
             </div>
             <div style={{ marginTop: "10px" }}>
-              <img
-                src={require("../images/add_spon_dr_bott.png")}
-                alt=""
-                width="455"
-                height="215"
-              />
+              <RegisterWidget name="Middle Widget" style={{width: "100%", height: "215px"}} />
             </div>
           </div>
 

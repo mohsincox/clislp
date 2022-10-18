@@ -10,13 +10,10 @@ export default function Footer() {
         style={{ background: "#2E2E2E", color: "#FFFFFF" }}
       >
 
-        <div
-          className="container"
-          style={{ paddingTop: "50px", marginTop: "10px" }}
-        >
-          <div className="row">
-            <div className="col-sm-3">
-              <h5>SL PLAY 11...</h5>
+        <div className="container">
+          <div className="row p-5">
+            <div className="col-md-6">
+              <h1 className="text-white">SL PLAY 11...</h1>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                 eu turpis molestie, dictum est a, mattis tellus. Sed dignissim,
@@ -74,7 +71,7 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-            <div className="col-sm-2">
+            <div className="col-md-2">
               <p>INFORMATION</p>
               <span>
                 About Us
@@ -104,8 +101,7 @@ export default function Footer() {
                 <li>Return Policy</li>
               </ul> */}
             </div>
-
-            <div className="col-sm-2">
+            <div className="col-md-2">
               <p>QUICK LINKS</p>
               <span>
                 Home
@@ -122,8 +118,7 @@ export default function Footer() {
                 <br />
               </span>
             </div>
-
-            <div className="col-sm-3">
+            <div className="col-md-2">
               <p>CONTACT</p>
               <p style={{ marginBottom: "5px" }}>
                 <b>Address:</b>
@@ -150,12 +145,9 @@ export default function Footer() {
                 <span style={{ fontSize: "13px" }}>support@shoplover.com</span>
               </p>
             </div>
-
-            <div className="col-sm-2">
-              <RegisterWidget name="Footer" style={{width: "100%", height: "100px"}} />
-            </div>
           </div>
         </div>
+
       </div>
 
       <div

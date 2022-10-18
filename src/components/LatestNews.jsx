@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { API_PUBLIC_URL } from "../constants";
+import RegisterWidget from "./RegisterWidget";
 
 export default function LatestNews() {
   const [newsList, setNewsList] = useState([]);
@@ -119,17 +120,8 @@ export default function LatestNews() {
           </div>
 
           <div className="col-sm-4">
-            <img
-              src={require("../images/add_spon_news.png")}
-              alt=""
-              width="315px"
-            />
-            <img
-              style={{ marginTop: "10px" }}
-              src={require("../images/add_spon_news.png")}
-              alt=""
-              width="315px"
-            />
+            <RegisterWidget name="Right Sidebar Three" style={{width: "100%", height: "300px"}} />
+            <RegisterWidget name="Right Sidebar Four" style={{width: "100%", height: "300px", marginTop: "10px"}} />
           </div>
         </div>
       </div>
