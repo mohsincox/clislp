@@ -31,7 +31,7 @@ const GameTournaments = () => {
           console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
-            navigate("/");
+            // navigate("/");
           }
         });
     }

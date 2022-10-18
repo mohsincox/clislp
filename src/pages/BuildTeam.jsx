@@ -55,7 +55,7 @@ export default function BuildTeam() {
           console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
-            navigate("/");
+            // navigate("/");
           }
         });
     }
@@ -96,7 +96,7 @@ export default function BuildTeam() {
           console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
-            navigate("/");
+            // navigate("/");
           }
         });
     }
