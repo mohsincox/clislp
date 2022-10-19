@@ -1,8 +1,22 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./footer.css";
 import RegisterWidget from "./RegisterWidget";
+import axios from "axios";
+import {API_PUBLIC_URL} from "../constants";
 
 export default function Footer() {
+  const [pagesData, setPagesData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      await axios
+          .get(`${API_PUBLIC_URL}api/page`)
+          .then((response) => {
+            setPagesData(response.data)
+          });
+    })();
+  }, []);
+
+
   return (
     <>
       <div
@@ -73,23 +87,13 @@ export default function Footer() {
             </div>
             <div className="col-md-2">
               <p>INFORMATION</p>
-              <span>
-                About Us
-                <br />
-                Warranty Policy
-                <br />
-                Term & Conditions
-                <br />
-                Privacy Policy
-                <br />
-                Legal Documents
-                <br />
-                FAQ
-                <br />
-                Career
-                <br />
-                Return Policy
-              </span>
+              <ul style={{listStyle: 'none', color: '#fff', padding: '0px', margin: '0px'}}>
+                {pagesData.map(page => (
+                    <li style={{marginBottom: "3px"}}>
+                      <a style={{color: '#fff', textDecoration: 'none'}} href={`/pages/${page.slug}`}>{page.name}</a>
+                    </li>
+                ) )}
+              </ul>
               {/* <ul>
                 <li>About Us</li>
                 <li>Warranty Policy</li>

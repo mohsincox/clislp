@@ -4,6 +4,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Contact from "./pages/Contact";
 import Home from "./pages/Home";
+import Page from "./pages/Page";
 import Test from "./pages/Test";
 import Tournament from "./pages/Tournament";
 import Register from "./pages/Register";
@@ -65,27 +66,21 @@ import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/Tourn
 import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
 import Widget from "./components/Widget";
 import Ads from "./components/Ads";
+import PageCreate from "./pages/admin/page/PageCreate";
+import PageList from "./pages/admin/page/PageList";
+import PageEdit from "./pages/admin/page/PageEdit";
+import axios from "axios";
+import {API_PUBLIC_URL} from "./constants";
 
 export const UserContext = React.createContext(null);
+
 
 function App() {
   const [authUser, setAuthUser] = useState({ user: {}, isLoggedIn: false });
   const value = { authUser, setAuthUser };
 
-  useEffect(() => {
-    const getLoginData = localStorage.getItem("loginData");
-    if (getLoginData != null) {
-      const data = JSON.parse(getLoginData);
-      const token = data.accessToken;
-      if (token !== null) {
-        setAuthUser({
-          ...authUser,
-          user: data,
-          isLoggedIn: true,
-        });
-      }
-    }
-  }, []);
+
+
 
   return (
     <>
@@ -94,6 +89,7 @@ function App() {
           <ToastContainer />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/pages/:id" element={<Page />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/test" element={<Test />} />
             <Route path="/test2" element={<Test2 />} />
@@ -299,6 +295,22 @@ function App() {
                 path={`/admin/users/:id`}
                 exact={true}
                 element={<UserEdit />}
+              />
+
+              <Route
+                path={`/admin/pages`}
+                exact={true}
+                element={<PageList />}
+              />
+              <Route
+                path={`/admin/pages/create`}
+                exact={true}
+                element={<PageCreate />}
+              />
+              <Route
+                path={`/admin/pages/:id`}
+                exact={true}
+                element={<PageEdit />}
               />
 
               <Route path={`/admin/news`} exact={true} element={<NewsList />} />

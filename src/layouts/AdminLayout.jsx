@@ -48,6 +48,8 @@ const items = [
       "4"
     ),
   ]),
+
+
   //   getItem("Team", "sub2", <TeamOutlined />, [
   //     getItem("Team 1", "6"),
   //     getItem("Team 2", "8"),
@@ -135,6 +137,15 @@ const items = [
         </Link>,
         "101"
     )
+  ]),
+
+  getItem("Pages", "sub5", <UserOutlined />, [
+    getItem(
+        <Link to={`/admin/pages`} style={{ textDecoration: "none" }}>
+          Page List
+        </Link>,
+        "102"
+    ),
   ]),
 ];
 
