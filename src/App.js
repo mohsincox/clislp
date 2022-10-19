@@ -69,6 +69,7 @@ import SettingsShow from "./pages/admin/settings/SettingsShow";
 import ClubList from "./pages/admin/club/ClubList";
 import ClubCreate from "./pages/admin/club/ClubCreate";
 import ClubEdit from "./pages/admin/club/ClubEdit";
+import Ranking from "./pages/Ranking";
 
 export const UserContext = React.createContext(null);
 
@@ -112,6 +113,7 @@ function App() {
             <Route path="/build-team/:id" element={<BuildTeam />} />
             <Route path="/view-team" element={<ViewTeam />} />
             <Route path="/welcome-team" element={<WelcomeTeam />} />
+            <Route path="/ranking" element={<Ranking />} />
 
             <Route path={`/admin`} element={<AdminLayout />}>
               <Route path={`/admin`} exact={true} element={<Dashboard />} />

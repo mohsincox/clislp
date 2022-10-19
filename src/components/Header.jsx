@@ -64,9 +64,6 @@ function Header() {
           <NavLink className="nav-link" to="/game-tournaments">
             TOURNAMENTS
           </NavLink>
-          <NavLink className="nav-link" to="/build-team">
-            TEAM
-          </NavLink>
           <NavLink className="nav-link" to="/ranking">
             RANKINGS
           </NavLink>
