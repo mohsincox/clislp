@@ -1,138 +1,97 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { API_PUBLIC_URL } from "../constants";
+import React, {useEffect, useState} from "react";
+import {API_PUBLIC_URL} from "../constants";
+import RegisterWidget from "./RegisterWidget";
 
 export default function LatestNews() {
-  const [newsList, setNewsList] = useState([]);
-  useEffect(() => {
-    (async () => {
-      await axios
-        .get(`${API_PUBLIC_URL}api/ws-news`, {})
-        .then((response) => {
-          setNewsList(response.data);
+    const [newsList, setNewsList] = useState([]);
+    useEffect(() => {
+        (async () => {
+            await axios
+                .get(`${API_PUBLIC_URL}api/ws-news`, {})
+                .then((response) => {
+                    setNewsList((prevState) => {
+                        let newState = [...response.data];
+                        let newNewsList = newState.map((newL) => {
+                            if(newL.body.length >= 600) {
+                                return {...newL, showFullBody: false}
+                            } else {
+                                return {...newL, showFullBody: true}
+                            }
+                        });
+                        return newNewsList;
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        })();
+    }, []);
+
+    function handleShowFullBody(e, id) {
+        setNewsList((prevState) => {
+            let newS = [...prevState];
+
+            return newS.map(news => {
+                if(news.id == id) {
+                    return {...news, showFullBody: !news.showFullBody}
+                }
+
+                return news
+
+            })
         })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
-  }, []);
+    }
 
-  return (
-    <>
-      <div className="container" style={{ marginTop: "20px" }}>
-        <h5>Latest News</h5>
-        <div className="row">
-          <div className="col-sm-8">
-            {newsList.map((nnn, index) => (
-              <div
-                key={nnn.id}
-                className="card"
-                style={{ background: "#F6F6F8", marginBottom: "15px" }}
-              >
-                <div
-                  className="card-body"
-                  style={{ paddingTop: "0px", paddingBottom: "0px" }}
-                >
-                  <div className="row">
+    return (
+        <>
+            <div className="container" style={{marginTop: "20px"}}>
+                <h5>Latest News</h5>
+                <div className="row">
                     <div className="col-sm-8">
-                      <p style={{ color: "#5709FF" }}>
-                        {nnn.tournament == null ? "" : nnn.tournament["name"]}
-                      </p>
-                      <h6>{nnn.title}</h6>
-                      <span style={{ fontSize: "12px" }}>{nnn.body}</span>
-                      <p>Read More</p>
+                        {newsList.map((nnn, index) => (
+                            <div key={nnn.id} className="card" style={{background: "#F6F6F8", marginBottom: "15px"}}>
+                                <div
+                                    className="card-header d-flex justify-content-between flex-row bg-primary align-items-center">
+                                    <h4 className="m-0 text-white">{nnn.title}</h4>
+                                    {
+                                        nnn.tournament != null ? <button
+                                            className="btn bnt-sm btn-outline-dark">{nnn.tournament["name"]}</button> : null
+                                    }
+                                </div>
+                                <div className="card-body bg-white mt-2" style={{paddingTop: "0px", paddingBottom: "0px"}}>
+                                    <div className="float-start" style={{
+                                        overflow: "hidden",
+                                        width: "160px",
+                                        height: "160px",
+                                        marginRight: "16px",
+                                        marginTop: "16px",
+                                        marginBottom: "0px"
+                                    }}>
+                                        <img
+                                            src={`${API_PUBLIC_URL}${nnn.image}`}
+                                            alt="news"
+                                            style={{width: "100%", height: "100%"}}
+                                        />
+                                    </div>
+                                    <p style={{lineHeight: "36px", fontSize: "16px"}}>
+                                        {
+                                            nnn.showFullBody ? nnn.body : (<>{nnn.body.substr(0, 700)} <button className="px-0 btn btn-link btn-sm" onClick={(e) => { handleShowFullBody(e, nnn.id) }}>Read More....</button></>)
+                                        }
+                                    </p>
+
+                                </div>
+                            </div>
+                        ))}
                     </div>
+
                     <div className="col-sm-4">
-                      <img
-                        src={`${API_PUBLIC_URL}${nnn.image}`}
-                        alt="news"
-                        height="165px"
-                      />
+                        <RegisterWidget name="Right Sidebar Three" style={{width: "100%", height: "300px"}}/>
+                        <RegisterWidget name="Right Sidebar Four"
+                                        style={{width: "100%", height: "300px", marginTop: "10px"}}/>
                     </div>
-                  </div>
                 </div>
-              </div>
-            ))}
-            {/* <div
-              className="card"
-              style={{ background: "#F6F6F8", marginTop: "15px" }}
-            >
-              <div
-                className="card-body"
-                style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              >
-                <div className="row">
-                  <div className="col-sm-8">
-                    <p style={{ color: "#5709FF" }}>ASIA CUP</p>
-                    <h6>Is Bangladesh will smile this time?</h6>
-                    <span style={{ fontSize: "12px" }}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Etiam eu turpis molestie, dictum est a, mattis tellus. Sed
-                      dignissim, metus nec fringilla accumsan, risus sem
-                      sollicitudin lacus, ut interdum tellus elit sed risus.
-                      Maecenas eget condimentum .{" "}
-                    </span>
-                    <p>Read More</p>
-                  </div>
-                  <div className="col-sm-4">
-                    <img
-                      src={require("../images/news2.png")}
-                      alt="news1"
-                      height="165px"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> */}
-
-            {/* <div
-              className="card"
-              style={{ background: "#F6F6F8", marginTop: "15px" }}
-            >
-              <div
-                className="card-body"
-                style={{ paddingTop: "0px", paddingBottom: "0px" }}
-              >
-                <div className="row">
-                  <div className="col-sm-8">
-                    <p style={{ color: "#5709FF" }}>ASIA CUP</p>
-                    <h6>Agfanistan : The Dark horse of this season</h6>
-                    <span style={{ fontSize: "12px" }}>
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                      Etiam eu turpis molestie, dictum est a, mattis tellus. Sed
-                      dignissim, metus nec fringilla accumsan, risus sem
-                      sollicitudin lacus, ut interdum tellus elit sed risus.
-                      Maecenas eget condimentum .{" "}
-                    </span>
-                    <p>Read More</p>
-                  </div>
-                  <div className="col-sm-4">
-                    <img
-                      src={require("../images/news3.png")}
-                      alt="news1"
-                      height="165px"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div> */}
-          </div>
-
-          <div className="col-sm-4">
-            <img
-              src={require("../images/add_spon_news.png")}
-              alt=""
-              width="315px"
-            />
-            <img
-              style={{ marginTop: "10px" }}
-              src={require("../images/add_spon_news.png")}
-              alt=""
-              width="315px"
-            />
-          </div>
-        </div>
-      </div>
-    </>
-  );
+            </div>
+        </>
+    );
 }

@@ -1,20 +1,33 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./footer.css";
+import RegisterWidget from "./RegisterWidget";
+import axios from "axios";
+import {API_PUBLIC_URL} from "../constants";
 
 export default function Footer() {
+  const [pagesData, setPagesData] = useState([]);
+  useEffect(() => {
+    (async () => {
+      await axios
+          .get(`${API_PUBLIC_URL}api/page`)
+          .then((response) => {
+            setPagesData(response.data)
+          });
+    })();
+  }, []);
+
+
   return (
     <>
       <div
         className="container-fluid"
         style={{ background: "#2E2E2E", color: "#FFFFFF" }}
       >
-        <div
-          className="container"
-          style={{ paddingTop: "50px", marginTop: "10px" }}
-        >
-          <div className="row">
-            <div className="col-sm-5">
-              <h5>SL PLAY 11...</h5>
+
+        <div className="container">
+          <div className="row p-5">
+            <div className="col-md-6">
+              <h1 className="text-white">SL PLAY 11...</h1>
               <p>
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
                 eu turpis molestie, dictum est a, mattis tellus. Sed dignissim,
@@ -72,26 +85,15 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-
-            <div className="col-sm-2">
+            <div className="col-md-2">
               <p>INFORMATION</p>
-              <span>
-                About Us
-                <br />
-                Warranty Policy
-                <br />
-                Term & Conditions
-                <br />
-                Privacy Policy
-                <br />
-                Legal Documents
-                <br />
-                FAQ
-                <br />
-                Career
-                <br />
-                Return Policy
-              </span>
+              <ul style={{listStyle: 'none', color: '#fff', padding: '0px', margin: '0px'}}>
+                {pagesData.map(page => (
+                    <li style={{marginBottom: "3px"}}>
+                      <a style={{color: '#fff', textDecoration: 'none'}} href={`/pages/${page.slug}`}>{page.name}</a>
+                    </li>
+                ) )}
+              </ul>
               {/* <ul>
                 <li>About Us</li>
                 <li>Warranty Policy</li>
@@ -103,8 +105,7 @@ export default function Footer() {
                 <li>Return Policy</li>
               </ul> */}
             </div>
-
-            <div className="col-sm-2">
+            <div className="col-md-2">
               <p>QUICK LINKS</p>
               <span>
                 Home
@@ -121,8 +122,7 @@ export default function Footer() {
                 <br />
               </span>
             </div>
-
-            <div className="col-sm-3">
+            <div className="col-md-2">
               <p>CONTACT</p>
               <p style={{ marginBottom: "5px" }}>
                 <b>Address:</b>
@@ -151,6 +151,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
+
       </div>
 
       <div

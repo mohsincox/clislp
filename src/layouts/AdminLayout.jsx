@@ -48,6 +48,8 @@ const items = [
       "4"
     ),
   ]),
+
+
   //   getItem("Team", "sub2", <TeamOutlined />, [
   //     getItem("Team 1", "6"),
   //     getItem("Team 2", "8"),
@@ -136,6 +138,31 @@ const items = [
         Settings
       </Link>,
       "18"
+    ),
+  ]),
+
+
+  getItem("Adds", "sub4", <SettingOutlined />, [
+    getItem(
+        <Link to={`/admin/widget`} style={{ textDecoration: "none" }}>
+          Add Widget
+        </Link>,
+        "100"
+    ),
+    getItem(
+        <Link to={`/admin/ads`} style={{ textDecoration: "none" }}>
+          Add Ads
+        </Link>,
+        "101"
+    )
+  ]),
+
+  getItem("Pages", "sub5", <UserOutlined />, [
+    getItem(
+        <Link to={`/admin/pages`} style={{ textDecoration: "none" }}>
+          Page List
+        </Link>,
+        "102"
     ),
   ]),
 ];

@@ -17,7 +17,10 @@ export default function Home() {
       <hr />
       {/* <Matches />
       <hr /> */}
-      <AddSponsor />
+      <div className="top-header">
+          <AddSponsor />
+      </div>
+
       <Dream />
       <LatestNews />
       <Footer />
