@@ -79,18 +79,14 @@ import PageCreate from "./pages/admin/page/PageCreate";
 import PageList from "./pages/admin/page/PageList";
 import PageEdit from "./pages/admin/page/PageEdit";
 import axios from "axios";
-import {API_PUBLIC_URL} from "./constants";
-
+import { API_PUBLIC_URL } from "./constants";
+import MyTeam from "./pages/MyTeam";
 
 export const UserContext = React.createContext(null);
-
 
 function App() {
   const [authUser, setAuthUser] = useState({ user: {}, isLoggedIn: false });
   const value = { authUser, setAuthUser };
-
-
-
 
   return (
     <>
@@ -115,6 +111,7 @@ function App() {
             <Route path="/view-team" element={<ViewTeam />} />
             <Route path="/welcome-team" element={<WelcomeTeam />} />
             <Route path="/ranking" element={<Ranking />} />
+            <Route path="/my-team" element={<MyTeam />} />
 
             <Route path={`/admin`} element={<AdminLayout />}>
               <Route path={`/admin`} exact={true} element={<Dashboard />} />
@@ -396,17 +393,9 @@ function App() {
                 element={<NoPermission />}
               />
 
-              <Route
-                path={`/admin/widget`}
-                exact={true}
-                element={<Widget />}
-              />
+              <Route path={`/admin/widget`} exact={true} element={<Widget />} />
 
-              <Route
-                path={`/admin/ads`}
-                exact={true}
-                element={<Ads />}
-              />
+              <Route path={`/admin/ads`} exact={true} element={<Ads />} />
             </Route>
           </Routes>
         </BrowserRouter>

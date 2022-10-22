@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../constants";
 import Header from "../components/Header";
@@ -334,6 +334,9 @@ function Register() {
                 </button>
               </div>
             </form>
+            <p>
+              If you already have an account, <Link to={`/login`}> Login </Link>
+            </p>
           </div>
           <div className="col-sm-2 d-none d-sm-block mt-3">
             <img

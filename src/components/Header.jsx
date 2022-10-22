@@ -71,7 +71,7 @@ function Header() {
             CONTACT
           </NavLink>
 
-          {authUser.isLoggedIn === false ? (
+          {getLoginData === null ? (
             <NavLink className="nav-link" to="/register">
               <img
                 src={require("../images/join_now.png")}
@@ -96,6 +96,15 @@ function Header() {
               id="basic-nav-dropdown"
             >
               <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+              <NavDropdown.Item>
+                {" "}
+                <Link
+                  to="/my-team"
+                  style={{ textDecoration: "none", color: "#000" }}
+                >
+                  My Team &nbsp;&nbsp;&nbsp;
+                </Link>
+              </NavDropdown.Item>
             </NavDropdown>
           )}
         </Nav>

@@ -201,8 +201,8 @@ const ViewTeam = () => {
         </div>
       </div>
       <Footer />
-      <p>ViewTeam Page</p>
-      <button onClick={logout}>Logout</button>
+      {/* <p>ViewTeam Page</p>
+      <button onClick={logout}>Logout</button> */}
     </>
   );
 };

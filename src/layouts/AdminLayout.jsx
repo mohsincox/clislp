@@ -49,7 +49,6 @@ const items = [
     ),
   ]),
 
-
   //   getItem("Team", "sub2", <TeamOutlined />, [
   //     getItem("Team 1", "6"),
   //     getItem("Team 2", "8"),
@@ -141,28 +140,27 @@ const items = [
     ),
   ]),
 
-
   getItem("Adds", "sub4", <SettingOutlined />, [
     getItem(
-        <Link to={`/admin/widget`} style={{ textDecoration: "none" }}>
-          Add Widget
-        </Link>,
-        "100"
+      <Link to={`/admin/widget`} style={{ textDecoration: "none" }}>
+        Add Widget
+      </Link>,
+      "100"
     ),
     getItem(
-        <Link to={`/admin/ads`} style={{ textDecoration: "none" }}>
-          Add Ads
-        </Link>,
-        "101"
-    )
+      <Link to={`/admin/ads`} style={{ textDecoration: "none" }}>
+        Add Ads
+      </Link>,
+      "101"
+    ),
   ]),
 
   getItem("Pages", "sub5", <UserOutlined />, [
     getItem(
-        <Link to={`/admin/pages`} style={{ textDecoration: "none" }}>
-          Page List
-        </Link>,
-        "102"
+      <Link to={`/admin/pages`} style={{ textDecoration: "none" }}>
+        Page List
+      </Link>,
+      "102"
     ),
   ]),
 ];
@@ -239,7 +237,7 @@ const AdminLayout = () => {
           <div className="float-end pe-3">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                {authUser.user.name} &nbsp;
+                {name} &nbsp;
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
