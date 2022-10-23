@@ -95,7 +95,6 @@ function Header() {
               }
               id="basic-nav-dropdown"
             >
-              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
               <NavDropdown.Item>
                 {" "}
                 <Link
@@ -105,6 +104,7 @@ function Header() {
                   My Team &nbsp;&nbsp;&nbsp;
                 </Link>
               </NavDropdown.Item>
+              <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
             </NavDropdown>
           )}
         </Nav>

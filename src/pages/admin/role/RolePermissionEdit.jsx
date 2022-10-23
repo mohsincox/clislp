@@ -143,7 +143,7 @@ export default function RolePermissionEdit() {
     <div className="container">
       <h3>Permission Update for {role.role_name}</h3>
       <form onSubmit={submitForm}>
-        <ul style={{ listStyle: "none" }}>
+        {/* <ul style={{ listStyle: "none" }}>
           {allPerm.map((item, index) => {
             return (
               <li key={index}>
@@ -158,7 +158,50 @@ export default function RolePermissionEdit() {
               </li>
             );
           })}
-        </ul>
+        </ul> */}
+
+        <div className="row">
+          {allPerm.map((item, index) => {
+            return (
+              <React.Fragment key={index}>
+                <div className="col-sm-2">
+                  <input
+                    checked={item.checked ? "checked" : ""}
+                    onChange={(e) => handleCheck(e, item)}
+                    value={item.id}
+                    style={{ margin: "10px" }}
+                    type="checkbox"
+                  />
+                  <span>{item.perm_description}</span>
+                </div>
+                {(index === 4 ||
+                  index === 9 ||
+                  index === 14 ||
+                  index === 19 ||
+                  index === 24 ||
+                  index === 29 ||
+                  index === 34 ||
+                  index === 39 ||
+                  index === 44 ||
+                  index === 49 ||
+                  index === 54 ||
+                  index === 59 ||
+                  index === 64 ||
+                  index === 69 ||
+                  index === 74 ||
+                  index === 79 ||
+                  index === 84 ||
+                  index === 89 ||
+                  index === 94 ||
+                  index === 99) && (
+                  <>
+                    <div className="col-sm-2"></div> <hr />
+                  </>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
 
         <button className="btn btn-primary">Update</button>
       </form>

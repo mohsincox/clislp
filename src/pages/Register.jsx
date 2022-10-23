@@ -128,7 +128,7 @@ function Register() {
       .catch((error) => {
         console.log(error);
         if (error.response.status === 400) {
-          toast.error("Somethings went wrong!");
+          toast.error(error.response.data.msg);
         }
         navigate("/register");
       });
