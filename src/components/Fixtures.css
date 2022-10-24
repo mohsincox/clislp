@@ -1,0 +1,55 @@
+/* the slides */
+.fixture-full-container .slick-slide {
+    margin: 0 27px;
+}
+
+/* the parent */
+.fixture-full-container .slick-list {
+    margin: 0 -27px;
+}
+
+.fixture-full-container .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
+    background:  #C50B0E;
+}
+
+.fixture-full-container .nav-pills .nav-link, .nav-pills .show>.nav-link {
+    color:  #C50B0E;
+    background: rgba(197, 11, 14, 0.12);;
+    border: 0.5px solid #C50B0E;
+    border-radius: 3px;
+
+}
+
+.fixture-full-container .nav-item {
+    margin-right: 10px;
+}
+
+.fixture-full-container ul.nav.nav-pills {
+    margin-bottom: 25px;
+}
+
+
+
+.fixture-full-container .prev, .fixture-full-container .next {
+    position: absolute;
+    top: 50%;
+    background: #fff;
+    width: 50px;
+    height: 50px;
+    z-index: 999999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-50%);
+    font-size: 50px;
+    color: #ddd;
+}
+
+.fixture-full-container .next {
+    right: -145px;
+}
+
+.fixture-full-container .prev {
+    left: -145px;
+
+}

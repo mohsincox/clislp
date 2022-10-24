@@ -81,6 +81,7 @@ import PageEdit from "./pages/admin/page/PageEdit";
 import axios from "axios";
 import { API_PUBLIC_URL } from "./constants";
 import MyTeam from "./pages/MyTeam";
+import './App.css';
 
 export const UserContext = React.createContext(null);
 

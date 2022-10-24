@@ -1,10 +1,21 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import Carousel from "react-bootstrap/Carousel";
+
 import { API_PUBLIC_URL } from "../constants";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
 
 export default function SlideShow() {
   const [sliderList, setSliderList] = useState([]);
+  const contentStyle = {
+    height: '80vh',
+    color: '#fff',
+    textAlign: 'center',
+    background: 'red',
+    border: "5px solid #eee"
+  };
   useEffect(() => {
     (async () => {
       await axios
@@ -17,22 +28,28 @@ export default function SlideShow() {
         });
     })();
   }, []);
+
+
+  const settings = {
+
+    infinite: true,
+    arrow: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1
+  };
   return (
-    <Carousel>
-      {sliderList.map((slider, index) => (
-        <Carousel.Item interval={2000} key={slider.id}>
-          <img
-            className="d-block w-100"
-            src={`${API_PUBLIC_URL}${slider.image}`}
-            alt="First slide id {slider.id}"
-            height={"400px"}
-          />
-          {/* <Carousel.Caption>
-          <h3>First slide label</h3>
-          <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-        </Carousel.Caption> */}
-        </Carousel.Item>
-      ))}
-    </Carousel>
+      <Slider {...settings}>
+        {sliderList.map(slider => (
+            <div key={slider.id} style={contentStyle}>
+              <img
+                  className="d-block w-100"
+                  src={`${API_PUBLIC_URL}${slider.image}`}
+                  alt={`First slide id ${slider.id}`}
+                  height={"600px"}
+              />
+            </div>
+        ))}
+      </Slider>
   );
 }

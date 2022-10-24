@@ -1,0 +1,25 @@
+.single-latest-new {
+    background: rgb(246, 246, 248);
+    border-radius: 5px;
+    min-height: 300px;
+    overflow: hidden;
+    display: flex;
+    align-items: flex-start;
+}
+.single-latest-new .l-new-left {
+    width: 60%;
+    height: 100%;
+    padding: 20px;
+}
+
+.single-latest-new .l-news-right {
+    width: 40%;
+    height: 300px;
+    margin-left: auto;
+    background: #fff;
+}
+
+.single-latest-new .l-news-right img {
+    border-radius: 3px;
+    object-fit: cover;
+}
