@@ -53,3 +53,7 @@
     left: -145px;
 
 }
+
+.fixture-full-container .slick-track {
+    width: 10000px !important;
+}

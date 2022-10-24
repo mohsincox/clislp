@@ -1,7 +1,7 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { API_PUBLIC_URL } from "../constants";
+import React, {useEffect, useState} from "react";
+import {Link} from "react-router-dom";
+import {API_PUBLIC_URL} from "../constants";
 import RegisterWidget from "./RegisterWidget";
 import dreamSvg from "../images/dream.svg"
 
@@ -37,11 +37,11 @@ export default function Dream() {
 
     return (
         <>
-            <div className="container" style={{ marginTop: "30px" }}>
+            <div className="container" style={{marginTop: "30px"}}>
                 <div className="row">
                     <div className="col-sm-5">
                         <span>How to Build a Dream Team & Win Prizes?</span>
-                        <div style={{ position: "relative" }}>
+                        <div style={{position: "relative"}}>
                             <img
                                 src={dreamSvg}
                                 alt=""
@@ -59,7 +59,7 @@ export default function Dream() {
                             >
                 <button
                     className="btn border border-light"
-                    style={{ color: "rgb(255, 255, 255)" }}
+                    style={{color: "rgb(255, 255, 255)"}}
                 >
                   BUILD YOUR DREAM TEAM
                 </button>
@@ -74,7 +74,7 @@ export default function Dream() {
                                 }}
                             >
                 <b>Step 1</b>: Signup and provide your personal
-                <br />
+                <br/>
                 informations.
               </span>
 
@@ -98,9 +98,9 @@ export default function Dream() {
                                 }}
                             >
                 <b>Step 3</b>: Choose your favourite
-                <br />
+                <br/>
                 Players from this tournament and
-                <br />
+                <br/>
                 build a team.
               </span>
 
@@ -113,7 +113,7 @@ export default function Dream() {
                                 }}
                             >
                 <b>Step 4</b>: Join Contest and win
-                <br />
+                <br/>
                 excting prizes.
               </span>
 
@@ -139,17 +139,17 @@ export default function Dream() {
                 <Link to="/register">
                   <button
                       className="btn"
-                      style={{ backgroundColor: "#FFFFFF", color: "#5709FF" }}
+                      style={{backgroundColor: "#FFFFFF", color: "#5709FF"}}
                   >
                     &nbsp;&nbsp;&nbsp; JOIN NOW &nbsp;&nbsp;&nbsp;
                   </button>
                 </Link>
               </span>
                         </div>
-                        <div style={{ marginTop: "10px" }}>
+                        <div style={{marginTop: "10px"}}>
                             <RegisterWidget
                                 name="Middle Widget"
-                                style={{ width: "100%", height: "215px" }}
+                                style={{width: "100%", height: "215px"}}
                             />
                         </div>
                     </div>
@@ -162,7 +162,7 @@ export default function Dream() {
                                     <div className="card">
                                         <h5
                                             className="card-header tbg"
-                                            style={{ color: "#FFFFFF" }}
+                                            style={{color: "#FFFFFF"}}
                                         >
                                             ICC T20 World Cup
                                         </h5>
@@ -191,10 +191,10 @@ export default function Dream() {
                                 )}
 
                                 {asiaCupList.length > 0 && (
-                                    <div className="card" style={{ marginTop: "10px" }}>
+                                    <div className="card" style={{marginTop: "10px"}}>
                                         <h5
                                             className="card-header tbg"
-                                            style={{ color: "#FFFFFF" }}
+                                            style={{color: "#FFFFFF"}}
                                         >
                                             Asia Cup
                                         </h5>
@@ -237,14 +237,14 @@ export default function Dream() {
                         <div className="mb-5">
                             <RegisterWidget
                                 name="Right Sidebar One"
-                                style={{ width: "100%", height: "400px" }}
+                                style={{width: "100%", height: "400px"}}
                             />
                         </div>
 
                         <div className="mb-5">
                             <RegisterWidget
                                 name="Right Sidebar Two"
-                                style={{ width: "100%", height: "400px" }}
+                                style={{width: "100%", height: "400px"}}
                             />
                         </div>
                     </div>

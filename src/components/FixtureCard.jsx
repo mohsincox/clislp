@@ -6,7 +6,6 @@ function FixtureCard({match}) {
 
     return <div className="card mb-5">
         <div className="card-body">
-            {match.id}
             <div className="d-flex justify-content-between align-items-center">
                 <div className="l-group tgroup">
                     {match.tournament_team_one.country == null ? (
