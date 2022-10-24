@@ -1,8 +1,39 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { API_PUBLIC_URL } from "../constants";
 import RegisterWidget from "./RegisterWidget";
 
 export default function Dream() {
+  const [iccT20List, setIccT20List] = useState([]);
+  const [asiaCupList, setAsiaCupList] = useState([]);
+
+  useEffect(() => {
+    (async () => {
+      await axios
+        .get(`${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr/4`, {})
+        .then((response) => {
+          setIccT20List(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      await axios
+        .get(`${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr/1`, {})
+        .then((response) => {
+          setAsiaCupList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
+  }, []);
+
   return (
     <>
       <div className="container" style={{ marginTop: "30px" }}>
@@ -114,7 +145,10 @@ export default function Dream() {
               </span>
             </div>
             <div style={{ marginTop: "10px" }}>
-              <RegisterWidget name="Middle Widget" style={{width: "100%", height: "215px"}} />
+              <RegisterWidget
+                name="Middle Widget"
+                style={{ width: "100%", height: "215px" }}
+              />
             </div>
           </div>
 
@@ -122,146 +156,69 @@ export default function Dream() {
             <span>Dream Teams Ranking</span>
             <div className="card">
               <div className="card-body">
-                <div className="card">
-                  <h5
-                    className="card-header bg-primary"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Asia Cup
-                  </h5>
-                  <div className="card-body">
-                    <div>
-                      <div className="float-start">Teams</div>
-                      <div className="float-end">Pts</div>
+                {iccT20List.length > 0 && (
+                  <div className="card">
+                    <h5
+                      className="card-header bg-primary"
+                      style={{ color: "#FFFFFF" }}
+                    >
+                      ICC T20 World Cup
+                    </h5>
+                    <div className="card-body">
+                      <div>
+                        <div className="float-start">Teams</div>
+                        <div className="float-end">Pts</div>
+                      </div>
+                      <table className="table table-striped">
+                        <tbody>
+                          {iccT20List.map((rankTeam, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{rankTeam.user?.name}</td>
+                              <td>
+                                <span className="float-end">
+                                  {rankTeam.total_point}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <table className="table table-striped">
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Royals Eleven</td>
-                          <td>
-                            <span className="float-end">15</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">13</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Happy Club</td>
-                          <td>
-                            <span className="float-end">11</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">10</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
-                </div>
+                )}
 
-                <div className="card" style={{ marginTop: "10px" }}>
-                  <h5
-                    className="card-header bg-primary"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Champions League
-                  </h5>
-                  <div className="card-body">
-                    <div>
-                      <div className="float-start">Teams</div>
-                      <div className="float-end">Pts</div>
+                {asiaCupList.length > 0 && (
+                  <div className="card" style={{ marginTop: "10px" }}>
+                    <h5
+                      className="card-header bg-primary"
+                      style={{ color: "#FFFFFF" }}
+                    >
+                      Asia Cup
+                    </h5>
+                    <div className="card-body">
+                      <div>
+                        <div className="float-start">Teams</div>
+                        <div className="float-end">Pts</div>
+                      </div>
+                      <table className="table table-striped">
+                        <tbody>
+                          {asiaCupList.map((rankTeam, index) => (
+                            <tr key={index}>
+                              <td>{index + 1}</td>
+                              <td>{rankTeam.user?.name}</td>
+                              <td>
+                                <span className="float-end">
+                                  {rankTeam.total_point}
+                                </span>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
-                    <table className="table table-striped">
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Royals Eleven</td>
-                          <td>
-                            <span className="float-end">15</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">13</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Happy Club</td>
-                          <td>
-                            <span className="float-end">11</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">10</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
                   </div>
-                </div>
-
-                <div className="card" style={{ marginTop: "10px" }}>
-                  <h5
-                    className="card-header bg-primary"
-                    style={{ color: "#FFFFFF" }}
-                  >
-                    Asia Cup
-                  </h5>
-                  <div className="card-body">
-                    <div>
-                      <div className="float-start">Teams</div>
-                      <div className="float-end">Pts</div>
-                    </div>
-                    <table className="table table-striped">
-                      <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Royals Eleven</td>
-                          <td>
-                            <span className="float-end">15</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>2</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">13</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>3</td>
-                          <td>Happy Club</td>
-                          <td>
-                            <span className="float-end">11</span>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>4</td>
-                          <td>Super Class Boys</td>
-                          <td>
-                            <span className="float-end">10</span>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
@@ -276,11 +233,17 @@ export default function Dream() {
             {/*  <img src={require("../images/add_spon_dr_side.png")} alt="" />*/}
             {/*</div>*/}
             <div className="mb-5">
-              <RegisterWidget name="Right Sidebar One" style={{width: "100%", height: "400px"}} />
+              <RegisterWidget
+                name="Right Sidebar One"
+                style={{ width: "100%", height: "400px" }}
+              />
             </div>
 
             <div className="mb-5">
-              <RegisterWidget name="Right Sidebar Two" style={{width: "100%", height: "400px"}} />
+              <RegisterWidget
+                name="Right Sidebar Two"
+                style={{ width: "100%", height: "400px" }}
+              />
             </div>
           </div>
         </div>
