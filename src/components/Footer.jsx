@@ -3,6 +3,7 @@ import "./footer.css";
 import RegisterWidget from "./RegisterWidget";
 import axios from "axios";
 import {API_PUBLIC_URL} from "../constants";
+import logo from '../logo.svg'
 
 export default function Footer() {
   const [pagesData, setPagesData] = useState([]);
@@ -21,18 +22,17 @@ export default function Footer() {
     <>
       <div
         className="container-fluid"
-        style={{ background: "#2E2E2E", color: "#FFFFFF" }}
+        style={{ background: "#141527", color: "#FFFFFF" }}
       >
 
         <div className="container">
           <div className="row p-5">
             <div className="col-md-6">
-              <h1 className="text-white">SL PLAY 11...</h1>
+              <img src={logo} alt="" className="mb-2" style={{width: "20%"}}/>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam
-                eu turpis molestie, dictum est a, mattis tellus. Sed dignissim,
-                metus nec fringilla accumsan, risus sem sollicitudin lacus, ut
-                interdum tellus elit sed risus.{" "}
+                The fight for excellence in cricket has begun!
+                Shoplover brings Shoplover Play 11-cricket fantasy game to increase the excitement of cricket lovers.
+                Come to these dream field now with your dream team to experience the full on craze of T20 World Cup.
               </p>
 
               {/* <i className="fa fa-car"></i>
@@ -68,19 +68,19 @@ export default function Footer() {
               </div> */}
 
               <div className="col item social">
-                <a href="/">
+                <a href="https://www.facebook.com/shoplover.ecommerce" target="_blank">
                   <i className="fa fa-facebook"></i>
                 </a>
-                <a href="/">
+                <a href="https://twitter.com/ShoploverBD"  target="_blank">
                   <i className="fa fa-twitter"></i>
                 </a>
-                <a href="/">
+                <a href="https://www.youtube.com/channel/UCsjWm-rGA3WSHo3kjsW-EDA"  target="_blank">
                   <i className="fa fa-youtube"></i>
                 </a>
-                <a href="/">
+                <a href="https://www.linkedin.com/company/77150386"  target="_blank">
                   <i className="fa fa-linkedin"></i>
                 </a>
-                <a href="/">
+                <a href="https://www.instagram.com/shoplover.ecommerce/"  target="_blank">
                   <i className="fa fa-instagram"></i>
                 </a>
               </div>
@@ -156,10 +156,10 @@ export default function Footer() {
 
       <div
         className="container-fluid"
-        style={{ background: "black", color: "#FFFFFF", padding: "10px" }}
+        style={{ background: "#36384D", color: "#FFFFFF", padding: "10px" }}
       >
         <div className="container">
-          <p>© Copyright 2022 I All Rights Reserved by Shoplover.com </p>
+          <p className="text-center">© Copyright 2022 I All Rights Reserved by Shoplover.com </p>
         </div>
       </div>
     </>

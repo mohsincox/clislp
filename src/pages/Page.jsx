@@ -34,7 +34,7 @@ export default function Page() {
 
 
             <div className="container mt-5 mb-5">
-                <div className="page" style={{minHeight: "500px", width: "100%", border: "1px solid #ddd"}}>
+                <div className="page" style={{minHeight: "500px", width: "100%", border: "1px solid #ddd", padding: "20px"}}>
                     <h1  className="text-center mb-2 text-uppercase" style={{borderBottom: "2px solid #ddd"}}>{pageData.name}</h1>
                     <div className="post__content" dangerouslySetInnerHTML={{__html: pageData.content}}></div>
                 </div>

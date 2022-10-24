@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import RegisterWidget from "./RegisterWidget";
+import dreamSvg from "../images/dream.svg"
 
 export default function Dream() {
   return (
@@ -11,10 +12,11 @@ export default function Dream() {
             <span>How to Build a Dream Team & Win Prizes?</span>
             <div style={{ position: "relative" }}>
               <img
-                src={require("../images/dream.png")}
+                src={dreamSvg}
                 alt=""
-                width={450}
+                width="100%"
                 height={660}
+                style={{objectFit: "cover"}}
               />
               <span
                 style={{
@@ -124,7 +126,7 @@ export default function Dream() {
               <div className="card-body">
                 <div className="card">
                   <h5
-                    className="card-header bg-primary"
+                    className="card-header tbg"
                     style={{ color: "#FFFFFF" }}
                   >
                     Asia Cup
@@ -171,7 +173,7 @@ export default function Dream() {
 
                 <div className="card" style={{ marginTop: "10px" }}>
                   <h5
-                    className="card-header bg-primary"
+                    className="card-header tbg"
                     style={{ color: "#FFFFFF" }}
                   >
                     Champions League
@@ -218,7 +220,7 @@ export default function Dream() {
 
                 <div className="card" style={{ marginTop: "10px" }}>
                   <h5
-                    className="card-header bg-primary"
+                    className="card-header tbg"
                     style={{ color: "#FFFFFF" }}
                   >
                     Asia Cup
