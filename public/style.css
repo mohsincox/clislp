@@ -11,3 +11,27 @@
 .main-wrapper {
     overflow: hidden;
 }
+
+.ku-main-slider {
+    overflow: hidden;
+    width: 100%;
+    height: 600px;
+    background: red;
+    object-fit: fill;
+}
+
+.ku-main-slider img {
+    object-fit: fill;
+    height: inherit;
+    width: inherit;
+}
+
+
+/* the slides */
+/*.slider-section .slick-slide {*/
+/*    margin: 0 10px;*/
+/*}*/
+/*!* the parent *!*/
+/*.slider-section .slick-list {*/
+/*    margin: 0 -10px;*/
+/*}*/

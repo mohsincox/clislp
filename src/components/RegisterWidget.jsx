@@ -62,7 +62,7 @@ export const RegisterWidget = (props) => {
         <AdsViewer
             ads={filterAds}
             style={props.style ?? {width: 'initial', height: 'initial', overflow: 'hidden'}}
-            imageStyle={props.imageStyle ?? {width: 'inherit', height: 'inherit', objectFit: 'cover'}}
+            imageStyle={props.imageStyle ?? {width: 'inherit', height: 'inherit', objectFit: 'fill'}}
         />
     </>
 }

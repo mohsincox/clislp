@@ -82,6 +82,7 @@ import axios from "axios";
 import { API_PUBLIC_URL } from "./constants";
 import MyTeam from "./pages/MyTeam";
 import './App.css';
+import './responsive.css';
 
 export const UserContext = React.createContext(null);
 

@@ -7,13 +7,21 @@ import AddSponsor from "./../components/AddSponsor";
 import Dream from "./../components/Dream";
 import LatestNews from "../components/LatestNews";
 import Footer from "../components/Footer";
+import MobileHeader from "../components/MobileHeader";
 
 export default function Home() {
     return (
         <div className="main-wrapper">
             <div className="header-section ku-section">
-                <Header/>
+                <div className="desktop-header d-none d-md-block">
+                    <Header/>
+                </div>
+                <div className="mobile-header d-md-none d-sm-block">
+                    <MobileHeader />
+                </div>
             </div>
+
+
             <div className="slider-section ku-section">
                 <SlideShow/>
             </div>

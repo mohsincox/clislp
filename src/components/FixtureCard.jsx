@@ -2,9 +2,9 @@ import React, {Component} from 'react';
 import {API_PUBLIC_URL} from "../constants";
 
 function FixtureCard({match}) {
-    console.log(match);
 
-    return <div className="card mb-5">
+
+    return <div className="card fixture-single-slide">
         <div className="card-body">
             <div className="d-flex justify-content-between align-items-center">
                 <div className="l-group tgroup">
