@@ -1,11 +1,11 @@
 /* the slides */
 .fixture-full-container .slick-slide {
-    margin: 0 27px;
+    margin: 0 15px;
 }
 
 /* the parent */
 .fixture-full-container .slick-list {
-    margin: 0 -27px;
+    margin: 0 -10px;
 }
 
 .fixture-full-container .nav-pills .nav-link.active, .nav-pills .show>.nav-link {
