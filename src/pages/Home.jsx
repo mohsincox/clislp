@@ -9,21 +9,34 @@ import LatestNews from "../components/LatestNews";
 import Footer from "../components/Footer";
 
 export default function Home() {
-  return (
-    <div>
-      <Header />
-      <SlideShow />
-      <Fixtures />
-      <hr />
-      {/* <Matches />
-      <hr /> */}
-      <div className="top-header">
-          <AddSponsor />
-      </div>
+    return (
+        <div className="main-wrapper">
+            <div className="header-section ku-section">
+                <Header/>
+            </div>
+            <div className="slider-section ku-section">
+                <SlideShow/>
+            </div>
 
-      <Dream />
-      <LatestNews />
-      <Footer />
-    </div>
-  );
+            <div className="fixtures-section ku-section">
+                <Fixtures/>
+            </div>
+
+            <hr/>
+
+            <div className="add-sponsor-section ku-section">
+                <AddSponsor/>
+            </div>
+            <div className="dream-section ku-section">
+                <Dream/>
+            </div>
+            <div className="latest-news-section ku-section">
+                <LatestNews/>
+            </div>
+
+            <div className="footer-section ku-section">
+                <Footer/>
+            </div>
+        </div>
+    );
 }

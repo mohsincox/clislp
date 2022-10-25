@@ -7,3 +7,7 @@
 .tbg {
     background: #C50B0E !important;
 }
+
+.main-wrapper {
+    overflow: hidden;
+}
