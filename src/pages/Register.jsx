@@ -54,6 +54,10 @@ function Register() {
       toast.error("Email is required!");
     } else if (!regex.test(formValues.email)) {
       toast.error("Not valid email format!");
+    } else if (formValues.gender === "") {
+      toast.error("Gender is required!");
+    } else if (formValues.age === "") {
+      toast.error("Age is required!");
     } else if (formValues.password === "") {
       toast.error("Password is required!");
     } else if (formValues.password.length < 6) {
@@ -98,7 +102,7 @@ function Register() {
             Authorization: token,
           },
         })
-        .then((res) => navigate("/tournament"))
+        .then((res) => navigate("/"))
         .catch((err) => {
           navigate("/register");
         });
@@ -242,7 +246,9 @@ function Register() {
 
               <div className="row">
                 <div className="mb-3 col-sm-6 col-6">
-                  <label className="form-label">Gender</label>
+                  <label className="form-label">
+                    Gender <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <select
                     className="form-select"
                     name="gender"
@@ -258,9 +264,11 @@ function Register() {
                 </div>
 
                 <div className="mb-3 col-sm-6 col-6">
-                  <label className="form-label">Age</label>
+                  <label className="form-label">
+                    Age <span style={{ color: "#ff0000" }}>*</span>
+                  </label>
                   <input
-                    type="text"
+                    type="number"
                     className="form-control"
                     name="age"
                     placeholder="Age"
