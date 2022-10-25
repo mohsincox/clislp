@@ -5,6 +5,10 @@ import { UserContext } from "../App";
 import logo from "../logo.svg";
 import header from "./header.css";
 import JoinNowButton from "./JoinNowButton";
+import {Dropdown, Menu, Space} from "antd";
+import Avatar from "antd/es/avatar";
+import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
+import {now} from "underscore";
 
 function Header() {
   const navigate = useNavigate();
@@ -31,6 +35,35 @@ function Header() {
       return { ...previousState, isLoggedIn: false };
     });
   };
+
+  const menu = (
+      <Menu
+          items={[
+            {
+              label: <Link to="#" style={{ textDecoration: "none", color: "#000" }}>{name}</Link>,
+              key: '1',
+            },
+            {
+              type: 'divider',
+            },
+            {
+              label: <Link to="/my-team" style={{ textDecoration: "none", color: "#000" }}>My Team</Link>,
+              key: '2',
+            },
+            // {
+            //     label: <Link to="/user/settings" style={{ textDecoration: "none", color: "#000" }}>Settings</Link>,
+            //     key: '3',
+            // },
+            {
+              type: 'divider',
+            },
+            {
+              label: <button className="btn btn-link p-0" style={{ textDecoration: "none", color: "#000" }} onClick={logout}>Logout</button>,
+              key: '2',
+            },
+          ]}
+      />
+  );
 
   return (
     <div className="header-container d-flex justify-content-between align-items-center">
@@ -66,28 +99,48 @@ function Header() {
       {getLoginData === null ? (
         <JoinNowButton />
       ) : (
-        <NavDropdown
-          title={
-            <div style={{ display: "inline-block" }}>
-              <img src={require("../images/user.png")} alt="" width={"30px"} />
-              {name}
-            </div>
-          }
-          id="basic-nav-dropdown"
-          className="me-5"
-        >
-          <NavDropdown.Item>
-            {" "}
-            <Link
-              to="/my-team"
-              style={{ textDecoration: "none", color: "#000" }}
-            >
-              My Team &nbsp;&nbsp;&nbsp;
-            </Link>
-          </NavDropdown.Item>
-          <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-        </NavDropdown>
-      )}
+
+          <div style={{marginRight: "30px"}}>
+            <Dropdown overlay={menu} trigger={['click']} placement="bottomRight" arrow overlayStyle={{minWidth: "150px"}}>
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar src="https://joeschmoe.io/api/v1/random" size="large" />
+                  <DownOutlined style={{color: "#C50B0E"}} />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+
+
+
+
+
+      //   <NavDropdown
+      //     title={
+      //       <div style={{ display: "inline-block" }}>
+      //         <img src={require("../images/user.png")} alt="" width={"30px"} />
+      //         {name}
+      //       </div>
+      //     }
+      //     id="basic-nav-dropdown"
+      //     className="me-5"
+      //   >
+      //     <NavDropdown.Item>
+      //       {" "}
+      //       <Link
+      //         to="/my-team"
+      //         style={{ textDecoration: "none", color: "#000" }}
+      //       >
+      //         My Team &nbsp;&nbsp;&nbsp;
+      //       </Link>
+      //     </NavDropdown.Item>
+      //     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+      //   </NavDropdown>
+      //
+        )
+
+
+      }
     </div>
   );
 }

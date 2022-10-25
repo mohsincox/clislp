@@ -25,7 +25,7 @@ const JoinNowButton = () => {
         });
     };
 
-    console.log(user)
+
     return <div className="join-now">
         {
 

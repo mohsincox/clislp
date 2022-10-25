@@ -7,23 +7,44 @@ import AddSponsor from "./../components/AddSponsor";
 import Dream from "./../components/Dream";
 import LatestNews from "../components/LatestNews";
 import Footer from "../components/Footer";
+import MobileHeader from "../components/MobileHeader";
 
 export default function Home() {
-  return (
-    <div>
-      <Header />
-      <SlideShow />
-      <Fixtures />
-      <hr />
-      {/* <Matches />
-      <hr /> */}
-      <div className="top-header">
-          <AddSponsor />
-      </div>
+    return (
+        <div className="main-wrapper">
+            <div className="header-section ku-section">
+                <div className="desktop-header d-none d-md-block">
+                    <Header/>
+                </div>
+                <div className="mobile-header d-md-none d-sm-block">
+                    <MobileHeader />
+                </div>
+            </div>
 
-      <Dream />
-      <LatestNews />
-      <Footer />
-    </div>
-  );
+
+            <div className="slider-section ku-section">
+                <SlideShow/>
+            </div>
+
+            <div className="fixtures-section ku-section">
+                <Fixtures/>
+            </div>
+
+            <hr/>
+
+            <div className="add-sponsor-section ku-section">
+                <AddSponsor/>
+            </div>
+            <div className="dream-section ku-section">
+                <Dream/>
+            </div>
+            <div className="latest-news-section ku-section">
+                <LatestNews/>
+            </div>
+
+            <div className="footer-section ku-section">
+                <Footer/>
+            </div>
+        </div>
+    );
 }
