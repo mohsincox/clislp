@@ -1,6 +1,6 @@
 import axios from "axios";
 import {Tab, Tabs} from "react-bootstrap";
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {API_PUBLIC_URL} from "../constants";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -53,15 +53,19 @@ export default function Fixtures() {
         arrow: true,
         speed: 500,
         slidesToShow: 4,
-        slidesToScroll: 4,
+        slidesToScroll: 3,
         nextArrow: <SampleNextArrow/>,
         prevArrow: <SamplePrevArrow/>,
         responsive: [
             {
-                breakpoint: 1024,
+                breakpoint: 1025,
                 settings: {
+                    infinite: false,
                     slidesToShow: 3,
-                    slidesToScroll: 3,
+                    slidesToScroll: 2,
+                    speed: 500,
+                    nextArrow: <SampleNextArrow/>,
+                    prevArrow: <SamplePrevArrow/>,
                 }
             },
             {
@@ -69,7 +73,10 @@ export default function Fixtures() {
                 settings: {
                     slidesToShow: 2,
                     slidesToScroll: 2,
-                    initialSlide: 2
+                    initialSlide: 2,
+                    arrow: false,
+                    nextArrow: null,
+                    prevArrow: null,
                 }
             },
             {
@@ -86,7 +93,7 @@ export default function Fixtures() {
     return (
         <div className="container mt-3">
             <div className="fixture-full-container">
-                <h4 className="fw-bold">FIXTURES</h4>
+                <h4 className="fw-bold fx-title">FIXTURES</h4>
                 <Tabs variant="pills">
                     {fixtureList.map((fixture, index) => (
                         <Tab
