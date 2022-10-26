@@ -83,7 +83,10 @@ export default function Fixtures() {
                 breakpoint: 600,
                 settings: {
                     slidesToShow: 1,
-                    slidesToScroll: 1
+                    slidesToScroll: 1,
+                    arrow: false,
+                    nextArrow: null,
+                    prevArrow: null,
                 }
             }
         ]
