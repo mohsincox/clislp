@@ -54,8 +54,8 @@ function FixtureCard({match}) {
             </div>
         </div>
         <div className="card-footer d-flex justify-content-between" style={{background: "#EAE1FF"}}>
-            <p className="p-0">{match.start_date}</p>
-            <p className="p-0"> Starts at {match.start_time}</p>
+            <p className="p-0 m-0">{match.start_date}</p>
+            <p className="p-0 m-0"> Starts at {match.start_time}</p>
         </div>
     </div>
 }

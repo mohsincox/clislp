@@ -9,6 +9,8 @@ import {Dropdown, Menu, Space} from "antd";
 import Avatar from "antd/es/avatar";
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
 import {now} from "underscore";
+import user from "../images/user.png"
+import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 
 function Header() {
   const navigate = useNavigate();
@@ -104,8 +106,8 @@ function Header() {
             <Dropdown overlay={menu} trigger={['click']} placement="bottomRight" arrow overlayStyle={{minWidth: "150px"}}>
               <a onClick={(e) => e.preventDefault()}>
                 <Space>
-                  <Avatar src="https://joeschmoe.io/api/v1/random" size="large" />
-                  <DownOutlined style={{color: "#C50B0E"}} />
+                    <Avatar size="large" icon={<UserOutlined />} />
+                    <DownOutlined style={{color: "#000", fontWeight: "bold"}} />
                 </Space>
               </a>
             </Dropdown>

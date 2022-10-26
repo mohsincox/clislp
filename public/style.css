@@ -25,6 +25,22 @@
     height: inherit;
     width: inherit;
 }
+.tgroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.tgroup img {
+    border-radius: 10px;
+    width: 100px;
+    height: 70px;
+    margin-bottom: 15px;
+    border: 1px solid #dddd;
+    box-shadow: 0 0 6px 2px #eee;
+}
+
+
 
 
 /* the slides */
