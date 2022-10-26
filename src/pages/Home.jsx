@@ -13,23 +13,22 @@ export default function Home() {
     return (
         <div className="main-wrapper">
             <div className="header-section ku-section">
-                <div className="desktop-header d-none d-md-block">
+                <div className="desktop-header d-xxl-block d-xl-block d-lg-block d-md-none d-sm-none d-none">
                     <Header/>
                 </div>
-                <div className="mobile-header d-md-none d-sm-block">
+                <div className="mobile-header d-xxl-none d-xl-none d-lg-none d-md-block d-sm-block d-block">
                     <MobileHeader />
                 </div>
             </div>
-
 
             <div className="slider-section ku-section">
                 <SlideShow/>
             </div>
 
+            <hr/>
             <div className="fixtures-section ku-section">
                 <Fixtures/>
             </div>
-
             <hr/>
 
             <div className="add-sponsor-section ku-section">

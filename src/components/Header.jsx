@@ -12,11 +12,12 @@ import {now} from "underscore";
 import user from "../images/user.png"
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 
-function Header() {
+function Header(props) {
   const navigate = useNavigate();
 
   const { authUser, setAuthUser } = useContext(UserContext);
   const [name, setName] = useState("");
+  let currentPath = window.location.pathname;
 
   const getLoginData = localStorage.getItem("loginData");
 
@@ -67,6 +68,7 @@ function Header() {
       />
   );
 
+
   return (
     <div className="header-container d-flex justify-content-between align-items-center">
       <div className="logo">
@@ -76,16 +78,16 @@ function Header() {
       </div>
       <div className="main-menu">
         <ul>
-          <li className="active">
+          <li className={ (currentPath == '/') ? "active" : null}>
             <Link to="/">HOME</Link>
           </li>
-          <li>
+          <li className={ (currentPath == '/game-tournaments') ? "active" : null}>
             <Link to="/game-tournaments">TOURNAMENTS</Link>
           </li>
-          <li>
+          <li className={ (currentPath == '/ranking') ? "active" : null}>
             <Link to="/ranking">RANKINGS</Link>
           </li>
-          <li>
+          <li className={ (currentPath == '/contact') ? "active" : null}>
             <Link to="/contact">CONTACT</Link>
           </li>
         </ul>

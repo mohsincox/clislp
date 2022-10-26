@@ -174,7 +174,6 @@ function MobileHeader() {
                             )
 
                         }
-
                     </div>
                 </div>
             </div>

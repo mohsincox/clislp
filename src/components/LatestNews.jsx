@@ -55,7 +55,7 @@ export default function LatestNews() {
 
                             newsList.map((nnn, index) => (
 
-                            <div className="single-latest-new mb-3">
+                            <div className="single-latest-new mb-3" key={nnn.id}>
                                 <div className="l-new-left">
                                     <h6 className="m-0 text-danger mb-2">{nnn.tournament["name"]}</h6>
                                     <h5 className="m-0 text-black text-uppercase mb-2">{nnn.title}</h5>

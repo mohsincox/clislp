@@ -46,14 +46,25 @@
 }
 
 .fixture-full-container .next {
-    right: -145px;
+    right: -60px;
 }
 
 .fixture-full-container .prev {
-    left: -145px;
+    left: -60px;
 
 }
 
 .fixture-full-container .slick-track {
     width: 100000000px !important;
+}
+
+.fixture-full-container .nav-item button {
+    padding: 5px 10px;
+    font-size: 11px;
+}
+
+.fixture-full-container h4.fx-title {
+    margin: 6px 10px 0px 0px;
+    font-size: 18px;
+    float: left;
 }

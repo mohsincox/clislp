@@ -89,7 +89,7 @@ export default function Footer() {
               <p>INFORMATION</p>
               <ul style={{listStyle: 'none', color: '#fff', padding: '0px', margin: '0px'}}>
                 {pagesData.map(page => (
-                    <li style={{marginBottom: "3px"}}>
+                    <li style={{marginBottom: "3px"}} key={page.id}>
                       <a style={{color: '#fff', textDecoration: 'none'}} href={`/pages/${page.slug}`}>{page.name}</a>
                     </li>
                 ) )}
@@ -128,7 +128,7 @@ export default function Footer() {
                 <b>Address:</b>
                 <br />
                 <span style={{ fontSize: "13px" }}>
-                  Corporate Office: Road no-1A, House No-32, Baridhara J Block,
+                  Corporate Office: Road No-1A, House No-32, Baridhara J Block,
                   Dhaka.
                 </span>
               </p>
@@ -159,7 +159,7 @@ export default function Footer() {
         style={{ background: "#36384D", color: "#FFFFFF", padding: "10px" }}
       >
         <div className="container">
-          <p className="text-center">© Copyright 2022 I All Rights Reserved by Shoplover.com </p>
+          <p className="text-center m-0">© Copyright 2022 I All Rights Reserved by Shoplover.com </p>
         </div>
       </div>
     </>
