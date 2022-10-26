@@ -82,7 +82,7 @@ export default function BuildTeam() {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
       await axios
-        .get(`${API_PUBLIC_URL}api/players`, {
+        .get(`${API_PUBLIC_URL}api/players/active`, {
           headers: {
             Authorization: token,
           },
