@@ -97,3 +97,35 @@
     width: 200px;
     height: 200px;
 }
+
+ul#progressbar {
+    width: 450px;
+    margin: 20px auto;
+}
+
+ul#progressbar li:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+    font-size: 16px;
+    width: 44px;
+    height: 44px;
+}
+
+#progressbar li:first-child:after {
+    width: 50%;
+    right: 0;
+    left: initial;
+}
+
+#progressbar li:last-child:after {
+    width: 50%;
+    left: 0;
+}
+ul#progressbar li.active:before {
+    background: #5ABE2B !important;
+}
+ul#progressbar li.active:after {
+    background: lightgray;
+}

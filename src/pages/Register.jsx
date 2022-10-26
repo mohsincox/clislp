@@ -10,6 +10,7 @@ import EyeTwoTone from "@ant-design/icons/lib/icons/EyeTwoTone";
 import EyeInvisibleOutlined from "@ant-design/icons/lib/icons/EyeInvisibleOutlined";
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
+import RegisterWidget from "../components/RegisterWidget";
 
 
 function Register() {
@@ -268,11 +269,7 @@ function Register() {
                 <div className="container-fluid" style={{marginBottom: "15px"}}>
                     <div className="row">
                         <div className="col-sm-2 d-none d-sm-block mt-3">
-                            <img
-                                src={require("../images/add_spon_dr_side.png")}
-                                alt=""
-                                width={"200px"}
-                            />
+                            <RegisterWidget name="Reg Right" style={{width: "100%", height: "600px"}} />
                         </div>
 
 
@@ -471,11 +468,7 @@ function Register() {
 
 
                         <div className="col-sm-2 d-none d-sm-block mt-3">
-                            <img
-                                src={require("../images/add_spon_dr_side.png")}
-                                alt=""
-                                width={"200px"}
-                            />
+                            <RegisterWidget name="Reg Left" style={{width: "100%", height: "600px"}} />
                         </div>
                     </div>
                 </div>
