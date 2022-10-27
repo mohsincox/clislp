@@ -50,7 +50,7 @@
     }
 
     .ku-main-slider {
-        height: 150px;
+        height: 300px;
         border-radius: 10px;
     }
 
@@ -229,6 +229,30 @@
         overflow: scroll;
     }
 
+    .regi-left {
+        padding-right: 0px;
+        border-right: none;
+    }
+    .section-top-required {
+        margin-top: -10px;
+    }
+    .ku-main-slider {
+        height: 300px;
+        border-radius: 10px;
+    }
+
+}
+
+@media screen and (max-width: 550px) {
+    ul#progressbar {
+        width: 370px;
+        margin: 0px auto 26px auto;
+        padding: 0;
+    }
+    .ku-main-slider {
+        height: 150px;
+        border-radius: 10px;
+    }
 }
 
 
@@ -238,9 +262,19 @@
     .mobile-menu .bars i {
         font-size: 20px;
     }
+    .ku-main-slider {
+        height: 150px;
+        border-radius: 10px;
+    }
 
     .sm-header-left .branding {
         font-size: 19px;
+    }
+
+    ul#progressbar {
+        width: 301px;
+        margin: 20px auto;
+        padding: 0;
     }
 }
 

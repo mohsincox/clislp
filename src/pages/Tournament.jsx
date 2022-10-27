@@ -1,196 +1,174 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { API_PUBLIC_URL } from "../constants";
+import {Link, useNavigate} from "react-router-dom";
+import {API_PUBLIC_URL} from "../constants";
 import Header from "../components/Header";
 import "./regStepOne.css";
 import Footer from "../components/Footer";
-import { toast } from "react-toastify";
+import {toast} from "react-toastify";
+import WebLayout from "../layouts/WebLayout";
+import BasicTemplate from "./Template/BasicTemplate";
 
 const Tournament = () => {
-  const [cricketTourList, setCricketTourList] = useState([]);
-  const [footballTourList, setFootballTourList] = useState([]);
-  const navigate = useNavigate();
+    const [cricketTourList, setCricketTourList] = useState([]);
+    const [footballTourList, setFootballTourList] = useState([]);
+    const navigate = useNavigate();
 
-  useEffect(() => {
-    const getLoginData = localStorage.getItem("loginData");
-    if (getLoginData === null) {
-      navigate("/register");
-    } else {
-      const data = JSON.parse(getLoginData);
-      const token = data.accessToken;
+    useEffect(() => {
+        const getLoginData = localStorage.getItem("loginData");
+        if (getLoginData === null) {
+            navigate("/register");
+        } else {
+            const data = JSON.parse(getLoginData);
+            const token = data.accessToken;
 
-      axios
-        .get(`${API_PUBLIC_URL}api/ws-tournaments/cricket`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          setCricketTourList(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 403) {
-            toast.error("No Permission");
-            // navigate("/");
-          }
-        });
-    }
-  }, []);
+            axios
+                .get(`${API_PUBLIC_URL}api/ws-tournaments/cricket`, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then((response) => {
+                    setCricketTourList(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 403) {
+                        toast.error("No Permission");
+                        // navigate("/");
+                    }
+                });
+        }
+    }, []);
 
-  useEffect(() => {
-    const getLoginData = localStorage.getItem("loginData");
-    if (getLoginData === null) {
-      navigate("/register");
-    } else {
-      const data = JSON.parse(getLoginData);
-      const token = data.accessToken;
+    useEffect(() => {
+        const getLoginData = localStorage.getItem("loginData");
+        if (getLoginData === null) {
+            navigate("/register");
+        } else {
+            const data = JSON.parse(getLoginData);
+            const token = data.accessToken;
 
-      axios
-        .get(`${API_PUBLIC_URL}api/ws-tournaments/football`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          setFootballTourList(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 403) {
-            toast.error("No Permission");
-            // navigate("/");
-          }
-        });
-    }
-  }, []);
+            axios
+                .get(`${API_PUBLIC_URL}api/ws-tournaments/football`, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then((response) => {
+                    setFootballTourList(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 403) {
+                        toast.error("No Permission");
+                        // navigate("/");
+                    }
+                });
+        }
+    }, []);
 
-  return (
-    <>
-      <Header />
+    return (
+        <WebLayout>
+            <div className="tournament-section ku-section section-top-required">
+                <div className="container-fluid" style={{marginBottom: "15px"}}>
+                    <BasicTemplate>
+                        <div className="col-12 col-lg-8">
+                            <div style={{marginTop: "15px"}} className="card-custom">
+                                <ul id="progressbar">
+                                    <li className="passed active" id="account">
+                                        <center>Informations</center>
+                                    </li>
+                                    <li className="active" id="personal">
+                                        <center>Tournaments</center>
+                                    </li>
+                                    <li id="confirm">
+                                        <center>Build Team</center>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div className="tournament-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
+                                <div>
+                                    <p>Cricket</p>
+                                    {
+                                        cricketTourList.map((cricketTour, index) => (
+                                            <Link
+                                                to={`/build-team/${cricketTour.id}`}
+                                                style={{textDecoration: "none"}}
+                                                key={cricketTour.id}
+                                                className="single-tour-item"
+                                            >
+                                                <div className="tournament-item me-3">
+                                                    <div className="tournament-logo">
+                                                        <img
+                                                            src={`${API_PUBLIC_URL}${cricketTour.logo}`}
+                                                            alt=""
+                                                        />
+                                                    </div>
+                                                    <div className="tournament-details">
+                                                        <p className="text-center">
+                                                            {cricketTour.name} <br/> {cricketTour.year}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        ))
+                                    }
+                                </div>
+                                <div className="row">
+                                    <p>Football</p>
 
-      <div className="container-fluid" style={{ marginBottom: "15px" }}>
-        <div className="row">
-          <div className="col-sm-2 d-none d-sm-block mt-3">
-            <img
-              src={require("../images/add_spon_dr_side.png")}
-              alt=""
-              width={"200px"}
-            />
-          </div>
-          <div className="col-sm-8">
-            <div style={{ marginTop: "15px" }} className="card-custom">
-              <ul id="progressbar">
-                <li className="passed" id="account">
-                  <center>Informations</center>
-                </li>
-                <li className="active" id="personal">
-                  <center>Tournaments</center>
-                </li>
-                <li id="confirm">
-                  <center>Build Team</center>
-                </li>
-              </ul>
+
+
+                                    {
+                                        footballTourList.length ? (
+                                            footballTourList.map((footballTour, index) => (
+                                                <Link
+                                                    to={`/build-team/${footballTour.id}`}
+                                                    style={{textDecoration: "none"}}
+                                                    key={footballTour.id}
+                                                    className="single-tour-item"
+                                                >
+                                                    <div className="tournament-item me-3">
+                                                        <div className="tournament-logo">
+                                                            <img
+                                                                src={`${API_PUBLIC_URL}${footballTour.logo}`}
+                                                                alt=""
+                                                            />
+                                                        </div>
+                                                        <div className="tournament-details">
+                                                            <p className="text-center">
+                                                                {footballTour.name} <br/> {footballTour.year}
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </Link>
+                                            ))
+                                        ) :
+                                            <Link to="/">
+                                                <div className="tournament-item me-3">
+                                                    <div className="tournament-logo" style={{fontSize: "10px"}}>
+                                                        Sorry! Event Not Found
+                                                    </div>
+                                                    <div className="tournament-details">
+                                                        <p className="text-center">
+                                                            Tournament no found
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </Link>
+
+
+
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </BasicTemplate>
+                </div>
             </div>
-            <hr />
-            <div className="row">
-              <p>Cricket</p>
-              {cricketTourList.map((cricketTour, index) => (
-                <div className="col-2" key={cricketTour.id}>
-                  <Link
-                    to={`/build-team/${cricketTour.id}`}
-                    style={{ textDecoration: "none" }}
-                  >
-                    <div className="card">
-                      <img
-                        src={`${API_PUBLIC_URL}${cricketTour.logo}`}
-                        alt=""
-                      />
-                    </div>
-                    <p
-                      className="text-center"
-                      style={{ marginBottom: "0px", fontSize: "12px" }}
-                    >
-                      {cricketTour.name} <br /> {cricketTour.year}
-                    </p>
-                  </Link>
-                </div>
-              ))}
-
-              {/* <div className="col-2">
-                <div className="card">
-                  <img src={require("../images/T20worldcup.png")} alt="" />
-                </div>
-                <p
-                  className="text-center"
-                  style={{ marginBottom: "0px", fontSize: "12px" }}
-                >
-                  ICC T20 <br /> World Cup
-                </p>
-              </div>
-
-              <div className="col-2">
-                <div className="card">
-                  <img src={require("../images/asiacup.png")} alt="" />
-                </div>
-                <p
-                  className="text-center"
-                  style={{ marginBottom: "0px", fontSize: "12px" }}
-                >
-                  Asia Cup <br /> 2022
-                </p>
-              </div>
-
-              <div className="col-2">
-                <div className="card">
-                  <img src={require("../images/T20worldcup.png")} alt="" />
-                </div>
-                <p
-                  className="text-center"
-                  style={{ marginBottom: "0px", fontSize: "12px" }}
-                >
-                  ICC T20 <br /> World Cup
-                </p>
-              </div> */}
-            </div>
-            <hr />
-            <div className="row">
-              <p>Football</p>
-
-              {footballTourList.map((footballTour, index) => (
-                <div className="col-2" key={footballTour.id}>
-                  <div className="card">
-                    <center>
-                      <img
-                        src={`${API_PUBLIC_URL}${footballTour.logo}`}
-                        alt=""
-                        width="41px"
-                      />
-                    </center>
-                  </div>
-                  <p
-                    className="text-center"
-                    style={{ marginBottom: "0px", fontSize: "12px" }}
-                  >
-                    {footballTour.name} <br /> {footballTour.year}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="col-sm-2 d-none d-sm-block mt-3">
-            <img
-              src={require("../images/add_spon_dr_side.png")}
-              alt=""
-              width={"200px"}
-            />
-          </div>
-        </div>
-      </div>
-      <Footer />
-    </>
-  );
+        </WebLayout>
+    );
 };
 
 export default Tournament;
