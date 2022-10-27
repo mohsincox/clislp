@@ -37,7 +37,7 @@ export const RegisterWidget = (props) => {
     function checkForWidgetRegister(widgetList, name) {
         if (widgetList.length) {
             let widgetFound = widgetList.filter(wl => wl.name == name);
-            if (!widgetFound.length) throw Error("Invalid widget name");
+            if (!widgetFound.length) throw Error(`Invalid widget name::${name}`);
             return widgetFound;
         }
     }

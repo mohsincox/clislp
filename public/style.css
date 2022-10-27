@@ -25,12 +25,14 @@
     height: inherit;
     width: inherit;
 }
+
 .tgroup {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
 }
+
 .tgroup img {
     border-radius: 10px;
     width: 100px;
@@ -41,13 +43,89 @@
 }
 
 
+.dream-team-ranking .card {
+    border: 1px solid #c50b0e;
+}
 
+.section-top-required {
+    margin-top: 50px;
+}
 
-/* the slides */
-/*.slider-section .slick-slide {*/
-/*    margin: 0 10px;*/
-/*}*/
-/*!* the parent *!*/
-/*.slider-section .slick-list {*/
-/*    margin: 0 -10px;*/
-/*}*/
+.desktop-header {
+    box-shadow: 0px 4px 4px rgb(0 0 0 / 29%);
+}
+
+.registration-area {
+    background: #F7F9FD;
+    border-radius: 10px;
+}
+
+.registration-area .form-label {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #444444;
+}
+
+.registration-area input,
+.registration-area select{
+    border-color: transparent;
+}
+
+.registration-area .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector {
+    border-color: transparent;
+}
+
+.registration-area button[type="submit"] {
+    background: linear-gradient(90deg, #6D0000 0%, #5709FF 100%);
+    color: #fff;
+}
+.registration-area .privacy-policy {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 300;
+    font-size: 14px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+
+}
+
+.registration-area .ant-upload.ant-upload-select-picture-card {
+    width: 200px;
+    height: 200px;
+}
+
+ul#progressbar {
+    width: 450px;
+    margin: 20px auto;
+}
+
+ul#progressbar li:before {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 !important;
+    font-size: 16px;
+    width: 44px;
+    height: 44px;
+}
+
+#progressbar li:first-child:after {
+    width: 50%;
+    right: 0;
+    left: initial;
+}
+
+#progressbar li:last-child:after {
+    width: 50%;
+    left: 0;
+}
+ul#progressbar li.active:before {
+    background: #5ABE2B !important;
+}
+ul#progressbar li.active:after {
+    background: lightgray;
+}

@@ -15,7 +15,7 @@ export const AdsViewer = ({ ads, style, imageStyle }) => {
             (ads && ads.length) ? (
                 ads.map(ad => (
                     <a href={ad["link"]} target="_blank"  key={ad.id} className="d-block">
-                    <div className="addViwer mb-3 overflow-hidden" style={style}>
+                    <div className={`addViwer ${ads.length > 1 ? 'mb-3': null}overflow-hidden`} style={style}>
                         <img src={`${API_PUBLIC_URL}${ad["img_src"]}`} alt="" style={imageStyle}/>
                     </div>
                     </a>
