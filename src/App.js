@@ -81,8 +81,9 @@ import PageEdit from "./pages/admin/page/PageEdit";
 import axios from "axios";
 import { API_PUBLIC_URL } from "./constants";
 import MyTeam from "./pages/MyTeam";
-import './App.css';
-import './responsive.css';
+import "./App.css";
+import "./responsive.css";
+import ChangePassword from "./pages/ChangePassword";
 
 export const UserContext = React.createContext(null);
 
@@ -114,6 +115,7 @@ function App() {
             <Route path="/welcome-team" element={<WelcomeTeam />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/my-team" element={<MyTeam />} />
+            <Route path="/change-password" element={<ChangePassword />} />
 
             <Route path={`/admin`} element={<AdminLayout />}>
               <Route path={`/admin`} exact={true} element={<Dashboard />} />

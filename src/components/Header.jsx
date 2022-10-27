@@ -5,11 +5,11 @@ import { UserContext } from "../App";
 import logo from "../logo.svg";
 import header from "./header.css";
 import JoinNowButton from "./JoinNowButton";
-import {Dropdown, Menu, Space} from "antd";
+import { Dropdown, Menu, Space } from "antd";
 import Avatar from "antd/es/avatar";
 import DownOutlined from "@ant-design/icons/lib/icons/DownOutlined";
-import {now} from "underscore";
-import user from "../images/user.png"
+import { now } from "underscore";
+import user from "../images/user.png";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 
 function Header(props) {
@@ -40,34 +40,59 @@ function Header(props) {
   };
 
   const menu = (
-      <Menu
-          items={[
-            {
-              label: <Link to="#" style={{ textDecoration: "none", color: "#000" }}>{name}</Link>,
-              key: '1',
-            },
-            {
-              type: 'divider',
-            },
-            {
-              label: <Link to="/my-team" style={{ textDecoration: "none", color: "#000" }}>My Team</Link>,
-              key: '2',
-            },
-            // {
-            //     label: <Link to="/user/settings" style={{ textDecoration: "none", color: "#000" }}>Settings</Link>,
-            //     key: '3',
-            // },
-            {
-              type: 'divider',
-            },
-            {
-              label: <button className="btn btn-link p-0" style={{ textDecoration: "none", color: "#000" }} onClick={logout}>Logout</button>,
-              key: '2',
-            },
-          ]}
-      />
+    <Menu
+      items={[
+        {
+          label: (
+            <Link to="#" style={{ textDecoration: "none", color: "#000" }}>
+              {name}
+            </Link>
+          ),
+          key: "1",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <Link
+              to="/my-team"
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              My Team
+            </Link>
+          ),
+          key: "2",
+        },
+        {
+          label: (
+            <Link
+              to="/change-password"
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              Change Password
+            </Link>
+          ),
+          key: "3",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <button
+              className="btn btn-link p-0"
+              style={{ textDecoration: "none", color: "#000" }}
+              onClick={logout}
+            >
+              Logout
+            </button>
+          ),
+          key: "4",
+        },
+      ]}
+    />
   );
-
 
   return (
     <div className="header-container d-flex justify-content-between align-items-center">
@@ -78,16 +103,16 @@ function Header(props) {
       </div>
       <div className="main-menu">
         <ul>
-          <li className={ (currentPath == '/') ? "active" : null}>
+          <li className={currentPath == "/" ? "active" : null}>
             <Link to="/">HOME</Link>
           </li>
-          <li className={ (currentPath == '/game-tournaments') ? "active" : null}>
+          <li className={currentPath == "/game-tournaments" ? "active" : null}>
             <Link to="/game-tournaments">TOURNAMENTS</Link>
           </li>
-          <li className={ (currentPath == '/ranking') ? "active" : null}>
+          <li className={currentPath == "/ranking" ? "active" : null}>
             <Link to="/ranking">RANKINGS</Link>
           </li>
-          <li className={ (currentPath == '/contact') ? "active" : null}>
+          <li className={currentPath == "/contact" ? "active" : null}>
             <Link to="/contact">CONTACT</Link>
           </li>
         </ul>
@@ -103,48 +128,46 @@ function Header(props) {
       {getLoginData === null ? (
         <JoinNowButton />
       ) : (
+        <div style={{ marginRight: "30px" }}>
+          <Dropdown
+            overlay={menu}
+            trigger={["click"]}
+            placement="bottomRight"
+            arrow
+            overlayStyle={{ minWidth: "150px" }}
+          >
+            <a onClick={(e) => e.preventDefault()}>
+              <Space>
+                <Avatar size="large" icon={<UserOutlined />} />
+                <DownOutlined style={{ color: "#000", fontWeight: "bold" }} />
+              </Space>
+            </a>
+          </Dropdown>
+        </div>
 
-          <div style={{marginRight: "30px"}}>
-            <Dropdown overlay={menu} trigger={['click']} placement="bottomRight" arrow overlayStyle={{minWidth: "150px"}}>
-              <a onClick={(e) => e.preventDefault()}>
-                <Space>
-                    <Avatar size="large" icon={<UserOutlined />} />
-                    <DownOutlined style={{color: "#000", fontWeight: "bold"}} />
-                </Space>
-              </a>
-            </Dropdown>
-          </div>
-
-
-
-
-
-      //   <NavDropdown
-      //     title={
-      //       <div style={{ display: "inline-block" }}>
-      //         <img src={require("../images/user.png")} alt="" width={"30px"} />
-      //         {name}
-      //       </div>
-      //     }
-      //     id="basic-nav-dropdown"
-      //     className="me-5"
-      //   >
-      //     <NavDropdown.Item>
-      //       {" "}
-      //       <Link
-      //         to="/my-team"
-      //         style={{ textDecoration: "none", color: "#000" }}
-      //       >
-      //         My Team &nbsp;&nbsp;&nbsp;
-      //       </Link>
-      //     </NavDropdown.Item>
-      //     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-      //   </NavDropdown>
-      //
-        )
-
-
-      }
+        //   <NavDropdown
+        //     title={
+        //       <div style={{ display: "inline-block" }}>
+        //         <img src={require("../images/user.png")} alt="" width={"30px"} />
+        //         {name}
+        //       </div>
+        //     }
+        //     id="basic-nav-dropdown"
+        //     className="me-5"
+        //   >
+        //     <NavDropdown.Item>
+        //       {" "}
+        //       <Link
+        //         to="/my-team"
+        //         style={{ textDecoration: "none", color: "#000" }}
+        //       >
+        //         My Team &nbsp;&nbsp;&nbsp;
+        //       </Link>
+        //     </NavDropdown.Item>
+        //     <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
+        //   </NavDropdown>
+        //
+      )}
     </div>
   );
 }
