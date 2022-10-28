@@ -51,75 +51,17 @@ function MobileHeader() {
                     label: <Link to="/my-team" style={{ textDecoration: "none", color: "#000" }}>My Team</Link>,
                     key: '2',
                 },
-                // {
-                //     label: <Link to="/user/settings" style={{ textDecoration: "none", color: "#000" }}>Settings</Link>,
-                //     key: '3',
-                // },
                 {
                     type: 'divider',
                 },
                 {
                     label: <button className="btn btn-link p-0" style={{ textDecoration: "none", color: "#000" }} onClick={logout}>Logout</button>,
-                    key: '2',
+                    key: '3',
                 },
             ]}
         />
     );
 
-    /*return (
-      <div className="header-container d-flex justify-content-between align-items-center">
-
-        <div className="main-menu">
-          <ul>
-            <li className="active">
-              <Link to="/">HOME</Link>
-            </li>
-            <li>
-              <Link to="/game-tournaments">TOURNAMENTS</Link>
-            </li>
-            <li>
-              <Link to="/ranking">RANKINGS</Link>
-            </li>
-            <li>
-              <Link to="/contact">CONTACT</Link>
-            </li>
-          </ul>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="ms-auto me-3">
-              <NavLink className="nav-link" to="/"></NavLink>
-              <NavLink className="nav-link" to=""></NavLink>
-              <NavLink className="nav-link" to=""></NavLink>
-            </Nav>
-          </Navbar.Collapse>
-        </div>
-        {getLoginData === null ? (
-          <JoinNowButton />
-        ) : (
-          <NavDropdown
-            title={
-              <div style={{ display: "inline-block" }}>
-                <img src={require("../images/user.png")} alt="" width={"30px"} />
-                {name}
-              </div>
-            }
-            id="basic-nav-dropdown"
-            className="me-5"
-          >
-            <NavDropdown.Item>
-              {" "}
-              <Link
-                to="/my-team"
-                style={{ textDecoration: "none", color: "#000" }}
-              >
-                My Team &nbsp;&nbsp;&nbsp;
-              </Link>
-            </NavDropdown.Item>
-            <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
-          </NavDropdown>
-        )}
-      </div>
-    );*/
 
     return (
         <div className="sm-header">

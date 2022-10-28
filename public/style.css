@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Qwigley&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Qwigley&display=swap');
 * {
     font-family: 'Roboto', sans-serif;
 }
@@ -78,7 +79,10 @@
 .registration-area .ant-select-single.ant-select-lg:not(.ant-select-customize-input) .ant-select-selector {
     border-color: transparent;
 }
-
+button.ku-c-button {
+    background: linear-gradient(90deg, #6D0000 0%, #5709FF 100%);
+    color: #fff;
+}
 .registration-area button[type="submit"] {
     background: linear-gradient(90deg, #6D0000 0%, #5709FF 100%);
     color: #fff;
@@ -316,3 +320,140 @@ ul#progressbar li.active center::after {
     align-items: center;
 }
 
+.welcome-team-area h4 {
+    font-family: 'Qwigley';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 61px;
+    line-height: 76px;
+    text-align: center;
+    color: #C50B0E;
+}
+
+.welcome-team-area p {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 23px;
+    text-align: center;
+}
+
+.tournament-list ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+}
+
+.tournament-list ul li {
+    margin-bottom: 5px;
+    padding: 20px;
+    background: #EDEDED;
+    box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2);
+    border-radius: 1px;
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 19px;
+    color: #4A4A4A;
+    position: relative;
+    cursor: pointer;
+}
+.tournament-list ul li.selected {
+    background: #C50B0E;
+    box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2);
+    border-radius: 1px;
+    color: #fff;
+}
+.tournament-list ul li.selected::after {
+    content: '';
+    position: absolute;
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    background: #C50B0E;
+    transform: rotate(45deg);
+}
+.ku-card-header {
+    background: rgba(197, 11, 14, 0.14) !important;
+    box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2)  !important;
+    border-radius: 1px !important;
+}
+span.ku-card-header {
+    background: rgba(197, 11, 14, 0.14);
+    box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2);
+    border-radius: 1px;
+    padding: 20px;
+}
+span.ku-card-header input {
+    background: transparent;
+}
+
+
+.tournament-player-rank ul {
+    padding: 0;
+}
+
+
+li.rank-heading {
+    display: flex;
+    justify-content: flex-start;
+    border-bottom: 1px solid #ddd;
+    align-items: center;
+}
+li.rank-heading:first-child{
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    color: #444444;
+}
+
+li.rank-heading:first-child .player-rank-team-title {
+    padding-left: 75px
+}
+
+.player-rank-position-title, .player-rank-position-content {
+    text-align: center;
+    width: 100px;
+
+}
+
+.player-rank-team-title, .player-rank-team-content {
+    flex-grow: 1;
+    text-align: left;
+    width: 400px;
+
+}
+
+
+.player-rank-point-title, .player-rank-point-content {
+    flex-grow: 1;
+    text-align: center;
+    width: 100px;
+}
+
+.rank-c {
+    padding: 20px 20px;
+}
+
+.crown-gif {
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+}
+
+.crown-gif img {
+    width: 100%;
+}
+
+.player-rank-team-content {
+    display: flex;
+    align-items: center;
+}
+
+li.rank-content .rank-c {
+    padding: 5px 20px;
+}

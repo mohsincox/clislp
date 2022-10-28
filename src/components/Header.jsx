@@ -53,16 +53,12 @@ function Header(props) {
               label: <Link to="/my-team" style={{ textDecoration: "none", color: "#000" }}>My Team</Link>,
               key: '2',
             },
-            // {
-            //     label: <Link to="/user/settings" style={{ textDecoration: "none", color: "#000" }}>Settings</Link>,
-            //     key: '3',
-            // },
             {
               type: 'divider',
             },
             {
               label: <button className="btn btn-link p-0" style={{ textDecoration: "none", color: "#000" }} onClick={logout}>Logout</button>,
-              key: '2',
+              key: '3',
             },
           ]}
       />

@@ -248,7 +248,7 @@ export default function BuildTeam() {
 
                                 <button
                                     type="submit"
-                                    className="btn btn-primary"
+                                    className="btn ku-c-button"
                                     style={{borderRadius: "0px", float: "right"}}
                                 >
                                     ({state.selections.length}/ {user_cricket_player}) VIew Team
