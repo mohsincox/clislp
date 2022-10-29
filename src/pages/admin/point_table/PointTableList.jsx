@@ -115,7 +115,7 @@ export default function PointTableList() {
                 <tbody>
                   {currentItems.map((pointTable, index) => (
                     <tr key={pointTable.id}>
-                      <td>{index + 1}</td>
+                      <td>{index + indexOfFirstItem + 1}</td>
                       {/* <td>{pointTable.id}</td> */}
                       <td>
                         {pointTable.match.tournament == null

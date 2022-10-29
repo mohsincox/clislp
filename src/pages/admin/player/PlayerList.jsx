@@ -108,7 +108,7 @@ export default function PlayerList() {
               {currentItems.map((player, index) => (
                 // (JSON.parse(player.specification))
                 <tr key={player.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + indexOfFirstItem + 1}</td>
                   <td>{player.name}</td>
                   <td>{player.game == null ? "" : player.game["name"]}</td>
                   <td>
