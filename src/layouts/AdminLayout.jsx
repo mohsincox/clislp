@@ -241,6 +241,15 @@ const AdminLayout = () => {
               </Dropdown.Toggle>
 
               <Dropdown.Menu>
+                <Dropdown.Item>
+                  <Link
+                    to="/admin/change-password"
+                    style={{ textDecoration: "none", color: "#000" }}
+                  >
+                    {" "}
+                    Change Password{" "}
+                  </Link>
+                </Dropdown.Item>
                 <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>

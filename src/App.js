@@ -84,6 +84,7 @@ import MyTeam from "./pages/MyTeam";
 import "./App.css";
 import "./responsive.css";
 import ChangePassword from "./pages/ChangePassword";
+import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
 
 export const UserContext = React.createContext(null);
 
@@ -389,6 +390,12 @@ function App() {
                 path={`/admin/clubs/:id`}
                 exact={true}
                 element={<ClubEdit />}
+              />
+
+              <Route
+                path={`/admin/change-password`}
+                exact={true}
+                element={<ChangePasswordAdmin />}
               />
 
               <Route
