@@ -6,6 +6,8 @@ import { API_PUBLIC_URL } from "../../../constants";
 
 export default function PointTableList() {
   const [pointTableList, setPointTableList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -61,6 +63,15 @@ export default function PointTableList() {
       });
   }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = pointTableList.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(pointTableList.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -102,9 +113,10 @@ export default function PointTableList() {
                   </tr>
                 </thead>
                 <tbody>
-                  {pointTableList.map((pointTable, index) => (
+                  {currentItems.map((pointTable, index) => (
                     <tr key={pointTable.id}>
                       <td>{index + 1}</td>
+                      {/* <td>{pointTable.id}</td> */}
                       <td>
                         {pointTable.match.tournament == null
                           ? ""
@@ -217,6 +229,24 @@ export default function PointTableList() {
                 </tbody>
               </table>
             </div>
+
+            <center>
+              <nav className="mt-3">
+                <ul className="pagination">
+                  {pageNumbers.map((number) => (
+                    <li key={number} className="page-item">
+                      <Link
+                        to={"/admin/point-tables"}
+                        onClick={() => paginate(number)}
+                        className="page-link"
+                      >
+                        {number}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            </center>
           </div>
         </div>
       </div>

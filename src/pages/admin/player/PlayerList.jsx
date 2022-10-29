@@ -6,6 +6,8 @@ import { API_PUBLIC_URL } from "../../../constants";
 
 export default function PlayerList() {
   const [playerList, setPlayerList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -60,6 +62,15 @@ export default function PlayerList() {
       });
   }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = playerList.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(playerList.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -94,7 +105,7 @@ export default function PlayerList() {
               </tr>
             </thead>
             <tbody>
-              {playerList.map((player, index) => (
+              {currentItems.map((player, index) => (
                 // (JSON.parse(player.specification))
                 <tr key={player.id}>
                   <td>{index + 1}</td>
@@ -208,6 +219,24 @@ export default function PlayerList() {
               ))}
             </tbody>
           </table>
+
+          <center>
+            <nav className="mt-3">
+              <ul className="pagination">
+                {pageNumbers.map((number) => (
+                  <li key={number} className="page-item">
+                    <Link
+                      to={"/admin/players"}
+                      onClick={() => paginate(number)}
+                      className="page-link"
+                    >
+                      {number}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </center>
         </div>
       </div>
       {/* </div> */}
