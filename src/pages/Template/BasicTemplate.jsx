@@ -10,11 +10,11 @@ class BasicTemplate extends Component {
         return (
             <div className="row">
                 <div className="col-lg-2 d-none d-lg-block mt-3">
-                    <RegisterWidget name="Reg Right" style={{width: "100%", height: "600px"}} />
+                    <RegisterWidget name="Reg Left" style={{width: "100%", height: "600px"}} />
                 </div>
                 {this.props.children}
                 <div className="col-lg-2 d-none d-lg-block mt-3">
-                    <RegisterWidget name="Reg Left" style={{width: "100%", height: "600px"}} />
+                    <RegisterWidget name="Reg Right" style={{width: "100%", height: "600px"}} />
                 </div>
             </div>
         );

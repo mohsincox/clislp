@@ -245,27 +245,6 @@ function Register() {
 
     return (
         <WebLayout>
-            {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
-        <div className="ui message success">Signed in successfully</div>
-      ) : (
-        <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
-      )} */}
-
-            {/* <div style={{ marginTop: "15px" }} className="card-custom">
-        <ul id="progressbar">
-          <li className="active" id="account">
-            <center>Informations</center>
-          </li>
-          <li id="personal">
-            <center>Tournaments</center>
-          </li>
-          <li id="confirm">
-            <center>Build Team</center>
-          </li>
-        </ul>
-      </div>
-      <hr /> */}
-
             <div className="registration-section ku-section section-top-required">
                 <div className="container-fluid" style={{marginBottom: "15px"}}>
                     <BasicTemplate>
@@ -446,7 +425,6 @@ function Register() {
                     </BasicTemplate>
                 </div>
             </div>
-
         </WebLayout>
     );
 }

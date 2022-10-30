@@ -77,7 +77,7 @@ const Tournament = () => {
                             <div style={{marginTop: "15px"}} className="card-custom">
                                 <ul id="progressbar">
                                     <li className="passed active" id="account">
-                                        <center>Informations</center>
+                                        <center>Information</center>
                                     </li>
                                     <li className="active" id="personal">
                                         <center>Tournaments</center>
