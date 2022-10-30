@@ -82,6 +82,8 @@
 button.ku-c-button {
     background: linear-gradient(90deg, #6D0000 0%, #5709FF 100%);
     color: #fff;
+    border-radius: 0;
+    min-width: 200px;
 }
 .registration-area button[type="submit"] {
     background: linear-gradient(90deg, #6D0000 0%, #5709FF 100%);
@@ -491,4 +493,53 @@ li.rank-content .rank-c {
 
 .login-area input, .login-area span {
     border: none;
+}
+
+.address {
+    background: #36384D;
+    border-radius: 10px;
+    color: #ddd;
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    top: -120px;
+}
+
+.adl, .adr {
+    display: flex;
+    align-items: center;
+}
+
+.adl .icon, .adr .icon {
+    margin-right: 15px;
+}
+
+.adl {
+    position: relative;
+}
+
+.adl:after {
+    position: absolute;
+    content: '';
+    height: 126%;
+    width: 1px;
+    right: -135px;
+    background: #fff;
+}
+
+.team-view-area .build-player-list-single-item {
+    justify-content: flex-start;
+}
+
+.team-view-area {
+    max-height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    border: 1px solid #ddd;
+}
+
+.team-view-bottom-area {
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
 }

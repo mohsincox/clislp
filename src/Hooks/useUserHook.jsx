@@ -7,8 +7,10 @@ const useUserHook = (defaultState = null) => {
         const getLoginData = localStorage.getItem("loginData");
         if (getLoginData !== null) {
             const data = JSON.parse(getLoginData);
+
             setUser(() => {
                 return {
+                    id: data.id,
                     name : data.name,
                     token: data.accessToken
                 }
