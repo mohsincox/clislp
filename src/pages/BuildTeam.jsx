@@ -146,8 +146,8 @@ export default function BuildTeam() {
     };
 
     console.log(postBody);
-    if (state.selections.length < 1) {
-      toast.error("Please Select Players");
+    if (state.selections.length < user_cricket_player) {
+      toast.error(`Please Select ${user_cricket_player} Players`);
     } else {
       await axios
         .post(`${API_PUBLIC_URL}api/ws-teams/build`, postBody, {
@@ -268,7 +268,7 @@ export default function BuildTeam() {
                     className="btn ku-c-button"
                     style={{ borderRadius: "0px", float: "right" }}
                   >
-                    ({state.selections.length}/ {user_cricket_player}) VIew Team
+                    ({state.selections.length}/ {user_cricket_player}) View Team
                   </button>
                 </form>
               </div>
