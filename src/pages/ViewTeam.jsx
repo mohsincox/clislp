@@ -9,6 +9,7 @@ import Footer from "../components/Footer";
 import {toast} from "react-toastify";
 import WebLayout from "../layouts/WebLayout";
 import BasicTemplate from "./Template/BasicTemplate";
+import { default as SelectedTeam } from '../components/ViewTeam'
 
 const ViewTeam = () => {
     const [teamDetail, setTeamDetail] = useState([]);
@@ -79,14 +80,6 @@ const ViewTeam = () => {
             });
     };
 
-    function playerSpecification(player) {
-        let p = JSON.parse(player.specification);
-        let specification = [];
-        for (const key in p) {
-            if(p[key] === true) specification.push(key);
-        }
-        return specification.length ? <small>{specification.join(", ")}</small> : <small>Not Specified</small>;
-    }
 
     return (
         <WebLayout>
@@ -120,97 +113,10 @@ const ViewTeam = () => {
                                         <div className="build-player-list-single-item">
                                             {teamDetail.map(({player}, index) => (<React.Fragment key={player.id}>
                                                 {
-
-                                                    <div className="build-player-list" key={player.id}>
-                                                        <label htmlFor={`player-${player.id}`}>
-                                                            <div className="player-avatar-container">
-                                                                <div className="player-avater">
-                                                                    <img src={`${API_PUBLIC_URL}${player.image}`} alt=""/>
-                                                                </div>
-                                                                <div className="player-flag">
-                                                                    <img src={`${API_PUBLIC_URL}${player.country.flag}`} alt=""/>
-                                                                </div>
-                                                            </div>
-                                                            <div className="player-details">
-                                                                <p className="m-0 player-name">{player.name}</p>
-                                                                <p className="m-0 player-specification">{playerSpecification(player)}</p>
-                                                            </div>
-                                                        </label>
-                                                    </div>
-
+                                                    <SelectedTeam player={player} key={player.id}/>
                                                 }
                                             </React.Fragment>))}
                                         </div>
-
-
-                                       {/* <div className="row mt-4">
-                                             <div className="col-sm-2 mb-3" style={{ textAlign: "center" }}>
-                  <img src={require("../images/player.png")} alt="" />
-                  <p style={{ marginBottom: "0px" }}>{teamDetail[0].id}</p>
-                  <small>{teamDetail[0].id}</small>
-                </div>
-
-                                            {teamDetail.map((p, index) => (
-                                                <React.Fragment key={index}>
-                                                    <div
-                                                        className="col-sm-2 mb-3"
-                                                        style={{textAlign: "center"}}
-                                                    >
-                        <span style={{position: "relative"}}>
-                          <img
-                              src={`${API_PUBLIC_URL}${p.player.image}`}
-                              alt=""
-                              width="80px"
-                          />
-                          <img
-                              src={`${API_PUBLIC_URL}${p.player.country.flag}`}
-                              alt=""
-                              width="30px"
-                              style={{
-                                  position: "absolute",
-                                  top: "36px",
-                                  left: "24px",
-                              }}
-                          />
-                        </span>
-                                                        <p style={{marginBottom: "0px"}}>
-                                                            {p.player["name"]}
-                                                        </p>
-                                                        <small>
-                                                            {JSON.parse(p.player.specification)["All Rounder"] ===
-                                                            true && (
-                                                                <>
-                                                                    <small>All Rounder</small>
-                                                                    <br/>
-                                                                </>
-                                                            )}
-                                                            {JSON.parse(p.player.specification)["Batsman"] ===
-                                                            true && (
-                                                                <>
-                                                                    <small>Batsman</small>
-                                                                    <br/>
-                                                                </>
-                                                            )}
-                                                            {JSON.parse(p.player.specification)["Bowler"] ===
-                                                            true && (
-                                                                <>
-                                                                    <small>Bowler</small>
-                                                                    <br/>
-                                                                </>
-                                                            )}
-                                                            {JSON.parse(p.player.specification)["Keeper"] ===
-                                                            true && (
-                                                                <>
-                                                                    <small>Wicket Keeper</small>
-                                                                    <br/>
-                                                                </>
-                                                            )}
-                                                        </small>
-                                                    </div>
-                                                </React.Fragment>
-                                            ))}
-                                        </div>*/}
-
                                         <button
                                             type="submit"
                                             className="btn btn-primary ku-c-button"

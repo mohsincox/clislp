@@ -3,7 +3,7 @@ import RegisterWidget from "../../components/RegisterWidget";
 import TournamentList from "../../components/TournamentList";
 
 
-class ThreeSixThreeTemplate extends Component {
+class TwoColTemplate extends Component {
     render() {
 
         return (
@@ -17,9 +17,6 @@ class ThreeSixThreeTemplate extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-12 col-lg-3">
-                        <TournamentList />
-                    </div>
                     {this.props.children}
                     <div className="col-12 col-lg-3 d-none d-lg-block">
                         <RegisterWidget name="Reg Right" style={{width: "100%", height: "300px", marginBottom: '5px'}} />
@@ -31,4 +28,4 @@ class ThreeSixThreeTemplate extends Component {
     }
 }
 
-export default ThreeSixThreeTemplate;
+export default TwoColTemplate;

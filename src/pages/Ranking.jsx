@@ -9,6 +9,7 @@ import SearchOutlined from "@ant-design/icons/lib/icons/SearchOutlined";
 import {Tooltip} from "antd";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 import Avatar from "antd/es/avatar";
+import RegisterWidget from "../components/RegisterWidget";
 
 export default function Ranking() {
     const [tournaments, setTournaments] = useState([]);
