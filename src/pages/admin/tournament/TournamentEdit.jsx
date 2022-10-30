@@ -10,6 +10,7 @@ export default function TournamentEdit() {
   const [gameList, setGameList] = useState([]);
   const [month, setMonth] = useState("");
   const [year, setYear] = useState("");
+  const [status, setStatus] = useState("Active");
   const [logo, setLogo] = useState(null);
   const [preview, setPreview] = useState();
   const [category, setCategory] = useState("");
@@ -49,6 +50,7 @@ export default function TournamentEdit() {
             setMonth(response.data.month);
             setYear(response.data.year);
             setCategory(response.data.category);
+            setStatus(response.data.status);
             setIm(response.data.logo);
             console.log(response.data);
           });
@@ -92,6 +94,8 @@ export default function TournamentEdit() {
       toast.error("Tournament Name field is required!");
     } else if (category === "") {
       toast.error("Tournament Type field is required!");
+    } else if (status === "") {
+      toast.error("Status field is required!");
     }
     // else if (logo === null) {
     //   toast.error("Image file is required!");
@@ -103,6 +107,7 @@ export default function TournamentEdit() {
       formData.append("month", month);
       formData.append("year", year);
       formData.append("category", category);
+      formData.append("status", status);
       formData.append("logo", logo);
 
       // for (var [key, value] of formData.entries()) {
@@ -131,6 +136,7 @@ export default function TournamentEdit() {
           setMonth("");
           setYear("");
           setCategory("");
+          setStatus("");
           setLogo(null);
 
           toast.success("Successfully created!");
@@ -275,6 +281,24 @@ export default function TournamentEdit() {
                     <option value={"2024"}>2024</option>
                     <option value={"2025"}>2025</option>
                     <option value={"2026"}>2026</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">
+                  Status <span style={{ color: "#ff0000" }}>*</span>
+                </label>
+                <div className="col-sm-9">
+                  <select
+                    name="status"
+                    value={status}
+                    className="form-control"
+                    onChange={(e) => setStatus(e.target.value)}
+                  >
+                    <option value="">Select Status</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
                   </select>
                 </div>
               </div>
