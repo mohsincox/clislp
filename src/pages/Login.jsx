@@ -71,11 +71,8 @@ function Login() {
       })
       .catch((error) => {
         console.log(error);
-        if (error.response.status === 404) {
-          toast.error("User Not found.");
-        }
         if (error.response.status === 401) {
-          toast.error("Invalid Password!");
+          toast.error(error.response.data.msg);
         }
         navigate("/login");
       });
