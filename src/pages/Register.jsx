@@ -11,6 +11,7 @@ import EyeInvisibleOutlined from "@ant-design/icons/lib/icons/EyeInvisibleOutlin
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { message, Upload } from 'antd';
 import RegisterWidget from "../components/RegisterWidget";
+import BasicTemplate from "./Template/BasicTemplate";
 
 
 function Register() {
@@ -138,8 +139,8 @@ function Register() {
     }, [formErrors]);
 
     const handleRegister = () => {
-        axios
-            .post(`${API_PUBLIC_URL}api/auth/signup`, formValues)
+        console.log(formValues)
+        axios.post(`${API_PUBLIC_URL}api/auth/signup`, formValues)
             .then((response) => {
                 console.log(response.data);
                 localStorage.setItem("loginData", JSON.stringify(response.data));
@@ -186,7 +187,7 @@ function Register() {
     };
 
 
-
+    // for upload iamge
     const getBase64 = (img, callback) => {
         const reader = new FileReader();
         reader.addEventListener('load', () => callback(reader.result));
@@ -267,15 +268,8 @@ function Register() {
 
             <div className="registration-section ku-section section-top-required">
                 <div className="container-fluid" style={{marginBottom: "15px"}}>
-                    <div className="row">
-                        <div className="col-sm-2 d-none d-sm-block mt-3">
-                            <RegisterWidget name="Reg Right" style={{width: "100%", height: "600px"}} />
-                        </div>
-
-
-                        <div className="col-sm-8">
-
-
+                    <BasicTemplate>
+                        <div className="col-lg-8">
                             <div style={{marginTop: "15px"}} className="card-custom">
                                 <ul id="progressbar">
                                     <li className="active" id="account">
@@ -289,190 +283,168 @@ function Register() {
                                     </li>
                                 </ul>
                             </div>
-
-
-
-
-
-
-
-
-                            <div className="registration-area p-5">
+                            <div className="registration-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
                                 <form onSubmit={handleSubmit}>
 
                                     <div className="row">
-                                        <div className="col-md-8">
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Name
-                                                </label>
-                                                <Input
-                                                    size="large"
-                                                    type="text"
-                                                    name="name"
-                                                    placeholder="Name"
-                                                    value={formValues.name}
-                                                    onChange={handleChange}
-                                                />
-                                                {/* <p className="text-danger">{formErrors.name}</p> */}
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Email address
-                                                </label>
-
-                                                <Input
-                                                    size="large"
-                                                    type="email"
-                                                    name="email"
-                                                    placeholder="Email"
-                                                    value={formValues.email}
-                                                    onChange={handleChange}
-                                                />
-
-                                            </div>
-
-                                            <div className="row">
-                                                <div className="mb-3 col-sm-6 col-6">
+                                        <div className="col-lg-8">
+                                            <div className="regi-left">
+                                                <div className="mb-3">
                                                     <label className="form-label">
-                                                        Gender
-                                                    </label>
-                                                    <Select
-                                                        size="large"
-                                                        name="gender"
-                                                        value={formValues.gender}
-                                                        onChange={handleGender}
-                                                        style={{width: "100%"}}
-                                                    >
-                                                        <Option value="" disabled>Please Select One</Option>
-                                                        <Option value="male"></Option>
-                                                        <Option value="female"></Option>
-                                                    </Select>
-                                                </div>
-
-                                                <div className="mb-3 col-sm-6 col-6">
-                                                    <label className="form-label">
-                                                        Age
+                                                        Name
                                                     </label>
                                                     <Input
                                                         size="large"
                                                         type="text"
-                                                        name="age"
-                                                        placeholder="Age"
-                                                        value={formValues.age}
+                                                        name="name"
+                                                        placeholder="Name"
+                                                        value={formValues.name}
+                                                        onChange={handleChange}
+                                                    />
+                                                    {/* <p className="text-danger">{formErrors.name}</p> */}
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">
+                                                        Email address
+                                                    </label>
+
+                                                    <Input
+                                                        size="large"
+                                                        type="email"
+                                                        name="email"
+                                                        placeholder="Email"
+                                                        value={formValues.email}
+                                                        onChange={handleChange}
+                                                    />
+
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label" style={{color: "#176AFC", fontWeight: 500}}>Phone Number</label>
+                                                    <Input
+                                                        size="large"
+                                                        type="text"
+                                                        name="phone_number"
+                                                        placeholder="Phone Number"
+                                                        value={formValues.phone_number}
                                                         onChange={handleChange}
                                                     />
                                                 </div>
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label">
-                                                    Password
-                                                </label>
+                                                <div className="row">
+                                                    <div className="mb-3 col-sm-6 col-6">
+                                                        <label className="form-label">
+                                                            Gender
+                                                        </label>
+                                                        <Select
+                                                            size="large"
+                                                            name="gender"
+                                                            value={formValues.gender}
+                                                            onChange={handleGender}
+                                                            style={{width: "100%"}}
+                                                        >
+                                                            <Option value="" disabled>Please Select One</Option>
+                                                            <Option value="male"></Option>
+                                                            <Option value="female"></Option>
+                                                        </Select>
+                                                    </div>
 
-                                                <Input.Password
-                                                    size="large"
-                                                    type="password"
-                                                    name="password"
-                                                    placeholder="Password"
-                                                    value={formValues.password}
-                                                    onChange={handleChange}
-                                                    iconRender={(visible) => (visible ? <EyeTwoTone twoToneColor="#C50B0E" /> : <EyeInvisibleOutlined />)}
-                                                />
+                                                    <div className="mb-3 col-sm-6 col-6">
+                                                        <label className="form-label">
+                                                            Age
+                                                        </label>
+                                                        <Input
+                                                            size="large"
+                                                            type="text"
+                                                            name="age"
+                                                            placeholder="Age"
+                                                            value={formValues.age}
+                                                            onChange={handleChange}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div className="mb-3">
+                                                    <label className="form-label">
+                                                        Password
+                                                    </label>
 
-                                                {/* <p className="text-danger">{formErrors.password}</p> */}
-                                            </div>
-                                            <div className="mb-3">
-                                                <label className="form-label" style={{color: "#176AFC", fontWeight: 500}}>Phone Number</label>
-                                                <Input
-                                                    size="large"
-                                                    type="text"
-                                                    name="phone_number"
-                                                    placeholder="Phone Number"
-                                                    value={formValues.phone_number}
-                                                    onChange={handleChange}
-                                                />
+                                                    <Input.Password
+                                                        size="large"
+                                                        type="password"
+                                                        name="password"
+                                                        placeholder="Password"
+                                                        value={formValues.password}
+                                                        onChange={handleChange}
+                                                        iconRender={(visible) => (visible ? <EyeTwoTone twoToneColor="#C50B0E" /> : <EyeInvisibleOutlined />)}
+                                                    />
+
+                                                    {/* <p className="text-danger">{formErrors.password}</p> */}
+                                                </div>
+
                                             </div>
 
 
                                         </div>
-                                        <div className="col-md-4">
-                                            <div className="mb-3">
-                                                <label className="form-label">Add Photo</label>
-                                                <Upload
-                                                    size="large"
-                                                    name="avatar"
-                                                    listType="picture-card"
-                                                    className="avatar-uploader"
-                                                    showUploadList={false}
-                                                    beforeUpload={beforeUpload}
-                                                    onChange={handleUploadChange}
-                                                >
-                                                    {imageUrl ? (
-                                                        <img
-                                                            src={imageUrl}
-                                                            alt="avatar"
-                                                            style={{
-                                                                width: '100%',
-                                                            }}
+                                        <div className="col-lg-4">
+                                            <div className="regi-right">
+                                                <div className="mb-3">
+                                                    <label className="form-label">Upload Profile Pic</label>
+                                                    <div className="text-center">
+                                                        <Upload
+                                                            size="large"
+                                                            name="avatar"
+                                                            listType="picture-card"
+                                                            className="avatar-uploader"
+                                                            showUploadList={false}
+                                                            beforeUpload={beforeUpload}
+                                                            onChange={handleUploadChange}
+                                                        >
+                                                            {imageUrl ? (
+                                                                <img
+                                                                    src={imageUrl}
+                                                                    alt="avatar"
+                                                                    style={{
+                                                                        width: '100%',
+                                                                    }}
+                                                                />
+                                                            ) : (
+                                                                uploadButton
+                                                            )}
+                                                        </Upload>
+                                                    </div>
+                                                </div>
+                                                <div className="mb-3 form-check">
+
+                                                    <label className="form-check-label privacy-policy">
+                                                        <input
+                                                            type="checkbox"
+                                                            className="form-check-input"
+                                                            name="policy"
+                                                            // value={formValues.policy}
+                                                            checked={formValues.policy}
+                                                            onChange={handleChange}
                                                         />
-                                                    ) : (
-                                                        uploadButton
-                                                    )}
-                                                </Upload>
+                                                        I accept the terms and privacy policy{" "}
+                                                    </label>
+                                                    {/* <p className="text-danger">{formErrors.policy}</p> */}
+                                                </div>
+                                                <div className="d-grid gap-2">
+                                                    <button
+                                                        type="submit"
+                                                        className="btn btn-lg"
+                                                        style={{borderRadius: "0px"}}
+                                                    >
+                                                        Continue
+                                                    </button>
+                                                </div>
+                                                <p className="mt-3 text-center">If you already have an account, <Link to={`/login`}> Login </Link></p>
                                             </div>
-
-
-
-
-                                            <div className="mb-3 form-check">
-
-                                                <label className="form-check-label privacy-policy">
-                                                    <input
-                                                        type="checkbox"
-                                                        className="form-check-input"
-                                                        name="policy"
-                                                        // value={formValues.policy}
-                                                        checked={formValues.policy}
-                                                        onChange={handleChange}
-                                                    />
-                                                    I accept the terms and privacy policy{" "}
-                                                </label>
-                                                {/* <p className="text-danger">{formErrors.policy}</p> */}
-                                            </div>
-
-                                            <div className="d-grid gap-2">
-                                                <button
-                                                    type="submit"
-                                                    className="btn btn-lg"
-                                                    style={{borderRadius: "0px"}}
-                                                >
-                                                    Continue
-                                                </button>
-                                            </div>
-                                            <p>
-                                                If you already have an account, <Link to={`/login`}> Login </Link>
-                                            </p>
                                         </div>
                                     </div>
-
-
-
                                 </form>
 
                             </div>
-
-
-
-
                         </div>
-
-
-                        <div className="col-sm-2 d-none d-sm-block mt-3">
-                            <RegisterWidget name="Reg Left" style={{width: "100%", height: "600px"}} />
-                        </div>
-                    </div>
+                    </BasicTemplate>
                 </div>
-
             </div>
 
         </WebLayout>
