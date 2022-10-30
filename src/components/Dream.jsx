@@ -65,7 +65,6 @@ export default function Dream() {
                   BUILD YOUR DREAM TEAM
                 </button>
               </span>
-
                             <span
                                 style={{
                                     position: "absolute",
@@ -74,10 +73,9 @@ export default function Dream() {
                                     color: "#FFFFFF",
                                 }}
                             >
-                <b>Step 1</b>: Signup and provide your personal
-                <br/>
-                informations.
-              </span>
+                                <b>Step 1 </b>: Signup and provide your personal information.
+                            </span>
+
 
                             <span
                                 style={{
@@ -98,11 +96,11 @@ export default function Dream() {
                                     color: "#FFFFFF",
                                 }}
                             >
-                <b>Step 3</b>: Choose your favourite
+                <b>Step 3</b>: Choose your favorite.
                 <br/>
-                Players from this tournament and
+                Players from this tournament
                 <br/>
-                build a team.
+                 build a team.
               </span>
 
                             <span
@@ -115,7 +113,7 @@ export default function Dream() {
                             >
                 <b>Step 4</b>: Join Contest and win
                 <br/>
-                excting prizes.
+                exciting prizes.
               </span>
 
                             <span
@@ -190,7 +188,8 @@ export default function Dream() {
                                 </div>
                             ) : (
                                 <div className="card">
-                                    <h5 className="card-header tbg d-flex justify-content-between align-items-center" style={{color: "#FFFFFF"}}>
+                                    <h5 className="card-header tbg d-flex justify-content-between align-items-center"
+                                        style={{color: "#FFFFFF"}}>
                                         <span>Champions League </span>
                                         <span className="fs-6 fw-light">(Upcoming)</span>
                                     </h5>
