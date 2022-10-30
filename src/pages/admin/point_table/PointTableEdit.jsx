@@ -212,7 +212,7 @@ export default function PointTableEdit() {
           setHundred(false);
           setFive_wickets(false);
 
-          toast.success("Successfully created!");
+          toast.success("Updated successfully");
           navigate("/admin/point-tables");
         })
         .catch((error) => {
