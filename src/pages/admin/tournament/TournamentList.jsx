@@ -110,6 +110,7 @@ export default function TournamentList() {
                 <th>Month</th>
                 <th>Year</th>
                 <th>Status</th>
+                <th>Upcomming</th>
                 <th>Logo</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -127,6 +128,7 @@ export default function TournamentList() {
                   <td>{tournament.month}</td>
                   <td>{tournament.year}</td>
                   <td>{tournament.status}</td>
+                  <td>{tournament.upcomming}</td>
                   <td>
                     <img
                       src={`${API_PUBLIC_URL}${tournament.logo}`}
