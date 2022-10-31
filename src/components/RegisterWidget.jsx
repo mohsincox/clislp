@@ -37,7 +37,7 @@ export const RegisterWidget = (props) => {
     function checkForWidgetRegister(widgetList, name) {
         if (widgetList.length) {
             let widgetFound = widgetList.filter(wl => wl.name == name);
-            if (!widgetFound.length) throw Error(`Invalid widget name::${name}`);
+            if (!widgetFound.length) return console.log(`Invalid widget name::${name}`);
             return widgetFound;
         }
     }
@@ -59,11 +59,7 @@ export const RegisterWidget = (props) => {
 
 
     return <>
-        <AdsViewer
-            ads={filterAds}
-            style={props.style ?? {width: 'initial', height: 'initial', overflow: 'hidden'}}
-            imageStyle={props.imageStyle ?? {width: 'inherit', height: 'inherit', objectFit: 'fill'}}
-        />
+        <AdsViewer ads={filterAds} widget={{...props}}/>
     </>
 }
 
