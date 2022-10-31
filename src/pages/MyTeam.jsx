@@ -9,6 +9,7 @@ import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 import Avatar from "antd/es/avatar";
 import UseUserHook from "../Hooks/useUserHook";
 import ViewTeam from "../components/ViewTeam";
+import MyTeampTemplate from "./Template/MyTeampTemplate";
 
 export default function MyTeam() {
     const [tournaments, setTournaments] = useState([]);
@@ -16,6 +17,7 @@ export default function MyTeam() {
     const [playerRankForCurrentTournament, setPlayerRankForCurrentTournament] = useState([])
     const [userCurrentTeam, setUserCurrentTeam] = useState([])
     let [user] = UseUserHook();
+
     useEffect(() => {
         (async () => {
             try {
@@ -30,14 +32,15 @@ export default function MyTeam() {
             }
         })();
     }, []);
-
     useEffect(() => {
         (async () => {
             try {
                 let selectedTournament = filterTournaments.find(tournament => tournament.selected);
                 if (selectedTournament) {
                     let getCurrentTournamentRangTeam = await axios.get(`${API_PUBLIC_URL}api/ws-my-team/${user.id}/test/${selectedTournament.id}`);
-                    setUserCurrentTeam(getCurrentTournamentRangTeam.data)
+                    let getAllCurrentTournamentRank = await axios.get(`${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr/${selectedTournament.id}`);
+                    setUserCurrentTeam(getCurrentTournamentRangTeam.data);
+                    setPlayerRankForCurrentTournament(getAllCurrentTournamentRank.data);
                 } else {
                     setUserCurrentTeam([])
                 }
@@ -46,6 +49,17 @@ export default function MyTeam() {
             }
         })();
     }, [filterTournaments]);
+
+
+    function myRank() {
+        if(playerRankForCurrentTournament.length) {
+            return playerRankForCurrentTournament.findIndex(playerRank => {
+                return playerRank.user_id == user.id
+            })
+        }
+        return null;
+    }
+
 
     function getAllPlayerTotalPoint() {
         return userCurrentTeam.reduce( (previousValue, {total_point}) => {
@@ -58,7 +72,7 @@ export default function MyTeam() {
             <WebLayout>
                 <div className="build-team-section ku-section section-top-required">
                     <div className="container mb-5">
-                        <ThreeSixThreeTemplate>
+                        <MyTeampTemplate>
                             <div className="col-12 col-lg-6">
                                 <div className="team-view-area threeSixthree-main-content-area">
                                     <div className="tournament-player-rank">
@@ -71,30 +85,34 @@ export default function MyTeam() {
                                             {
                                                 userCurrentTeam.length ?
                                                     userCurrentTeam.map(({player}, index) => (
-                                                        <ViewTeam player={player} />
+                                                        <ViewTeam player={player} key={player.id} />
                                                     ))
                                                     : <div className="rank-heading p-2 text-center">Team Not Found</div>
                                             }
                                         </div>
                                     </div>
                                 </div>
-                                <div className="team-view-bottom-area mt-0 py-5">
-                                    <div className="d-inline-flex justify-content-center flex-column text-center">
-                                        <p>My Points</p>
-                                        <button className="btn btn btn-dark btn-lg" style={{minWidth: "200px", borderRadius: "0"}}>
-                                            {getAllPlayerTotalPoint()}
-                                        </button>
-                                    </div>
-                                    <div className="d-inline-flex justify-content-center flex-column text-center">
-                                        <p>My Rank</p>
-                                        <button className="btn btn btn-success btn-lg" style={{minWidth: "200px", borderRadius: "0"}}>
-                                            {getAllPlayerTotalPoint()}
-                                        </button>
-                                    </div>
+                                {
+                                    userCurrentTeam.length ?
+                                        <div className="team-view-bottom-area mt-0 py-4">
+                                            <div className="d-inline-flex justify-content-center flex-column text-center">
+                                                <p>My Points</p>
+                                                <button className="btn btn btn-lg  text-white" style={{minWidth: "200px", borderRadius: "0", background: "#565656"}}>
+                                                    {getAllPlayerTotalPoint()}
+                                                </button>
+                                            </div>
+                                            <div className="d-inline-flex justify-content-center flex-column text-center">
+                                                <p>My Rank</p>
+                                                <button className="btn btn btn-success btn-lg text-white" style={{minWidth: "200px", borderRadius: "0", background: "#5ABE2B"}}>
+                                                    {myRank() + 1}
+                                                </button>
+                                            </div>
 
-                                </div>
+                                        </div> : null
+
+                                }
                             </div>
-                        </ThreeSixThreeTemplate>
+                        </MyTeampTemplate>
                     </div>
                 </div>
             </WebLayout>

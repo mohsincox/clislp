@@ -10,10 +10,10 @@ class ThreeSixThreeTemplate extends Component {
             <>
                 <div className="row mb-3">
                     <div className="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <RegisterWidget name="Header Left" style={{width: "100%", height: "80px"}} />
+                        <RegisterWidget name="Ranking Top Left" width={810} height={90} />
                     </div>
                     <div className="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <RegisterWidget name="Header Right" style={{width: "100%", height: "80px"}} />
+                        <RegisterWidget name="Ranking Top Right" width={810} height={90} />
                     </div>
                 </div>
                 <div className="row">
@@ -22,7 +22,7 @@ class ThreeSixThreeTemplate extends Component {
                     </div>
                     {this.props.children}
                     <div className="col-12 col-lg-3 d-none d-lg-block">
-                        <RegisterWidget name="Reg Right" style={{width: "100%", height: "300px", marginBottom: '5px'}} />
+                        <RegisterWidget name="Ranking Right" width={296} height={210} />
                     </div>
                 </div>
             </>

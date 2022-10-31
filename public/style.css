@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Qwigley&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500&family=Qwigley&display=swap');
+
 * {
     font-family: 'Roboto', sans-serif;
 }
@@ -350,11 +350,11 @@ ul#progressbar li.active center::after {
 
 .tournament-list ul li {
     margin-bottom: 5px;
-    padding: 20px;
+    padding: 10px 20px;
     background: #EDEDED;
     box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2);
     border-radius: 1px;
-    font-family: 'Inter';
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
     font-size: 16px;
@@ -387,7 +387,6 @@ span.ku-card-header {
     background: rgba(197, 11, 14, 0.14);
     box-shadow: 0px 4px 100px rgba(202, 202, 202, 0.2);
     border-radius: 1px;
-    padding: 20px;
 }
 span.ku-card-header input {
     background: transparent;
@@ -406,7 +405,7 @@ li.rank-heading {
     align-items: center;
 }
 li.rank-heading:first-child{
-    font-family: 'Inter';
+    font-family: 'Roboto';
     font-style: normal;
     font-weight: 600;
     font-size: 16px;
@@ -439,7 +438,7 @@ li.rank-heading:first-child .player-rank-team-title {
 }
 
 .rank-c {
-    padding: 20px 20px;
+    padding: 9px 20px;
 }
 
 .crown-gif {
@@ -532,8 +531,6 @@ li.rank-content .rank-c {
 }
 
 .team-view-area {
-    max-height: 400px;
-    overflow-y: scroll;
     overflow-x: hidden;
     border: 1px solid #ddd;
 }
@@ -542,4 +539,30 @@ li.rank-content .rank-c {
     border: 1px solid #ddd;
     display: flex;
     justify-content: space-around;
+}
+
+.team-view-area .player-avatar-container {
+    width: 70px;
+    height: 70px;
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.team-view-area .tournament-player-rank ul {
+    margin-bottom: 0;
+}
+
+.team-view-area .build-player-list {
+    cursor: pointer;
+    width: 142px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    height: 150px;
+    margin: 0;
+}
+
+
+.team-view-area .build-player-list-single-item {
+    margin: 0;
 }

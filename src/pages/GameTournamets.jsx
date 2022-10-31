@@ -113,7 +113,6 @@ const GameTournaments = () => {
                                 </div>
                             </div>
                         </div>
-
                     </TwoColTemplate>
                 </div>
             </div>

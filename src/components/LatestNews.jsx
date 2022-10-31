@@ -118,8 +118,9 @@ export default function LatestNews() {
                     </div>
 
                     <div className="col-sm-4">
-                        <RegisterWidget name="Right Sidebar Three" style={{width: "100%", height: "300px"}}/>
-                        <RegisterWidget name="Right Sidebar Four" style={{width: "100%", height: "300px", marginTop: "10px"}}/>
+                        <div className="mb-3">
+                            <RegisterWidget name="Home Right Two" width={400} height={516}/>
+                        </div>
                     </div>
                 </div>
             </div>
