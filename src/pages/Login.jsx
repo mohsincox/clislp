@@ -139,7 +139,7 @@ function Login() {
                       className="btn btn-lg ku-c-button"
                       style={{ borderRadius: "0px", minWidth: "200px" }}
                     >
-                      Continue
+                      Login
                     </button>
                   </div>
                   <p className="mt-3 text-center">
