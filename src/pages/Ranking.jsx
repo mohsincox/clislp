@@ -95,7 +95,8 @@ export default function Ranking() {
                           Position
                         </div>
                         <div className="player-rank-team-title rank-title rank-c d-flex align-items-center">
-                          <span className="me-2">Team</span> <SearchOutlined />
+                          <span className="me-2">Team</span>
+                          {/* <SearchOutlined /> */}
                         </div>
                         <div className="player-rank-point-title rank-title rank-c">
                           PTS
