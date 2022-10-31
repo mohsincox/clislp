@@ -111,9 +111,9 @@ function App() {
             <Route path="/admin-login" element={<LoginAdmin />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/register-step-one" element={<RegStepOne />} />
-            <Route path="/build-team/:id" element={<BuildTeam />} />
-            <Route path="/view-team" element={<ViewTeam />} />
-            <Route path="/welcome-team" element={<WelcomeTeam />} />
+            <Route path="/build-team/:tourId" element={<BuildTeam />} />
+            <Route path="/view-team/:tourId" element={<ViewTeam />} />
+            <Route path="/welcome-team/:tourId" element={<WelcomeTeam />} />
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/my-team" element={<MyTeam />} />
             <Route path="/change-password" element={<ChangePassword />} />

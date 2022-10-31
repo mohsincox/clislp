@@ -21,7 +21,7 @@ export default function BuildTeam() {
   // console.log("authUser2", authUser.user.userrole);
 
   const [state, setState] = useState({ selections: [] });
-  const { id } = useParams();
+  const { tourId } = useParams();
   let navigate = useNavigate();
 
   function handleCheckboxChange(key) {
@@ -141,7 +141,7 @@ export default function BuildTeam() {
 
     const postBody = {
       user_id: storageData.id,
-      tournament_id: id,
+      tournament_id: tourId,
       player_ids: JSON.stringify(state.selections),
     };
 
@@ -158,13 +158,16 @@ export default function BuildTeam() {
         .then((response) => {
           setState({ selections: [] });
           // toast.success("Created successfully");
-          navigate("/view-team");
+          navigate(`/view-team/${tourId}`);
         })
         .catch((error) => {
           console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
             // navigate("/");
+          }
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
           }
         });
     }
