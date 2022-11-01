@@ -86,7 +86,7 @@ export const Ads = () => {
             toast.error("Maximum is required");
             return;
         } if (adsImage !== null) {
-            const validExtensions = ["png", "jpeg", "jpg", "gif"];
+            const validExtensions = ["png", "jpeg", "jpg", "gif", "svg"];
             const fileExtension = adsImage.type.split("/")[1];
             const exist = validExtensions.includes(fileExtension);
             if (!exist) {

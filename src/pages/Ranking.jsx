@@ -45,7 +45,6 @@ export default function Ranking() {
         let selectedTournament = filterTournaments.find(
           (tournament) => tournament.selected
         );
-        console.log(selectedTournament);
         if (selectedTournament) {
           let getCurrentTournamentRangTeam = await axios.get(
             `${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr/${selectedTournament.id}`
@@ -60,23 +59,7 @@ export default function Ranking() {
     })();
   }, [filterTournaments]);
 
-  /*
-    useEffect(() => {
-        (async () => {
-            await axios
-                .get(`${API_PUBLIC_URL}api/ws-rankings/test/${tournament_id}`, {})
-                .then((response) => {
-                    setRankTeamList(response.data);
-                    console.log(response.data);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    if (error.response.status === 403) {
-                    }
-                });
-        })();
-    }, [tournament_id]);
-*/
+
 
   return (
     <RangingContext.Provider
