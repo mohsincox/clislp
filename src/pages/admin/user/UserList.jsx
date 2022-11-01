@@ -6,6 +6,8 @@ import { API_PUBLIC_URL } from "../../../constants";
 
 export default function UserList() {
   const [userList, setUserList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -60,6 +62,15 @@ export default function UserList() {
       });
   }
 
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = userList.slice(indexOfFirstItem, indexOfLastItem);
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(userList.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -83,17 +94,19 @@ export default function UserList() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Role</th>
+                <th>Created At</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
             </thead>
             <tbody>
-              {userList.map((user, index) => (
+              {currentItems.map((user, index) => (
                 <tr key={user.id}>
-                  <td>{index + 1}</td>
+                  <td>{index + indexOfFirstItem + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.role == null ? "" : user.role.role_name}</td>
+                  <td>{user.createdAt}</td>
                   <td>
                     <Link
                       to={`/admin/users/${user.id}`}
@@ -117,6 +130,24 @@ export default function UserList() {
               ))}
             </tbody>
           </table>
+
+          <center>
+            <nav className="mt-3">
+              <ul className="pagination">
+                {pageNumbers.map((number) => (
+                  <li key={number} className="page-item">
+                    <Link
+                      to={"/admin/users"}
+                      onClick={() => paginate(number)}
+                      className="page-link"
+                    >
+                      {number}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </center>
         </div>
       </div>
       {/* </div> */}

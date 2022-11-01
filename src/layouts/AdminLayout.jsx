@@ -5,6 +5,7 @@ import {
   TrophyOutlined,
   UserOutlined,
   SettingOutlined,
+  ProfileFilled,
 } from "@ant-design/icons";
 import { Breadcrumb, Layout, Menu } from "antd";
 
@@ -161,6 +162,21 @@ const items = [
         Page List
       </Link>,
       "102"
+    ),
+  ]),
+
+  getItem("Reports", "sub6", <ProfileFilled />, [
+    getItem(
+      <Link to={`#`} style={{ textDecoration: "none" }}>
+        Report 1
+      </Link>,
+      "97"
+    ),
+    getItem(
+      <Link to={`#`} style={{ textDecoration: "none" }}>
+        Report 2
+      </Link>,
+      "96"
     ),
   ]),
 ];
