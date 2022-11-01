@@ -16,14 +16,14 @@ export const AdsViewer = (props) => {
         {
             (ads && ads.length) ? (
                 ads.map(ad => (
-                    <a href={ad["link"]} target="_blank"  key={ad.id} className="d-block" wdgName={name}>
-                        <div className={`addViwer ${ads.length > 1 ? 'mb-3': null} overflow-hidden`} style={style}>
-                            <img src={`${API_PUBLIC_URL}${ad["img_src"]}`} alt="" style={imageStyle}/>
+                    <a href={ad["link"]} target="_blank"  key={ad.id} className="d-block" name={name}>
+                        <div className={`addViwer ${ads.length > 1 ? 'mb-3': ''} overflow-hidden`} style={{...style, height: height}}>
+                            <img src={`${API_PUBLIC_URL}${ad["img_src"]}`} alt="" style={{...imageStyle, width: "100%", height: "100%", objectFit: "contain"}}/>
                         </div>
                     </a>
                 ))
             ) : (
-                <a href="#" target="_blank"  className="d-block" wdgName={name}>
+                <a href="#" target="_blank"  className="d-block" name={name}>
                     <div className={`addViwer overflow-hidden`} style={style}>
                         <img src={`${placeholderImageSrc}/${width}x${height}.png?text=${message}`} alt="Ads Not Found" style={imageStyle}/>
                     </div>
