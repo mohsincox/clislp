@@ -120,6 +120,8 @@ export default function Footer() {
                 <br />
                 Contact
                 <br />
+                <a href="/login" className="text-white">Login</a>
+                <br />
               </span>
             </div>
             <div className="col-md-2">
