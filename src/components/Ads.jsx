@@ -184,7 +184,7 @@ export const Ads = () => {
     }
 
     if (typeof ads["img_src"] !== "string") {
-      const validExtensions = ["png", "jpeg", "jpg", "gif"];
+      const validExtensions = ["png", "jpeg", "jpg", "gif", "svg", "svg+xml"];
       const fileExtension = ads["img_src"].type.split("/")[1];
       const exist = validExtensions.includes(fileExtension);
       if (!exist) {
