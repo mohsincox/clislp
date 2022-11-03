@@ -258,6 +258,7 @@ function Register() {
     </div>
   );
 
+  //test
   return (
     <WebLayout>
       <div className="registration-section ku-section section-top-required">
