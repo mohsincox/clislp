@@ -30,6 +30,9 @@ function Register() {
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
+  const [image, setImage] = useState(null);
+  const [preview, setPreview] = useState();
+
   // const CarState = {
   //   Active: "",
   // };
@@ -132,9 +135,20 @@ function Register() {
   }, [formErrors]);
 
   const handleRegister = () => {
-    console.log(formValues);
+    console.log("formValues", formValues);
+
+    var form_data = new FormData();
+
+    for (var key in formValues) {
+      form_data.append(key, formValues[key]);
+    }
+
+    form_data.append("image", image);
+
+    // return;
+
     axios
-      .post(`${API_PUBLIC_URL}api/auth/signup`, formValues)
+      .post(`${API_PUBLIC_URL}api/auth/signup`, form_data)
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("loginData", JSON.stringify(response.data));
@@ -200,6 +214,7 @@ function Register() {
 
   const [loading, setLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState();
+
   const handleUploadChange = (info) => {
     console.log(info, info.file.status);
     getBase64(info.file.originFileObj, (url) => {
@@ -232,6 +247,25 @@ function Register() {
     </div>
   );
 
+  useEffect(() => {
+    if (!image) {
+      setPreview(undefined);
+      return;
+    }
+    const objectUrl = URL.createObjectURL(image);
+    setPreview(objectUrl);
+
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [image]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setImage(undefined);
+      return;
+    }
+    setImage(e.target.files[0]);
+  };
+
   return (
     <WebLayout>
       <div className="registration-section ku-section section-top-required">
@@ -252,7 +286,7 @@ function Register() {
                 </ul>
               </div>
               <div className="registration-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                   <div className="row">
                     <div className="col-lg-8">
                       <div className="regi-left">
@@ -355,10 +389,11 @@ function Register() {
                           <label className="form-label">
                             Upload Profile Pic
                           </label>
-                          <div className="text-center">
+                          {/* <div className="text-center">
                             <Upload
                               size="large"
                               name="avatar"
+                              value={formValues.age}
                               listType="picture-card"
                               className="avatar-uploader"
                               showUploadList={false}
@@ -377,6 +412,29 @@ function Register() {
                                 uploadButton
                               )}
                             </Upload>
+                          </div> */}
+
+                          <div className="mb-3 row">
+                            <div className="col-sm-9">
+                              <input
+                                className="form-control"
+                                type="file"
+                                placeholder="Enter Image"
+                                name="image"
+                                onChange={onSelectFile}
+                              />
+
+                              <div style={{ marginTop: "10px" }}>
+                                {image && (
+                                  <img
+                                    src={preview}
+                                    alt=""
+                                    width="80px"
+                                    height="80px"
+                                  />
+                                )}
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div className="mb-3 form-check">
