@@ -10,12 +10,13 @@ import BasicTemplate from "./Template/BasicTemplate";
 // import {menuListCSS} from "react-select/dist/declarations/src/components/Menu";
 
 export default function BuildTeam() {
-  const [playerList, setPlayerList] = useState([]);
-  const [country_id, setCountry_id] = useState("");
-  const [countryList, setCountryList] = useState([]);
+  const [teamPlayerList, setTeamPlayerList] = useState([]);
+  const [tournament_team_id, setTournament_team_id] = useState("");
+  const [tournamentTeamList, setTournamentTeamList] = useState([]);
   const [user_cricket_player, setUser_cricket_player] = useState("");
   const [user_football_player, setUser_football_player] = useState("");
   const [maxSelect, setMaxSelect] = useState("");
+  const [disable, setDisable] = React.useState(false);
 
   // console.log("authUser", authUser);
   // console.log("authUser2", authUser.user.userrole);
@@ -78,20 +79,24 @@ export default function BuildTeam() {
     }
   }, []);
 
-  const getData = async () => {
+  const getTourTeamPlayerDetail = async () => {
     if (getLoginData === null) {
       navigate("/register");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
       await axios
-        .get(`${API_PUBLIC_URL}api/players/active`, {
-          headers: {
-            Authorization: token,
-          },
-        })
+        .get(
+          `${API_PUBLIC_URL}commonapi/tournament-team-player-deatil/${tourId}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
         .then((response) => {
-          setPlayerList(response.data);
+          setTeamPlayerList(response.data);
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -103,20 +108,20 @@ export default function BuildTeam() {
     }
   };
 
-  const getCountryDetails = async () => {
+  const getTournamentTeam = async () => {
     if (getLoginData === null) {
       navigate("/login");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
       await axios
-        .get(`${API_PUBLIC_URL}api/countries`, {
+        .get(`${API_PUBLIC_URL}commonapi/tournament-team/${tourId}`, {
           headers: {
             Authorization: token,
           },
         })
         .then((response) => {
-          setCountryList(response.data);
+          setTournamentTeamList(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -129,12 +134,17 @@ export default function BuildTeam() {
   };
 
   useEffect(() => {
-    getData();
-    getCountryDetails();
+    getTourTeamPlayerDetail();
+    getTournamentTeam();
   }, []);
 
   const submitForm = async (e) => {
     e.preventDefault();
+
+    if (disable) {
+      console.log("disable", disable);
+      return;
+    }
 
     const storageData = JSON.parse(getLoginData);
     const token = storageData.accessToken;
@@ -158,6 +168,7 @@ export default function BuildTeam() {
         .then((response) => {
           setState({ selections: [] });
           // toast.success("Created successfully");
+          setDisable(true);
           navigate(`/view-team/${tourId}`);
         })
         .catch((error) => {
@@ -186,6 +197,7 @@ export default function BuildTeam() {
     );
   }
 
+  // test
   return (
     <WebLayout>
       <div className="build-team-section ku-section section-top-required">
@@ -207,7 +219,7 @@ export default function BuildTeam() {
               </div>
 
               <div className="build-team-area-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
-                <div className="mb-3 row">
+                {/* <div className="mb-3 row">
                   <div className="col-sm-6 offset-sm-3">
                     <select
                       className="form-select"
@@ -223,40 +235,67 @@ export default function BuildTeam() {
                       ))}
                     </select>
                   </div>
+                </div> */}
+
+                <div className="mb-3 row">
+                  <div className="col-sm-6 offset-sm-3">
+                    <select
+                      className="form-select"
+                      value={tournament_team_id}
+                      name="tournament_team_id"
+                      onChange={(e) => setTournament_team_id(e.target.value)}
+                    >
+                      <option>Select Team & Choose Players</option>
+                      {tournamentTeamList.map((item, index) => (
+                        <option key={item.id} value={item.id}>
+                          {item.country?.name} {item.franchise?.name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <form onSubmit={submitForm}>
                   <div className="build-player-list-single-item">
-                    {playerList.map((player, index) => (
-                      <React.Fragment key={player.id}>
-                        {player.country_id == country_id && (
-                          <div className="build-player-list" key={player.id}>
-                            <label htmlFor={`player-${player.id}`}>
+                    {teamPlayerList.map((detail, index) => (
+                      <React.Fragment key={detail.id}>
+                        {detail.tournament_team_id == tournament_team_id && (
+                          <div
+                            className="build-player-list"
+                            key={detail.player?.id}
+                          >
+                            <label htmlFor={`player-${detail.player?.id}`}>
                               <input
-                                id={`player-${player.id}`}
+                                id={`player-${detail.player?.id}`}
                                 className="visually-hidden build-player-checkbox"
                                 type="checkbox"
-                                checked={state.selections.includes(player.id)}
-                                onChange={() => handleCheckboxChange(player.id)}
+                                checked={state.selections.includes(
+                                  detail.player.id
+                                )}
+                                onChange={() =>
+                                  handleCheckboxChange(detail.player?.id)
+                                }
                               />
                               <div className="player-avatar-container">
                                 <div className="player-avater">
                                   <img
-                                    src={`${API_PUBLIC_URL}${player.image}`}
+                                    src={`${API_PUBLIC_URL}${detail.player?.image}`}
                                     alt=""
                                   />
                                 </div>
                                 <div className="player-flag">
                                   <img
-                                    src={`${API_PUBLIC_URL}${player.country.flag}`}
+                                    src={`${API_PUBLIC_URL}${detail.player?.country?.flag}`}
                                     alt=""
                                   />
                                 </div>
                               </div>
                               <div className="player-details">
-                                <p className="m-0 player-name">{player.name}</p>
+                                <p className="m-0 player-name">
+                                  {detail.player?.name}
+                                </p>
                                 <p className="m-0 player-specification">
-                                  {playerSpecification(player)}
+                                  {playerSpecification(detail.player)}
                                 </p>
                               </div>
                             </label>
@@ -270,6 +309,7 @@ export default function BuildTeam() {
                     type="submit"
                     className="btn ku-c-button"
                     style={{ borderRadius: "0px", float: "right" }}
+                    disabled={disable}
                   >
                     ({state.selections.length}/ {user_cricket_player}) View Team
                   </button>
