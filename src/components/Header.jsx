@@ -143,7 +143,7 @@ function Header(props) {
                         <a onClick={(e) => e.preventDefault()}>
                             <Space>
                                 {
-                                    userInfo ?
+                                    userInfo && userInfo?.userInfo?.image ?
                                         <Avatar size="large" src={`${API_PUBLIC_URL}${userInfo.userInfo.image}`}/> :
                                         <Avatar size="large" icon={<UserOutlined/>}/>
                                 }
