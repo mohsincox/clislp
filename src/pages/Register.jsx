@@ -377,7 +377,7 @@ function Register() {
                                             <div className="regi-right">
                                                 <div className="mb-3">
                                                     <label className="form-label">
-                                                        Upload Profile Pic
+                                                        Upload Your Profile Picture
                                                     </label>
                                                     <div className="text-center">
                                                         <Upload
