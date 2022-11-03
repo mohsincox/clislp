@@ -219,7 +219,7 @@ export const Ads = () => {
             })
             .catch((err) => {
                 console.error("========", err, "=======");
-                toast.err("Ads updated unsuccessful");
+                toast.error("Ads updated unsuccessful");
             });
     }
 
