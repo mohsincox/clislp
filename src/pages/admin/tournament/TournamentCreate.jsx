@@ -15,6 +15,7 @@ export default function TournamentCreate() {
   const [logo, setLogo] = useState(null);
   const [preview, setPreview] = useState();
   const [category, setCategory] = useState("");
+  const [disable, setDisable] = React.useState(false);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -58,6 +59,11 @@ export default function TournamentCreate() {
 
   const submitForm = async (e) => {
     e.preventDefault();
+
+    if (disable) {
+      console.log("disable", disable);
+      return;
+    }
 
     if (game_id.trim() === "") {
       toast.error("Game Name field is required!");
@@ -113,12 +119,20 @@ export default function TournamentCreate() {
           setStatus("");
           setUpcomming("");
           setLogo(null);
+          setDisable(true);
 
           toast.success("Successfully created!");
           navigate("/admin/tournaments");
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
         });
     }
   };
@@ -320,6 +334,7 @@ export default function TournamentCreate() {
                   type="button"
                   className="btn btn-primary"
                   onClick={submitForm}
+                  disabled={disable}
                 >
                   Save
                 </button>
