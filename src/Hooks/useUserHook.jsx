@@ -11,7 +11,8 @@ const useUserHook = (defaultState = null) => {
                 return {
                     id: data.id,
                     name : data.name,
-                    token: data.accessToken
+                    token: data.accessToken,
+                    userInfo: data
                 }
             });
         }
