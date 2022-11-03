@@ -1,8 +1,12 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {Link, useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../constants";
+import WebLayout from "../layouts/WebLayout";
+import {Input} from "antd";
+import EyeTwoTone from "@ant-design/icons/lib/icons/EyeTwoTone";
+import EyeInvisibleOutlined from "@ant-design/icons/lib/icons/EyeInvisibleOutlined";
 
 function LoginAdmin() {
   const initialValues = { email: "", password: "" };
@@ -94,69 +98,65 @@ function LoginAdmin() {
     return errors;
   };
 
+
+
   return (
-    <div className="container mt-5">
-      <div className="col-sm-6 offset-sm-3">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Login</h5>
+      <WebLayout>
+        <div className="registration-section ku-section section-top-required mb-5">
+          <div className="container" style={{ marginBottom: "15px" }}>
+            <div className="row">
+              <div className="col-lg-6 offset-lg-3">
+                <div className="login-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
+                  <h2 className="text-center text-uppercase mb-4" style={{color: "#C50B0E"}}>Login to Play11</h2>
+                  <form onSubmit={handleSubmit} className="mt-3">
+                    <div className="mb-3">
+                      <label className="form-label">Email address</label>
+                      <Input
+                          size="large"
+                          type="email"
+                          name="email"
+                          placeholder="Email"
+                          value={formValues.email}
+                          onChange={handleChange}
+                      />
+                    </div>
 
-            <center>
-              {" "}
-              <img
-                src={require("../images/sl_logo.png")}
-                alt="logo"
-                width={"200px"}
-                height={"70px"}
-              />
-            </center>
-            {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
-        <div className="ui message success">Signed in successfully</div>
-      ) : (
-        <pre>{JSON.stringify(formValues, undefined, 2)}</pre>
-      )} */}
+                    <div className="mb-3">
+                      <label className="form-label">Password</label>
 
-            <form onSubmit={handleSubmit} className="mt-3">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Email <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    name="email"
-                    placeholder="Email"
-                    value={formValues.email}
-                    onChange={handleChange}
-                  />
+                      <Input.Password
+                          size="large"
+                          type="password"
+                          name="password"
+                          placeholder="Password"
+                          value={formValues.password}
+                          onChange={handleChange}
+                          iconRender={(visible) =>
+                              visible ? (
+                                  <EyeTwoTone twoToneColor="#C50B0E" />
+                              ) : (
+                                  <EyeInvisibleOutlined />
+                              )
+                          }
+                      />
+                    </div>
+
+                    <div className="d-flex justify-content-center align-items-center mt-5">
+                      <button
+                          type="submit"
+                          className="btn btn-lg ku-c-button"
+                          style={{ borderRadius: "0px", minWidth: "200px" }}
+                      >
+                        Login
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
-              {/* <p>{formErrors.email}</p> */}
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Password<span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    value={formValues.password}
-                    onChange={handleChange}
-                  />
-                </div>
-              </div>
-              {/* <p>{formErrors.password}</p> */}
-              <div className="float-end">
-                <button className="btn btn-primary">Login</button>
-              </div>
-            </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
+      </WebLayout>
   );
 }
 

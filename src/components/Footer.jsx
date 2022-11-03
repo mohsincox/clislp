@@ -120,7 +120,7 @@ export default function Footer() {
                 <br />
                 Contact
                 <br />
-                <a href="/login" className="text-white">Login</a>
+                <a href="/login" className="text-white" style={{textDecoration: "none"}}>Login</a>
                 <br />
               </span>
             </div>
