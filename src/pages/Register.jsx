@@ -23,7 +23,7 @@ function Register() {
         phone_number: "",
         gender: "",
         age: "",
-        policy: "",
+        policy: false,
     };
     const [formValues, setFormValues] = useState(initialValues);
     const [formErrors, setFormErrors] = useState({});
@@ -52,7 +52,15 @@ function Register() {
 
     const handleChange = (e) => {
         const {name, value} = e.target;
-        setFormValues({...formValues, [name]: value});
+        if(name == 'policy') {
+            setFormValues(prevState => {
+                let newFormValues = {...prevState};
+                newFormValues[name] = !prevState[name]
+                return newFormValues;
+            });
+        } else {
+            setFormValues({...formValues, [name]: value});
+        }
     };
 
     const handleGender = (value) => {
@@ -77,7 +85,7 @@ function Register() {
             toast.error("Password is required!");
         } else if (formValues.password.length < 6) {
             toast.error("Password must be at least 6 characters");
-        } else if (formValues.policy === "") {
+        } else if (formValues.policy === false) {
             toast.error("Policy is required!");
         } else {
             setFormErrors(validate(formValues));
@@ -400,7 +408,7 @@ function Register() {
                                                             type="checkbox"
                                                             className="form-check-input"
                                                             name="policy"
-                                                            // value={formValues.policy}
+                                                            value={formValues.policy}
                                                             checked={formValues.policy}
                                                             onChange={handleChange}
                                                         />

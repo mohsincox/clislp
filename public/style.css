@@ -598,3 +598,11 @@ li.rank-content .rank-c {
     margin-bottom: 50px;
     font-size: 24px;
 }
+
+
+.privacy-policy input[type="checkbox"] {
+    background: #302e2e;
+    padding: 10px;
+    margin-right: 10px;
+    border: 2px solid #176afc;
+}
