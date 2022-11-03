@@ -566,3 +566,35 @@ li.rank-content .rank-c {
 .team-view-area .build-player-list-single-item {
     margin: 0;
 }
+
+.ad-block-off-request {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ad-block-off-request div {
+    background: #000000;
+    min-height: 250px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    min-width: 250px;
+    justify-content: center;
+    padding: 20px;
+}
+
+
+.ad-block-off-request div h1 {
+    color: #fff;
+    margin-bottom: 50px;
+    font-size: 24px;
+}

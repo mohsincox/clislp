@@ -112,7 +112,6 @@ export default function PageEdit() {
           headers: {Authorization: token,},
       }).then((response) => {
           setName("");
-          setEmail("");
           toast.success("Successfully created!");
           navigate("/admin/pages");
         })

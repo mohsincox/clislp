@@ -6,7 +6,8 @@ import { toast } from "react-toastify";
 import { Collapse } from "antd";
 import CollapsePanel from "antd/es/collapse/CollapsePanel";
 import Image from "antd/es/image";
-import { DeleteOutlined } from "@ant-design/icons";
+import DisabledAdsBlock from "./DisabledAdsBlock";
+
 
 export const Ads = () => {
     let [wid, setWid] = useState("");
@@ -224,7 +225,7 @@ export const Ads = () => {
     }
 
     return (
-        <>
+        <DisabledAdsBlock>
             <div className="row">
                 <div className="col-md-4">
                     <div className="card">
@@ -586,7 +587,7 @@ export const Ads = () => {
                     </div>
                 </div>
             </div>
-        </>
+        </DisabledAdsBlock>
     );
 };
 
