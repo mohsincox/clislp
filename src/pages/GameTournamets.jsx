@@ -55,7 +55,7 @@ const GameTournaments = () => {
                         </p>
                         {gameTours.tournaments.map((tours, index) => (
                           <Link
-                            to="#"
+                            to={`/build-team/${tours.id}`}
                             style={{ textDecoration: "none" }}
                             key={tours.id}
                             className="single-tour-item"

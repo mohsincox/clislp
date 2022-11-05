@@ -67,7 +67,7 @@ function Login() {
       .post(`${API_PUBLIC_URL}api/auth/signin`, formValues)
       .then((response) => {
         localStorage.setItem("loginData", JSON.stringify(response.data));
-        window.location.href = "/";
+        window.location.href = "/tournament";
       })
       .catch((error) => {
         console.log(error);
@@ -99,7 +99,12 @@ function Login() {
           <div className="row">
             <div className="col-lg-6 offset-lg-3">
               <div className="login-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
-                <h2 className="text-center text-uppercase mb-4" style={{color: "#C50B0E"}}>Login to Play11</h2>
+                <h2
+                  className="text-center text-uppercase mb-4"
+                  style={{ color: "#C50B0E" }}
+                >
+                  Login to Play11
+                </h2>
                 <form onSubmit={handleSubmit} className="mt-3">
                   <div className="mb-3">
                     <label className="form-label">Email address</label>
