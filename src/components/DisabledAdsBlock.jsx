@@ -1,11 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import { useDetectAdBlock } from "adblock-detect-react";
 
 
 const DisabledAdsBlock = (props) => {
     const adBlockDetected = useDetectAdBlock();
-
-
     return adBlockDetected ? <div className="ad-block-off-request">
         <div>
             <h1>Please Disabled Ad Blocker</h1>

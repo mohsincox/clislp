@@ -74,7 +74,7 @@ import ClubEdit from "./pages/admin/club/ClubEdit";
 import Ranking from "./pages/Ranking";
 
 import Widget from "./components/Widget";
-import Ads from "./components/Ads";
+import CreateAds from "./pages/ads/CreateAds";
 import PageCreate from "./pages/admin/page/PageCreate";
 import PageList from "./pages/admin/page/PageList";
 import PageEdit from "./pages/admin/page/PageEdit";
@@ -85,6 +85,7 @@ import "./App.css";
 import "./responsive.css";
 import ChangePassword from "./pages/ChangePassword";
 import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
+import {AdsContextWrapper} from "./context/AdsContext";
 
 export const UserContext = React.createContext(null);
 
@@ -406,7 +407,7 @@ function App() {
 
               <Route path={`/admin/widget`} exact={true} element={<Widget />} />
 
-              <Route path={`/admin/ads`} exact={true} element={<Ads />} />
+              <Route path={`/admin/ads`} exact={true} element={<AdsContextWrapper><CreateAds /></AdsContextWrapper>} />
             </Route>
           </Routes>
         </BrowserRouter>
