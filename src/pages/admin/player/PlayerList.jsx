@@ -171,12 +171,12 @@ export default function PlayerList() {
                         Midfielder
                       </span>
                     )}
-                    {JSON.parse(player.specification)["Forward"] === true && (
+                    {JSON.parse(player.specification)["Striker"] === true && (
                       <span
                         className="badge bg-secondary"
                         style={{ marginRight: "3px" }}
                       >
-                        Forward
+                        Striker
                       </span>
                     )}
                   </td>

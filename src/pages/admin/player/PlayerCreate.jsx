@@ -22,6 +22,7 @@ export default function PlayerCreate() {
   const [isDefender, setIsDefender] = useState(false);
   const [isMidfielder, setIsMidfielder] = useState(false);
   const [isForward, setIsForward] = useState(false);
+  const [isStriker, setIsStriker] = useState(false);
   const [status, setStatus] = useState("Active");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState();
@@ -170,6 +171,10 @@ export default function PlayerCreate() {
     setIsForward(!isForward);
   };
 
+  const handleStriker = () => {
+    setIsStriker(!isStriker);
+  };
+
   const submitForm = async (e) => {
     e.preventDefault();
 
@@ -197,6 +202,7 @@ export default function PlayerCreate() {
       formData.append("isDefender", isDefender);
       formData.append("isMidfielder", isMidfielder);
       formData.append("isForward", isForward);
+      formData.append("isStriker", isStriker);
       formData.append("status", status);
       formData.append("image", image);
 
@@ -224,6 +230,7 @@ export default function PlayerCreate() {
           setIsDefender(false);
           setIsMidfielder(false);
           setIsForward(false);
+          setIsStriker(false);
           setStatus("");
           setImage(null);
           toast.success("Successfully created!");
@@ -381,10 +388,10 @@ export default function PlayerCreate() {
                       <div>
                         <input
                           type="checkbox"
-                          checked={isForward}
-                          onChange={handleForward}
+                          checked={isStriker}
+                          onChange={handleStriker}
                         />
-                        Forward
+                        Striker
                       </div>
                     </div>
                   </div>

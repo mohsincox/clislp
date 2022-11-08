@@ -22,6 +22,7 @@ export default function PlayerEdit() {
   const [isDefender, setIsDefender] = useState(false);
   const [isMidfielder, setIsMidfielder] = useState(false);
   const [isForward, setIsForward] = useState(false);
+  const [isStriker, setIsStriker] = useState(false);
   const [status, setStatus] = useState("Active");
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState();
@@ -189,6 +190,12 @@ export default function PlayerEdit() {
             setIsForward(specificationParse["Forward"]);
           }
 
+          if (specificationParse["Striker"] === undefined) {
+            setIsStriker(false);
+          } else {
+            setIsStriker(specificationParse["Striker"]);
+          }
+
           // setIsDefender(specificationParse["Defender"]);
           // setIsMidfielder(specificationParse["Midfielder"]);
           // setIsForward(specificationParse["Forward"]);
@@ -230,6 +237,10 @@ export default function PlayerEdit() {
     setIsForward(!isForward);
   };
 
+  const handleStriker = () => {
+    setIsStriker(!isStriker);
+  };
+
   const submitForm = async (e) => {
     e.preventDefault();
 
@@ -262,6 +273,7 @@ export default function PlayerEdit() {
       formData.append("isDefender", isDefender);
       formData.append("isMidfielder", isMidfielder);
       formData.append("isForward", isForward);
+      formData.append("isStriker", isStriker);
       formData.append("status", status);
       formData.append("image", image);
 
@@ -289,6 +301,7 @@ export default function PlayerEdit() {
           setIsDefender(false);
           setIsMidfielder(false);
           setIsForward(false);
+          setIsStriker(false);
           setStatus("");
           setImage(null);
           toast.success("Successfully created!");
@@ -446,10 +459,10 @@ export default function PlayerEdit() {
                       <div>
                         <input
                           type="checkbox"
-                          checked={isForward}
-                          onChange={handleForward}
+                          checked={isStriker}
+                          onChange={handleStriker}
                         />
-                        Forward
+                        Striker
                       </div>
                     </div>
                   </div>
