@@ -1,6 +1,7 @@
 import React from "react";
 import {useEffect, useState} from "react";
 
+
 const useUserHook = (defaultState = null) => {
     let [user, setUser] = useState(defaultState);
     useEffect(() => {

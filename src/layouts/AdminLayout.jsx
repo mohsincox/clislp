@@ -14,6 +14,7 @@ import "./adminLayout.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 import { Dropdown } from "react-bootstrap";
+import logo from "../logo.svg";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -139,6 +140,15 @@ const items = [
       </Link>,
       "18"
     ),
+    getItem(
+      <Link
+        to={`/admin/geme_point_settings`}
+        style={{ textDecoration: "none" }}
+      >
+        Game Point Settings
+      </Link>,
+      "200"
+    ),
   ]),
 
   getItem("Adds", "sub4", <SettingOutlined />, [
@@ -223,12 +233,9 @@ const AdminLayout = () => {
         onCollapse={(value) => setCollapsed(value)}
       >
         <div>
-          <img
-            src={require("../images/sl_logo.png")}
-            alt="logo"
-            width={"200px"}
-            height={"60px"}
-          />
+          <a href="/admin">
+            <img src={logo} alt="logo" width={"200px"} height={"60px"} />
+          </a>
         </div>
         <Menu
           theme="dark"

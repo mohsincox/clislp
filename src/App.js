@@ -87,6 +87,7 @@ import ChangePassword from "./pages/ChangePassword";
 import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
 import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
 import ContactList from "./pages/admin/contact/ContactList";
+import GamePointSettingsForm from "./pages/admin/game_point_settings/GamePointSettingsForm";
 
 export const UserContext = React.createContext(null);
 
@@ -421,6 +422,11 @@ function App() {
               <Route path={`/admin/widget`} exact={true} element={<Widget />} />
 
               <Route path={`/admin/ads`} exact={true} element={<Ads />} />
+              <Route
+                path={`/admin/geme_point_settings`}
+                exact={true}
+                element={<GamePointSettingsForm />}
+              />
             </Route>
           </Routes>
         </BrowserRouter>
