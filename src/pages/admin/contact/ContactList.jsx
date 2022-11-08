@@ -54,7 +54,7 @@ function ContactList() {
                 <th>Name</th>
                 <th>Email</th>
                 <th>Message</th>
-                <th>Created At</th>
+                {/* <th>Created At</th> */}
               </tr>
             </thead>
             <tbody>
@@ -64,7 +64,7 @@ function ContactList() {
                   <td>{contact.name}</td>
                   <td>{contact.email}</td>
                   <td>{contact.message}</td>
-                  <td>{contact.createdAt}</td>
+                  {/* <td>{contact.createdAt}</td> */}
                 </tr>
               ))}
             </tbody>
