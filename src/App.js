@@ -86,6 +86,7 @@ import "./responsive.css";
 import ChangePassword from "./pages/ChangePassword";
 import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
 import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
+import ContactList from "./pages/admin/contact/ContactList";
 
 export const UserContext = React.createContext(null);
 
@@ -397,6 +398,12 @@ function App() {
                 path={`/admin/change-password`}
                 exact={true}
                 element={<ChangePasswordAdmin />}
+              />
+
+              <Route
+                path={`/admin/contacts`}
+                exact={true}
+                element={<ContactList />}
               />
 
               <Route

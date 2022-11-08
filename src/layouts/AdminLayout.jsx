@@ -167,8 +167,8 @@ const items = [
 
   getItem("Reports", "sub6", <ProfileFilled />, [
     getItem(
-      <Link to={`#`} style={{ textDecoration: "none" }}>
-        Report 1
+      <Link to={`/admin/contacts`} style={{ textDecoration: "none" }}>
+        Contact Us List
       </Link>,
       "97"
     ),
@@ -197,7 +197,7 @@ const AdminLayout = () => {
       setName(nameUser);
       const role_name = data.userrole.role.role_name;
       console.log(role_name);
-      if (role_name === "customer") {
+      if (role_name === "Customer") {
         navigate("/");
       }
     }

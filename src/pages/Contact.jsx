@@ -1,13 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import SlideShow from "../components/SlideShow";
 import WebLayout from "../layouts/WebLayout";
 import { Input } from "antd";
+import { toast } from "react-toastify";
 
 const { TextArea } = Input;
 
 const Contact = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+
+  const submitForm = async (e) => {
+    e.preventDefault();
+
+    if (name.trim() === "") {
+      toast.error("Name field is required!");
+    } else if (email.trim() === "") {
+      toast.error("Email field is required!");
+    } else if (message.trim() === "") {
+      toast.error("Message field is required!");
+    } else {
+      console.log("submitted");
+      console.log("name", name);
+      console.log("email", email);
+      console.log("message", message);
+    }
+  };
+
   return (
     <WebLayout>
       <div className="slider-section ku-section">
@@ -24,13 +46,19 @@ const Contact = () => {
                   Please do not hesitate to contact us directly. Our team will
                   come back to you within a matter of hours to help you.
                 </p>
-                <form id="contact-form" name="contact-form">
+                <form
+                  id="contact-form"
+                  name="contact-form"
+                  onSubmit={submitForm}
+                >
                   <div className="mb-3">
                     <label className="form-label">Your Name</label>
                     <Input
                       size="large"
                       type="text"
                       name="name"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
                       placeholder="Your Name:"
                     />
                   </div>
@@ -40,14 +68,22 @@ const Contact = () => {
                     <Input
                       size="large"
                       type="email"
-                      name="name"
+                      name="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       placeholder="Your Email:"
                     />
                   </div>
 
                   <div className="mb-3">
                     <label className="form-label">Your Message:</label>
-                    <TextArea rows={6} placeholder="Write your query here..." />
+                    <TextArea
+                      rows={6}
+                      placeholder="Write your query here..."
+                      name="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                    />
                   </div>
 
                   <div className="text-center text-md-left mt-5">
