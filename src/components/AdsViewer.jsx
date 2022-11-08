@@ -34,7 +34,6 @@ export const AdsViewer = (props) => {
                                 style={{
                                     ...imageStyle,
                                     width: "100%",
-                                    height: "100%",
                                     objectFit: "contain",
                                 }}
                             />
