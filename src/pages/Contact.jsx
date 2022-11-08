@@ -5,6 +5,8 @@ import SlideShow from "../components/SlideShow";
 import WebLayout from "../layouts/WebLayout";
 import { Input } from "antd";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { API_PUBLIC_URL } from "../constants";
 
 const { TextArea } = Input;
 
@@ -27,6 +29,25 @@ const Contact = () => {
       console.log("name", name);
       console.log("email", email);
       console.log("message", message);
+
+      const postBody = {
+        name: name,
+        email: email,
+        message: message,
+      };
+
+      await axios
+        .post(`${API_PUBLIC_URL}api/contacts`, postBody, {})
+        .then((response) => {
+          setName("");
+          setEmail("");
+          setMessage("");
+
+          toast.success("Contact form send successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
