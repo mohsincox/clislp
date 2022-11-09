@@ -5,16 +5,18 @@ import {toast} from "react-toastify";
 import Select from "react-select";
 import {API_PUBLIC_URL} from "../../../constants";
 import {isNull} from "underscore";
+import {footballPlayerSpecification} from "../../../context/helper";
 
 export default function PointTableCreate() {
     const [match_id, setMatch_id] = useState("");
     const [currentMatch, setCurrentMatch] = useState(null);
+    const [currentPlayerSpcification, setCurrentPlayerSpcification] = useState(null);
     const [footballPoints, setFootBallPoints] = useState({
-        Goal : 0,
-        Assist : 0,
-        Goal_Save : 0,
-        Penalty_Save : 0,
-        Clean_Sheet : 0,
+        Goal: 0,
+        Assist: 0,
+        Goal_Save: 0,
+        Penalty_Save: 0,
+        Clean_Sheet: 0,
     });
     const [matchList, setMatchList] = useState([]);
     const [tournament_team_id, setTournament_team_id] = useState("");
@@ -29,11 +31,13 @@ export default function PointTableCreate() {
     const [five_wickets, setFive_wickets] = useState(false);
     let navigate = useNavigate();
 
+
     const getLoginData = localStorage.getItem("loginData");
 
     useEffect(() => {
         getGameDetails();
     }, []);
+
 
     const getGameDetails = async () => {
         if (getLoginData === null) {
@@ -150,70 +154,28 @@ export default function PointTableCreate() {
         setCurrentMatch(cMatch);
     }
 
-    const submitForm = async (e) => {
-        e.preventDefault();
-
-        if (match_id === "") {
-            toast.error("Match field is required!");
-        } else if (tournament_team_id === "") {
-            toast.error("Team field is required!");
-        } else if (player_id === "") {
-            toast.error("Player field is required!");
-        } else {
-            const postBody = {
-                match_id: match_id,
-                tournament_team_id: tournament_team_id,
-                player_id: player_id,
-                run: run,
-                wicket: wicket,
-                man_of_the_match: man_of_the_match,
-                fifty: fifty,
-                hundred: hundred,
-                five_wickets: five_wickets,
-                footballPoints
-            };
-
-            const storageData = JSON.parse(getLoginData);
-            const token = storageData.accessToken;
-
-            await axios
-                .post(`${API_PUBLIC_URL}api/point-tables`, postBody, {
-                    headers: {
-                        Authorization: token,
-                    },
-                })
-                .then((response) => {
-                    setMatch_id("");
-                    setTournament_team_id("");
-                    setPlayer_id("");
-                    setRun("");
-                    setWicket("");
-                    setMan_of_the_match(false);
-                    setFifty(false);
-                    setHundred(false);
-                    setFive_wickets(false);
-
-                    toast.success("Successfully created!");
-                    navigate("/admin/point-tables");
-                })
-                .catch((error) => {
-                    console.log(error);
-                    if (error.response.status === 400) {
-                        toast.error(error.response.data.msg);
-                    }
-                    if (error.response.status === 403) {
-                        toast.error("No Permission");
-                        navigate("/admin/no-permission");
-                    }
-                });
-        }
-    };
 
     const currentMatchGame = () => {
-        if(isNull(currentMatch)) return null
-        if(currentMatch["tournament"]["game"]["name"] === "Cricket") return "Cricket";
-        else if(currentMatch["tournament"]["game"]["name"] === "Football") return "Football";
+        if (isNull(currentMatch)) return null
+        if (currentMatch["tournament"]["game"]["name"] === "Cricket") return "Cricket";
+        else if (currentMatch["tournament"]["game"]["name"] === "Football") return "Football";
     }
+
+    useEffect(() => {
+
+        if (currentMatchGame() == "Football") {
+            if (player_id) {
+                let currentPlayer = playerList.find(player => {
+                    return player_id == player.player_id
+                })
+
+                let f_PlayerSpecification = footballPlayerSpecification(currentPlayer.player)
+                setCurrentPlayerSpcification(f_PlayerSpecification)
+                console.log(f_PlayerSpecification);
+            }
+
+        }
+    }, [player_id])
 
     const handleFootballPoints = (e) => {
         let name = e.target.name;
@@ -224,7 +186,7 @@ export default function PointTableCreate() {
         setFootBallPoints(prevState => {
             return {
                 ...prevState,
-                [name] : name === "Clean_Sheet" ? value == 0 ? 1 : 0 : parseInt(value)
+                [name]: name === "Clean_Sheet" ? value == 0 ? 1 : 0 : parseInt(value)
             }
         })
     }
@@ -262,6 +224,85 @@ export default function PointTableCreate() {
                 matchList[i].start_date,
         });
     }
+
+
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+
+        if (match_id === "") {
+            toast.error("Match field is required!");
+        } else if (tournament_team_id === "") {
+            toast.error("Team field is required!");
+        } else if (player_id === "") {
+            toast.error("Player field is required!");
+        } else {
+            const postBody = {
+                match_id: match_id,
+                tournament_team_id: tournament_team_id,
+                player_id: player_id,
+                run: run,
+                wicket: wicket,
+                man_of_the_match: man_of_the_match,
+                fifty: fifty,
+                hundred: hundred,
+                five_wickets: five_wickets,
+                footballPoints,
+                currentMatch,
+                currentPlayerSpcification
+            };
+
+            let url = `${API_PUBLIC_URL}api/point-tables`;
+
+
+            if(currentMatchGame() == "Football") url = `${API_PUBLIC_URL}api/point-tables/football`;
+            const storageData = JSON.parse(getLoginData);
+            const token = storageData.accessToken;
+
+            await axios
+                .post(url, postBody, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then((response) => {
+                    setMatch_id("");
+                    setTournament_team_id("");
+                    setPlayer_id("");
+                    setRun("");
+                    setWicket("");
+                    setMan_of_the_match(false);
+                    setFifty(false);
+                    setHundred(false);
+                    setFive_wickets(false);
+
+
+                    setCurrentMatch(null);
+                    setCurrentPlayerSpcification(null);
+                    setFootBallPoints({
+                        Goal: 0,
+                        Assist: 0,
+                        Goal_Save: 0,
+                        Penalty_Save: 0,
+                        Clean_Sheet: 0,
+                    });
+
+
+                    toast.success("Successfully created!");
+                    navigate("/admin/point-tables");
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 400) {
+                        toast.error(error.response.data.msg);
+                    }
+                    if (error.response.status === 403) {
+                        toast.error("No Permission");
+                        // navigate("/admin/no-permission");
+                    }
+                });
+        }
+    };
 
     return (
         <>
@@ -423,7 +464,8 @@ export default function PointTableCreate() {
                                                                         <div className="row">
                                                                             <div className="col-lg-2">
                                                                                 <div className="form-group">
-                                                                                    <label className="form-label">Goal</label>
+                                                                                    <label
+                                                                                        className="form-label">Goal</label>
                                                                                     <input
                                                                                         className="form-control"
                                                                                         type="number"
@@ -436,7 +478,8 @@ export default function PointTableCreate() {
                                                                             </div>
                                                                             <div className="col-lg-2">
                                                                                 <div className="form-group">
-                                                                                    <label className="form-label">Assist</label>
+                                                                                    <label
+                                                                                        className="form-label">Assist</label>
                                                                                     <input
                                                                                         className="form-control"
                                                                                         type="number"
@@ -449,7 +492,8 @@ export default function PointTableCreate() {
                                                                             </div>
                                                                             <div className="col-lg-2">
                                                                                 <div className="form-group">
-                                                                                    <label className="form-label">Goal_Save</label>
+                                                                                    <label
+                                                                                        className="form-label">Goal_Save</label>
                                                                                     <input
                                                                                         className="form-control"
                                                                                         type="number"
@@ -462,7 +506,8 @@ export default function PointTableCreate() {
                                                                             </div>
                                                                             <div className="col-lg-2">
                                                                                 <div className="form-group">
-                                                                                    <label className="form-label">Penalty_Save</label>
+                                                                                    <label
+                                                                                        className="form-label">Penalty_Save</label>
                                                                                     <input
                                                                                         className="form-control"
                                                                                         type="number"
@@ -473,20 +518,26 @@ export default function PointTableCreate() {
                                                                                     />
                                                                                 </div>
                                                                             </div>
-                                                                            <div className="col-lg-2">
-                                                                                <div className="form-group">
-                                                                                    <label className="form-label">Clean_Sheet</label>
-                                                                                    <input
-                                                                                        className="form-check"
-                                                                                        type="checkbox"
-                                                                                        placeholder="Enter Goal"
-                                                                                        value={footballPoints["Clean_Sheet"]}
-                                                                                        name="Clean_Sheet"
-                                                                                        onChange={(e) => handleFootballPoints(e)}
-                                                                                    />
+                                                                            {
+                                                                                currentPlayerSpcification == "Goalkeeper" || currentPlayerSpcification == "Defender" ? (
+                                                                                    <div className="col-lg-2">
+                                                                                        <div className="form-group">
+                                                                                            <label
+                                                                                                className="form-label">Clean_Sheet</label>
+                                                                                            <input
+                                                                                                className="form-check"
+                                                                                                type="checkbox"
+                                                                                                placeholder="Enter Goal"
+                                                                                                value={footballPoints["Clean_Sheet"]}
+                                                                                                name="Clean_Sheet"
+                                                                                                onChange={(e) => handleFootballPoints(e)}
+                                                                                            />
 
-                                                                                </div>
-                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                ) : null
+                                                                            }
+
                                                                         </div>
 
                                                                     </div>
