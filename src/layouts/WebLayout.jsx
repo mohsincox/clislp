@@ -12,7 +12,7 @@ class WebLayout extends Component {
     render() {
         return (
             <div className="main-wrapper">
-                <div className="header-section ku-section">
+                <div className="fixed-top header-section ku-section">
                     <div className="desktop-header d-xxl-block d-xl-block d-lg-block d-md-none d-sm-none d-none">
                         <Header/>
                     </div>

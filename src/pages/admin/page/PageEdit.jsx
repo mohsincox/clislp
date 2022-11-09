@@ -11,6 +11,7 @@ export default function PageEdit() {
   const [allPage, setAllPage] = useState([]);
   const [currentPageId, setCurrentPageId] = useState("");
   const [name, setName] = useState("");
+  const [email, setEmail] = useState ('')
   const [error, setError] = useState(null);
   const [slug, setSlug] = useState("");
   const [content, setContent] = useState('');

@@ -95,7 +95,8 @@ function Header(props) {
   );
 
   return (
-    <div className="header-container d-flex justify-content-between align-items-center">
+ 
+    <div className=" header-container d-flex justify-content-between align-items-center">
       <div className="logo">
         <Link to="/">
           <img src={logo} alt="header" />

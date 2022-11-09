@@ -7,7 +7,7 @@ export default function Header_bk() {
         className="navbar navbar-expand-lg navbar-light bg-light"
         style={{ padding: "0px" }}
       >
-        <div className="container-fluid" style={{ padding: "0px" }}>
+        <div className="container-fluid" style={{ padding: "0px"}}>
           {/* <a className="navbar-brand me-2" href="/">
               test
             </a> */}
