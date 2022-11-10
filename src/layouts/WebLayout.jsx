@@ -35,7 +35,9 @@ const WebLayout = (props) => {
         >
           <Header fixed={fixed} />
         </div>
-        <div className="mobile-header d-xxl-none d-xl-none d-lg-none d-md-block d-sm-block d-block">
+        <div
+          className={`${fixed} mobile-header d-xxl-none d-xl-none d-lg-none d-md-block d-sm-block d-block`}
+        >
           <MobileHeader />
         </div>
       </div>
