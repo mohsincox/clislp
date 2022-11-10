@@ -6,6 +6,7 @@ import { API_PUBLIC_URL } from "../../../constants";
 
 export default function UserList() {
   const [userList, setUserList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
@@ -71,6 +72,44 @@ export default function UserList() {
     pageNumbers.push(i);
   }
 
+  const submitSearch = async (e) => {
+    e.preventDefault();
+
+    if (searchQuery.trim() === "") {
+      toast.error("Search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/user-search?searchQuery=${searchQuery}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setUserList(response.data);
+
+          // toast.success("Successfully created!");
+          // navigate("/admin/users");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -87,12 +126,53 @@ export default function UserList() {
             </div>
           </div>
 
+          {/* <div className="input-group rounded">
+            <input
+              type="search"
+              className="form-control rounded"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="search-addon"
+            />
+            <span className="input-group-text border-0" id="search-addon">
+              <i className="fas fa-search"></i>
+            </span>
+            <button>Search</button>
+          </div> */}
+
+          <div className="mt-5">
+            <form onSubmit={submitSearch}>
+              <div className="mb-3 row">
+                <div className="offset-sm-3 col-sm-4">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Search Name, Phone Number, Email"
+                    value={searchQuery}
+                    name="searchQuery"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+                <div className="col-sm-3">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
           <table className="table">
             <thead>
               <tr>
                 <th>SL</th>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone Number</th>
                 <th>Role</th>
                 <th>Created At</th>
                 <th>Detail</th>
@@ -106,6 +186,7 @@ export default function UserList() {
                   <td>{index + indexOfFirstItem + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
+                  <td>{user.phone_number}</td>
                   <td>{user.role == null ? "" : user.role.role_name}</td>
                   <td>{user.createdAt}</td>
                   <td>

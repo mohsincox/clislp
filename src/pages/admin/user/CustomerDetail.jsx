@@ -29,7 +29,7 @@ export default function CustomerDetail() {
             },
           })
           .then((response) => {
-            console.log("tour List", response.data);
+            // console.log("tour List", response.data);
             setTournamentList(response.data);
           })
           .catch((error) => {
@@ -45,7 +45,7 @@ export default function CustomerDetail() {
         .get(`${API_PUBLIC_URL}api/ws-my-team/${id}/test/${tournament_id}`, {})
         .then((response) => {
           setTeamDetail(response.data);
-          console.log("tP", response.data);
+          // console.log("tP", response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -75,7 +75,7 @@ export default function CustomerDetail() {
           )
           .then((response) => {
             setRankTeamList(response.data);
-            console.log(response.data);
+            // console.log(response.data);
           })
           .catch((error) => {
             console.log(error);

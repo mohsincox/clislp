@@ -154,17 +154,18 @@ export default function Ranking() {
 
                     <ReactPaginate
                       breakLabel="..."
-                      nextLabel="Next>"
+                      nextLabel=">"
                       onPageChange={handlePageClick}
                       pageRangeDisplayed={2}
                       pageCount={pageCount}
-                      previousLabel="<Pre"
+                      previousLabel="<"
                       renderOnZeroPageCount={null}
                       containerClassName="pagination"
                       pageLinkClassName="page-num"
                       previousLinkClassName="page-num"
                       nextLinkClassName="page-num"
                       activeLinkClassName="active"
+                      disabledLinkClassName="disabled"
                     />
                   </div>
                 </div>

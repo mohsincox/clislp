@@ -1,11 +1,15 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Select from "react-select";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
 export default function PlayerList() {
   const [playerList, setPlayerList] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [country_id, setCountry_id] = useState("");
+  const [countryList, setCountryList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
@@ -38,7 +42,33 @@ export default function PlayerList() {
 
   useEffect(() => {
     getData();
+    getCountryDetails();
   }, []);
+
+  const getCountryDetails = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/countries`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setCountryList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
 
   function deletePlayer(id) {
     const storageData = JSON.parse(getLoginData);
@@ -71,6 +101,53 @@ export default function PlayerList() {
     pageNumbers.push(i);
   }
 
+  const submitSearch = async (e) => {
+    e.preventDefault();
+
+    if (searchQuery.trim() === "") {
+      toast.error("Search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setPlayerList(response.data);
+
+          // toast.success("Successfully created!");
+          // navigate("/admin/users");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
+  const options = [];
+
+  for (let i = 0; i < countryList.length; i++) {
+    options.push({
+      value: countryList[i].id,
+      label: countryList[i].name,
+    });
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -85,6 +162,64 @@ export default function PlayerList() {
                 + Create New
               </Link>
             </div>
+          </div>
+
+          <div className="mt-5">
+            <form onSubmit={submitSearch}>
+              <div className="mb-3 row">
+                <div className="offset-sm-3 col-sm-3">
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Search Player Name"
+                    value={searchQuery}
+                    name="searchQuery"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                </div>
+
+                <div className="col-sm-3">
+                  {/* <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Search Name, "
+                    value={searchQuery}
+                    name="searchQuery"
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  /> */}
+
+                  <Select
+                    onChange={(e) => setCountry_id(e.value)}
+                    options={options}
+                    placeholder={"Select Country"}
+                  />
+
+                  {/* <select
+                    className="form-select"
+                    value={country_id}
+                    name="country_id"
+                    onChange={(e) => setCountry_id(e.target.value)}
+                  >
+                    <option>Select Country</option>
+                    {countryList.map((item, index) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
+                  </select> */}
+                </div>
+
+                <div className="col-sm-3">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
 
           <table className="table">
