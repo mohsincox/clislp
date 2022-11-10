@@ -106,30 +106,25 @@ export default function Fixtures() {
             >
               <Swiper
                 id="swiper-color"
-                spaceBetween={20}
-                slidesPerView={3}
+                spaceBetween={10}
+                slidesPerView={1}
                 navigation
                 modules={[Navigation]} //you can add any other module here such as navigation and whatever else
                 nagination={{ clickable: true }}
                 breakpoints={{
-                  // when window width is >= 640px
-                  360: {
-                    width: 360,
-                    slidesPerView: 1,
-                  },
                   640: {
-                    width: 640,
                     slidesPerView: 1,
                   },
-                  // when window width is >= 768px
                   768: {
-                    width: 768,
                     slidesPerView: 2,
+                  },
+                  1024: {
+                    slidesPerView: 4,
                   },
                 }}
               >
                 {fixture.matches.map((match, index) => (
-                  <div key={index} className="w-100">
+                  <div key={index}>
                     {match.tournament_team_one != null &&
                       match.tournament_team_two != null && (
                         <SwiperSlide>
