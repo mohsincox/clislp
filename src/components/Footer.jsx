@@ -25,8 +25,8 @@ export default function Footer() {
         style={{ background: "#141527", color: "#FFFFFF" }}
       >
 
-        <div className="container">
-          <div className="row p-md-5 p-sm-2">
+        <div  className="wrapper">
+          <div className="row p-md-5 p-sm-2" >
             <div className="col-md-6">
               <img src={logo} alt="" className="mb-2" style={{width: "20%"}}/>
               <p>
