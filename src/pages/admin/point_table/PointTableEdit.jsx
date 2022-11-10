@@ -72,10 +72,19 @@ export default function PointTableEdit() {
                             Penalty_Save: response.data.Penalty_Save,
                             Clean_Sheet: response.data.Clean_Sheet,
                         })
+
                     });
             })();
         }
     };
+
+    useEffect(() => {
+        if(match_id && matchList.length) {
+            let cMatch = matchList.find(m => m.id == match_id);
+            setCurrentMatch(cMatch);
+        }
+
+    }, [match_id, matchList])
 
     const getGameDetails = async () => {
         if (getLoginData === null) {
@@ -125,12 +134,10 @@ export default function PointTableEdit() {
                             arr.push(response.data.tournament_team_two_id);
                         }
 
-                        console.log(arr);
+
 
                         setTt_idList(arr);
-                        console.log("test1", response.data.tournament_team_one_id);
-                        console.log("test2", response.data.tournament_team_two_id);
-                        console.log("test3", response.data);
+
                     })
                     .catch((error) => {
                         console.log(error);
@@ -160,7 +167,6 @@ export default function PointTableEdit() {
                         }
                     )
                     .then((response) => {
-                        console.log("match", response.data);
                         setPlayerList(response.data);
                     })
                     .catch((error) => {
@@ -173,6 +179,8 @@ export default function PointTableEdit() {
             })();
         }
     }, [tournament_team_id]);
+
+
 
     const handleManOfTheMatch = () => {
         setMan_of_the_match(!man_of_the_match);
@@ -197,6 +205,7 @@ export default function PointTableEdit() {
         else if (currentMatch["tournament"]["game"]["name"] === "Football") return "Football";
     }
 
+    // section set player specification
     useEffect(() => {
 
         if (currentMatchGame() == "Football") {
@@ -204,21 +213,17 @@ export default function PointTableEdit() {
                 let currentPlayer = playerList.find(player => {
                     return player_id == player.player_id
                 })
-
                 let f_PlayerSpecification = footballPlayerSpecification(currentPlayer.player)
                 setCurrentPlayerSpcification(f_PlayerSpecification)
-                console.log(f_PlayerSpecification);
             }
-
+        } else {
+            setCurrentPlayerSpcification(null)
         }
     }, [player_id])
 
     const handleFootballPoints = (e) => {
         let name = e.target.name;
         let value = e.target.value;
-
-        console.log(name, value);
-
         setFootBallPoints(prevState => {
             return {
                 ...prevState,
@@ -254,13 +259,20 @@ export default function PointTableEdit() {
                 fifty: fifty,
                 hundred: hundred,
                 five_wickets: five_wickets,
+                footballPoints,
+                currentMatch,
+                currentPlayerSpcification
             };
+
+            let url = `${API_PUBLIC_URL}api/point-tables/${id}`;
+
+            if(currentMatchGame() == "Football") url = `${API_PUBLIC_URL}api/point-tables/${id}/football`;
 
             const storageData = JSON.parse(getLoginData);
             const token = storageData.accessToken;
 
             await axios
-                .put(`${API_PUBLIC_URL}api/point-tables/${id}`, postBody, {
+                .put(url, postBody, {
                     headers: {
                         Authorization: token,
                     },
@@ -275,6 +287,8 @@ export default function PointTableEdit() {
                     setFifty(false);
                     setHundred(false);
                     setFive_wickets(false);
+
+
 
                     toast.success("Updated successfully");
                     navigate("/admin/point-tables");
@@ -337,6 +351,7 @@ export default function PointTableEdit() {
                                 </label>
                                 <div className="col-sm-9">
                                     <Select
+                                        value={options.filter((obj) => obj.value === match_id)}
                                         onChange={(e) => handleSelectMatch(e)}
                                         options={options}
                                     />
@@ -586,7 +601,7 @@ export default function PointTableEdit() {
                                     className="btn btn-primary"
                                     onClick={submitForm}
                                 >
-                                    Save
+                                    Update
                                 </button>
                             </div>
                         </form>
