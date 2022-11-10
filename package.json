@@ -25,6 +25,7 @@
     "react-slideshow-image": "^4.0.5",
     "react-toastify": "^9.0.8",
     "slick-carousel": "^1.8.1",
+    "swiper": "^8.4.4",
     "underscore": "^1.13.6",
     "web-vitals": "^2.1.4"
   },
