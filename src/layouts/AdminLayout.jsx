@@ -198,6 +198,8 @@ const AdminLayout = () => {
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
 
+  console.log("collapsed", collapsed);
+
   useEffect(() => {
     if (getLoginData === null) {
     } else {
@@ -234,7 +236,11 @@ const AdminLayout = () => {
       >
         <div>
           <a href="/admin">
-            <img src={logo} alt="logo" width={"200px"} height={"60px"} />
+            {collapsed ? (
+              <img src={logo} alt="logo" width={"100px"} height={"50px"} style={{paddingRight: "20px"}}/>
+            ) : (
+              <img src={logo} alt="logo" width={"200px"} height={"60px"} />
+            )}
           </a>
         </div>
         <Menu
