@@ -309,6 +309,12 @@ export default function PlayerEdit() {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 401) {
+            toast.error(error.response.data.msg);
+          }
           if (error.response.status === 403) {
             toast.error("No Permission");
             navigate("/admin/no-permission");

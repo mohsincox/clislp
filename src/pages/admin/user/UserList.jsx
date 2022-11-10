@@ -95,6 +95,7 @@ export default function UserList() {
                 <th>Email</th>
                 <th>Role</th>
                 <th>Created At</th>
+                <th>Detail</th>
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -107,6 +108,14 @@ export default function UserList() {
                   <td>{user.email}</td>
                   <td>{user.role == null ? "" : user.role.role_name}</td>
                   <td>{user.createdAt}</td>
+                  <td>
+                    <Link
+                      to={`/admin/users/${user.id}/detail`}
+                      className="btn btn-success btn-sm"
+                    >
+                      Detail
+                    </Link>
+                  </td>
                   <td>
                     <Link
                       to={`/admin/users/${user.id}`}

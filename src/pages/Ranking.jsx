@@ -6,13 +6,18 @@ import WebLayout from "../layouts/WebLayout";
 import ThreeSixThreeTemplate from "./Template/ThreeSixThreeTemplate";
 import UserOutlined from "@ant-design/icons/lib/icons/UserOutlined";
 import Avatar from "antd/es/avatar";
-
+import ReactPaginate from "react-paginate";
+import "./ranking.css";
 
 export default function Ranking() {
   const [tournaments, setTournaments] = useState([]);
   const [filterTournaments, setFilterTournaments] = useState([]);
   const [playerRankForCurrentTournament, setPlayerRankForCurrentTournament] =
     useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 10;
 
   useEffect(() => {
     (async () => {
@@ -44,7 +49,7 @@ export default function Ranking() {
         );
         if (selectedTournament) {
           let getCurrentTournamentRangTeam = await axios.get(
-            `${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr/${selectedTournament.id}`
+            `${API_PUBLIC_URL}api/ws-dream-team-rankings/dtr-all/${selectedTournament.id}`
           );
           setPlayerRankForCurrentTournament(getCurrentTournamentRangTeam.data);
         } else {
@@ -56,7 +61,25 @@ export default function Ranking() {
     })();
   }, [filterTournaments]);
 
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
+    setCurrentItems(
+      playerRankForCurrentTournament.slice(itemOffset, endOffset)
+    );
+    setPageCount(
+      Math.ceil(playerRankForCurrentTournament.length / itemsPerPage)
+    );
+  }, [itemOffset, itemsPerPage, playerRankForCurrentTournament]);
 
+  const handlePageClick = (event) => {
+    const newOffset =
+      (event.selected * itemsPerPage) % playerRankForCurrentTournament.length;
+    console.log(
+      `User requested page number ${event.selected}, which is offset ${newOffset}`
+    );
+    setItemOffset(newOffset);
+  };
 
   return (
     <RangingContext.Provider
@@ -83,15 +106,16 @@ export default function Ranking() {
                         </div>
                       </li>
                       {playerRankForCurrentTournament.length ? (
-                        playerRankForCurrentTournament.map((player, index) => (
+                        currentItems.map((player, index) => (
                           <li className="rank-heading rank-content">
                             <div className="player-rank-position-content rank-content rank-c">
-                              {index + 1}
+                              {/* {index + 1} */}
+                              {itemOffset + index + 1}
                             </div>
                             <div className="player-rank-team-content rank-content rank-c">
                               <div
                                 className={`crown-gif ${
-                                  index > 0 ? "invisible" : ""
+                                  itemOffset + index > 0 ? "invisible" : ""
                                 }`}
                               >
                                 <img
@@ -99,11 +123,21 @@ export default function Ranking() {
                                   alt=""
                                 />
                               </div>
-
-                              <Avatar
+                              {player.user?.image ? (
+                                <Avatar
+                                  size={"default"}
+                                  src={`${API_PUBLIC_URL}${player.user?.image}`}
+                                />
+                              ) : (
+                                <Avatar
+                                  size={"default"}
+                                  icon={<UserOutlined />}
+                                />
+                              )}
+                              {/* <Avatar
                                 size={"default"}
                                 icon={<UserOutlined />}
-                              />
+                              /> */}
                               <span className="ms-2">{player.user?.name}</span>
                             </div>
                             <div className="player-rank-point-content rank-content rank-c">
@@ -117,6 +151,21 @@ export default function Ranking() {
                         </li>
                       )}
                     </ul>
+
+                    <ReactPaginate
+                      breakLabel="..."
+                      nextLabel="Next>"
+                      onPageChange={handlePageClick}
+                      pageRangeDisplayed={2}
+                      pageCount={pageCount}
+                      previousLabel="<Pre"
+                      renderOnZeroPageCount={null}
+                      containerClassName="pagination"
+                      pageLinkClassName="page-num"
+                      previousLinkClassName="page-num"
+                      nextLinkClassName="page-num"
+                      activeLinkClassName="active"
+                    />
                   </div>
                 </div>
               </div>

@@ -89,6 +89,7 @@ import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
 import ContactList from "./pages/admin/contact/ContactList";
 import GamePointSettingsForm from "./pages/admin/game_point_settings/GamePointSettingsForm";
 import ForgotPassword from "./pages/ForgotPassword";
+import CustomerDetail from "./pages/admin/user/CustomerDetail";
 
 export const UserContext = React.createContext(null);
 
@@ -313,6 +314,11 @@ function App() {
                 path={`/admin/users/:id`}
                 exact={true}
                 element={<UserEdit />}
+              />
+              <Route
+                path={`/admin/users/:id/detail`}
+                exact={true}
+                element={<CustomerDetail />}
               />
 
               <Route
