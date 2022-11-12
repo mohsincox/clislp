@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import Select from "react-select";
 
 export default function PointTableList() {
   const [pointTableList, setPointTableList] = useState([]);
+  const [match_id, setMatch_id] = useState("");
+  const [matchList, setMatchList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(30);
   const navigate = useNavigate();
@@ -24,7 +27,6 @@ export default function PointTableList() {
           },
         })
         .then((response) => {
-          console.log("response.data", response.data);
           setPointTableList(response.data);
         })
         .catch((error) => {
@@ -72,6 +74,104 @@ export default function PointTableList() {
     pageNumbers.push(i);
   }
 
+  useEffect(() => {
+    getMatchDetails();
+  }, []);
+
+  const getMatchDetails = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/matches/active`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setMatchList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
+  const submitSearch = async (e) => {
+    e.preventDefault();
+
+    // if (searchQuery.trim() === "") {
+    //   toast.error("Search field is required!");
+    // } else {
+    const storageData = JSON.parse(getLoginData);
+    const token = storageData.accessToken;
+
+    await axios
+      .get(
+        `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("response ----", response);
+        setPointTableList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          toast.error(error.response.data.msg);
+        }
+        if (error.response.status === 403) {
+          toast.error("No Permission");
+          navigate("/admin/no-permission");
+        }
+      });
+    // }
+  };
+
+  const options = [];
+
+  for (let i = 0; i < matchList.length; i++) {
+    let countryTeamOne = "";
+    let countryTeamTwo = "";
+    let franchiseTeamOne = "";
+    let franchiseTeamTwo = "";
+    if (matchList[i].tournament_team_one.country != null) {
+      countryTeamOne = matchList[i].tournament_team_one.country.name;
+    }
+    if (matchList[i].tournament_team_two.country != null) {
+      countryTeamTwo = matchList[i].tournament_team_two.country.name;
+    }
+    if (matchList[i].tournament_team_one.franchise != null) {
+      franchiseTeamOne = matchList[i].tournament_team_one.franchise.name;
+    }
+    if (matchList[i].tournament_team_two.franchise != null) {
+      franchiseTeamTwo = matchList[i].tournament_team_two.franchise.name;
+    }
+    options.push({
+      value: matchList[i].id,
+      label:
+        matchList[i].tournament.name +
+        " -- " +
+        countryTeamOne +
+        franchiseTeamOne +
+        " VS " +
+        countryTeamTwo +
+        franchiseTeamTwo +
+        " " +
+        matchList[i].start_date,
+    });
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -90,6 +190,46 @@ export default function PointTableList() {
                   + Create New
                 </Link>
               </div>
+            </div>
+
+            <div className="">
+              <form onSubmit={submitSearch}>
+                <div className="mb-3 row">
+                  <div className="offset-sm-1 col-sm-7">
+                    {/* <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Search Name, Phone Number or Email"
+                      value={searchQuery}
+                      name="searchQuery"
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    /> */}
+
+                    <Select
+                      onChange={(e) => setMatch_id(e.value)}
+                      options={options}
+                      placeholder={"Select..."}
+                    />
+                  </div>
+                  <div className="col-sm-1">
+                    <button
+                      type="button"
+                      className="btn btn-primary"
+                      onClick={submitSearch}
+                    >
+                      Search
+                    </button>
+                  </div>
+                  <div className="col-sm-2">
+                    <button
+                      onClick={() => window.location.reload(false)}
+                      className="btn btn-success pl-3"
+                    >
+                      Refresh
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
 
             <div className="table-responsive">

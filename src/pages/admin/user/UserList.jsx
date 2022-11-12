@@ -147,19 +147,27 @@ export default function UserList() {
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Search Name, Phone Number, Email"
+                    placeholder="Search Name, Phone Number or Email"
                     value={searchQuery}
                     name="searchQuery"
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <div className="col-sm-3">
+                <div className="col-sm-1">
                   <button
                     type="button"
                     className="btn btn-primary"
                     onClick={submitSearch}
                   >
                     Search
+                  </button>
+                </div>
+                <div className="col-sm-2">
+                  <button
+                    onClick={() => window.location.reload(false)}
+                    className="btn btn-success pl-3"
+                  >
+                    Refresh
                   </button>
                 </div>
               </div>

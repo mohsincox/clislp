@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import Select from "react-select";
 
 export default function MatchList() {
   const [matchList, setMatchList] = useState([]);
+  const [match_searchList, setMatch_searchList] = useState([]);
+  const [match_search_id, setMatch_search_id] = useState("");
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -60,6 +63,104 @@ export default function MatchList() {
       });
   }
 
+  useEffect(() => {
+    getMatchDetails();
+  }, []);
+
+  const getMatchDetails = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/matches/active`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setMatch_searchList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
+  const submitSearch = async (e) => {
+    e.preventDefault();
+
+    // if (searchQuery.trim() === "") {
+    //   toast.error("Search field is required!");
+    // } else {
+    const storageData = JSON.parse(getLoginData);
+    const token = storageData.accessToken;
+
+    await axios
+      .get(
+        `${API_PUBLIC_URL}api/search/match-search?match_id=${match_search_id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("response ----", response);
+        setMatchList(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          toast.error(error.response.data.msg);
+        }
+        if (error.response.status === 403) {
+          toast.error("No Permission");
+          navigate("/admin/no-permission");
+        }
+      });
+    // }
+  };
+
+  const options = [];
+
+  for (let i = 0; i < match_searchList.length; i++) {
+    let countryTeamOne = "";
+    let countryTeamTwo = "";
+    let franchiseTeamOne = "";
+    let franchiseTeamTwo = "";
+    if (match_searchList[i].tournament_team_one.country != null) {
+      countryTeamOne = match_searchList[i].tournament_team_one.country.name;
+    }
+    if (match_searchList[i].tournament_team_two.country != null) {
+      countryTeamTwo = match_searchList[i].tournament_team_two.country.name;
+    }
+    if (match_searchList[i].tournament_team_one.franchise != null) {
+      franchiseTeamOne = match_searchList[i].tournament_team_one.franchise.name;
+    }
+    if (match_searchList[i].tournament_team_two.franchise != null) {
+      franchiseTeamTwo = match_searchList[i].tournament_team_two.franchise.name;
+    }
+    options.push({
+      value: match_searchList[i].id,
+      label:
+        match_searchList[i].tournament.name +
+        " -- " +
+        countryTeamOne +
+        franchiseTeamOne +
+        " VS " +
+        countryTeamTwo +
+        franchiseTeamTwo +
+        " " +
+        match_searchList[i].start_date,
+    });
+  }
+
   return (
     <>
       {/* <div className="container mt-2"> */}
@@ -74,6 +175,46 @@ export default function MatchList() {
                 + Create New
               </Link>
             </div>
+          </div>
+
+          <div className="mt-5">
+            <form onSubmit={submitSearch}>
+              <div className="mb-3 row">
+                <div className="offset-sm-1 col-sm-7">
+                  {/* <input
+                      className="form-control"
+                      type="text"
+                      placeholder="Search Name, Phone Number or Email"
+                      value={searchQuery}
+                      name="searchQuery"
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    /> */}
+
+                  <Select
+                    onChange={(e) => setMatch_search_id(e.value)}
+                    options={options}
+                    placeholder={"Select..."}
+                  />
+                </div>
+                <div className="col-sm-1">
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={submitSearch}
+                  >
+                    Search
+                  </button>
+                </div>
+                <div className="col-sm-2">
+                  <button
+                    onClick={() => window.location.reload(false)}
+                    className="btn btn-success pl-3"
+                  >
+                    Refresh
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
 
           <table className="table">

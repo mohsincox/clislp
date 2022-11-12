@@ -104,39 +104,39 @@ export default function PlayerList() {
   const submitSearch = async (e) => {
     e.preventDefault();
 
-    if (searchQuery.trim() === "") {
-      toast.error("Search field is required!");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
+    // if (searchQuery.trim() === "") {
+    //   toast.error("Search field is required!");
+    // } else {
+    const storageData = JSON.parse(getLoginData);
+    const token = storageData.accessToken;
 
-      await axios
-        .get(
-          `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id}`,
-          {
-            headers: {
-              Authorization: token,
-            },
-          }
-        )
-        .then((response) => {
-          console.log("response ----", response);
-          setPlayerList(response.data);
+    await axios
+      .get(
+        `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id}`,
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      )
+      .then((response) => {
+        console.log("response ----", response);
+        setPlayerList(response.data);
 
-          // toast.success("Successfully created!");
-          // navigate("/admin/users");
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 400) {
-            toast.error(error.response.data.msg);
-          }
-          if (error.response.status === 403) {
-            toast.error("No Permission");
-            navigate("/admin/no-permission");
-          }
-        });
-    }
+        // toast.success("Successfully created!");
+        // navigate("/admin/users");
+      })
+      .catch((error) => {
+        console.log(error);
+        if (error.response.status === 400) {
+          toast.error(error.response.data.msg);
+        }
+        if (error.response.status === 403) {
+          toast.error("No Permission");
+          navigate("/admin/no-permission");
+        }
+      });
+    // }
   };
 
   const options = [];
@@ -167,7 +167,7 @@ export default function PlayerList() {
           <div className="mt-5">
             <form onSubmit={submitSearch}>
               <div className="mb-3 row">
-                <div className="offset-sm-3 col-sm-3">
+                <div className="offset-sm-2 col-sm-3">
                   <input
                     className="form-control"
                     type="text"
@@ -209,13 +209,21 @@ export default function PlayerList() {
                   </select> */}
                 </div>
 
-                <div className="col-sm-3">
+                <div className="col-sm-1">
                   <button
                     type="button"
                     className="btn btn-primary"
                     onClick={submitSearch}
                   >
                     Search
+                  </button>
+                </div>
+                <div className="col-sm-2">
+                  <button
+                    onClick={() => window.location.reload(false)}
+                    className="btn btn-success pl-3"
+                  >
+                    Refresh
                   </button>
                 </div>
               </div>
