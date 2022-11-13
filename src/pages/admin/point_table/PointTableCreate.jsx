@@ -1,429 +1,579 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import React, {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
 import Select from "react-select";
-import { API_PUBLIC_URL } from "../../../constants";
+import {API_PUBLIC_URL} from "../../../constants";
+import {isNull} from "underscore";
+import {footballPlayerSpecification} from "../../../context/helper";
 
 export default function PointTableCreate() {
-  const [match_id, setMatch_id] = useState("");
-  const [matchList, setMatchList] = useState([]);
-  const [tournament_team_id, setTournament_team_id] = useState("");
-  const [tt_idList, setTt_idList] = useState([]);
-  const [player_id, setPlayer_id] = useState("");
-  const [playerList, setPlayerList] = useState([]);
-  const [run, setRun] = useState("");
-  const [wicket, setWicket] = useState("");
-  const [man_of_the_match, setMan_of_the_match] = useState(false);
-  const [fifty, setFifty] = useState(false);
-  const [hundred, setHundred] = useState(false);
-  const [five_wickets, setFive_wickets] = useState(false);
-  let navigate = useNavigate();
-
-  const getLoginData = localStorage.getItem("loginData");
-
-  useEffect(() => {
-    getGameDetails();
-  }, []);
-
-  const getGameDetails = async () => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      await axios
-        .get(`${API_PUBLIC_URL}api/matches/active`, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          setMatchList(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 403) {
-            toast.error("No Permission");
-            navigate("/admin/no-permission");
-          }
-        });
-    }
-  };
-
-  useEffect(() => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      (async () => {
-        await axios
-          .get(`${API_PUBLIC_URL}api/matches/pt/${match_id}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((response) => {
-            var arr = [];
-            if (response.data.tournament_team_one_id !== undefined) {
-              arr.push(response.data.tournament_team_one_id);
-            }
-
-            if (response.data.tournament_team_two_id !== undefined) {
-              arr.push(response.data.tournament_team_two_id);
-            }
-
-            console.log(arr);
-
-            setTt_idList(arr);
-            console.log("test1", response.data.tournament_team_one_id);
-            console.log("test2", response.data.tournament_team_two_id);
-            console.log("test3", response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.status === 403) {
-              toast.error("No Permission");
-              navigate("/admin/no-permission");
-            }
-          });
-      })();
-    }
-  }, [match_id]);
-
-  useEffect(() => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      (async () => {
-        await axios
-          .get(
-            `${API_PUBLIC_URL}api/tournament-team-players/match/${tournament_team_id}`,
-            {
-              headers: {
-                Authorization: token,
-              },
-            }
-          )
-          .then((response) => {
-            console.log("match", response.data);
-            setPlayerList(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.status === 403) {
-              toast.error("No Permission");
-              navigate("/admin/no-permission");
-            }
-          });
-      })();
-    }
-  }, [tournament_team_id]);
-
-  const handleManOfTheMatch = () => {
-    setMan_of_the_match(!man_of_the_match);
-  };
-
-  const handleFifty = () => {
-    setFifty(!fifty);
-  };
-
-  const handleHundred = () => {
-    setHundred(!hundred);
-  };
-
-  const handleFiveWickets = () => {
-    setFive_wickets(!five_wickets);
-  };
-
-  const submitForm = async (e) => {
-    e.preventDefault();
-
-    if (match_id === "") {
-      toast.error("Match field is required!");
-    } else if (tournament_team_id === "") {
-      toast.error("Team field is required!");
-    } else if (player_id === "") {
-      toast.error("Player field is required!");
-    } else {
-      const postBody = {
-        match_id: match_id,
-        tournament_team_id: tournament_team_id,
-        player_id: player_id,
-        run: run,
-        wicket: wicket,
-        man_of_the_match: man_of_the_match,
-        fifty: fifty,
-        hundred: hundred,
-        five_wickets: five_wickets,
-      };
-
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-
-      await axios
-        .post(`${API_PUBLIC_URL}api/point-tables`, postBody, {
-          headers: {
-            Authorization: token,
-          },
-        })
-        .then((response) => {
-          setMatch_id("");
-          setTournament_team_id("");
-          setPlayer_id("");
-          setRun("");
-          setWicket("");
-          setMan_of_the_match(false);
-          setFifty(false);
-          setHundred(false);
-          setFive_wickets(false);
-
-          toast.success("Successfully created!");
-          navigate("/admin/point-tables");
-        })
-        .catch((error) => {
-          console.log(error);
-          if (error.response.status === 400) {
-            toast.error(error.response.data.msg);
-          }
-          if (error.response.status === 403) {
-            toast.error("No Permission");
-            navigate("/admin/no-permission");
-          }
-        });
-    }
-  };
-
-  const options = [];
-
-  for (let i = 0; i < matchList.length; i++) {
-    let countryTeamOne = "";
-    let countryTeamTwo = "";
-    let franchiseTeamOne = "";
-    let franchiseTeamTwo = "";
-    if (matchList[i].tournament_team_one.country != null) {
-      countryTeamOne = matchList[i].tournament_team_one.country.name;
-    }
-    if (matchList[i].tournament_team_two.country != null) {
-      countryTeamTwo = matchList[i].tournament_team_two.country.name;
-    }
-    if (matchList[i].tournament_team_one.franchise != null) {
-      franchiseTeamOne = matchList[i].tournament_team_one.franchise.name;
-    }
-    if (matchList[i].tournament_team_two.franchise != null) {
-      franchiseTeamTwo = matchList[i].tournament_team_two.franchise.name;
-    }
-    options.push({
-      value: matchList[i].id,
-      label:
-        matchList[i].tournament.name +
-        " -- " +
-        countryTeamOne +
-        franchiseTeamOne +
-        " VS " +
-        countryTeamTwo +
-        franchiseTeamTwo +
-        " " +
-        matchList[i].start_date,
+    const [match_id, setMatch_id] = useState("");
+    const [currentMatch, setCurrentMatch] = useState(null);
+    const [currentPlayerSpcification, setCurrentPlayerSpcification] = useState(null);
+    const [footballPoints, setFootBallPoints] = useState({
+        Goal: 0,
+        Assist: 0,
+        Goal_Save: 0,
+        Penalty_Save: 0,
+        Clean_Sheet: 0,
     });
-  }
+    const [matchList, setMatchList] = useState([]);
+    const [tournament_team_id, setTournament_team_id] = useState("");
+    const [tt_idList, setTt_idList] = useState([]);
+    const [player_id, setPlayer_id] = useState("");
+    const [playerList, setPlayerList] = useState([]);
+    const [run, setRun] = useState("");
+    const [wicket, setWicket] = useState("");
+    const [man_of_the_match, setMan_of_the_match] = useState(false);
+    const [fifty, setFifty] = useState(false);
+    const [hundred, setHundred] = useState(false);
+    const [five_wickets, setFive_wickets] = useState(false);
+    let navigate = useNavigate();
 
-  return (
-    <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-10 offset-sm-1">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Point Table Create</h5>
-            <form onSubmit={submitForm}>
-              {/* <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Select Match <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={match_id}
-                    name="match_id"
-                    onChange={(e) => setMatch_id(e.target.value)}
-                  >
-                    <option value={""}>Select Match</option>
-                    {matchList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.tournament.name}
-                        {" -- "}
-                        {item.tournament_team_one.country == null
-                          ? item.tournament_team_one.franchise.name
-                          : item.tournament_team_one.country.name}{" "}
-                        VS{" "}
-                        {item.tournament_team_two.country == null
-                          ? item.tournament_team_two.franchise.name
-                          : item.tournament_team_two.country.name}{" "}
-                        {item.start_date}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div> */}
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Select Match <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <Select
-                    onChange={(e) => setMatch_id(e.value)}
-                    options={options}
-                  />
-                </div>
-              </div>
+    const getLoginData = localStorage.getItem("loginData");
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Team <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_id}
-                    name="tournament_team_id"
-                    onChange={(e) => setTournament_team_id(e.target.value)}
-                  >
-                    <option>Select Team</option>
-                    {tt_idList.map((item, index) => (
-                      <option key={item} value={item}>
-                        {index == 0 ? "Team One" : "Team Two"}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+    useEffect(() => {
+        getGameDetails();
+    }, []);
 
-              {playerList.length > 0 && (
-                <>
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">
-                      Player <span style={{ color: "#ff0000" }}>*</span>
-                    </label>
-                    <div className="col-sm-9">
-                      <select
-                        className="form-select"
-                        value={player_id}
-                        name="player_id"
-                        onChange={(e) => setPlayer_id(e.target.value)}
-                      >
-                        <option>Select Player</option>
-                        {playerList.map((item, index) => (
-                          <option key={index} value={item.player.id}>
-                            {item.player.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">Run</label>
-                    <div className="col-sm-9">
-                      <input
-                        className="form-control"
-                        type="number"
-                        placeholder="Enter Run"
-                        value={run}
-                        name="run"
-                        onChange={(e) => setRun(e.target.value)}
-                      />
-                    </div>
-                  </div>
+    const getGameDetails = async () => {
+        if (getLoginData === null) {
+            navigate("/login");
+        } else {
+            const storageData = JSON.parse(getLoginData);
+            const token = storageData.accessToken;
+            await axios
+                .get(`${API_PUBLIC_URL}api/matches/active`, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then((response) => {
+                    setMatchList(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 403) {
+                        toast.error("No Permission");
+                        navigate("/admin/no-permission");
+                    }
+                });
+        }
+    };
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">Wicket</label>
-                    <div className="col-sm-9">
-                      <input
-                        className="form-control"
-                        type="number"
-                        placeholder="Enter Wicket"
-                        value={wicket}
-                        name="wicket"
-                        onChange={(e) => setWicket(e.target.value)}
-                      />
-                    </div>
-                  </div>
+    useEffect(() => {
+        if (getLoginData === null) {
+            navigate("/login");
+        } else {
+            const storageData = JSON.parse(getLoginData);
+            const token = storageData.accessToken;
+            (async () => {
+                await axios
+                    .get(`${API_PUBLIC_URL}api/matches/pt/${match_id}`, {
+                        headers: {
+                            Authorization: token,
+                        },
+                    })
+                    .then((response) => {
+                        var arr = [];
+                        if (response.data.tournament_team_one_id !== undefined) {
+                            arr.push(response.data.tournament_team_one_id);
+                        }
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">
-                      Man of the match
-                    </label>
-                    <div className="col-sm-9">
-                      <input
-                        type="checkbox"
-                        checked={man_of_the_match}
-                        onChange={handleManOfTheMatch}
-                      />
-                    </div>
-                  </div>
+                        if (response.data.tournament_team_two_id !== undefined) {
+                            arr.push(response.data.tournament_team_two_id);
+                        }
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">Fifty</label>
-                    <div className="col-sm-9">
-                      <input
-                        type="checkbox"
-                        checked={fifty}
-                        onChange={handleFifty}
-                      />
-                    </div>
-                  </div>
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">Hundred</label>
-                    <div className="col-sm-9">
-                      <input
-                        type="checkbox"
-                        checked={hundred}
-                        onChange={handleHundred}
-                      />
-                    </div>
-                  </div>
+                        setTt_idList(arr);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        if (error.response.status === 403) {
+                            toast.error("No Permission");
+                            navigate("/admin/no-permission");
+                        }
+                    });
+            })();
+        }
+    }, [match_id]);
 
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">Five Wickets</label>
-                    <div className="col-sm-9">
-                      <input
-                        type="checkbox"
-                        checked={five_wickets}
-                        onChange={handleFiveWickets}
-                      />
-                    </div>
-                  </div>
-                </>
-              )}
+    useEffect(() => {
+        if (getLoginData === null) {
+            navigate("/login");
+        } else {
+            const storageData = JSON.parse(getLoginData);
+            const token = storageData.accessToken;
+            (async () => {
+                await axios
+                    .get(
+                        `${API_PUBLIC_URL}api/tournament-team-players/match/${tournament_team_id}`,
+                        {
+                            headers: {
+                                Authorization: token,
+                            },
+                        }
+                    )
+                    .then((response) => {
+                        setPlayerList(response.data);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        if (error.response.status === 403) {
+                            toast.error("No Permission");
+                            navigate("/admin/no-permission");
+                        }
+                    });
+            })();
+        }
+    }, [tournament_team_id]);
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
-                  onClick={() => {
+
+    const handleManOfTheMatch = () => {
+        setMan_of_the_match(!man_of_the_match);
+    };
+
+    const handleFifty = () => {
+        setFifty(!fifty);
+    };
+
+    const handleHundred = () => {
+        setHundred(!hundred);
+    };
+
+    const handleFiveWickets = () => {
+        setFive_wickets(!five_wickets);
+    };
+    const handleSelectMatch = (e) => {
+        setMatch_id(e.value);
+
+        let cMatch = matchList.find(m => m.id == e.value);
+        setCurrentMatch(cMatch);
+    }
+
+
+    const currentMatchGame = () => {
+        if (isNull(currentMatch)) return null
+        if (currentMatch["tournament"]["game"]["name"] === "Cricket") return "Cricket";
+        else if (currentMatch["tournament"]["game"]["name"] === "Football") return "Football";
+    }
+
+    useEffect(() => {
+
+        if (currentMatchGame() == "Football") {
+            if (player_id) {
+                let currentPlayer = playerList.find(player => {
+                    return player_id == player.player_id
+                })
+
+                let f_PlayerSpecification = footballPlayerSpecification(currentPlayer.player)
+                setCurrentPlayerSpcification(f_PlayerSpecification)
+                console.log(f_PlayerSpecification);
+            }
+
+        }
+    }, [player_id])
+
+    const handleFootballPoints = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+
+        console.log(name, value);
+
+        setFootBallPoints(prevState => {
+            return {
+                ...prevState,
+                [name]: name === "Clean_Sheet" ? value == 0 ? 1 : 0 : parseInt(value)
+            }
+        })
+    }
+
+    const options = [];
+
+    for (let i = 0; i < matchList.length; i++) {
+        let countryTeamOne = "";
+        let countryTeamTwo = "";
+        let franchiseTeamOne = "";
+        let franchiseTeamTwo = "";
+        if (matchList[i].tournament_team_one.country != null) {
+            countryTeamOne = matchList[i].tournament_team_one.country.name;
+        }
+        if (matchList[i].tournament_team_two.country != null) {
+            countryTeamTwo = matchList[i].tournament_team_two.country.name;
+        }
+        if (matchList[i].tournament_team_one.franchise != null) {
+            franchiseTeamOne = matchList[i].tournament_team_one.franchise.name;
+        }
+        if (matchList[i].tournament_team_two.franchise != null) {
+            franchiseTeamTwo = matchList[i].tournament_team_two.franchise.name;
+        }
+        options.push({
+            value: matchList[i].id,
+            label:
+                matchList[i].tournament.name +
+                " -- " +
+                countryTeamOne +
+                franchiseTeamOne +
+                " VS " +
+                countryTeamTwo +
+                franchiseTeamTwo +
+                " " +
+                matchList[i].start_date,
+        });
+    }
+
+
+
+    const submitForm = async (e) => {
+        e.preventDefault();
+
+        if (match_id === "") {
+            toast.error("Match field is required!");
+        } else if (tournament_team_id === "") {
+            toast.error("Team field is required!");
+        } else if (player_id === "") {
+            toast.error("Player field is required!");
+        } else {
+            const postBody = {
+                match_id: match_id,
+                tournament_team_id: tournament_team_id,
+                player_id: player_id,
+                run: run,
+                wicket: wicket,
+                man_of_the_match: man_of_the_match,
+                fifty: fifty,
+                hundred: hundred,
+                five_wickets: five_wickets,
+                footballPoints,
+                currentMatch,
+                currentPlayerSpcification
+            };
+
+            let url = `${API_PUBLIC_URL}api/point-tables`;
+
+
+            if(currentMatchGame() == "Football") url = `${API_PUBLIC_URL}api/point-tables/football`;
+            const storageData = JSON.parse(getLoginData);
+            const token = storageData.accessToken;
+
+            await axios
+                .post(url, postBody, {
+                    headers: {
+                        Authorization: token,
+                    },
+                })
+                .then((response) => {
+                    setMatch_id("");
+                    setTournament_team_id("");
+                    setPlayer_id("");
+                    setRun("");
+                    setWicket("");
+                    setMan_of_the_match(false);
+                    setFifty(false);
+                    setHundred(false);
+                    setFive_wickets(false);
+
+
+                    setCurrentMatch(null);
+                    setCurrentPlayerSpcification(null);
+                    setFootBallPoints({
+                        Goal: 0,
+                        Assist: 0,
+                        Goal_Save: 0,
+                        Penalty_Save: 0,
+                        Clean_Sheet: 0,
+                    });
+
+
+                    toast.success("Successfully created!");
                     navigate("/admin/point-tables");
-                  }}
-                >
-                  Cancel
-                </button>
+                })
+                .catch((error) => {
+                    console.log(error);
+                    if (error.response.status === 400) {
+                        toast.error(error.response.data.msg);
+                    }
+                    if (error.response.status === 403) {
+                        toast.error("No Permission");
+                        // navigate("/admin/no-permission");
+                    }
+                });
+        }
+    };
 
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-      {/* </div> */}
-    </>
-  );
+    return (
+        <>
+            {/* <div className="container mt-2"> */}
+            <div className="col-sm-10 offset-sm-1">
+                <div className="card">
+                    <div className="card-body">
+                        <h5 className="card-title">Point Table Create</h5>
+                        <form onSubmit={submitForm}>
+                            <div className="mb-3 row">
+                                <label className="form-label col-sm-3">
+                                    Select Match <span style={{color: "#ff0000"}}>*</span>
+                                </label>
+                                <div className="col-sm-9">
+                                    <Select
+                                        onChange={(e) => handleSelectMatch(e)}
+                                        options={options}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="mb-3 row">
+                                <label className="form-label col-sm-3">
+                                    Team <span style={{color: "#ff0000"}}>*</span>
+                                </label>
+                                <div className="col-sm-9">
+                                    <select
+                                        className="form-select"
+                                        value={tournament_team_id}
+                                        name="tournament_team_id"
+                                        onChange={(e) => setTournament_team_id(e.target.value)}
+                                    >
+                                        <option>Select Team</option>
+                                        {tt_idList.map((item, index) => (
+                                            <option key={item} value={item}>
+                                                {index == 0 ? "Team One" : "Team Two"}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+
+                            {playerList.length > 0 && (
+                                <>
+                                    <div className="mb-3 row">
+                                        <label className="form-label col-sm-3">
+                                            Player <span style={{color: "#ff0000"}}>*</span>
+                                        </label>
+                                        <div className="col-sm-9">
+                                            <select
+                                                className="form-select"
+                                                value={player_id}
+                                                name="player_id"
+                                                onChange={(e) => setPlayer_id(e.target.value)}
+                                            >
+                                                <option value="">Select Player</option>
+                                                {playerList.map((item, index) => (
+                                                    <option key={index} value={item.player.id}>
+                                                        {item.player.name}
+                                                    </option>
+                                                ))}
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    {
+                                        currentMatchGame() === 'Cricket' ? (
+                                            <div className="cricket-point-form">
+                                                {
+                                                    player_id && <>
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">Run</label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    className="form-control"
+                                                                    type="number"
+                                                                    placeholder="Enter Run"
+                                                                    value={run}
+                                                                    name="run"
+                                                                    onChange={(e) => setRun(e.target.value)}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">Wicket</label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    className="form-control"
+                                                                    type="number"
+                                                                    placeholder="Enter Wicket"
+                                                                    value={wicket}
+                                                                    name="wicket"
+                                                                    onChange={(e) => setWicket(e.target.value)}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">
+                                                                Man of the match
+                                                            </label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={man_of_the_match}
+                                                                    onChange={handleManOfTheMatch}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">Fifty</label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={fifty}
+                                                                    onChange={handleFifty}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">Hundred</label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={hundred}
+                                                                    onChange={handleHundred}
+                                                                />
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="mb-3 row">
+                                                            <label className="form-label col-sm-3">Five Wickets</label>
+                                                            <div className="col-sm-9">
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={five_wickets}
+                                                                    onChange={handleFiveWickets}
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                }
+                                            </div>
+                                        ) : (
+                                            <div className="football-point-form">
+                                                {
+                                                    player_id && <>
+                                                        <hr/>
+                                                        <div className="mb-3 row">
+                                                            <div className="col-lg-12">
+                                                                <div className="card">
+                                                                    <div className="card-header">
+                                                                        <h5 className="m-0">Player Score</h5>
+                                                                    </div>
+                                                                    <div className="card-body">
+                                                                        <div className="row">
+                                                                            <div className="col-lg-2">
+                                                                                <div className="form-group">
+                                                                                    <label
+                                                                                        className="form-label">Goal</label>
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="number"
+                                                                                        placeholder="Enter Goal"
+                                                                                        value={footballPoints["Goal"]}
+                                                                                        name="Goal"
+                                                                                        onChange={(e) => handleFootballPoints(e)}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="col-lg-2">
+                                                                                <div className="form-group">
+                                                                                    <label
+                                                                                        className="form-label">Assist</label>
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="number"
+                                                                                        placeholder="Enter Goal"
+                                                                                        value={footballPoints["Assist"]}
+                                                                                        name="Assist"
+                                                                                        onChange={(e) => handleFootballPoints(e)}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="col-lg-2">
+                                                                                <div className="form-group">
+                                                                                    <label
+                                                                                        className="form-label">Goal_Save</label>
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="number"
+                                                                                        placeholder="Enter Goal"
+                                                                                        value={footballPoints["Goal_Save"]}
+                                                                                        name="Goal_Save"
+                                                                                        onChange={(e) => handleFootballPoints(e)}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            <div className="col-lg-2">
+                                                                                <div className="form-group">
+                                                                                    <label
+                                                                                        className="form-label">Penalty_Save</label>
+                                                                                    <input
+                                                                                        className="form-control"
+                                                                                        type="number"
+                                                                                        placeholder="Enter Goal"
+                                                                                        value={footballPoints["Penalty_Save"]}
+                                                                                        name="Penalty_Save"
+                                                                                        onChange={(e) => handleFootballPoints(e)}
+                                                                                    />
+                                                                                </div>
+                                                                            </div>
+                                                                            {
+                                                                                currentPlayerSpcification == "Goalkeeper" || currentPlayerSpcification == "Defender" ? (
+                                                                                    <div className="col-lg-2">
+                                                                                        <div className="form-group">
+                                                                                            <label
+                                                                                                className="form-label">Clean_Sheet</label>
+                                                                                            <input
+                                                                                                className="form-check"
+                                                                                                type="checkbox"
+                                                                                                placeholder="Enter Goal"
+                                                                                                value={footballPoints["Clean_Sheet"]}
+                                                                                                name="Clean_Sheet"
+                                                                                                onChange={(e) => handleFootballPoints(e)}
+                                                                                            />
+
+                                                                                        </div>
+                                                                                    </div>
+                                                                                ) : null
+                                                                            }
+
+                                                                        </div>
+
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </>
+                                                }
+                                            </div>
+                                        )
+                                    }
+                                </>
+                            )}
+
+                            <div className="float-end">
+                                <button
+                                    className="btn btn-danger me-3"
+                                    onClick={() => {
+                                        navigate("/admin/point-tables");
+                                    }}
+                                >
+                                    Cancel
+                                </button>
+
+                                <button
+                                    type="button"
+                                    className="btn btn-primary"
+                                    onClick={submitForm}
+                                >
+                                    Save
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
 }
