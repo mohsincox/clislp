@@ -8,6 +8,12 @@ import "slick-carousel/slick/slick-theme.css";
 import "./Fixtures.css";
 import FixtureCard from "./FixtureCard";
 import { LeftOutlined, RightOutlined } from "@ant-design/icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -87,7 +93,7 @@ export default function Fixtures() {
   };
 
   return (
-    <div className="container mt-3">
+    <div className="container mt-3 ">
       <div className="fixture-full-container">
         <h4 className="fw-bold fx-title">FIXTURES</h4>
         <Tabs variant="pills">
@@ -98,7 +104,42 @@ export default function Fixtures() {
               title={fixture.name}
               style={{ marginRight: "10px" }}
             >
-              <Slider {...settings}>
+
+<div className="swiper-button">
+          prev
+        </div>
+              <Swiper
+                id="swiper-color"
+                spaceBetween={10}
+                slidesPerView={1}
+                navigation
+                modules={[Navigation]} //you can add any other module here such as navigation and whatever else
+                nagination={{ clickable: true }}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 1,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  },
+                }}
+              >
+                {fixture.matches.map((match, index) => (
+                  <div key={index}>
+                    {match.tournament_team_one != null &&
+                      match.tournament_team_two != null && (
+                        <SwiperSlide >
+                          <FixtureCard match={match} />
+                        </SwiperSlide>
+                      )}
+                  </div>
+                ))}
+              </Swiper>
+
+              {/* <Slider {...settings}>
                 {fixture.matches.map((match, index) => (
                   <div key={index} className="w-100">
                     {match.tournament_team_one != null &&
@@ -107,7 +148,7 @@ export default function Fixtures() {
                       )}
                   </div>
                 ))}
-              </Slider>
+              </Slider> */}
             </Tab>
           ))}
         </Tabs>

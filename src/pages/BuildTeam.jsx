@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import ReactSelect from "react-select";
 import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
@@ -8,6 +9,13 @@ import { API_PUBLIC_URL } from "../constants";
 import WebLayout from "../layouts/WebLayout";
 import BasicTemplate from "./Template/BasicTemplate";
 // import {menuListCSS} from "react-select/dist/declarations/src/components/Menu";
+<style>
+  {`.css-b62m3t-container {
+        background-color: red;
+        color: white;
+        font-size: 2em
+    }`}
+</style>;
 
 export default function BuildTeam() {
   const [teamPlayerList, setTeamPlayerList] = useState([]);
@@ -20,6 +28,8 @@ export default function BuildTeam() {
 
   // console.log("authUser", authUser);
   // console.log("authUser2", authUser.user.userrole);
+
+  console.log("team id", tournament_team_id);
 
   const [state, setState] = useState({ selections: [] });
   const { tourId } = useParams();
@@ -59,12 +69,12 @@ export default function BuildTeam() {
             },
           })
           .then((response) => {
-            console.log(
-              "response.data hhhhh",
-              response.data.user_cricket_player,
-              "f",
-              response.data.user_football_player
-            );
+            // console.log(
+            //   "response.data hhhhh",
+            //   response.data.user_cricket_player,
+            //   "f",
+            //   response.data.user_football_player
+            // );
             setUser_cricket_player(response.data.user_cricket_player);
             setUser_football_player(response.data.user_football_player);
           })
@@ -96,7 +106,7 @@ export default function BuildTeam() {
         )
         .then((response) => {
           setTeamPlayerList(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -238,7 +248,40 @@ export default function BuildTeam() {
                 </div> */}
 
                 <div className="mb-3 row">
+                  <style>
+                    {`.css-b62m3t-container {
+                     z-index: 999;
+                        }`}
+                  </style>
                   <div className="col-sm-6 offset-sm-3">
+                    <ReactSelect
+                      placeholder="Select Team & Choose Players"
+                      value={tournament_team_id}
+                      name="tournament_team_id"
+                      onChange={(item) => setTournament_team_id(item.id)}
+                      options={tournamentTeamList}
+                      formatOptionLabel={(item) => (
+                        <div>
+                          {item.country.flag ? (
+                            <img
+                              src={API_PUBLIC_URL + item.country.flag}
+                              style={{
+                                marginRight: "20px",
+                                height: "25px",
+                                width: "35px",
+                              }}
+                              alt="country-image"
+                            />
+                          ) : (
+                            ""
+                          )}
+                          <span>{item.country.name}</span>
+                        </div>
+                      )}
+                    />
+                  </div>
+
+                  {/* <div className="col-sm-6 offset-sm-3">
                     <select
                       className="form-select"
                       value={tournament_team_id}
@@ -252,7 +295,7 @@ export default function BuildTeam() {
                         </option>
                       ))}
                     </select>
-                  </div>
+                  </div> */}
                 </div>
 
                 <form onSubmit={submitForm}>

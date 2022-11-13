@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { API_PUBLIC_URL } from "../constants";
+import moment from "moment";
 
 function FixtureCard({ match }) {
   return (
@@ -53,7 +54,9 @@ function FixtureCard({ match }) {
         className="card-footer d-flex justify-content-between"
         style={{ background: "#EAE1FF" }}
       >
-        <p className="p-0 m-0">{match.start_date}</p>
+        <p className="p-0 m-0">
+          {moment(match.start_date).format("ddd, MMM D")}
+        </p>
         <p className="p-0 m-0"> Starts at {match.start_time}</p>
       </div>
     </div>
