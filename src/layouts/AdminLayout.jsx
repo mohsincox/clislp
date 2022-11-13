@@ -149,6 +149,12 @@ const items = [
       </Link>,
       "200"
     ),
+    getItem(
+      <Link to={`/admin/game_team_settings`} style={{ textDecoration: "none" }}>
+        Game Team Settings
+      </Link>,
+      "201"
+    ),
   ]),
 
   getItem("Adds", "sub4", <SettingOutlined />, [
