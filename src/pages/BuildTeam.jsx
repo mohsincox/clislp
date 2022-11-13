@@ -255,20 +255,20 @@ export default function BuildTeam() {
                   </style>
                   <div className="col-sm-6 offset-sm-3">
                     <ReactSelect
-                     placeholder="Select Team & Choose Players"
+                      placeholder="Select Team & Choose Players"
                       value={tournament_team_id}
                       name="tournament_team_id"
                       onChange={(item) => setTournament_team_id(item.id)}
                       options={tournamentTeamList}
                       formatOptionLabel={(item) => (
-                        <div style={{ zIndex: 999 }}>
+                        <div>
                           {item.country.flag ? (
                             <img
                               src={API_PUBLIC_URL + item.country.flag}
                               style={{
-                                height: "10%",
-                                width: "10%",
                                 marginRight: "20px",
+                                height: "25px",
+                                width: "35px",
                               }}
                               alt="country-image"
                             />
