@@ -142,7 +142,7 @@ const items = [
     ),
     getItem(
       <Link
-        to={`/admin/geme_point_settings`}
+        to={`/admin/game_point_settings`}
         style={{ textDecoration: "none" }}
       >
         Game Point Settings
