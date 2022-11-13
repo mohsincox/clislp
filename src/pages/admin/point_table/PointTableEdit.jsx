@@ -133,11 +133,7 @@ export default function PointTableEdit() {
                         if (response.data.tournament_team_two_id !== undefined) {
                             arr.push(response.data.tournament_team_two_id);
                         }
-
-
-
                         setTt_idList(arr);
-
                     })
                     .catch((error) => {
                         console.log(error);
@@ -219,7 +215,7 @@ export default function PointTableEdit() {
         } else {
             setCurrentPlayerSpcification(null)
         }
-    }, [player_id])
+    }, [player_id, playerList])
 
     const handleFootballPoints = (e) => {
         let name = e.target.name;
@@ -563,6 +559,7 @@ export default function PointTableEdit() {
                                                                                                 type="checkbox"
                                                                                                 placeholder="Enter Goal"
                                                                                                 value={footballPoints["Clean_Sheet"]}
+                                                                                                checked={footballPoints["Clean_Sheet"]}
                                                                                                 name="Clean_Sheet"
                                                                                                 onChange={(e) => handleFootballPoints(e)}
                                                                                             />
