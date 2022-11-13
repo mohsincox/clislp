@@ -142,12 +142,21 @@ const items = [
         ),
         getItem(
             <Link
-                to={`/admin/geme_point_settings`}
+                to={`/admin/game_point_settings`}
                 style={{textDecoration: "none"}}
             >
                 Game Point Settings
             </Link>,
             "200"
+        ),
+        getItem(
+            <Link
+                to={`/admin/game_team_settings`}
+                style={{textDecoration: "none"}}
+            >
+                Game Team Settings
+            </Link>,
+            "201"
         ),
     ]),
 
