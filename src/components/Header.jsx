@@ -98,7 +98,7 @@ function Header(props) {
     />
   );
 
-  console.log("fixed", props.fixed);
+  // console.log("fixed", props.fixed);
 
   return (
     <div className="header-container d-flex justify-content-between align-items-center">
