@@ -6,14 +6,15 @@ import {
   UserOutlined,
   SettingOutlined,
   ProfileFilled,
+  DownOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu } from "antd";
+import { Avatar, Breadcrumb, Layout, Menu, Dropdown, Space } from "antd";
 
 import React, { useContext, useEffect, useState } from "react";
 import "./adminLayout.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { Dropdown } from "react-bootstrap";
+// import { Dropdown } from "react-bootstrap";
 import logo from "../logo.svg";
 
 const { Header, Content, Footer, Sider } = Layout;
@@ -204,7 +205,7 @@ const AdminLayout = () => {
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
 
-  console.log("collapsed", collapsed);
+  // console.log("collapsed", collapsed);
 
   useEffect(() => {
     if (getLoginData === null) {
@@ -228,6 +229,51 @@ const AdminLayout = () => {
       return { ...previousState, isLoggedIn: false };
     });
   };
+
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Link to="#" style={{ textDecoration: "none", color: "#000" }}>
+              {name}
+            </Link>
+          ),
+          key: "1",
+        },
+        {
+          type: "divider",
+        },
+
+        {
+          label: (
+            <Link
+              to="/admin/change-password"
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              Change Password
+            </Link>
+          ),
+          key: "2",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <button
+              className="btn btn-link p-0"
+              style={{ textDecoration: "none", color: "#000" }}
+              onClick={logout}
+            >
+              Logout
+            </button>
+          ),
+          key: "3",
+        },
+      ]}
+    />
+  );
 
   return (
     <Layout
@@ -275,7 +321,30 @@ const AdminLayout = () => {
               {name}
             </div> */}
 
-          <div className="float-end pe-3">
+          <div
+            style={{
+              marginRight: "30px",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Dropdown
+              overlay={menu}
+              trigger={["click"]}
+              placement="bottomLeft"
+              arrow
+              overlayStyle={{ minWidth: "150px" }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar size="large" icon={<UserOutlined />} />
+                  <DownOutlined style={{ color: "#000", fontWeight: "bold" }} />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+
+          {/* <div className="float-end pe-3">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                 {name} &nbsp;
@@ -294,7 +363,7 @@ const AdminLayout = () => {
                 <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </div>
+          </div> */}
         </Header>
         <Content
           style={{
