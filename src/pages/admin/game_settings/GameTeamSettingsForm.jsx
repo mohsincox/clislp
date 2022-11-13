@@ -2,10 +2,9 @@ import React, {Component} from 'react';
 import MustAdminAuth from "../../../components/MustAdminAuth";
 import axios from "axios";
 import {API_PUBLIC_URL} from "../../../constants";
-import login from "../../Login";
 import {toast} from "react-toastify";
 
-class GamePointSettingsForm extends Component {
+class GameTeamSettingsForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -17,7 +16,7 @@ class GamePointSettingsForm extends Component {
     }
 
     componentDidMount() {
-        let res = axios.get(`${API_PUBLIC_URL}api/game_point_setting/FootBall_Point_Settings`).then(res => {
+        let res = axios.get(`${API_PUBLIC_URL}api/game_point_setting/Football_Team_Settings`).then(res => {
             this.setState({gamePointSettings: res.data})
             let newKeys = [];
             for (const key in res.data.value) {
@@ -41,7 +40,8 @@ class GamePointSettingsForm extends Component {
     }
 
     updateGameSetting () {
-        axios.put(`${API_PUBLIC_URL}api/game_point_setting/FootBall_Point_Settings`, {value: this.state.gamePointSettings.value}).then(res => {
+        let name = this.state.gamePointSettings.name;
+        axios.put(`${API_PUBLIC_URL}api/game_point_setting/${name}`, {value: this.state.gamePointSettings.value}).then(res => {
             console.log(res.data);
             toast.success("Football Point Settings Updated Successfully");
         }).catch(err => {
@@ -53,7 +53,7 @@ class GamePointSettingsForm extends Component {
     render() {
         return (
             <MustAdminAuth>
-                <h4>Football Point Settings</h4>
+                <h4>Football Team Settings</h4>
                 <hr/>
                 <div className="row">
                     {
@@ -85,4 +85,4 @@ class GamePointSettingsForm extends Component {
     }
 }
 
-export default GamePointSettingsForm;
+export default GameTeamSettingsForm;

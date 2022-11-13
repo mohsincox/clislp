@@ -87,7 +87,8 @@ import ChangePassword from "./pages/ChangePassword";
 import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
 import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
 import ContactList from "./pages/admin/contact/ContactList";
-import GamePointSettingsForm from "./pages/admin/game_point_settings/GamePointSettingsForm";
+import GamePointSettingsForm from "./pages/admin/game_settings/GamePointSettingsForm";
+import GameTeamSettingsForm from "./pages/admin/game_settings/GameTeamSettingsForm";
 
 export const UserContext = React.createContext(null);
 
@@ -423,9 +424,14 @@ function App() {
 
               <Route path={`/admin/ads`} exact={true} element={<Ads />} />
               <Route
-                path={`/admin/geme_point_settings`}
+                path={`/admin/game_point_settings`}
                 exact={true}
                 element={<GamePointSettingsForm />}
+              />
+              <Route
+                path={`/admin/game_team_settings`}
+                exact={true}
+                element={<GameTeamSettingsForm />}
               />
             </Route>
           </Routes>
