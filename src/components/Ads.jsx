@@ -162,6 +162,10 @@ export const Ads = () => {
         });
     }
 
+    function widgetAdsCount(wid) {
+        return adsList.filter(ads => ads.widget_id == wid).length;
+    }
+
     function updateAds(e, ads) {
         e.preventDefault();
         if (!ads["name"]) {
@@ -561,12 +565,17 @@ export const Ads = () => {
                                                                         marginBottom: "-16px",
                                                                     }}
                                                                 >
-                                                                    <button
-                                                                        className="btn btn-sm btn-danger ms-2"
-                                                                        onClick={(e) => deleteAds(e, ads.id)}
-                                                                    >
-                                                                        Delete
-                                                                    </button>
+                                                                    {
+                                                                        widgetAdsCount(wl.id) > 1 ?
+                                                                            <button
+                                                                                className="btn btn-sm btn-danger ms-2"
+                                                                                onClick={(e) => deleteAds(e, ads.id)}
+                                                                            >
+                                                                                Delete
+                                                                            </button> : null
+
+                                                                    }
+
                                                                     <button
                                                                         className="btn btn-sm btn-primary ms-2"
                                                                         onClick={(e) => updateAds(e, ads)}
