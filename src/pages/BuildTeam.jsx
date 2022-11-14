@@ -30,6 +30,9 @@ function BuildTeam() {
   const [user_football_player, setUser_football_player] = useState("");
   const [maxSelect, setMaxSelect] = useState("");
   const [disable, setDisable] = React.useState(false);
+  const [country, setCountry] = useState('')
+
+  console.log('country', country)
 
   // console.log("authUser", authUser);
   // console.log("authUser2", authUser.user.userrole);
@@ -39,6 +42,12 @@ function BuildTeam() {
   const [state, setState] = useState({ selections: [] });
   const { tourId } = useParams();
   let navigate = useNavigate();
+
+
+  const handleSelect = (item) =>{
+    setTournament_team_id(item.id);
+    setCountry(item.country.name)
+  }
 
   let strikerInitial = 0;
   let midfielderInitial = 0;
@@ -420,13 +429,16 @@ function BuildTeam() {
                      z-index: 999;
                         }`}
                   </style>
+                  {country}
                   <div className="col-sm-6 offset-sm-3">
                     <ReactSelect
-                      placeholder="Select Team & Choose Players"
-                      value={tournament_team_id}
+
+                    //  value={tournament_team_id}
                       name="tournament_team_id"
+                      // onChange={(item)=> handleSelect(item)}
                       onChange={(item) => setTournament_team_id(item.id)}
                       options={tournamentTeamList}
+                      
                       formatOptionLabel={(item) => (
                         <div>
                           {item.country?.flag ? (

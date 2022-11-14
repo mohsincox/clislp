@@ -146,7 +146,7 @@ export default function Dream() {
               </span>
                         </div>
                         <div style={{marginTop: "10px"}}>
-                            <RegisterWidget name="Home Middle" width={550} height={290}/>
+                            <RegisterWidget name="Home Middle" width={550} />
                         </div>
                     </div>
 
@@ -325,7 +325,7 @@ export default function Dream() {
 
                     <div className="col-12 col-sm-12 col-md-6 col-lg-3 col-xl-3">
                         <div className="mb-3">
-                            <RegisterWidget name="Home Right One" width={316} height={632} />
+                            <RegisterWidget name="Home Right One" width={316} />
                         </div>
                     </div>
                 </div>
