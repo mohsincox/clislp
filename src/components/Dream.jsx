@@ -152,7 +152,7 @@ export default function Dream() {
           <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 mb-2 mb-sm-2 mb-md-0 mb-lg-0 mb-xl-0">
             <span>Dream Teams Ranking</span>
             <div className="dream-team-ranking">
-              {asiaCupList.length > 0 && (
+              {/* {asiaCupList.length > 0 && (
                 <div className="card" style={{ marginTop: "10px" }}>
                   <h5 className="card-header tbg" style={{ color: "#FFFFFF" }}>
                     {asiaCupList[0]?.tournament?.name}
@@ -179,7 +179,7 @@ export default function Dream() {
                     </table>
                   </div>
                 </div>
-              )}
+              )} */}
 
               {iccT20List.length > 0 ? (
                 <div className="card" style={{ marginTop: "10px" }}>
@@ -361,6 +361,134 @@ export default function Dream() {
                                 }}
                               >
                                 9
+                              </span>
+                              <span>--</span>
+                            </div>
+                          </td>
+                          <td style={{ textAlign: "right" }}>--</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+
+              {asiaCupList.length > 0 ? (
+                <div className="card" style={{ marginTop: "10px" }}>
+                  <h5 className="card-header tbg" style={{ color: "#FFFFFF" }}>
+                    {asiaCupList[0]?.tournament?.name}
+                  </h5>
+                  <div className="card-body">
+                    <div>
+                      <div className="float-start">Teams</div>
+                      <div className="float-end">Pts</div>
+                    </div>
+                    <table className="table table-striped">
+                      <tbody>
+                        {asiaCupList.map((rankTeam, index) => (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{rankTeam.user?.name}</td>
+                            <td>
+                              <span className="float-end">
+                                {rankTeam.total_point}
+                              </span>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              ) : (
+                <div className="card" style={{ marginTop: "10px" }}>
+                  <h5
+                    className="card-header tbg d-flex justify-content-between align-items-center"
+                    style={{ color: "#FFFFFF" }}
+                  >
+                    <span>FIFA World Cup 2022</span>
+                    <span className="fs-6 fw-light">(Upcoming)</span>
+                  </h5>
+                  <div className="card-body p-0">
+                    <table className="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>Teams</th>
+                          <th style={{ textAlign: "right" }}>Pts</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <CrownOutlined
+                                style={{ color: "#FFBA07", marginRight: "5px" }}
+                              />
+                              <span style={{ marginRight: "20px" }}>1</span>
+                              <span>--</span>
+                            </div>
+                          </td>
+                          <td style={{ textAlign: "right" }}>--</td>
+                        </tr>
+
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <span
+                                style={{
+                                  marginRight: "20px",
+                                  marginLeft: "20px",
+                                }}
+                              >
+                                2
+                              </span>
+                              <span>--</span>
+                            </div>
+                          </td>
+                          <td style={{ textAlign: "right" }}>--</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <span
+                                style={{
+                                  marginRight: "21px",
+                                  marginLeft: "21px",
+                                }}
+                              >
+                                3
+                              </span>
+                              <span>--</span>
+                            </div>
+                          </td>
+                          <td style={{ textAlign: "right" }}>--</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <span
+                                style={{
+                                  marginRight: "22px",
+                                  marginLeft: "22px",
+                                }}
+                              >
+                                4
+                              </span>
+                              <span>--</span>
+                            </div>
+                          </td>
+                          <td style={{ textAlign: "right" }}>--</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <div className="d-flex align-items-center">
+                              <span
+                                style={{
+                                  marginRight: "23px",
+                                  marginLeft: "23px",
+                                }}
+                              >
+                                5
                               </span>
                               <span>--</span>
                             </div>
