@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import { API_PUBLIC_URL } from "../constants";
 import WebLayout from "../layouts/WebLayout";
 import BasicTemplate from "./Template/BasicTemplate";
+import Select from "react-select";
 // import {menuListCSS} from "react-select/dist/declarations/src/components/Menu";
 <style>
   {`.css-b62m3t-container {
@@ -374,6 +375,39 @@ function BuildTeam() {
     );
   }
 
+  const options = [];
+
+  for (let i = 0; i < tournamentTeamList.length; i++) {
+    options.push({
+      value: tournamentTeamList[i].id,
+      // label: tournamentTeamList[i].country.name,
+      label: (
+        <div>
+          {tournamentTeamList[i].country != null && (
+            <img
+              src={tournamentTeamList[i]?.country?.flag}
+              height="25px"
+              width="35px"
+              alt=""
+            />
+          )}
+          {tournamentTeamList[i].franchise != null && (
+            <img
+              src={tournamentTeamList[i]?.franchise?.logo}
+              height="25px"
+              width="35px"
+              alt=""
+            />
+          )}
+          {tournamentTeamList[i].country != null &&
+            " " + tournamentTeamList[i]?.country?.name}
+          {tournamentTeamList[i].franchise != null &&
+            " " + tournamentTeamList[i]?.franchise?.name}
+        </div>
+      ),
+    });
+  }
+
   // test
   return (
     <WebLayout>
@@ -420,6 +454,11 @@ function BuildTeam() {
                      z-index: 999;
                         }`}
                   </style>
+                  {/* <style>
+                    {`.css-b62m3t-container {
+                     z-index: 999;
+                        }`}
+                  </style>
                   <div className="col-sm-6 offset-sm-3">
                     <ReactSelect
                       placeholder="Select Team & Choose Players"
@@ -445,6 +484,14 @@ function BuildTeam() {
                           <span>{item.country?.name}</span>
                         </div>
                       )}
+                    />
+                  </div> */}
+
+                  <div className="col-sm-6 offset-sm-3">
+                    <Select
+                      onChange={(e) => setTournament_team_id(e.value)}
+                      options={options}
+                      placeholder={"Select Team & Choose Players"}
                     />
                   </div>
 
