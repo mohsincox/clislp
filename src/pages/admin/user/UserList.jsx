@@ -113,13 +113,28 @@ export default function UserList() {
   return (
     <>
       {/* <div className="container mt-2"> */}
+      <style>
+        {`@media only screen and (max-width: 480px) 
+        {
+           .from-action 
+           {
+              display: flex;
+              flex-direction: column;
+              gap: 10px
+            }
+            .create-button{
+              margin-bottom:10px
+            }
+        }`
+        }
+      </style>
       <div className="card">
         <div className="card-body">
           <div>
             <div className="float-start">
               <h4 className="card-title">User List</h4>
             </div>
-            <div className="float-end">
+            <div className="float-end create-button">
               <Link to={`/admin/users/create`} className="btn btn-info">
                 + Create New
               </Link>
@@ -142,8 +157,8 @@ export default function UserList() {
 
           <div className="mt-5">
             <form onSubmit={submitSearch}>
-              <div className="mb-3 row">
-                <div className="offset-sm-3 col-sm-4">
+              <div className="mb-3 row from-action">
+                <div className="offset-sm-3 col-sm-6">
                   <input
                     className="form-control"
                     type="text"
@@ -174,62 +189,61 @@ export default function UserList() {
             </form>
           </div>
 
-
           <div class="table-responsive">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Role</th>
-                <th>Created At</th>
-                <th>Detail</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((user, index) => (
-                <tr key={user.id}>
-                  <td>{index + indexOfFirstItem + 1}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone_number}</td>
-                  <td>{user.role == null ? "" : user.role.role_name}</td>
-                  <td>{user.createdAt}</td>
-                  <td>
-                    <Link
-                      to={`/admin/users/${user.id}/detail`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Detail
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/admin/users/${user.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deleteUser(user.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone Number</th>
+                  <th>Role</th>
+                  <th>Created At</th>
+                  <th>Detail</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {currentItems.map((user, index) => (
+                  <tr key={user.id}>
+                    <td>{index + indexOfFirstItem + 1}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>{user.phone_number}</td>
+                    <td>{user.role == null ? "" : user.role.role_name}</td>
+                    <td>{user.createdAt}</td>
+                    <td>
+                      <Link
+                        to={`/admin/users/${user.id}/detail`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Detail
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/admin/users/${user.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deleteUser(user.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
 
           <center>

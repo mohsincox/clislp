@@ -8,7 +8,16 @@ import {
   ProfileFilled,
   DownOutlined,
 } from "@ant-design/icons";
-import { Avatar, Breadcrumb, Layout, Menu, Dropdown, Space } from "antd";
+import {
+  Avatar,
+  Breadcrumb,
+  Layout,
+  Menu,
+  Dropdown,
+  Space,
+  Button,
+  Drawer,
+} from "antd";
 
 import React, { useContext, useEffect, useState } from "react";
 import "./adminLayout.css";
@@ -205,34 +214,42 @@ const AdminLayout = () => {
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
 
-  const [width, setWidth] = useState(window.innerWidth);
+  const [open, setOpen] = useState(false);
+  const showDrawer = () => {
+    setOpen(true);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
 
-  useEffect(() => {
-    function handleResize() {
-      setWidth(window.innerWidth);
-    }
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, [width]);
+  // const [width, setWidth] = useState(window.innerWidth);
 
-  useEffect(() => {
-    width < 480 ? setCollapsed(true) : setCollapsed(false);
-  }, [width]);
+  // useEffect(() => {
+  //   function handleResize() {
+  //     setWidth(window.innerWidth);
+  //   }
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, [width]);
 
-  useEffect(() => {
-    if (getLoginData === null) {
-    } else {
-      const data = JSON.parse(getLoginData);
-      const token = data.accessToken;
-      const nameUser = data.name;
-      setName(nameUser);
-      const role_name = data.userrole.role.role_name;
-      console.log(role_name);
-      if (role_name === "Customer") {
-        navigate("/");
-      }
-    }
-  }, []);
+  // useEffect(() => {
+  //   width < 480 ? setCollapsed(true) : setCollapsed(false);
+  // }, [width]);
+
+  // useEffect(() => {
+  //   if (getLoginData === null) {
+  //   } else {
+  //     const data = JSON.parse(getLoginData);
+  //     const token = data.accessToken;
+  //     const nameUser = data.name;
+  //     setName(nameUser);
+  //     const role_name = data.userrole.role.role_name;
+  //     console.log(role_name);
+  //     if (role_name === "Customer") {
+  //       navigate("/");
+  //     }
+  //   }
+  // }, []);
 
   const logout = () => {
     localStorage.removeItem("loginData");
@@ -293,10 +310,27 @@ const AdminLayout = () => {
         minHeight: "100vh",
       }}
     >
+  
+      <Drawer
+        title="Basic Drawer"
+        placement="right"
+        onClose={onClose}
+        open={open}
+      >
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+        />
+      </Drawer>
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        breakpoint={"lg"}
+        collapsedWidth={0}
+        trigger={null}
       >
         <div>
           <a href="/admin">
@@ -332,6 +366,10 @@ const AdminLayout = () => {
               <img src={require("../images/user.png")} alt="" width={"30px"} />
               {name}
             </div> */}
+
+<Button type="primary" onClick={showDrawer}>
+        Open
+      </Button>
 
           <div
             style={{
