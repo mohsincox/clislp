@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import { API_PUBLIC_URL } from "../constants";
 import { toast } from "react-toastify";
+import useUserHook from "../Hooks/useUserHook";
 
 export default function WelcomeTeam() {
   let [conGif, setConGif] = useState(congratulationGif);
@@ -17,6 +18,8 @@ export default function WelcomeTeam() {
   const [tourYear, setTourYear] = useState("");
   const navigate = useNavigate();
   const { tourId } = useParams();
+
+  let [userInfo] = useUserHook();
 
   useEffect(() => {
     setTimeout(function () {
@@ -66,11 +69,19 @@ export default function WelcomeTeam() {
                     background: `url(${conGif})`,
                   }}
                 >
-                  <Avatar size={150} icon={<UserOutlined />} />
+                  {userInfo && userInfo?.userInfo?.image ? (
+                    <Avatar
+                      size={150}
+                      src={`${API_PUBLIC_URL}${userInfo.userInfo.image}`}
+                    />
+                  ) : (
+                    <Avatar size={150} icon={<UserOutlined />} />
+                  )}
+                  {/* <Avatar size={150} icon={<UserOutlined />} /> */}
                   <p className="mt-5">
                     Your Team has been Confirmed
                     <br />
-                    For {tourName} {tourYear}.
+                    For {tourName}.
                   </p>
                   <h4>Best of Luck</h4>
                 </div>
