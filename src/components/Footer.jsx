@@ -1,22 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./footer.css";
 import RegisterWidget from "./RegisterWidget";
 import axios from "axios";
-import {API_PUBLIC_URL} from "../constants";
-import logo from '../logo.svg'
+import { API_PUBLIC_URL } from "../constants";
+import logo from "../logo.svg";
 
 export default function Footer() {
   const [pagesData, setPagesData] = useState([]);
   useEffect(() => {
     (async () => {
-      await axios
-          .get(`${API_PUBLIC_URL}api/page`)
-          .then((response) => {
-            setPagesData(response.data)
-          });
+      await axios.get(`${API_PUBLIC_URL}api/page`).then((response) => {
+        setPagesData(response.data);
+      });
     })();
   }, []);
-
 
   return (
     <>
@@ -24,15 +21,21 @@ export default function Footer() {
         className="container-fluid"
         style={{ background: "#141527", color: "#FFFFFF" }}
       >
-
-        <div  className="wrapper">
-          <div className="row p-md-5 p-sm-2" >
+        <div className="wrapper">
+          <div className="row p-md-5 p-sm-2">
             <div className="col-md-6">
-              <img src={logo} alt="" className="mb-2" style={{width: "20%"}}/>
+              <img
+                src={logo}
+                alt=""
+                className="mb-2"
+                style={{ width: "20%" }}
+              />
               <p>
-                The fight for excellence in cricket has begun!
-                Shoplover brings Shoplover Play 11-cricket fantasy game to increase the excitement of cricket lovers.
-                Come to these dream field now with your dream team to experience the full on craze of T20 World Cup.
+                The fight for excellence of sports has begun. Shoplover brings
+                Shoplover Play 11 Football & Cricket fantasy game to increase
+                the excitement of sports lovers. Come to these dream fields now
+                with your dream team to experience the full-on craze of your
+                favourite sports.
               </p>
 
               {/* <i className="fa fa-car"></i>
@@ -68,31 +71,55 @@ export default function Footer() {
               </div> */}
 
               <div className="col item social">
-                <a href="https://www.facebook.com/shoplover.ecommerce" target="_blank">
+                <a
+                  href="https://www.facebook.com/shoplover.ecommerce"
+                  target="_blank"
+                >
                   <i className="fa fa-facebook"></i>
                 </a>
-                <a href="https://twitter.com/ShoploverBD"  target="_blank">
+                <a href="https://twitter.com/ShoploverBD" target="_blank">
                   <i className="fa fa-twitter"></i>
                 </a>
-                <a href="https://www.youtube.com/channel/UCsjWm-rGA3WSHo3kjsW-EDA"  target="_blank">
+                <a
+                  href="https://www.youtube.com/channel/UCsjWm-rGA3WSHo3kjsW-EDA"
+                  target="_blank"
+                >
                   <i className="fa fa-youtube"></i>
                 </a>
-                <a href="https://www.linkedin.com/company/77150386"  target="_blank">
+                <a
+                  href="https://www.linkedin.com/company/77150386"
+                  target="_blank"
+                >
                   <i className="fa fa-linkedin"></i>
                 </a>
-                <a href="https://www.instagram.com/shoplover.ecommerce/"  target="_blank">
+                <a
+                  href="https://www.instagram.com/shoplover.ecommerce/"
+                  target="_blank"
+                >
                   <i className="fa fa-instagram"></i>
                 </a>
               </div>
             </div>
             <div className="col-md-2">
               <p>INFORMATION</p>
-              <ul style={{listStyle: 'none', color: '#fff', padding: '0px', margin: '0px'}}>
-                {pagesData.map(page => (
-                    <li style={{marginBottom: "3px"}} key={page.id}>
-                      <a style={{color: '#fff', textDecoration: 'none'}} href={`/pages/${page.slug}`}>{page.name}</a>
-                    </li>
-                ) )}
+              <ul
+                style={{
+                  listStyle: "none",
+                  color: "#fff",
+                  padding: "0px",
+                  margin: "0px",
+                }}
+              >
+                {pagesData.map((page) => (
+                  <li style={{ marginBottom: "3px" }} key={page.id}>
+                    <a
+                      style={{ color: "#fff", textDecoration: "none" }}
+                      href={`/pages/${page.slug}`}
+                    >
+                      {page.name}
+                    </a>
+                  </li>
+                ))}
               </ul>
               {/* <ul>
                 <li>About Us</li>
@@ -120,7 +147,13 @@ export default function Footer() {
                 <br />
                 Contact
                 <br />
-                <a href="/login" className="text-white" style={{textDecoration: "none"}}>Login</a>
+                <a
+                  href="/login"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  Login
+                </a>
                 <br />
               </span>
             </div>
@@ -153,7 +186,6 @@ export default function Footer() {
             </div>
           </div>
         </div>
-
       </div>
 
       <div
@@ -161,7 +193,9 @@ export default function Footer() {
         style={{ background: "#36384D", color: "#FFFFFF", padding: "10px" }}
       >
         <div className="container">
-          <p className="text-center m-0">© Copyright 2022 I All Rights Reserved by Shoplover.com </p>
+          <p className="text-center m-0">
+            © Copyright 2022 I All Rights Reserved by Shoplover.com{" "}
+          </p>
         </div>
       </div>
     </>
