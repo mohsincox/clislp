@@ -182,7 +182,7 @@ export default function Dream() {
               )}
 
               {iccT20List.length > 0 ? (
-                <div className="card">
+                <div className="card" style={{ marginTop: "10px" }}>
                   <h5 className="card-header tbg" style={{ color: "#FFFFFF" }}>
                     {iccT20List[0]?.tournament?.name}
                   </h5>
