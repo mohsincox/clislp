@@ -175,6 +175,30 @@ export default function PlayerCreate() {
     setIsStriker(!isStriker);
   };
 
+  const handelSpecification = (e) => {
+    if(e.target.name == "Goalkeeper") {
+      setIsGoalkeeper(true);
+      setIsDefender(false);
+      setIsMidfielder(false);
+      setIsStriker(false)
+    } else if(e.target.name == "Defender") {
+      setIsGoalkeeper(false);
+      setIsDefender(true);
+      setIsMidfielder(false);
+      setIsStriker(false)
+    } else if(e.target.name == "Midfielder") {
+      setIsGoalkeeper(false);
+      setIsDefender(false);
+      setIsMidfielder(true);
+      setIsStriker(false);
+    } else if(e.target.name == "Striker") {
+      setIsGoalkeeper(false);
+      setIsDefender(false);
+      setIsMidfielder(false);
+      setIsStriker(true);
+    }
+  }
+
   const submitForm = async (e) => {
     e.preventDefault();
 
@@ -351,6 +375,7 @@ export default function PlayerCreate() {
                       <div>
                         <input
                           type="checkbox"
+                          name="specification"
                           checked={isKeeper}
                           onChange={handleKeeper}
                         />
@@ -366,36 +391,40 @@ export default function PlayerCreate() {
                     <div className="col-sm-9">
                       <div>
                         <input
-                          type="checkbox"
+                          type="radio"
+                          name="Goalkeeper"
                           checked={isGoalkeeper}
-                          onChange={handleGoalkeeper}
+                          onChange={(e) => handelSpecification(e)}
                         />
                         Goalkeeper
                       </div>
 
                       <div>
                         <input
-                          type="checkbox"
+                          type="radio"
+                          name="Defender"
                           checked={isDefender}
-                          onChange={handleDefender}
+                          onChange={(e) => handelSpecification(e)}
                         />
                         Defender
                       </div>
 
                       <div>
                         <input
-                          type="checkbox"
+                          type="radio"
+                          name="Midfielder"
                           checked={isMidfielder}
-                          onChange={handleMidfielder}
+                          onChange={(e) => handelSpecification(e)}
                         />
                         Midfielder
                       </div>
 
                       <div>
                         <input
-                          type="checkbox"
+                          type="radio"
+                          name="Striker"
                           checked={isStriker}
-                          onChange={handleStriker}
+                          onChange={(e) => handelSpecification(e)}
                         />
                         Striker
                       </div>
