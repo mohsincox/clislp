@@ -385,7 +385,7 @@ function BuildTeam() {
         <div>
           {tournamentTeamList[i].country != null && (
             <img
-              src={tournamentTeamList[i]?.country?.flag}
+              src={API_PUBLIC_URL + tournamentTeamList[i]?.country?.flag}
               height="25px"
               width="35px"
               alt=""
@@ -393,7 +393,7 @@ function BuildTeam() {
           )}
           {tournamentTeamList[i].franchise != null && (
             <img
-              src={tournamentTeamList[i]?.franchise?.logo}
+              src={API_PUBLIC_URL + tournamentTeamList[i]?.franchise?.logo}
               height="25px"
               width="35px"
               alt=""
