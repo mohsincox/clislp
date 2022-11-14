@@ -32,9 +32,9 @@ export default function Footer() {
               />
               <p>
                 The fight for excellence of sports has begun. Shoplover brings
-                Shoplover Play 11 Football & Cricket fantasy game to increase
-                the excitement of sports lovers. Come to these dream fields now
-                with your dream team to experience the full-on craze of your
+                Shoplover Play11 Football & Cricket fantasy game to increase the
+                excitement of sports lovers. Come to these dream fields now with
+                your dream team to experience the full-on craze of your
                 favourite sports.
               </p>
 
