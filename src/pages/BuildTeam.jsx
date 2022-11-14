@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import ReactSelect from "react-select";
 import { toast } from "react-toastify";
@@ -17,10 +17,15 @@ import BasicTemplate from "./Template/BasicTemplate";
     }`}
 </style>;
 
-export default function BuildTeam() {
+function BuildTeam() {
   const [teamPlayerList, setTeamPlayerList] = useState([]);
   const [tournament_team_id, setTournament_team_id] = useState("");
+  const [strikerMax, setStrikerMax] = useState(0);
+  const [midfielderMax, setMidfielderMax] = useState(0);
+  const [defenderMax, setDefenderMax] = useState(0);
+  const [goalkeeperMax, setGoalkeeperMax] = useState(0);
   const [tournamentTeamList, setTournamentTeamList] = useState([]);
+
   const [user_cricket_player, setUser_cricket_player] = useState("");
   const [user_football_player, setUser_football_player] = useState("");
   const [maxSelect, setMaxSelect] = useState("");
@@ -29,29 +34,147 @@ export default function BuildTeam() {
   // console.log("authUser", authUser);
   // console.log("authUser2", authUser.user.userrole);
 
-  console.log("team id", tournament_team_id);
+  // console.log("team id", tournament_team_id);
 
   const [state, setState] = useState({ selections: [] });
   const { tourId } = useParams();
   let navigate = useNavigate();
 
-  function handleCheckboxChange(key) {
-    let sel = state.selections;
-    let find = sel.indexOf(key);
-    if (find > -1) {
-      sel.splice(find, 1);
-    } else {
-      if (sel.length >= user_cricket_player) {
-        toast.error(`You have already ${user_cricket_player} players`);
-      } else {
-        sel.push(key);
-      }
-    }
+  let strikerInitial = 0;
+  let midfielderInitial = 0;
+  let defenderInitial = 0;
+  let goalkeeperInitial = 0;
 
-    setState({
-      selections: sel,
-    });
-  }
+  const handleCheckboxChange = useCallback(
+    (key) => {
+      let sel = state.selections;
+      let find = sel.indexOf(key);
+      if (find > -1) {
+        let rmv = sel.splice(find, 1);
+        // console.log("splice---", rmv);
+        // console.log("find---", find);
+        let fff = rmv[0];
+
+        const storageData = JSON.parse(getLoginData);
+        const token = storageData.accessToken;
+        (async () => {
+          await axios
+            .get(`${API_PUBLIC_URL}api/players/${fff}`, {
+              headers: {
+                Authorization: token,
+              },
+            })
+            .then((response) => {
+              // console.log("response player", response.data);
+              const specificationParse = JSON.parse(
+                response.data.specification
+              );
+
+              if (specificationParse["Striker"] === true) {
+                strikerInitial--;
+                // console.log("strikerInitial", strikerInitial);
+              }
+
+              if (specificationParse["Midfielder"] === true) {
+                midfielderInitial--;
+                // console.log("midfielderInitial", midfielderInitial);
+              }
+
+              if (specificationParse["Defender"] === true) {
+                defenderInitial--;
+                // console.log("defenderInitial", defenderInitial);
+              }
+
+              if (specificationParse["Goalkeeper"] === true) {
+                goalkeeperInitial--;
+                // console.log("goalkeeperInitial", goalkeeperInitial);
+              }
+
+              setState({
+                selections: sel,
+              });
+            });
+        })();
+      } else {
+        if (sel.length >= user_cricket_player) {
+          toast.error(`You have already ${user_cricket_player} players`);
+        } else {
+          // console.log("key------", key);
+
+          const storageData = JSON.parse(getLoginData);
+          const token = storageData.accessToken;
+          (async () => {
+            await axios
+              .get(`${API_PUBLIC_URL}api/players/${key}`, {
+                headers: {
+                  Authorization: token,
+                },
+              })
+              .then((response) => {
+                // console.log("response player", response.data);
+                const specificationParse = JSON.parse(
+                  response.data.specification
+                );
+
+                if (specificationParse["Striker"] === true) {
+                  if (strikerInitial >= strikerMax) {
+                    toast.error(`Max Striker is ${strikerMax}`);
+                  } else {
+                    sel.push(key);
+                    strikerInitial++;
+                    // console.log("strikerInitial", strikerInitial);
+                  }
+                }
+
+                if (specificationParse["Midfielder"] === true) {
+                  if (midfielderInitial >= midfielderMax) {
+                    toast.error(`Max Midfielder is ${midfielderMax}`);
+                  } else {
+                    sel.push(key);
+                    midfielderInitial++;
+                    // console.log("midfielderInitial", midfielderInitial);
+                  }
+                }
+
+                if (specificationParse["Defender"] === true) {
+                  if (defenderInitial >= defenderMax) {
+                    toast.error(`Max Defender is ${defenderMax}`);
+                  } else {
+                    sel.push(key);
+                    defenderInitial++;
+                    // console.log("defenderInitial", defenderInitial);
+                  }
+                }
+
+                if (specificationParse["Goalkeeper"] === true) {
+                  if (goalkeeperInitial >= goalkeeperMax) {
+                    toast.error(`Max Goalkeeper is ${goalkeeperMax}`);
+                  } else {
+                    sel.push(key);
+                    goalkeeperInitial++;
+                    // console.log("goalkeeperInitial", goalkeeperInitial);
+                  }
+                }
+
+                if (
+                  specificationParse["All Rounder"] === true ||
+                  specificationParse["Batsman"] === true ||
+                  specificationParse["Bowler"] === true ||
+                  specificationParse["Keeper"] === true
+                ) {
+                  sel.push(key);
+                }
+
+                setState({
+                  selections: sel,
+                });
+              });
+          })();
+        }
+      }
+    },
+    [user_cricket_player]
+  );
 
   const getLoginData = localStorage.getItem("loginData");
 
@@ -143,9 +266,53 @@ export default function BuildTeam() {
     }
   };
 
+  const getTournamentFootballTeamSetting = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}commonapi/tournament-football-team-setting`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          // console.log(
+          //   "setTournamentFootballTeamSetting first------",
+          //   response.data
+          // );
+
+          setStrikerMax(JSON.parse(response.data.value)["Striker"].Max);
+          setMidfielderMax(JSON.parse(response.data.value)["Midfielder"].Max);
+          setDefenderMax(JSON.parse(response.data.value)["Defender"].Max);
+          setGoalkeeperMax(JSON.parse(response.data.value)["Goalkeeper"].Max);
+
+          // console.log(
+          //   "strikerMax",
+          //   JSON.parse(response.data.value)["Striker"].Max
+          // );
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            // navigate("/");
+          }
+        });
+    }
+  };
+
+  // console.log("strikerMax", strikerMax);
+  // console.log("midfielderMax", midfielderMax);
+  // console.log("defenderMax", defenderMax);
+  // console.log("goalkeeperMax", goalkeeperMax);
+
   useEffect(() => {
     getTourTeamPlayerDetail();
     getTournamentTeam();
+    getTournamentFootballTeamSetting();
   }, []);
 
   const submitForm = async (e) => {
@@ -365,3 +532,5 @@ export default function BuildTeam() {
     </WebLayout>
   );
 }
+
+export default React.memo(BuildTeam);
