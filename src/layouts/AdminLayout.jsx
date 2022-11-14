@@ -205,7 +205,19 @@ const AdminLayout = () => {
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
 
-  // console.log("collapsed", collapsed);
+  const [width, setWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setWidth(window.innerWidth);
+    }
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [width]);
+
+  useEffect(() => {
+    width < 480 ? setCollapsed(true) : setCollapsed(false);
+  }, [width]);
 
   useEffect(() => {
     if (getLoginData === null) {

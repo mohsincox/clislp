@@ -174,6 +174,8 @@ export default function UserList() {
             </form>
           </div>
 
+
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -228,6 +230,7 @@ export default function UserList() {
               ))}
             </tbody>
           </table>
+          </div>
 
           <center>
             <nav className="mt-3">
