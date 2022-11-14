@@ -429,9 +429,9 @@ function BuildTeam() {
                       options={tournamentTeamList}
                       formatOptionLabel={(item) => (
                         <div>
-                          {item.country.flag ? (
+                          {item.country?.flag ? (
                             <img
-                              src={API_PUBLIC_URL + item.country.flag}
+                              src={API_PUBLIC_URL + item.country?.flag}
                               style={{
                                 marginRight: "20px",
                                 height: "25px",
@@ -442,7 +442,7 @@ function BuildTeam() {
                           ) : (
                             ""
                           )}
-                          <span>{item.country.name}</span>
+                          <span>{item.country?.name}</span>
                         </div>
                       )}
                     />
