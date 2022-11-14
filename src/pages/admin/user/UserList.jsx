@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import "../adminResponsive.css";
 
 export default function UserList() {
   const [userList, setUserList] = useState([]);
@@ -113,7 +114,7 @@ export default function UserList() {
   return (
     <>
       {/* <div className="container mt-2"> */}
-      <style>
+      {/* <style>
         {`@media only screen and (max-width: 480px) 
         {
            .from-action 
@@ -127,10 +128,10 @@ export default function UserList() {
             }
         }`
         }
-      </style>
+      </style> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">User List</h4>
             </div>
@@ -158,7 +159,7 @@ export default function UserList() {
           <div className="mt-5">
             <form onSubmit={submitSearch}>
               <div className="mb-3 row from-action">
-                <div className="offset-sm-3 col-sm-6">
+                <div className="offset-md-3 col-md-6">
                   <input
                     className="form-control"
                     type="text"
@@ -168,23 +169,27 @@ export default function UserList() {
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
                 </div>
-                <div className="col-sm-1">
+
+                {/* <div className="button-group"> */}
+                <div className="col-md-1 from-action-btn">
                   <button
+                 
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary from-action-btn-btn"
                     onClick={submitSearch}
                   >
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-md-1 from-action-btn">
                   <button
                     onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
+                    className="btn btn-success pl-3 from-action-btn-btn"
                   >
                     Refresh
                   </button>
                 </div>
+                {/* </div> */}
               </div>
             </form>
           </div>
@@ -246,7 +251,13 @@ export default function UserList() {
             </table>
           </div>
 
-          <center>
+          <center
+            style={{
+              display: "flex",
+              justifyConten: "center",
+              overflow: "scroll",
+            }}
+          >
             <nav className="mt-3">
               <ul className="pagination">
                 {pageNumbers.map((number) => (

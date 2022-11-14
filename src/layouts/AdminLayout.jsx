@@ -7,6 +7,8 @@ import {
   SettingOutlined,
   ProfileFilled,
   DownOutlined,
+  MenuUnfoldOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
 import {
   Avatar,
@@ -25,6 +27,7 @@ import { Outlet, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
 // import { Dropdown } from "react-bootstrap";
 import logo from "../logo.svg";
+import "../pages/admin/adminResponsive.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -310,12 +313,23 @@ const AdminLayout = () => {
         minHeight: "100vh",
       }}
     >
-  
+      {/* on mobile screen */}
       <Drawer
-        title="Basic Drawer"
-        placement="right"
+        // title="Basic Drawer"
+        width="75%"
+        placement="left"
         onClose={onClose}
         open={open}
+        drawerStyle={{
+          backgroundColor: "#001529",
+        }}
+        closeIcon={
+          <CloseOutlined
+            style={{
+              color: "white",
+            }}
+          />
+        }
       >
         <Menu
           theme="dark"
@@ -324,11 +338,13 @@ const AdminLayout = () => {
           items={items}
         />
       </Drawer>
+
+      {/* on desktop screen */}
       <Sider
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
-        breakpoint={"lg"}
+        breakpoint={"md"}
         collapsedWidth={0}
         trigger={null}
       >
@@ -354,6 +370,7 @@ const AdminLayout = () => {
           items={items}
         />
       </Sider>
+
       <Layout className="site-layout">
         <Header
           className="site-layout-background"
@@ -367,17 +384,11 @@ const AdminLayout = () => {
               {name}
             </div> */}
 
-<Button type="primary" onClick={showDrawer}>
-        Open
-      </Button>
+          <div className="nav-bar">
+            <div className="small-screen-button">
+              <MenuUnfoldOutlined onClick={showDrawer} />
+            </div>
 
-          <div
-            style={{
-              marginRight: "30px",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
             <Dropdown
               overlay={menu}
               trigger={["click"]}
