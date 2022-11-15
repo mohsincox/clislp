@@ -293,10 +293,12 @@ function BuildTeam() {
           //   response.data
           // );
 
-          setStrikerMax(JSON.parse(response.data.value)["Striker"].Max);
-          setMidfielderMax(JSON.parse(response.data.value)["Midfielder"].Max);
-          setDefenderMax(JSON.parse(response.data.value)["Defender"].Max);
-          setGoalkeeperMax(JSON.parse(response.data.value)["Goalkeeper"].Max);
+          console.log(response.data);
+
+          setStrikerMax(response.data.value["Striker"].Max);
+          setMidfielderMax(response.data.value["Midfielder"].Max);
+          setDefenderMax(response.data.value["Defender"].Max);
+          setGoalkeeperMax(response.data.value["Goalkeeper"].Max);
 
           // console.log(
           //   "strikerMax",
@@ -383,6 +385,11 @@ function BuildTeam() {
     );
   }
 
+  const handleTournamentSelect = (item) => {
+    setTournament_team_id(item.id);
+    console.log(item, tournamentTeamList);
+  }
+
   // test
   return (
     <WebLayout>
@@ -436,24 +443,21 @@ function BuildTeam() {
                     //  value={tournament_team_id}
                       name="tournament_team_id"
                       // onChange={(item)=> handleSelect(item)}
-                      onChange={(item) => setTournament_team_id(item.id)}
+                      onChange={(item) => handleTournamentSelect(item)}
                       options={tournamentTeamList}
+                      value={tournamentTeamList.length ? tournamentTeamList[0] : null}
                       
                       formatOptionLabel={(item) => (
                         <div>
-                          {item.country?.flag ? (
-                            <img
-                              src={API_PUBLIC_URL + item.country?.flag}
+                          {item.country?.flag ? (<img src={API_PUBLIC_URL + item.country?.flag}
                               style={{
                                 marginRight: "20px",
                                 height: "25px",
                                 width: "35px",
                               }}
                               alt="country-image"
-                            />
-                          ) : (
-                            ""
-                          )}
+                            />)
+                           : null}
                           <span>{item.country?.name}</span>
                         </div>
                       )}
