@@ -116,7 +116,7 @@ export default function Fixtures() {
                 className="image-swiper-button-prev"
                 style={{
                   position: "relative",
-                  top: "100px",
+                  top: "105px",
                   zIndex: " 999",
                   marginLeft: "-35px",
                 }}
@@ -139,10 +139,12 @@ export default function Fixtures() {
                 breakpoints={{
                   640: {
                     slidesPerView: 1,
+                    showSwitchArrows: false,
                   },
                   768: {
                     slidesPerView: 2,
                   },
+
                   1024: {
                     slidesPerView: 4,
                   },
@@ -161,7 +163,7 @@ export default function Fixtures() {
               </Swiper>
 
               <div className="image-swiper-button-next">
-                <RightOutlined id="next-button"
+                <RightOutlined
                   style={{
                     fontSize: "35px",
                     color: "#9C9C9C",
