@@ -36,6 +36,8 @@ export default function PlayerCreate() {
     getFranchiseDetails();
   }, []);
 
+
+
   const getGameDetails = async () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -61,33 +63,33 @@ export default function PlayerCreate() {
     }
   };
 
-  useEffect(() => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      (async () => {
-        await axios
-          .get(`${API_PUBLIC_URL}api/games/${game_id}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((response) => {
-            setGame_id(response.data.id);
-            console.log("setGame_id", response.data.id);
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.status === 403) {
-              toast.error("No Permission");
-              navigate("/admin/no-permission");
-            }
-          });
-      })();
-    }
-  }, [game_id]);
+  // useEffect(() => {
+  //   if (getLoginData === null) {
+  //     navigate("/login");
+  //   } else {
+  //     const storageData = JSON.parse(getLoginData);
+  //     const token = storageData.accessToken;
+  //     (async () => {
+  //       await axios
+  //         .get(`${API_PUBLIC_URL}api/games/${game_id}`, {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         })
+  //         .then((response) => {
+  //           setGame_id(response.data.id);
+  //           console.log("setGame_id=============================", response.data.id);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //           if (error.response.status === 403) {
+  //             toast.error("No Permission");
+  //             navigate("/admin/no-permission");
+  //           }
+  //         });
+  //     })();
+  //   }
+  // }, [game_id]);
 
   const getCountryDetails = async () => {
     if (getLoginData === null) {
@@ -295,6 +297,11 @@ export default function PlayerCreate() {
     setImage(e.target.files[0]);
   };
 
+  const handleGameSelect = (e) => {
+    setGame_id(parseInt(e.target.value));
+    console.log(parseInt(e.target.value));
+  }
+
   return (
     <>
       <div className="container mt-2">
@@ -329,7 +336,7 @@ export default function PlayerCreate() {
                       className="form-select"
                       value={game_id}
                       name="game_id"
-                      onChange={(e) => setGame_id(e.target.value)}
+                      onChange={(e) => handleGameSelect(e)}
                     >
                       <option>Select Game</option>
                       {gameList.map((item, index) => (
