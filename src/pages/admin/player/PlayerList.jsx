@@ -104,39 +104,39 @@ export default function PlayerList() {
   const submitSearch = async (e) => {
     e.preventDefault();
 
-    // if (searchQuery.trim() === "") {
-    //   toast.error("Search field is required!");
-    // } else {
-    const storageData = JSON.parse(getLoginData);
-    const token = storageData.accessToken;
+    if (searchQuery.trim() === "" && country_id === "") {
+      toast.error("At least one search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
 
-    await axios
-      .get(
-        `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("response ----", response);
-        setPlayerList(response.data);
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setPlayerList(response.data);
 
-        // toast.success("Successfully created!");
-        // navigate("/admin/users");
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          toast.error(error.response.data.msg);
-        }
-        if (error.response.status === 403) {
-          toast.error("No Permission");
-          navigate("/admin/no-permission");
-        }
-      });
-    // }
+          // toast.success("Successfully created!");
+          // navigate("/admin/users");
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
   };
 
   const options = [];
@@ -164,10 +164,13 @@ export default function PlayerList() {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div
+            className="mt-5"
+            style={{ display: "flex", justifyContent: "space-evenly" }}
+          >
             <form onSubmit={submitSearch}>
               <div className="mb-3 row">
-                <div className="offset-sm-2 col-sm-3">
+                <div className="col-sm-5">
                   <input
                     className="form-control"
                     type="text"
@@ -178,7 +181,7 @@ export default function PlayerList() {
                   />
                 </div>
 
-                <div className="col-sm-3">
+                <div className="col-sm-5">
                   {/* <input
                     className="form-control"
                     type="text"
@@ -193,20 +196,6 @@ export default function PlayerList() {
                     options={options}
                     placeholder={"Select Country"}
                   />
-
-                  {/* <select
-                    className="form-select"
-                    value={country_id}
-                    name="country_id"
-                    onChange={(e) => setCountry_id(e.target.value)}
-                  >
-                    <option>Select Country</option>
-                    {countryList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
 
                 <div className="col-sm-1">
@@ -218,16 +207,16 @@ export default function PlayerList() {
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
-                  <button
-                    onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
-                  >
-                    Refresh
-                  </button>
-                </div>
               </div>
             </form>
+            <div>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="btn btn-success pl-3"
+              >
+                Refresh
+              </button>
+            </div>
           </div>
 
           <table className="table">
@@ -238,11 +227,11 @@ export default function PlayerList() {
                 <th>Game</th>
                 <th>Specification</th>
                 <th>Country</th>
-                <th>Franchise</th>
+                {/* <th>Franchise</th>
                 <th>Point</th>
-                <th>Ranking</th>
+                <th>Ranking</th> */}
                 <th>Status</th>
-                <th>Image</th>
+                {/* <th>Image</th> */}
                 <th>Edit</th>
                 <th>Delete</th>
               </tr>
@@ -326,19 +315,19 @@ export default function PlayerList() {
                   <td>
                     {player.country == null ? "" : player.country["name"]}
                   </td>
-                  <td>
+                  {/* <td>
                     {player.franchise == null ? "" : player.franchise["name"]}
                   </td>
                   <td>{player.point}</td>
-                  <td>{player.ranking}</td>
+                  <td>{player.ranking}</td> */}
                   <td>{player.status}</td>
-                  <td>
+                  {/* <td>
                     <img
                       src={`${API_PUBLIC_URL}${player.image}`}
                       alt=""
                       width="80px"
                     />
-                  </td>
+                  </td> */}
                   <td>
                     <Link
                       to={`/admin/players/${player.id}`}
