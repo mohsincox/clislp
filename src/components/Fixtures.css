@@ -84,3 +84,7 @@
   color: #ddd;
 }
 
+
+.tab-content>.active {
+  display: flex;
+}
