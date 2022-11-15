@@ -285,14 +285,14 @@ function BuildTeam() {
           //   response.data
           // );
 
-          setStrikerMax(JSON.parse(response.data.value)["Striker"].Max);
-          setMidfielderMax(JSON.parse(response.data.value)["Midfielder"].Max);
-          setDefenderMax(JSON.parse(response.data.value)["Defender"].Max);
-          setGoalkeeperMax(JSON.parse(response.data.value)["Goalkeeper"].Max);
+          setStrikerMax(response.data.value["Striker"].Max);
+          setMidfielderMax(response.data.value["Midfielder"].Max);
+          setDefenderMax(response.data.value["Defender"].Max);
+          setGoalkeeperMax(response.data.value["Goalkeeper"].Max);
 
           // console.log(
           //   "strikerMax",
-          //   JSON.parse(response.data.value)["Striker"].Max
+          //   response.data.value["Striker"].Max
           // );
         })
         .catch((error) => {
