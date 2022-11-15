@@ -8,6 +8,7 @@ import Header from "../components/Header";
 import { API_PUBLIC_URL } from "../constants";
 import WebLayout from "../layouts/WebLayout";
 import BasicTemplate from "./Template/BasicTemplate";
+import Select from "react-select";
 // import {menuListCSS} from "react-select/dist/declarations/src/components/Menu";
 <style>
   {`.css-b62m3t-container {
@@ -30,9 +31,6 @@ function BuildTeam() {
   const [user_football_player, setUser_football_player] = useState("");
   const [maxSelect, setMaxSelect] = useState("");
   const [disable, setDisable] = React.useState(false);
-  const [country, setCountry] = useState('')
-
-  console.log('country', country)
 
   // console.log("authUser", authUser);
   // console.log("authUser2", authUser.user.userrole);
@@ -42,12 +40,6 @@ function BuildTeam() {
   const [state, setState] = useState({ selections: [] });
   const { tourId } = useParams();
   let navigate = useNavigate();
-
-
-  const handleSelect = (item) =>{
-    setTournament_team_id(item.id);
-    setCountry(item.country.name)
-  }
 
   let strikerInitial = 0;
   let midfielderInitial = 0;
@@ -383,6 +375,39 @@ function BuildTeam() {
     );
   }
 
+  const options = [];
+
+  for (let i = 0; i < tournamentTeamList.length; i++) {
+    options.push({
+      value: tournamentTeamList[i].id,
+      // label: tournamentTeamList[i].country.name,
+      label: (
+        <div>
+          {tournamentTeamList[i].country != null && (
+            <img
+              src={API_PUBLIC_URL + tournamentTeamList[i]?.country?.flag}
+              height="25px"
+              width="35px"
+              alt=""
+            />
+          )}
+          {tournamentTeamList[i].franchise != null && (
+            <img
+              src={API_PUBLIC_URL + tournamentTeamList[i]?.franchise?.logo}
+              height="25px"
+              width="35px"
+              alt=""
+            />
+          )}
+          {tournamentTeamList[i].country != null &&
+            " " + tournamentTeamList[i]?.country?.name}
+          {tournamentTeamList[i].franchise != null &&
+            " " + tournamentTeamList[i]?.franchise?.name}
+        </div>
+      ),
+    });
+  }
+
   // test
   return (
     <WebLayout>
@@ -429,16 +454,18 @@ function BuildTeam() {
                      z-index: 999;
                         }`}
                   </style>
-                  {country}
+                  {/* <style>
+                    {`.css-b62m3t-container {
+                     z-index: 999;
+                        }`}
+                  </style>
                   <div className="col-sm-6 offset-sm-3">
                     <ReactSelect
-
-                    //  value={tournament_team_id}
+                      placeholder="Select Team & Choose Players"
+                      value={tournament_team_id}
                       name="tournament_team_id"
-                      // onChange={(item)=> handleSelect(item)}
                       onChange={(item) => setTournament_team_id(item.id)}
                       options={tournamentTeamList}
-                      
                       formatOptionLabel={(item) => (
                         <div>
                           {item.country?.flag ? (
@@ -457,6 +484,14 @@ function BuildTeam() {
                           <span>{item.country?.name}</span>
                         </div>
                       )}
+                    />
+                  </div> */}
+
+                  <div className="col-sm-6 offset-sm-3">
+                    <Select
+                      onChange={(e) => setTournament_team_id(e.value)}
+                      options={options}
+                      placeholder={"Select Team & Choose Players"}
                     />
                   </div>
 
