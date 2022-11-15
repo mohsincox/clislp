@@ -101,7 +101,7 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 information">
               <p>INFORMATION</p>
               <ul
                 style={{
@@ -133,7 +133,7 @@ export default function Footer() {
                 <li>Return Policy</li>
               </ul> */}
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 links">
               <p>QUICK LINKS</p>
               <span>
                 <a
@@ -198,7 +198,7 @@ export default function Footer() {
                 <br />
               </span>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 contact">
               <p>CONTACT</p>
               <p style={{ marginBottom: "5px" }}>
                 <b>Address:</b>
