@@ -36,8 +36,6 @@ export default function PlayerCreate() {
     getFranchiseDetails();
   }, []);
 
-
-
   const getGameDetails = async () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -178,28 +176,28 @@ export default function PlayerCreate() {
   };
 
   const handelSpecification = (e) => {
-    if(e.target.name == "Goalkeeper") {
+    if (e.target.name == "Goalkeeper") {
       setIsGoalkeeper(true);
       setIsDefender(false);
       setIsMidfielder(false);
-      setIsStriker(false)
-    } else if(e.target.name == "Defender") {
+      setIsStriker(false);
+    } else if (e.target.name == "Defender") {
       setIsGoalkeeper(false);
       setIsDefender(true);
       setIsMidfielder(false);
-      setIsStriker(false)
-    } else if(e.target.name == "Midfielder") {
+      setIsStriker(false);
+    } else if (e.target.name == "Midfielder") {
       setIsGoalkeeper(false);
       setIsDefender(false);
       setIsMidfielder(true);
       setIsStriker(false);
-    } else if(e.target.name == "Striker") {
+    } else if (e.target.name == "Striker") {
       setIsGoalkeeper(false);
       setIsDefender(false);
       setIsMidfielder(false);
       setIsStriker(true);
     }
-  }
+  };
 
   const submitForm = async (e) => {
     e.preventDefault();
@@ -257,10 +255,10 @@ export default function PlayerCreate() {
           setIsMidfielder(false);
           setIsForward(false);
           setIsStriker(false);
-          setStatus("");
+          setStatus("Active");
           setImage(null);
           toast.success("Successfully created!");
-          navigate("/admin/players");
+          navigate("/admin/players/create");
         })
         .catch((error) => {
           console.log(error);
@@ -300,7 +298,7 @@ export default function PlayerCreate() {
   const handleGameSelect = (e) => {
     setGame_id(parseInt(e.target.value));
     console.log(parseInt(e.target.value));
-  }
+  };
 
   return (
     <>
