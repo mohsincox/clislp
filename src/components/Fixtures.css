@@ -29,7 +29,7 @@
   margin-bottom: 25px;
 }
 
-.fixture-full-container .prev,
+/* .fixture-full-container .prev,
 .fixture-full-container .next {
   position: absolute;
   top: 50%;
@@ -43,15 +43,15 @@
   transform: translateY(-50%);
   font-size: 50px;
   color: #ddd;
-}
-
+} */
+/* 
 .fixture-full-container .next {
   right: -60px;
 }
 
 .fixture-full-container .prev {
   left: -60px;
-}
+} */
 
 .fixture-full-container .slick-track {
   width: 100000000px !important;
@@ -85,6 +85,12 @@
 }
 
 
-.tab-content>.active {
-  display: flex;
+
+
+@media only screen and (max-width: 991px) {
+
+  .anticon #next-button{
+    margin-left: 45re !important;
+    
+  }
 }

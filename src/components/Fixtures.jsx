@@ -99,7 +99,7 @@ export default function Fixtures() {
         <Tabs variant="pills">
           {fixtureList.map((fixture, index) => (
             <Tab key={fixture.id} eventKey={fixture.id} title={fixture.name}>
-              <div style={{ display: "flex" }}>
+              {/* <div style={{ display: "flex" }}>
                 <div
                   className="image-swiper-button-prev"
                   style={{
@@ -110,45 +110,70 @@ export default function Fixtures() {
                   }}
                 >
                   <LeftOutlined style={{ fontSize: "35px", color: "#9C9C9C" }} />
-                </div>
+                </div> */}
 
-                <Swiper
-                  id="swiper-color"
-                  spaceBetween={10}
-                  slidesPerView={1}
-                  // navigation
-                  navigation={{
-                    nextEl: ".image-swiper-button-next",
-                    prevEl: ".image-swiper-button-prev",
-                    disabledClass: "swiper-button-disabled",
-                  }}
-                  modules={[Navigation]} //you can add any other module here such as navigation and whatever else
-                  // nagination={{ clickable: true }}
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 1,
-                    },
-                    768: {
-                      slidesPerView: 2,
-                    },
-                    1024: {
-                      slidesPerView: 4,
-                    },
-                  }}
-                >
-                  {fixture.matches.map((match, index) => (
-                    <div key={index}>
-                      {match.tournament_team_one != null &&
-                        match.tournament_team_two != null && (
-                          <SwiperSlide>
-                            <FixtureCard match={match} />
-                          </SwiperSlide>
-                        )}
-                    </div>
-                  ))}
-                </Swiper>
+              <div
+                className="image-swiper-button-prev"
+                style={{
+                  position: "relative",
+                  top: "100px",
+                  zIndex: " 999",
+                  marginLeft: "-35px",
+                }}
+              >
+                <LeftOutlined style={{ fontSize: "35px", color: "#9C9C9C" }} />
+              </div>
 
-                <div
+              <Swiper
+                id="swiper-color"
+                spaceBetween={10}
+                slidesPerView={1}
+                // navigation
+                navigation={{
+                  nextEl: ".image-swiper-button-next",
+                  prevEl: ".image-swiper-button-prev",
+                  disabledClass: "swiper-button-disabled",
+                }}
+                modules={[Navigation]} //you can add any other module here such as navigation and whatever else
+                // nagination={{ clickable: true }}
+                breakpoints={{
+                  640: {
+                    slidesPerView: 1,
+                  },
+                  768: {
+                    slidesPerView: 2,
+                  },
+                  1024: {
+                    slidesPerView: 4,
+                  },
+                }}
+              >
+                {fixture.matches.map((match, index) => (
+                  <div key={index}>
+                    {match.tournament_team_one != null &&
+                      match.tournament_team_two != null && (
+                        <SwiperSlide>
+                          <FixtureCard match={match} />
+                        </SwiperSlide>
+                      )}
+                  </div>
+                ))}
+              </Swiper>
+
+              <div className="image-swiper-button-next">
+                <RightOutlined id="next-button"
+                  style={{
+                    fontSize: "35px",
+                    color: "#9C9C9C",
+                    position: "relative",
+                    top: "-7rem",
+                    zIndex: "999",
+                    marginLeft: "81rem",
+                  }}
+                />
+              </div>
+
+              {/* <div
                   className=" image-swiper-button-next"
                   style={{
                     display: "flex",
@@ -159,7 +184,7 @@ export default function Fixtures() {
                 >
                   <RightOutlined style={{ fontSize: "35px", color: "#9C9C9C" }} />
                 </div>
-              </div>
+              </div> */}
 
               {/* <Slider {...settings}>
                 {fixture.matches.map((match, index) => (
