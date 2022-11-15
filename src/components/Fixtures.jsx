@@ -104,10 +104,7 @@ export default function Fixtures() {
               title={fixture.name}
               style={{ marginRight: "10px" }}
             >
-
-<div className="swiper-button">
-          prev
-        </div>
+              <div className="swiper-button">{/* prev */}</div>
               <Swiper
                 id="swiper-color"
                 spaceBetween={10}
@@ -131,7 +128,7 @@ export default function Fixtures() {
                   <div key={index}>
                     {match.tournament_team_one != null &&
                       match.tournament_team_two != null && (
-                        <SwiperSlide >
+                        <SwiperSlide>
                           <FixtureCard match={match} />
                         </SwiperSlide>
                       )}
