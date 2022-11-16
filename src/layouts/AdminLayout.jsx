@@ -340,13 +340,24 @@ const AdminLayout = () => {
       </Drawer>
 
       {/* on desktop screen */}
+
+      <style>
+        {`@media only screen and (max-width: 767px) 
+        {
+         .admin-sidebar
+         {
+           display: none
+          }
+        }`}
+      </style>
       <Sider
+        className="admin-sidebar"
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
-        breakpoint={"md"}
-        collapsedWidth={0}
-        trigger={null}
+        // breakpoint={"md"}
+        // collapsedWidth={0}
+        // trigger={null}
       >
         <div>
           <a href="/admin">

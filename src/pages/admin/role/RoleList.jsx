@@ -88,8 +88,8 @@ export default function RoleList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Role List</h4>
             </div>
@@ -100,54 +100,56 @@ export default function RoleList() {
             </div>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Role Name</th>
-                <th>Role Description</th>
-                <th>Edit</th>
-                <th>Permission Update</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {roleList.map((role, index) => (
-                <tr key={role.id}>
-                  <td>{index + 1}</td>
-                  <td>{role.role_name}</td>
-                  <td>{role.role_description}</td>
-                  <td>
-                    <Link
-                      to={`/admin/roles/${role.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <Link
-                      to={`/admin/roles/permissions/${role.id}/edit`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Permission Update
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deleteRole(role.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div class="table-responsive">
+            <table className="table ">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Role Name</th>
+                  <th>Role Description</th>
+                  <th>Edit</th>
+                  <th>Permission Update</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {roleList.map((role, index) => (
+                  <tr key={role.id}>
+                    <td>{index + 1}</td>
+                    <td>{role.role_name}</td>
+                    <td>{role.role_description}</td>
+                    <td>
+                      <Link
+                        to={`/admin/roles/${role.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <Link
+                        to={`/admin/roles/permissions/${role.id}/edit`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Permission Update
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deleteRole(role.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {/* </div> */}

@@ -20,17 +20,23 @@
     justify-content: space-between;
   }
 
+  /* create-list */
+  .main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
   .from-action {
     display: flex;
     flex-direction: column;
     gap: 10px;
   }
 
-  .from-action-btn{
+  .from-action-btn {
     display: flex;
     justify-content: center;
   }
-  .from-action-btn-btn{
+  .from-action-btn-btn {
     width: 250px;
   }
 
