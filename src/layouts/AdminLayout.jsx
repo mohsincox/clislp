@@ -216,10 +216,27 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
-
   const [open, setOpen] = useState(false);
+  const [fixed, setFixed] = useState("");
+
+  useEffect(() => {
+    window.addEventListener("scroll", stickNavbar);
+
+    return () => {
+      window.removeEventListener("scroll", stickNavbar);
+    };
+  }, []);
+
+  const stickNavbar = () => {
+    if (window !== undefined) {
+      let windowHeight = window.scrollY;
+      console.log("width", windowHeight);
+      windowHeight > 200 ? setFixed("fixed-top") : setFixed("");
+    }
+  };
+
   const showDrawer = () => {
-    setOpen(true);
+    setOpen(!open);
   };
   const onClose = () => {
     setOpen(false);
@@ -323,13 +340,13 @@ const AdminLayout = () => {
         drawerStyle={{
           backgroundColor: "#001529",
         }}
-        closeIcon={
-          <CloseOutlined
-            style={{
-              color: "white",
-            }}
-          />
-        }
+        // closeIcon={
+        //   <CloseOutlined
+        //     style={{
+        //       color: "white",
+        //     }}
+        //   />
+        // }
       >
         <Menu
           theme="dark"
@@ -384,7 +401,7 @@ const AdminLayout = () => {
 
       <Layout className="site-layout">
         <Header
-          className="site-layout-background"
+          className={`${fixed} site-layout-background`}
           style={{
             padding: 0,
           }}
