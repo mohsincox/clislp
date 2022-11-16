@@ -5,7 +5,7 @@ export default function AddSponsor() {
   return (
       <>
         <div className="container overflow-hidden">
-          <RegisterWidget name="Home Top" width={1300} height={200} />
+          <RegisterWidget name="Home Top" width={1300}  />
         </div>
       </>
   );

@@ -10,10 +10,10 @@ class MyTeampTemplate extends Component {
             <>
                 <div className="row mb-3">
                     <div className="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <RegisterWidget name="My Team Top Left" width={810} height={90} />
+                        <RegisterWidget name="My Team Top Left" width={810} />
                     </div>
                     <div className="col-12 col-md-12 col-lg-6 col-xl-6">
-                        <RegisterWidget name="My Team Top Right" width={810} height={90} />
+                        <RegisterWidget name="My Team Top Right" width={810} />
                     </div>
                 </div>
                 <div className="row">
@@ -22,7 +22,7 @@ class MyTeampTemplate extends Component {
                     </div>
                     {this.props.children}
                     <div className="col-12 col-lg-3 d-none d-lg-block">
-                        <RegisterWidget name="My Team Right" width={296} height={210} />
+                        <RegisterWidget name="My Team Right" width={296} />
                     </div>
                 </div>
             </>

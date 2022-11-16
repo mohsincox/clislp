@@ -4,6 +4,7 @@ import RegisterWidget from "./RegisterWidget";
 import axios from "axios";
 import { API_PUBLIC_URL } from "../constants";
 import logo from "../logo.svg";
+import { Link } from "react-router-dom";
 
 export default function Footer() {
   const [pagesData, setPagesData] = useState([]);
@@ -100,7 +101,7 @@ export default function Footer() {
                 </a>
               </div>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 information">
               <p>INFORMATION</p>
               <ul
                 style={{
@@ -132,20 +133,60 @@ export default function Footer() {
                 <li>Return Policy</li>
               </ul> */}
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 links">
               <p>QUICK LINKS</p>
               <span>
-                Home
+                <a
+                  href="/"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  Home
+                </a>
                 <br />
-                Tournament
+                <a
+                  href="/game-tournaments"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  {" "}
+                  Tournament
+                </a>
+
                 <br />
-                Teams
+                <a
+                  href="/my-team"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  {" "}
+                  Teams
+                </a>
                 <br />
-                Fixtures
+                <a
+                  href="/"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  Fixtures
+                </a>
                 <br />
-                Ranking
+                <a
+                  href="ranking"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  Ranking
+                </a>
                 <br />
-                Contact
+                <a
+                  href="/contact"
+                  className="text-white"
+                  style={{ textDecoration: "none" }}
+                >
+                  {" "}
+                  Contact
+                </a>
                 <br />
                 <a
                   href="/login"
@@ -157,7 +198,7 @@ export default function Footer() {
                 <br />
               </span>
             </div>
-            <div className="col-md-2">
+            <div className="col-md-2 contact">
               <p>CONTACT</p>
               <p style={{ marginBottom: "5px" }}>
                 <b>Address:</b>
