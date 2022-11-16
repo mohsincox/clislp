@@ -91,11 +91,11 @@
 } */
 
 @media only screen and (max-width: 768px) {
-  .image-swiper-button-prev , .image-swiper-button-next{
+  .image-swiper-button-prev,
+  .image-swiper-button-next {
     display: none;
   }
 }
-
 
 @media only screen and (max-width: 992px) {
   .image-swiper-button-next .anticon {
@@ -113,4 +113,13 @@
   .image-swiper-button-next .anticon {
     margin-left: 70rem !important;
   }
+}
+
+.fixture-full-container .nav-pills {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+}
+
+.fixture-full-container .nav-item {
+  min-width: 70px;
 }
