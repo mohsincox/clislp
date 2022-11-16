@@ -70,10 +70,11 @@ export default function Page() {
         >
           <h1
             className="text-center mb-2 text-uppercase"
-            style={{ borderBottom: "2px solid #ddd" }}
+            // style={{ borderBottom: "2px solid #ddd" }}
           >
             {pageData.name}
           </h1>
+          <hr />
           <div
             className="post__content"
             dangerouslySetInnerHTML={{ __html: pageData.content }}
