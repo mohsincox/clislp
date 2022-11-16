@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import Select from "react-select";
+import "../adminResponsive.css";
 
 export default function MatchList() {
   const [matchList, setMatchList] = useState([]);
@@ -166,7 +167,8 @@ export default function MatchList() {
       {/* <div className="container mt-2"> */}
       <div className="card">
         <div className="card-body">
-          <div>
+
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Match List</h4>
             </div>
@@ -179,7 +181,7 @@ export default function MatchList() {
 
           <div className="mt-5">
             <form onSubmit={submitSearch}>
-              <div className="mb-3 row">
+              <div className="mb-3 row from-action">
                 <div className="offset-sm-1 col-sm-7">
                   {/* <input
                       className="form-control"
@@ -196,19 +198,19 @@ export default function MatchList() {
                     placeholder={"Select..."}
                   />
                 </div>
-                <div className="col-sm-1">
+                <div className="col-sm-1 from-action-btn">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary from-action-btn-btn"
                     onClick={submitSearch}
                   >
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-2 from-action-btn">
                   <button
                     onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
+                    className="btn btn-success pl-3 from-action-btn-btn"
                   >
                     Refresh
                   </button>
@@ -217,6 +219,7 @@ export default function MatchList() {
             </form>
           </div>
 
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -333,6 +336,7 @@ export default function MatchList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
