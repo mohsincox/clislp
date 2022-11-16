@@ -120,6 +120,8 @@
   overflow-x: auto;
 }
 
-.fixture-full-container .nav-item {
-  min-width: 70px;
+@media only screen and (max-width: 600px) {
+  .fixture-full-container .nav-item .nav-link {
+    min-width: 110px;
+  }
 }
