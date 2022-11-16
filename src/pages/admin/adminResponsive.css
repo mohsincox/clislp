@@ -20,7 +20,11 @@
     justify-content: space-between;
   }
 
-  /* create-list */
+  /* user list */
+  /* role list */
+  /* tournament list */
+  /* tournament team list */
+
   .main-title {
     display: flex;
     flex-direction: column;

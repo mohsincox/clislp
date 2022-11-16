@@ -131,8 +131,9 @@ export default function UserList() {
       </style> */}
       <div className="card">
         <div className="card-body d-md-flex flex-md-column">
+
           <div className="mb-5 main-title">
-            <div className="float-start main-title">
+            <div className="float-start ">
               <h4 className="card-title">User List</h4>
             </div>
             <div className="float-end create-button">

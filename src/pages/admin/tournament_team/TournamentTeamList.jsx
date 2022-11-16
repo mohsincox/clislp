@@ -142,11 +142,12 @@ export default function TournamentTeamList() {
       {/* <div className="container mt-2"> */}
       <div className="card">
         <div className="card-body">
-          <div>
+
+          <div  className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Tournament Team List</h4>
             </div>
-            <div className="float-end">
+            <div className="float-end ">
               <Link
                 to={`/admin/tournament-teams/create`}
                 className="btn btn-info"
@@ -158,7 +159,7 @@ export default function TournamentTeamList() {
 
           <div className="mt-5">
             <form onSubmit={submitSearch}>
-              <div className="mb-3 row">
+              <div className="mb-3 row from-action">
                 <div className="offset-sm-2 col-sm-3">
                   <input
                     className="form-control"
@@ -201,19 +202,19 @@ export default function TournamentTeamList() {
                   </select> */}
                 </div>
 
-                <div className="col-sm-1">
+                <div className="col-sm-1 from-action-btn">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary from-action-btn-btn"
                     onClick={submitSearch}
                   >
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
+                <div className="col-sm-2 from-action-btn">
                   <button
                     onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
+                    className="btn btn-success pl-3 from-action-btn-btn"
                   >
                     Refresh
                   </button>
@@ -222,55 +223,59 @@ export default function TournamentTeamList() {
             </form>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Group Name</th>
-                <th>Tournament Name</th>
-                <th>Category</th>
-                <th>Country</th>
-                <th>Franchise</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {tournamentTeamList.map((tTeam, index) => (
-                <tr key={tTeam.id}>
-                  <td>{tTeam.id}</td>
-                  <td>{tTeam.name}</td>
-                  <td>
-                    {tTeam.tournament == null ? "" : tTeam.tournament["name"]}
-                  </td>
-                  <td>{tTeam.category}</td>
-                  <td>{tTeam.country == null ? "" : tTeam.country["name"]}</td>
-                  <td>
-                    {tTeam.franchise == null ? "" : tTeam.franchise["name"]}
-                  </td>
-                  <td>
-                    <Link
-                      to={`/admin/tournament-teams/${tTeam.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deleteFranchise(tTeam.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div class="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Group Name</th>
+                  <th>Tournament Name</th>
+                  <th>Category</th>
+                  <th>Country</th>
+                  <th>Franchise</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {tournamentTeamList.map((tTeam, index) => (
+                  <tr key={tTeam.id}>
+                    <td>{tTeam.id}</td>
+                    <td>{tTeam.name}</td>
+                    <td>
+                      {tTeam.tournament == null ? "" : tTeam.tournament["name"]}
+                    </td>
+                    <td>{tTeam.category}</td>
+                    <td>
+                      {tTeam.country == null ? "" : tTeam.country["name"]}
+                    </td>
+                    <td>
+                      {tTeam.franchise == null ? "" : tTeam.franchise["name"]}
+                    </td>
+                    <td>
+                      <Link
+                        to={`/admin/tournament-teams/${tTeam.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deleteFranchise(tTeam.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
