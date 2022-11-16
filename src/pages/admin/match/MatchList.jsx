@@ -95,36 +95,36 @@ export default function MatchList() {
   const submitSearch = async (e) => {
     e.preventDefault();
 
-    // if (searchQuery.trim() === "") {
-    //   toast.error("Search field is required!");
-    // } else {
-    const storageData = JSON.parse(getLoginData);
-    const token = storageData.accessToken;
+    if (match_search_id === "") {
+      toast.error("Search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
 
-    await axios
-      .get(
-        `${API_PUBLIC_URL}api/search/match-search?match_id=${match_search_id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("response ----", response);
-        setMatchList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          toast.error(error.response.data.msg);
-        }
-        if (error.response.status === 403) {
-          toast.error("No Permission");
-          navigate("/admin/no-permission");
-        }
-      });
-    // }
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/match-search?match_id=${match_search_id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setMatchList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
   };
 
   const options = [];
@@ -177,19 +177,13 @@ export default function MatchList() {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div
+            className="mt-5"
+            style={{ display: "flex", justifyContent: "space-evenly" }}
+          >
             <form onSubmit={submitSearch}>
               <div className="mb-3 row">
-                <div className="offset-sm-1 col-sm-7">
-                  {/* <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Search Name, Phone Number or Email"
-                      value={searchQuery}
-                      name="searchQuery"
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    /> */}
-
+                <div className="col-sm-10" style={{ width: "400px" }}>
                   <Select
                     onChange={(e) => setMatch_search_id(e.value)}
                     options={options}
@@ -205,16 +199,16 @@ export default function MatchList() {
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
-                  <button
-                    onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
-                  >
-                    Refresh
-                  </button>
-                </div>
               </div>
             </form>
+            <div>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="btn btn-success pl-3"
+              >
+                Refresh
+              </button>
+            </div>
           </div>
 
           <table className="table">

@@ -140,14 +140,17 @@ export default function UserList() {
             <button>Search</button>
           </div> */}
 
-          <div className="mt-5">
+          <div
+            className="mt-5"
+            style={{ display: "flex", justifyContent: "space-evenly" }}
+          >
             <form onSubmit={submitSearch}>
               <div className="mb-3 row">
-                <div className="offset-sm-3 col-sm-4">
+                <div className="col-sm-11">
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Search Name, Phone Number or Email"
+                    placeholder="Name, Phone Number or Email"
                     value={searchQuery}
                     name="searchQuery"
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -162,16 +165,24 @@ export default function UserList() {
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
+                {/* <div className="col-sm-2">
                   <button
                     onClick={() => window.location.reload(false)}
                     className="btn btn-success pl-3"
                   >
                     Refresh
                   </button>
-                </div>
+                </div> */}
               </div>
             </form>
+            <div>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="btn btn-success pl-3"
+              >
+                Refresh
+              </button>
+            </div>
           </div>
 
           <table className="table">

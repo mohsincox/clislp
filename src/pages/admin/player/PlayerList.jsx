@@ -122,9 +122,6 @@ export default function PlayerList() {
         .then((response) => {
           console.log("response ----", response);
           setPlayerList(response.data);
-
-          // toast.success("Successfully created!");
-          // navigate("/admin/users");
         })
         .catch((error) => {
           console.log(error);

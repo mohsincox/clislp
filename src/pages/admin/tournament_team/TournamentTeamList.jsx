@@ -93,39 +93,36 @@ export default function TournamentTeamList() {
   const submitSearch = async (e) => {
     e.preventDefault();
 
-    // if (searchQuery.trim() === "") {
-    //   toast.error("Search field is required!");
-    // } else {
-    const storageData = JSON.parse(getLoginData);
-    const token = storageData.accessToken;
+    if (searchQuery.trim() === "" && tournament_id === "") {
+      toast.error("At least one search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
 
-    await axios
-      .get(
-        `${API_PUBLIC_URL}api/search/tournament-team-search?searchQuery=${searchQuery}&tournament_id=${tournament_id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("response ----", response);
-        setTournamentTeamList(response.data);
-
-        // toast.success("Successfully created!");
-        // navigate("/admin/users");
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          toast.error(error.response.data.msg);
-        }
-        if (error.response.status === 403) {
-          toast.error("No Permission");
-          navigate("/admin/no-permission");
-        }
-      });
-    // }
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/tournament-team-search?searchQuery=${searchQuery}&tournament_id=${tournament_id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setTournamentTeamList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
   };
 
   const options = [];
@@ -156,10 +153,13 @@ export default function TournamentTeamList() {
             </div>
           </div>
 
-          <div className="mt-5">
+          <div
+            className="mt-5"
+            style={{ display: "flex", justifyContent: "space-evenly" }}
+          >
             <form onSubmit={submitSearch}>
               <div className="mb-3 row">
-                <div className="offset-sm-2 col-sm-3">
+                <div className="col-sm-5">
                   <input
                     className="form-control"
                     type="text"
@@ -170,35 +170,12 @@ export default function TournamentTeamList() {
                   />
                 </div>
 
-                <div className="col-sm-3">
-                  {/* <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Search Name, "
-                    value={searchQuery}
-                    name="searchQuery"
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  /> */}
-
+                <div className="col-sm-5">
                   <Select
                     onChange={(e) => setTournament_id(e.value)}
                     options={options}
                     placeholder={"Select Tournament"}
                   />
-
-                  {/* <select
-                    className="form-select"
-                    value={country_id}
-                    name="country_id"
-                    onChange={(e) => setCountry_id(e.target.value)}
-                  >
-                    <option>Select Country</option>
-                    {countryList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select> */}
                 </div>
 
                 <div className="col-sm-1">
@@ -210,22 +187,22 @@ export default function TournamentTeamList() {
                     Search
                   </button>
                 </div>
-                <div className="col-sm-2">
-                  <button
-                    onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3"
-                  >
-                    Refresh
-                  </button>
-                </div>
               </div>
             </form>
+            <div>
+              <button
+                onClick={() => window.location.reload(false)}
+                className="btn btn-success pl-3"
+              >
+                Refresh
+              </button>
+            </div>
           </div>
 
           <table className="table">
             <thead>
               <tr>
-                <th>#</th>
+                <th>SL</th>
                 <th>Group Name</th>
                 <th>Tournament Name</th>
                 <th>Category</th>
@@ -238,7 +215,7 @@ export default function TournamentTeamList() {
             <tbody>
               {tournamentTeamList.map((tTeam, index) => (
                 <tr key={tTeam.id}>
-                  <td>{tTeam.id}</td>
+                  <td>{index + 1}</td>
                   <td>{tTeam.name}</td>
                   <td>
                     {tTeam.tournament == null ? "" : tTeam.tournament["name"]}

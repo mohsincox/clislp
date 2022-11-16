@@ -106,36 +106,36 @@ export default function PointTableList() {
   const submitSearch = async (e) => {
     e.preventDefault();
 
-    // if (searchQuery.trim() === "") {
-    //   toast.error("Search field is required!");
-    // } else {
-    const storageData = JSON.parse(getLoginData);
-    const token = storageData.accessToken;
+    if (match_id === "") {
+      toast.error("Search field is required!");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
 
-    await axios
-      .get(
-        `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id}`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      )
-      .then((response) => {
-        console.log("response ----", response);
-        setPointTableList(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        if (error.response.status === 400) {
-          toast.error(error.response.data.msg);
-        }
-        if (error.response.status === 403) {
-          toast.error("No Permission");
-          navigate("/admin/no-permission");
-        }
-      });
-    // }
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setPointTableList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
   };
 
   const options = [];
@@ -192,19 +192,13 @@ export default function PointTableList() {
               </div>
             </div>
 
-            <div className="">
+            <div
+              className=""
+              style={{ display: "flex", justifyContent: "space-evenly" }}
+            >
               <form onSubmit={submitSearch}>
                 <div className="mb-3 row">
-                  <div className="offset-sm-1 col-sm-7">
-                    {/* <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Search Name, Phone Number or Email"
-                      value={searchQuery}
-                      name="searchQuery"
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    /> */}
-
+                  <div className="col-sm-7" style={{ width: "400px" }}>
                     <Select
                       onChange={(e) => setMatch_id(e.value)}
                       options={options}
@@ -220,16 +214,16 @@ export default function PointTableList() {
                       Search
                     </button>
                   </div>
-                  <div className="col-sm-2">
-                    <button
-                      onClick={() => window.location.reload(false)}
-                      className="btn btn-success pl-3"
-                    >
-                      Refresh
-                    </button>
-                  </div>
                 </div>
               </form>
+              <div>
+                <button
+                  onClick={() => window.location.reload(false)}
+                  className="btn btn-success pl-3"
+                >
+                  Refresh
+                </button>
+              </div>
             </div>
 
             <div className="table-responsive">
@@ -242,6 +236,11 @@ export default function PointTableList() {
                     <th>Team Two</th>
                     <th>Player</th>
                     <th>Team</th>
+                    <th>Goal</th>
+                    <th>Assist</th>
+                    <th>Goal Save</th>
+                    <th>Penalty Save</th>
+                    <th>Clean Sheet</th>
                     <th>Run</th>
                     <th>Wicket</th>
                     <th>Man of the match</th>
@@ -314,6 +313,11 @@ export default function PointTableList() {
                         {pointTable.tournament_team?.country?.name}{" "}
                         {pointTable.tournament_team?.franchise?.name}
                       </td>
+                      <td>{pointTable.Goal}</td>
+                      <td>{pointTable.Assist}</td>
+                      <td>{pointTable.Goal_Save}</td>
+                      <td>{pointTable.Penalty_Save}</td>
+                      <td>{pointTable.Clean_Sheet}</td>
                       <td>{pointTable.run}</td>
                       <td>{pointTable.wicket}</td>
                       <td>
