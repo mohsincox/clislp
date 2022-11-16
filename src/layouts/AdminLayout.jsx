@@ -230,7 +230,7 @@ const AdminLayout = () => {
   const stickNavbar = () => {
     if (window !== undefined) {
       let windowHeight = window.scrollY;
-      console.log("width", windowHeight);
+      // console.log("width", windowHeight);
       windowHeight > 200 ? setFixed("fixed-top") : setFixed("");
     }
   };
@@ -340,13 +340,13 @@ const AdminLayout = () => {
         drawerStyle={{
           backgroundColor: "#001529",
         }}
-        // closeIcon={
-        //   <CloseOutlined
-        //     style={{
-        //       color: "white",
-        //     }}
-        //   />
-        // }
+        closeIcon={
+          <CloseOutlined
+            style={{
+              color: "white",
+            }}
+          />
+        }
       >
         <Menu
           theme="dark"
