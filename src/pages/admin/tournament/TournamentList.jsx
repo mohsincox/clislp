@@ -88,8 +88,8 @@ export default function TournamentList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="ard-body d-md-flex flex-md-column">
+          <div className="mb-5 mt-3 mx-2 main-title">
             <div className="float-start">
               <h4 className="card-title">Tournament List</h4>
             </div>
@@ -100,6 +100,8 @@ export default function TournamentList() {
             </div>
           </div>
 
+
+         <div div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -159,6 +161,7 @@ export default function TournamentList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
