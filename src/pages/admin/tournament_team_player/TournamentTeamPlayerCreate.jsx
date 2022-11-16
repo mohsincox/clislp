@@ -47,12 +47,12 @@ export default function TournamentTeamPlayerCreate() {
             },
           })
           .then((response) => {
-            console.log(
-              "response.data hhhhh",
-              response.data.admin_cricket_player,
-              "f",
-              response.data.admin_football_player
-            );
+            // console.log(
+            //   "response.data hhhhh",
+            //   response.data.admin_cricket_player,
+            //   "f",
+            //   response.data.admin_football_player
+            // );
             setAdmin_cricket_player(response.data.admin_cricket_player);
             setAdmin_football_player(response.data.admin_football_player);
           })
@@ -113,7 +113,7 @@ export default function TournamentTeamPlayerCreate() {
           )
           .then((response) => {
             setTournamentTeamList(response.data);
-            console.log("test-----", response.data);
+            // console.log("test-----", response.data);
             if (response.data.length > 0) {
               setGame_id(response.data[0].tournament.game_id);
               console.log("first game ID", response.data[0].tournament.game_id);
@@ -153,7 +153,7 @@ export default function TournamentTeamPlayerCreate() {
           })
           .then((response) => {
             // setTournamentTeamList(response.data);
-            console.log("hamba----- ", response.data);
+            // console.log("hamba----- ", response.data);
             setCountry_id(response.data.country_id);
             setIsInternational(response.data.category);
             // if (response.data.length > 0) {
@@ -190,7 +190,7 @@ export default function TournamentTeamPlayerCreate() {
           )
           .then((response) => {
             setPlayerList(response.data);
-            console.log("test----- Players --", response.data);
+            // console.log("test----- Players --", response.data);
           })
           .catch((error) => {
             console.log(error);
