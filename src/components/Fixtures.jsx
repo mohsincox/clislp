@@ -101,10 +101,10 @@ export default function Fixtures() {
           className="fw-bold fx-title"
           style={{
             margin: "0px 0px 20px 0px",
-            fontSize: "35px",
+            fontSize: "25px",
             float: " none",
             textAlign: "center",
-            color: " #eee",
+            // color: " #eee",
           }}
         >
           FIXTURES
