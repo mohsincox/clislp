@@ -88,18 +88,19 @@ export default function GameList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div  className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Game List</h4>
             </div>
-            <div className="float-end">
+            <div className="float-end create-buttons">
               <Link to={`/admin/games/create`} className="btn btn-info">
                 + Create New
               </Link>
             </div>
           </div>
 
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -139,6 +140,7 @@ export default function GameList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
