@@ -64,8 +64,8 @@ export default function NewsList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">News List</h4>
             </div>
@@ -76,57 +76,59 @@ export default function NewsList() {
             </div>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Title</th>
-                <th>Body</th>
-                <th>Tournament</th>
-                <th>Image</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {newsList.map((nnn, index) => (
-                <tr key={nnn.id}>
-                  <td>{index + 1}</td>
-                  <td>{nnn.title}</td>
-                  <td>{nnn.body}</td>
-                  <td>
-                    {nnn.tournament == null ? "" : nnn.tournament["name"]}
-                  </td>
-                  <td>
-                    <img
-                      src={`${API_PUBLIC_URL}${nnn.image}`}
-                      alt=""
-                      width="80px"
-                    />
-                  </td>
-                  <td>
-                    <Link
-                      to={`/admin/news/${nnn.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deleteNews(nnn.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div class="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Title</th>
+                  <th>Body</th>
+                  <th>Tournament</th>
+                  <th>Image</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {newsList.map((nnn, index) => (
+                  <tr key={nnn.id}>
+                    <td>{index + 1}</td>
+                    <td>{nnn.title}</td>
+                    <td>{nnn.body}</td>
+                    <td>
+                      {nnn.tournament == null ? "" : nnn.tournament["name"]}
+                    </td>
+                    <td>
+                      <img
+                        src={`${API_PUBLIC_URL}${nnn.image}`}
+                        alt=""
+                        width="80px"
+                      />
+                    </td>
+                    <td>
+                      <Link
+                        to={`/admin/news/${nnn.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deleteNews(nnn.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
