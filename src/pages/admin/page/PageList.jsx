@@ -64,8 +64,8 @@ export default function PageList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Page List</h4>
             </div>
@@ -76,46 +76,48 @@ export default function PageList() {
             </div>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {pageList.map((page, index) => (
-                <tr key={page.id}>
-                  <td>{index + 1}</td>
-                  <td>{page.name}</td>
-                  <td>{page.slug}</td>
-
-                  <td>
-                    <Link
-                      to={`/admin/pages/${page.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deletePage(page.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
+          <div class="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Name</th>
+                  <th>Slug</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {pageList.map((page, index) => (
+                  <tr key={page.id}>
+                    <td>{index + 1}</td>
+                    <td>{page.name}</td>
+                    <td>{page.slug}</td>
+
+                    <td>
+                      <Link
+                        to={`/admin/pages/${page.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deletePage(page.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
