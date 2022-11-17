@@ -64,8 +64,8 @@ export default function FranchiseList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Franchise List</h4>
             </div>
@@ -76,6 +76,7 @@ export default function FranchiseList() {
             </div>
           </div>
 
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -125,6 +126,7 @@ export default function FranchiseList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}

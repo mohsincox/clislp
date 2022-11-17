@@ -64,18 +64,20 @@ export default function ClubList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Club List</h4>
             </div>
-            <div className="float-end">
+            <div className="float-end create-button">
               <Link to={`/admin/clubs/create`} className="btn btn-info">
                 + Create New
               </Link>
             </div>
           </div>
 
+
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -127,6 +129,7 @@ export default function ClubList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}
