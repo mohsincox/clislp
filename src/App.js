@@ -93,6 +93,7 @@ import CustomerDetail from "./pages/admin/user/CustomerDetail";
 
 import GamePointSettingsForm from "./pages/admin/game_settings/GamePointSettingsForm";
 import GameTeamSettingsForm from "./pages/admin/game_settings/GameTeamSettingsForm";
+import CustomerList from "./pages/admin/user/CustomerList";
 
 export const UserContext = React.createContext(null);
 
@@ -307,6 +308,11 @@ function App() {
                 path={`/admin/users`}
                 exact={true}
                 element={<UserList />}
+              />
+              <Route
+                path={`/admin/customers`}
+                exact={true}
+                element={<CustomerList />}
               />
               <Route
                 path={`/admin/users/create`}

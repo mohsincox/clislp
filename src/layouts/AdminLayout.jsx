@@ -57,6 +57,12 @@ const items = [
       "3"
     ),
     getItem(
+      <Link to={`/admin/customers`} style={{ textDecoration: "none" }}>
+        Customer List
+      </Link>,
+      "333"
+    ),
+    getItem(
       <Link to={`/admin/roles`} style={{ textDecoration: "none" }}>
         Role
       </Link>,
