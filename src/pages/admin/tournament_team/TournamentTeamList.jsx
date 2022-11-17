@@ -138,8 +138,8 @@ export default function TournamentTeamList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body  d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Tournament Team List</h4>
             </div>
@@ -153,13 +153,10 @@ export default function TournamentTeamList() {
             </div>
           </div>
 
-          <div
-            className="mt-5"
-            style={{ display: "flex", justifyContent: "space-evenly" }}
-          >
+          <div className="mt-5">
             <form onSubmit={submitSearch}>
-              <div className="mb-3 row">
-                <div className="col-sm-5">
+              <div className="mb-3 row from-action">
+                <div className="offset-sm-2 col-sm-3">
                   <input
                     className="form-control"
                     type="text"
@@ -170,7 +167,7 @@ export default function TournamentTeamList() {
                   />
                 </div>
 
-                <div className="col-sm-5">
+                <div className="col-sm-3">
                   <Select
                     onChange={(e) => setTournament_id(e.value)}
                     options={options}
@@ -178,27 +175,28 @@ export default function TournamentTeamList() {
                   />
                 </div>
 
-                <div className="col-sm-1">
+                <div className="col-sm-1 from-action-btn">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary from-action-btn-btn"
                     onClick={submitSearch}
                   >
                     Search
                   </button>
                 </div>
+                <div className="col-sm-1 from-action-btn">
+                  <button
+                    onClick={() => window.location.reload(false)}
+                    className="btn btn-success pl-3 from-action-btn-btn"
+                  >
+                    Refresh
+                  </button>
+                </div>
               </div>
             </form>
-            <div>
-              <button
-                onClick={() => window.location.reload(false)}
-                className="btn btn-success pl-3"
-              >
-                Refresh
-              </button>
-            </div>
           </div>
 
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -248,6 +246,7 @@ export default function TournamentTeamList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}

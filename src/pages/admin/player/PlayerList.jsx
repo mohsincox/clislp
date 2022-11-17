@@ -149,8 +149,8 @@ export default function PlayerList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
+        <div className="card-body d-md-flex flex-md-column">
+          <div className="mb-5 main-title">
             <div className="float-start">
               <h4 className="card-title">Players List</h4>
             </div>
@@ -161,13 +161,10 @@ export default function PlayerList() {
             </div>
           </div>
 
-          <div
-            className="mt-5"
-            style={{ display: "flex", justifyContent: "space-evenly" }}
-          >
+          <div className="mt-5">
             <form onSubmit={submitSearch}>
-              <div className="mb-3 row">
-                <div className="col-sm-5">
+              <div className="mb-3 row from-action">
+                <div className="offset-sm-2 col-sm-3">
                   <input
                     className="form-control"
                     type="text"
@@ -178,7 +175,7 @@ export default function PlayerList() {
                   />
                 </div>
 
-                <div className="col-sm-5">
+                <div className="col-sm-3">
                   {/* <input
                     className="form-control"
                     type="text"
@@ -195,161 +192,164 @@ export default function PlayerList() {
                   />
                 </div>
 
-                <div className="col-sm-1">
+                <div className="col-sm-1 from-action-btn">
                   <button
                     type="button"
-                    className="btn btn-primary"
+                    className="btn btn-primary from-action-btn-btn"
                     onClick={submitSearch}
                   >
                     Search
                   </button>
                 </div>
+                <div className="col-sm-1 from-action-btn">
+                  <button
+                    onClick={() => window.location.reload(false)}
+                    className="btn btn-success pl-3 from-action-btn-btn"
+                  >
+                    Refresh
+                  </button>
+                </div>
               </div>
             </form>
-            <div>
-              <button
-                onClick={() => window.location.reload(false)}
-                className="btn btn-success pl-3"
-              >
-                Refresh
-              </button>
-            </div>
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Player Name</th>
-                <th>Game</th>
-                <th>Specification</th>
-                <th>Country</th>
-                {/* <th>Franchise</th>
+          <div class="table-responsive">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  <th>Player Name</th>
+                  <th>Game</th>
+                  <th>Specification</th>
+                  <th>Country</th>
+                  {/* <th>Franchise</th>
                 <th>Point</th>
                 <th>Ranking</th> */}
-                <th>Status</th>
-                <th>Image</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((player, index) => (
-                // (JSON.parse(player.specification))
-                <tr key={player.id}>
-                  <td>{index + indexOfFirstItem + 1}</td>
-                  <td>{player.name}</td>
-                  <td>{player.game == null ? "" : player.game["name"]}</td>
-                  <td>
-                    {JSON.parse(player.specification)["All Rounder"] ===
-                      true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        All Rounder
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Batsman"] === true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Batsman
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Bowler"] === true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Bowler
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Keeper"] === true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Wicket Keeper
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Goalkeeper"] ===
-                      true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Goalkeeper
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Defender"] === true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Defender
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Midfielder"] ===
-                      true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Midfielder
-                      </span>
-                    )}
-                    {JSON.parse(player.specification)["Striker"] === true && (
-                      <span
-                        className="badge bg-secondary"
-                        style={{ marginRight: "3px" }}
-                      >
-                        Striker
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    {player.country == null ? "" : player.country["name"]}
-                  </td>
-                  {/* <td>
+                  <th>Status</th>
+                  <th>Image</th>
+                  <th>Edit</th>
+                  <th>Delete</th>
+                </tr>
+              </thead>
+              <tbody>
+                {currentItems.map((player, index) => (
+                  // (JSON.parse(player.specification))
+                  <tr key={player.id}>
+                    <td>{index + indexOfFirstItem + 1}</td>
+                    <td>{player.name}</td>
+                    <td>{player.game == null ? "" : player.game["name"]}</td>
+                    <td>
+                      {JSON.parse(player.specification)["All Rounder"] ===
+                        true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          All Rounder
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Batsman"] === true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Batsman
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Bowler"] === true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Bowler
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Keeper"] === true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Wicket Keeper
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Goalkeeper"] ===
+                        true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Goalkeeper
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Defender"] ===
+                        true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Defender
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Midfielder"] ===
+                        true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Midfielder
+                        </span>
+                      )}
+                      {JSON.parse(player.specification)["Striker"] === true && (
+                        <span
+                          className="badge bg-secondary"
+                          style={{ marginRight: "3px" }}
+                        >
+                          Striker
+                        </span>
+                      )}
+                    </td>
+                    <td>
+                      {player.country == null ? "" : player.country["name"]}
+                    </td>
+                    {/* <td>
                     {player.franchise == null ? "" : player.franchise["name"]}
                   </td>
                   <td>{player.point}</td>
                   <td>{player.ranking}</td> */}
-                  <td>{player.status}</td>
-                  <td>
-                    <img
-                      src={`${API_PUBLIC_URL}${player.image}`}
-                      alt=""
-                      width="80px"
-                    />
-                  </td>
-                  <td>
-                    <Link
-                      to={`/admin/players/${player.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deletePlayer(player.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                    <td>{player.status}</td>
+                    <td>
+                      <img
+                        src={`${API_PUBLIC_URL}${player.image}`}
+                        alt=""
+                        width="80px"
+                      />
+                    </td>
+                    <td>
+                      <Link
+                        to={`/admin/players/${player.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deletePlayer(player.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-          <center>
+          <center style={{display: "flex", overflow: "scroll"}}>
             <nav className="mt-3">
               <ul className="pagination">
                 {pageNumbers.map((number) => (

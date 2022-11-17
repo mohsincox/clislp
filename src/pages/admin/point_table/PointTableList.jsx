@@ -176,9 +176,9 @@ export default function PointTableList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
+        <div className="card-body d-md-flex flex-md-column">
           <div className="row">
-            <div>
+            <div className="mb-5 main-title">
               <div className="float-start">
                 <h4 className="card-title">Point Table List</h4>
               </div>
@@ -192,38 +192,38 @@ export default function PointTableList() {
               </div>
             </div>
 
-            <div
-              className=""
-              style={{ display: "flex", justifyContent: "space-evenly" }}
-            >
+            <div className="mt-5">
               <form onSubmit={submitSearch}>
-                <div className="mb-3 row">
-                  <div className="col-sm-7" style={{ width: "400px" }}>
+                <div className="mb-3 row from-action">
+                  <div
+                    className="offset-sm-2 col-sm-3"
+                    style={{ width: "400px" }}
+                  >
                     <Select
                       onChange={(e) => setMatch_id(e.value)}
                       options={options}
                       placeholder={"Select..."}
                     />
                   </div>
-                  <div className="col-sm-1">
+                  <div className="col-sm-1 from-action-btn">
                     <button
                       type="button"
-                      className="btn btn-primary"
+                      className="btn btn-primary from-action-btn-btn"
                       onClick={submitSearch}
                     >
                       Search
                     </button>
                   </div>
+                  <div className="col-sm-1 from-action-btn">
+                    <button
+                      onClick={() => window.location.reload(false)}
+                      className="btn btn-success pl-3 from-action-btn-btn"
+                    >
+                      Refresh
+                    </button>
+                  </div>
                 </div>
               </form>
-              <div>
-                <button
-                  onClick={() => window.location.reload(false)}
-                  className="btn btn-success pl-3"
-                >
-                  Refresh
-                </button>
-              </div>
             </div>
 
             <div className="table-responsive">
@@ -374,7 +374,7 @@ export default function PointTableList() {
               </table>
             </div>
 
-            <center>
+            <center  style={{display: "flex", overflow: "scroll"}}>
               <nav className="mt-3">
                 <ul className="pagination">
                   {pageNumbers.map((number) => (
