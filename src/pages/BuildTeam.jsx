@@ -21,10 +21,10 @@ import Select from "react-select";
 function BuildTeam() {
   const [teamPlayerList, setTeamPlayerList] = useState([]);
   const [tournament_team_id, setTournament_team_id] = useState("");
-  const [strikerMax, setStrikerMax] = useState(0);
-  const [midfielderMax, setMidfielderMax] = useState(0);
-  const [defenderMax, setDefenderMax] = useState(0);
-  const [goalkeeperMax, setGoalkeeperMax] = useState(0);
+  const [strikerMax, setStrikerMax] = useState(3);
+  const [midfielderMax, setMidfielderMax] = useState(4);
+  const [defenderMax, setDefenderMax] = useState(5);
+  const [goalkeeperMax, setGoalkeeperMax] = useState(1);
   const [tournamentTeamList, setTournamentTeamList] = useState([]);
 
   const [user_cricket_player, setUser_cricket_player] = useState("");
