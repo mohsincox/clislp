@@ -6,15 +6,28 @@ import {
   UserOutlined,
   SettingOutlined,
   ProfileFilled,
+  DownOutlined,
+  MenuUnfoldOutlined,
+  CloseOutlined,
 } from "@ant-design/icons";
-import { Breadcrumb, Layout, Menu } from "antd";
+import {
+  Avatar,
+  Breadcrumb,
+  Layout,
+  Menu,
+  Dropdown,
+  Space,
+  Button,
+  Drawer,
+} from "antd";
 
 import React, { useContext, useEffect, useState } from "react";
 import "./adminLayout.css";
 import { Outlet, Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { Dropdown } from "react-bootstrap";
+// import { Dropdown } from "react-bootstrap";
 import logo from "../logo.svg";
+import "../pages/admin/adminResponsive.css";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -203,23 +216,60 @@ const AdminLayout = () => {
   const navigate = useNavigate();
   const { authUser, setAuthUser } = useContext(UserContext);
   const getLoginData = localStorage.getItem("loginData");
-
-  console.log("collapsed", collapsed);
+  const [open, setOpen] = useState(false);
+  const [fixed, setFixed] = useState("");
 
   useEffect(() => {
-    if (getLoginData === null) {
-    } else {
-      const data = JSON.parse(getLoginData);
-      const token = data.accessToken;
-      const nameUser = data.name;
-      setName(nameUser);
-      const role_name = data.userrole.role.role_name;
-      console.log(role_name);
-      if (role_name === "Customer") {
-        navigate("/");
-      }
-    }
+    window.addEventListener("scroll", stickNavbar);
+
+    return () => {
+      window.removeEventListener("scroll", stickNavbar);
+    };
   }, []);
+
+  const stickNavbar = () => {
+    if (window !== undefined) {
+      let windowHeight = window.scrollY;
+      // console.log("width", windowHeight);
+      windowHeight > 200 ? setFixed("fixed-top") : setFixed("");
+    }
+  };
+
+  const showDrawer = () => {
+    setOpen(!open);
+  };
+  const onClose = () => {
+    setOpen(false);
+  };
+
+  // const [width, setWidth] = useState(window.innerWidth);
+
+  // useEffect(() => {
+  //   function handleResize() {
+  //     setWidth(window.innerWidth);
+  //   }
+  //   window.addEventListener("resize", handleResize);
+  //   return () => window.removeEventListener("resize", handleResize);
+  // }, [width]);
+
+  // useEffect(() => {
+  //   width < 480 ? setCollapsed(true) : setCollapsed(false);
+  // }, [width]);
+
+  // useEffect(() => {
+  //   if (getLoginData === null) {
+  //   } else {
+  //     const data = JSON.parse(getLoginData);
+  //     const token = data.accessToken;
+  //     const nameUser = data.name;
+  //     setName(nameUser);
+  //     const role_name = data.userrole.role.role_name;
+  //     console.log(role_name);
+  //     if (role_name === "Customer") {
+  //       navigate("/");
+  //     }
+  //   }
+  // }, []);
 
   const logout = () => {
     localStorage.removeItem("loginData");
@@ -229,16 +279,102 @@ const AdminLayout = () => {
     });
   };
 
+  const menu = (
+    <Menu
+      items={[
+        {
+          label: (
+            <Link to="#" style={{ textDecoration: "none", color: "#000" }}>
+              {name}
+            </Link>
+          ),
+          key: "1",
+        },
+        {
+          type: "divider",
+        },
+
+        {
+          label: (
+            <Link
+              to="/admin/change-password"
+              style={{ textDecoration: "none", color: "#000" }}
+            >
+              Change Password
+            </Link>
+          ),
+          key: "2",
+        },
+        {
+          type: "divider",
+        },
+        {
+          label: (
+            <button
+              className="btn btn-link p-0"
+              style={{ textDecoration: "none", color: "#000" }}
+              onClick={logout}
+            >
+              Logout
+            </button>
+          ),
+          key: "3",
+        },
+      ]}
+    />
+  );
+
   return (
     <Layout
       style={{
         minHeight: "100vh",
       }}
     >
+      {/* on mobile screen */}
+      <Drawer
+        // title="Basic Drawer"
+        width="75%"
+        placement="left"
+        onClose={onClose}
+        open={open}
+        drawerStyle={{
+          backgroundColor: "#001529",
+        }}
+        closeIcon={
+          <CloseOutlined
+            style={{
+              color: "white",
+            }}
+          />
+        }
+      >
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+          items={items}
+        />
+      </Drawer>
+
+      {/* on desktop screen */}
+
+      <style>
+        {`@media only screen and (max-width: 767px) 
+        {
+         .admin-sidebar
+         {
+           display: none
+          }
+        }`}
+      </style>
       <Sider
+        className="admin-sidebar"
         collapsible
         collapsed={collapsed}
         onCollapse={(value) => setCollapsed(value)}
+        // breakpoint={"md"}
+        // collapsedWidth={0}
+        // trigger={null}
       >
         <div>
           <a href="/admin">
@@ -262,9 +398,10 @@ const AdminLayout = () => {
           items={items}
         />
       </Sider>
+
       <Layout className="site-layout">
         <Header
-          className="site-layout-background"
+          className={`${fixed} site-layout-background`}
           style={{
             padding: 0,
           }}
@@ -275,7 +412,28 @@ const AdminLayout = () => {
               {name}
             </div> */}
 
-          <div className="float-end pe-3">
+          <div className="nav-bar">
+            <div className="small-screen-button">
+              <MenuUnfoldOutlined onClick={showDrawer} />
+            </div>
+
+            <Dropdown
+              overlay={menu}
+              trigger={["click"]}
+              placement="bottomLeft"
+              arrow
+              overlayStyle={{ minWidth: "150px" }}
+            >
+              <a onClick={(e) => e.preventDefault()}>
+                <Space>
+                  <Avatar size="large" icon={<UserOutlined />} />
+                  <DownOutlined style={{ color: "#000", fontWeight: "bold" }} />
+                </Space>
+              </a>
+            </Dropdown>
+          </div>
+
+          {/* <div className="float-end pe-3">
             <Dropdown>
               <Dropdown.Toggle variant="secondary" id="dropdown-basic">
                 {name} &nbsp;
@@ -294,7 +452,7 @@ const AdminLayout = () => {
                 <Dropdown.Item onClick={logout}>Sign out</Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-          </div>
+          </div> */}
         </Header>
         <Content
           style={{

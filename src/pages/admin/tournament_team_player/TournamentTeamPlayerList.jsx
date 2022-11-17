@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import "../adminResponsive.css";
 
 export default function TournamentTeamPlayerList() {
   const [tournamentTeamPlayerList, setTournamentTeamPlayerList] = useState([]);
@@ -64,9 +65,11 @@ export default function TournamentTeamPlayerList() {
     <>
       {/* <div className="container mt-2"> */}
       <div className="card">
-        <div className="card-body">
-          <div>
-            <div className="float-start">
+        <div className="card-body d-md-flex flex-md-column">
+
+
+          <div className="mb-5 main-title">
+            <div className="float-start" style={{textAlign: "center"}}>
               <h4 className="card-title">Tournament Team Player List</h4>
             </div>
             <div className="float-end">
@@ -79,6 +82,7 @@ export default function TournamentTeamPlayerList() {
             </div>
           </div>
 
+          <div class="table-responsive">
           <table className="table">
             <thead>
               <tr>
@@ -136,6 +140,7 @@ export default function TournamentTeamPlayerList() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
       {/* </div> */}

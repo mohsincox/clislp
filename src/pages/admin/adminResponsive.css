@@ -1,0 +1,51 @@
+.nav-bar {
+  margin-right: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.small-screen-button {
+  font-size: 35px;
+  padding-left: 10px;
+}
+
+@media (min-width: 768px) {
+  .small-screen-button {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  .nav-bar {
+    justify-content: space-between;
+  }
+
+  /* user list */
+  /* role list */
+  /* tournament list */
+  /* tournament team list */
+  /* match list */
+
+  .main-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .from-action {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .from-action-btn {
+    display: flex;
+    justify-content: center;
+  }
+  .from-action-btn-btn {
+    width: 250px;
+  }
+
+  .create-button {
+    margin-bottom: 10px;
+  }
+}
