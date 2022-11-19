@@ -262,20 +262,20 @@ const AdminLayout = () => {
   //   width < 480 ? setCollapsed(true) : setCollapsed(false);
   // }, [width]);
 
-  // useEffect(() => {
-  //   if (getLoginData === null) {
-  //   } else {
-  //     const data = JSON.parse(getLoginData);
-  //     const token = data.accessToken;
-  //     const nameUser = data.name;
-  //     setName(nameUser);
-  //     const role_name = data.userrole.role.role_name;
-  //     console.log(role_name);
-  //     if (role_name === "Customer") {
-  //       navigate("/");
-  //     }
-  //   }
-  // }, []);
+  useEffect(() => {
+    if (getLoginData === null) {
+    } else {
+      const data = JSON.parse(getLoginData);
+      const token = data.accessToken;
+      const nameUser = data.name;
+      setName(nameUser);
+      const role_name = data.userrole.role.role_name;
+      console.log(role_name);
+      if (role_name === "Customer") {
+        navigate("/");
+      }
+    }
+  }, []);
 
   const logout = () => {
     localStorage.removeItem("loginData");
