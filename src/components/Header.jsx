@@ -121,6 +121,9 @@ function Header(props) {
           <li className={currentPath == "/contact" ? "active" : null}>
             <Link to="/contact">CONTACT</Link>
           </li>
+          <li className={currentPath == "/news" ? "active" : null}>
+            <Link to="/news">NEWS</Link>
+          </li>
         </ul>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">

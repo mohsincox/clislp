@@ -94,6 +94,8 @@ import CustomerDetail from "./pages/admin/user/CustomerDetail";
 import GamePointSettingsForm from "./pages/admin/game_settings/GamePointSettingsForm";
 import GameTeamSettingsForm from "./pages/admin/game_settings/GameTeamSettingsForm";
 import CustomerList from "./pages/admin/user/CustomerList";
+import LatestNewsDetails from "./pages/LatestNewsDetails";
+import GetAllLatestNews from "./components/GetAllLatestNews";
 
 export const UserContext = React.createContext(null);
 
@@ -108,6 +110,8 @@ function App() {
           <ToastContainer />
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/news" element={<GetAllLatestNews />} />
+            <Route path="/latest_news/:id" element={<LatestNewsDetails />} />
             <Route path="/pages/:id" element={<Page />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/test" element={<Test />} />

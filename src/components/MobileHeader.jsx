@@ -122,6 +122,9 @@ function MobileHeader() {
                     <li>
                       <Link to="/contact">CONTACT</Link>
                     </li>
+                    <li>
+                      <Link to="/news">NEWS</Link>
+                    </li>
                   </ul>
                 </div>
               ) : null}
