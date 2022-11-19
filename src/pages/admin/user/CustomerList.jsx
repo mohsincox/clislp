@@ -1,14 +1,18 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import "../style.css";
 
 export default function CustomerList() {
   const [userList, setUserList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(30);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -63,14 +67,16 @@ export default function CustomerList() {
       });
   }
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = userList.slice(indexOfFirstItem, indexOfLastItem);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(userList.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(userList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(userList.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, userList]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % userList.length;
+    setItemOffset(newOffset);
+  };
 
   const submitSearch = async (e) => {
     e.preventDefault();
@@ -202,7 +208,7 @@ export default function CustomerList() {
             <tbody>
               {currentItems.map((user, index) => (
                 <tr key={user.id}>
-                  <td>{index + indexOfFirstItem + 1}</td>
+                  <td>{itemOffset + index + 1}</td>
                   <td>{user.name}</td>
                   <td>{user.email}</td>
                   <td>{user.phone_number}</td>
@@ -240,23 +246,21 @@ export default function CustomerList() {
             </tbody>
           </table>
 
-          <center>
-            <nav className="mt-3">
-              <ul className="pagination">
-                {pageNumbers.map((number) => (
-                  <li key={number} className="page-item">
-                    <Link
-                      to={"/admin/customers"}
-                      onClick={() => paginate(number)}
-                      className="page-link"
-                    >
-                      {number}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </center>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel=">"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="<"
+            renderOnZeroPageCount={null}
+            containerClassName="pagination"
+            pageLinkClassName="page-num"
+            previousLinkClassName="page-num"
+            nextLinkClassName="page-num"
+            activeLinkClassName="active"
+            disabledLinkClassName="disabled"
+          />
         </div>
       </div>
       {/* </div> */}

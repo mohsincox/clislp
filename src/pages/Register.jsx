@@ -172,8 +172,7 @@ function Register() {
       .then((response) => {
         console.log(response.data);
         localStorage.setItem("loginData", JSON.stringify(response.data));
-        console.log("user is successfully login");
-        navigate("/tournament");
+        window.location.href = "/tournament";
       })
       .catch((error) => {
         console.log(error);

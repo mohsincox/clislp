@@ -4,13 +4,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import Select from "react-select";
+import ReactPaginate from "react-paginate";
+import "../style.css";
 
 export default function PointTableList() {
   const [pointTableList, setPointTableList] = useState([]);
   const [match_id, setMatch_id] = useState("");
   const [matchList, setMatchList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(30);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -65,14 +69,16 @@ export default function PointTableList() {
       });
   }
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = pointTableList.slice(indexOfFirstItem, indexOfLastItem);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(pointTableList.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(pointTableList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(pointTableList.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, pointTableList]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % pointTableList.length;
+    setItemOffset(newOffset);
+  };
 
   useEffect(() => {
     getMatchDetails();
@@ -226,7 +232,7 @@ export default function PointTableList() {
               </form>
             </div>
 
-            <div className="table-responsive">
+            <div className="table-responsive" style={{ marginBottom: "20px" }}>
               <table className="table">
                 <thead>
                   <tr>
@@ -254,8 +260,7 @@ export default function PointTableList() {
                 <tbody>
                   {currentItems.map((pointTable, index) => (
                     <tr key={pointTable.id}>
-                      <td>{index + indexOfFirstItem + 1}</td>
-                      {/* <td>{pointTable.id}</td> */}
+                      <td>{itemOffset + index + 1}</td>
                       <td>
                         {pointTable.match.tournament == null
                           ? ""
@@ -264,30 +269,49 @@ export default function PointTableList() {
                       <td>
                         {pointTable.match.tournament_team_one != null && (
                           <span>
-                            {pointTable.match.tournament_team_one.country !=
+                            {/* {pointTable.match.tournament_team_one.country !=
                               null && (
                               <img
                                 src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.country.flag}`}
                                 alt=""
                                 width="80px"
                               />
+                            )} */}
+                            {pointTable.match.tournament_team_one.country !=
+                              null && (
+                              <span>
+                                {
+                                  pointTable?.match?.tournament_team_one
+                                    ?.country?.name
+                                }
+                              </span>
                             )}
 
                             {pointTable.match.tournament_team_one.franchise !=
+                              null && (
+                              <span>
+                                {
+                                  pointTable?.match?.tournament_team_one
+                                    ?.franchise?.name
+                                }
+                              </span>
+                            )}
+
+                            {/* {pointTable.match.tournament_team_one.franchise !=
                               null && (
                               <img
                                 src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.franchise.logo}`}
                                 alt=""
                                 width="80px"
                               />
-                            )}
+                            )} */}
                           </span>
                         )}
                       </td>
                       <td>
                         {pointTable.match.tournament_team_two != null && (
                           <span>
-                            {pointTable.match.tournament_team_two.country !=
+                            {/* {pointTable.match.tournament_team_two.country !=
                               null && (
                               <img
                                 src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.country.flag}`}
@@ -303,6 +327,26 @@ export default function PointTableList() {
                                 alt=""
                                 width="80px"
                               />
+                            )} */}
+
+                            {pointTable.match.tournament_team_two.country !=
+                              null && (
+                              <span>
+                                {
+                                  pointTable?.match?.tournament_team_two
+                                    ?.country?.name
+                                }
+                              </span>
+                            )}
+
+                            {pointTable.match.tournament_team_two.franchise !=
+                              null && (
+                              <span>
+                                {
+                                  pointTable?.match?.tournament_team_two
+                                    ?.franchise?.name
+                                }
+                              </span>
                             )}
                           </span>
                         )}
@@ -374,23 +418,21 @@ export default function PointTableList() {
               </table>
             </div>
 
-            <center  style={{display: "flex", overflow: "scroll"}}>
-              <nav className="mt-3">
-                <ul className="pagination">
-                  {pageNumbers.map((number) => (
-                    <li key={number} className="page-item">
-                      <Link
-                        to={"/admin/point-tables"}
-                        onClick={() => paginate(number)}
-                        className="page-link"
-                      >
-                        {number}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            </center>
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={2}
+              pageCount={pageCount}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageLinkClassName="page-num"
+              previousLinkClassName="page-num"
+              nextLinkClassName="page-num"
+              activeLinkClassName="active"
+              disabledLinkClassName="disabled"
+            />
           </div>
         </div>
       </div>
