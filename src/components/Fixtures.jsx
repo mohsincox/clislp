@@ -97,7 +97,14 @@ export default function Fixtures() {
 
   return (
     <div className="container mt-3 ">
-      <div className="fixture-full-container">
+      <div className="fixture-full-container" 
+      // style={{
+      //   display: "flex"
+      // }}
+      >
+
+        <div>
+
         {/* <h4
           className="fw-bold fx-title"
           style={{
@@ -110,14 +117,17 @@ export default function Fixtures() {
         >
           FIXTURES
         </h4> */}
-        <div>
+        </div>
+       
+       <div>
+
         <Tabs variant="pills">
           <Tab
           disabled
             title="FIXTURES"
             className="title-main"
             id="main-title"
-
+         
  
           />
           {fixtureList.map((fixture, index) => (
@@ -293,9 +303,10 @@ export default function Fixtures() {
             </Tab>
           ))}
         </Tabs>
+       </div>
         </div>
    
-      </div>
+     
     </div>
   );
 }
