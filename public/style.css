@@ -480,6 +480,7 @@ li.rank-content .rank-c {
 }
 .upcoming-tournaments {
     position: relative;
+    min-height: calc(100% + 20px);
 }
 .upcoming-tournaments:before {
     position: absolute;
