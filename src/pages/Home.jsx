@@ -16,11 +16,13 @@ export default function Home() {
             <div className="slider-section ku-section">
                 <SlideShow/>
             </div>
-            <hr className="mt-3"/>
+            {/* <hr className="mt-3"/> */}
             <div className="fixtures-section ku-section">
                 <Fixtures/>
             </div>
-            <hr/>
+            <hr style={{
+                marginBottom: "3%"
+            }} />
             <div className="add-sponsor-section ku-section">
                 <AddSponsor/>
             </div>

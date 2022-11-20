@@ -26,7 +26,7 @@ export const AdsViewer = (props) => {
                             className={`addViwer ${
                                 ads.length > 1 ? "mb-3" : ""
                             } overflow-hidden`}
-                            style={{...style, height: height}}
+                            style={{...style}}
                         >
                             <img
                                 src={`${API_PUBLIC_URL}${ad["img_src"]}`}

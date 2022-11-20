@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Tab, Tabs } from "react-bootstrap";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { API_PUBLIC_URL } from "../constants";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -35,6 +35,7 @@ import "swiper/css/scrollbar";
 
 export default function Fixtures() {
   const [fixtureList, setFixtureList] = useState([]);
+
   useEffect(() => {
     (async () => {
       await axios
@@ -97,7 +98,7 @@ export default function Fixtures() {
   return (
     <div className="container mt-3 ">
       <div className="fixture-full-container">
-        <h4
+        {/* <h4
           className="fw-bold fx-title"
           style={{
             margin: "0px 0px 20px 0px",
@@ -108,10 +109,22 @@ export default function Fixtures() {
           }}
         >
           FIXTURES
-        </h4>
+        </h4> */}
+        <div>
         <Tabs variant="pills">
+          <Tab
+          disabled
+            title="FIXTURES"
+            className="title-main"
+            id="main-title"
+
+ 
+          />
           {fixtureList.map((fixture, index) => (
             <Tab key={fixture.id} eventKey={fixture.id} title={fixture.name}>
+
+
+              
               {/* <div style={{ display: "flex" }}>
                 <div
                   className="image-swiper-button-prev"
@@ -144,6 +157,7 @@ export default function Fixtures() {
                   />
                 </div>
               )}
+              
 
               {fixture.matches.length == 0 ? (
                 <div
@@ -279,6 +293,8 @@ export default function Fixtures() {
             </Tab>
           ))}
         </Tabs>
+        </div>
+   
       </div>
     </div>
   );
