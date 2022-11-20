@@ -134,7 +134,7 @@
 
 .fixture-full-container::before {
   position: absolute;
-  top: 25%;
+  top: 18%;
   left: -100%;
   content: "";
   height: 1px;
