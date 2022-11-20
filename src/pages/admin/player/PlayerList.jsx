@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
@@ -10,8 +11,12 @@ export default function PlayerList() {
   const [searchQuery, setSearchQuery] = useState("");
   const [country_id, setCountry_id] = useState("");
   const [countryList, setCountryList] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(30);
+  // const [currentPage, setCurrentPage] = useState(1);
+  // const [itemsPerPage] = useState(30);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
@@ -92,14 +97,16 @@ export default function PlayerList() {
       });
   }
 
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = playerList.slice(indexOfFirstItem, indexOfLastItem);
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
-  const pageNumbers = [];
-  for (let i = 1; i <= Math.ceil(playerList.length / itemsPerPage); i++) {
-    pageNumbers.push(i);
-  }
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(playerList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(playerList.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, playerList]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % playerList.length;
+    setItemOffset(newOffset);
+  };
 
   const submitSearch = async (e) => {
     e.preventDefault();
@@ -213,7 +220,7 @@ export default function PlayerList() {
             </form>
           </div>
 
-          <div class="table-responsive">
+          <div class="table-responsive" style={{ marginBottom: "10px" }}>
             <table className="table">
               <thead>
                 <tr>
@@ -235,7 +242,7 @@ export default function PlayerList() {
                 {currentItems.map((player, index) => (
                   // (JSON.parse(player.specification))
                   <tr key={player.id}>
-                    <td>{index + indexOfFirstItem + 1}</td>
+                    <td>{itemOffset + index + 1}</td>
                     <td>{player.name}</td>
                     <td>{player.game == null ? "" : player.game["name"]}</td>
                     <td>
@@ -349,23 +356,21 @@ export default function PlayerList() {
             </table>
           </div>
 
-          <center style={{display: "flex", overflow: "scroll"}}>
-            <nav className="mt-3">
-              <ul className="pagination">
-                {pageNumbers.map((number) => (
-                  <li key={number} className="page-item">
-                    <Link
-                      to={"/admin/players"}
-                      onClick={() => paginate(number)}
-                      className="page-link"
-                    >
-                      {number}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </center>
+          <ReactPaginate
+            breakLabel="..."
+            nextLabel=">"
+            onPageChange={handlePageClick}
+            pageRangeDisplayed={2}
+            pageCount={pageCount}
+            previousLabel="<"
+            renderOnZeroPageCount={null}
+            containerClassName="pagination"
+            pageLinkClassName="page-num"
+            previousLinkClassName="page-num"
+            nextLinkClassName="page-num"
+            activeLinkClassName="active"
+            disabledLinkClassName="disabled"
+          />
         </div>
       </div>
       {/* </div> */}
