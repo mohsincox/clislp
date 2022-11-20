@@ -63,7 +63,6 @@ export default function Ranking() {
 
   useEffect(() => {
     const endOffset = itemOffset + itemsPerPage;
-    console.log(`Loading items from ${itemOffset} to ${endOffset}`);
     setCurrentItems(
       playerRankForCurrentTournament.slice(itemOffset, endOffset)
     );
@@ -75,9 +74,6 @@ export default function Ranking() {
   const handlePageClick = (event) => {
     const newOffset =
       (event.selected * itemsPerPage) % playerRankForCurrentTournament.length;
-    console.log(
-      `User requested page number ${event.selected}, which is offset ${newOffset}`
-    );
     setItemOffset(newOffset);
   };
 
@@ -107,7 +103,7 @@ export default function Ranking() {
                       </li>
                       {playerRankForCurrentTournament.length ? (
                         currentItems.map((player, index) => (
-                          <li className="rank-heading rank-content">
+                          <li className="rank-heading rank-content" key={index}>
                             <div className="player-rank-position-content rank-content rank-c">
                               {/* {index + 1} */}
                               {itemOffset + index + 1}
