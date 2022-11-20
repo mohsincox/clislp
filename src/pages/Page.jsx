@@ -1,11 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Header from "./../components/Header";
-import SlideShow from "./../components/SlideShow";
-import Fixtures from "./../components/Fixtures";
-import Matches from "../components/Matches";
-import AddSponsor from "./../components/AddSponsor";
-import Dream from "./../components/Dream";
-import LatestNews from "../components/LatestNews";
 import Footer from "../components/Footer";
 import axios from "axios";
 import { API_PUBLIC_URL } from "../constants";
@@ -68,12 +62,12 @@ export default function Page() {
             padding: "20px",
           }}
         >
-          <h1
-            className="text-center mb-2 text-uppercase"
+          <h4
+            className="text-center mb-2 pb-3 text-uppercase m-0"
             style={{ borderBottom: "2px solid #ddd" }}
           >
             {pageData.name}
-          </h1>
+          </h4>
           <div
             className="post__content"
             dangerouslySetInnerHTML={{ __html: pageData.content }}
