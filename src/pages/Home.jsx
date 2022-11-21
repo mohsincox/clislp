@@ -20,9 +20,7 @@ export default function Home() {
             <div className="fixtures-section ku-section">
                 <Fixtures/>
             </div>
-            <hr style={{
-                marginBottom: "3%"
-            }} />
+            {/* <hr  /> */}
             <div className="add-sponsor-section ku-section">
                 <AddSponsor/>
             </div>
