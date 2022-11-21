@@ -96,6 +96,7 @@ import GameTeamSettingsForm from "./pages/admin/game_settings/GameTeamSettingsFo
 import CustomerList from "./pages/admin/user/CustomerList";
 import LatestNewsDetails from "./pages/LatestNewsDetails";
 import GetAllLatestNews from "./components/GetAllLatestNews";
+import Hello from "./pages/admin/hello/Hello";
 
 export const UserContext = React.createContext(null);
 
@@ -433,6 +434,8 @@ function App() {
                 exact={true}
                 element={<TournamentWiseRanking />}
               />
+
+              <Route path={`/admin/hello`} exact={true} element={<Hello />} />
 
               <Route
                 path={`/admin/no-permission`}
