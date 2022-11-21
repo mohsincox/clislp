@@ -407,7 +407,7 @@ const AdminLayout = () => {
 
       <Layout className="site-layout">
         <Header
-          className={`${fixed} site-layout-background`}
+          className={` site-layout-background`}
           style={{
             padding: 0,
           }}

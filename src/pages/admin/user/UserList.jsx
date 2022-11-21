@@ -5,9 +5,17 @@ import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import ReactPaginate from "react-paginate";
 import "../style.css";
-import { Card, Button, Space, Checkbox, Form, Input } from "antd";
-import { Typography } from "antd";
-import { Table, Tag } from "antd";
+import { Card, Button, Table, Form, Input } from "antd";
+import {
+  EditOutlined,
+  FormOutlined,
+  DeleteOutlined,
+  ContainerOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import moment from "moment";
+import { Typography } from 'antd';
+const { Title } = Typography;
 
 export default function UserList() {
   const [userList, setUserList] = useState([]);
@@ -19,7 +27,7 @@ export default function UserList() {
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
-  console.log("user", currentItems);
+  // console.log("user", currentItems);
 
   const getData = async () => {
     if (getLoginData === null) {
@@ -87,7 +95,7 @@ export default function UserList() {
     // e.preventDefault();
 
     if (searchQuery.trim() === "") {
-      toast.error("Search field is required!");
+      // toast.error("Search field is required!");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -121,6 +129,10 @@ export default function UserList() {
     }
   };
 
+  useEffect(() => {
+    submitSearch();
+  }, [searchQuery]);
+
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };
@@ -130,6 +142,7 @@ export default function UserList() {
       title: "SL",
       dataIndex: "id",
       key: "id",
+      render: (_, record) => currentItems.indexOf(record) + 1,
     },
     {
       title: "Name",
@@ -142,55 +155,45 @@ export default function UserList() {
       dataIndex: "email",
       key: "email",
     },
-    {
-      title: "Phone No.",
-      dataIndex: "phone_number",
-      key: "phone_number",
-    },
+    // {
+    //   title: "Phone Number",
+    //   dataIndex: "phone_number",
+    //   key: "phone_number",
+    // },
     {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      render: (item) => Object.values(item) === null? " " : Object.values(item)[1],
+      render: (item) =>
+        Object.values(item) === null ? " " : Object.values(item)[1],
     },
     {
-      title: "Created At",
+      title: "Register",
       dataIndex: "createdAt",
       key: "date",
+      render: (_, record) => moment(record.createdAt).calendar(),
     },
-    // {
-    //   title: 'Tags',
-    //   key: 'tags',
-    //   dataIndex: 'tags',
-    //   render: (_, { tags }) => (
-    //     <>
-    //       {tags.map((tag) => {
-    //         let color = tag.length > 5 ? 'geekblue' : 'green';
-    //         if (tag === 'loser') {
-    //           color = 'volcano';
-    //         }
-    //         return (
-    //           <Tag color={color} key={tag}>
-    //             {tag.toUpperCase()}
-    //           </Tag>
-    //         );
-    //       })}
-    //     </>
-    //   ),
-    // },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Button style={{
-          backgroundColor: "green",
-          color: "white"
-        }}
-          href={`/admin/users/${record.id}/detail`}
-       
+        <Link
+          to={`/admin/users/${record.id}/detail`}
+          style={{ textDecoration: " none" }}
         >
-          Detail
-        </Button>
+          <Button
+            style={{
+              backgroundColor: "#5cb85c",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "5px",
+              textDecoration: " none",
+            }}
+          >
+            <ContainerOutlined /> Detail
+          </Button>
+        </Link>
       ),
     },
 
@@ -198,9 +201,21 @@ export default function UserList() {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Link to={`/admin/users/${record.id}`}>
-          <Button type="primary" htmlType="submit">
-            Edit
+        <Link
+          to={`/admin/users/${record.id}`}
+          style={{ textDecoration: " none" }}
+        >
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "5px",
+              textDecoration: " none",
+            }}
+          >
+            <EditOutlined /> Edit
           </Button>
         </Link>
       ),
@@ -210,13 +225,19 @@ export default function UserList() {
       key: "action",
       render: (_, record) => (
         <Button
-        type="danger" htmlType="submit"
+          type="danger"
+          htmlType="submit"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            borderRadius: "5px",
+          }}
           onClick={() => {
             window.confirm("Are You Delete This Item?") &&
               deleteUser(record.id);
           }}
         >
-          Delete
+          <DeleteOutlined /> Delete
         </Button>
       ),
     },
@@ -225,30 +246,62 @@ export default function UserList() {
 
   return (
     <>
-      <Card>
-        <Card
-        // type="inner"
-        // title="Inner Card title"
-        // extra={<a href="#">More</a>}
-        >
-          <div className="float-start">
-            <h4 className="card-title">User List</h4>
-          </div>
+      <Card
+      // type="inner"
+      // title="Inner Card title"
+      // extra={<a href="#">More</a>}
+      >
+        <div className="float-start">
+        <Title level={3}>User List</Title>
+        </div>
 
-          <div className="float-end">
-            <Link to={`/admin/users/create`}>
+        <div className="float-end d-flex">
+          <Form
+            name="basic"
+            layout="inline"
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              // label="Username"
+              name="username"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please enter your search!",
+              //   },
+              // ]}
+            >
+              <Input
+                prefix={<SearchOutlined style={{ fontSize: "15px" }} />}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </Form.Item>
+          </Form>
+
+          <div>
+            <Link
+              to={`/admin/users/create`}
+              style={{ textDecoration: " none" }}
+            >
               <Button
                 type="primary"
                 htmlType="submit"
                 onClick={() => submitSearch()}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
               >
-                + Create New
+                <FormOutlined /> Create New
               </Button>
             </Link>
           </div>
-        </Card>
+        </div>
+      </Card>
 
-        <Card
+      {/* <Card
           style={{
             marginTop: 16,
           }}
@@ -277,6 +330,7 @@ export default function UserList() {
             <Form.Item>
               <Button
                 type="primary"
+                // shape="round"
                 htmlType="submit"
                 onClick={() => submitSearch()}
               >
@@ -293,17 +347,16 @@ export default function UserList() {
               </Button>
             </Form.Item>
           </Form>
-        </Card>
-        <Card
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-          // title="Inner Card title"
-          // extra={<a href="#">More</a>}
-        >
-          <Table scroll={{ x: "600px" }} columns={columns} dataSource={data} />
-        </Card>
+        </Card> */}
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+        // title="Inner Card title"
+        // extra={<a href="#">More</a>}
+      >
+        <Table scroll={{ x: "600px" }} columns={columns} dataSource={data} />
       </Card>
 
       {/* <div className="container mt-2"> */}
