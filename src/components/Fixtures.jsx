@@ -97,15 +97,14 @@ export default function Fixtures() {
 
   return (
     <div className="container mt-3 ">
-      <div className="fixture-full-container" 
-      // style={{
-      //   display: "flex"
-      // }}
+      <div
+        className="fixture-full-container"
+        // style={{
+        //   display: "flex"
+        // }}
       >
-
         <div>
-
-        {/* <h4
+          {/* <h4
           className="fw-bold fx-title"
           style={{
             margin: "0px 0px 20px 0px",
@@ -118,24 +117,18 @@ export default function Fixtures() {
           FIXTURES
         </h4> */}
         </div>
-       
-       <div>
 
-        <Tabs variant="pills">
-          <Tab
-          disabled
-            title="FIXTURES"
-            className="title-main"
-            id="main-title"
-         
- 
-          />
-          {fixtureList.map((fixture, index) => (
-            <Tab key={fixture.id} eventKey={fixture.id} title={fixture.name}>
-
-
-              
-              {/* <div style={{ display: "flex" }}>
+        <div>
+          <Tabs variant="pills">
+            <Tab
+              disabled
+              title="FIXTURES"
+              className="title-main"
+              id="main-title"
+            />
+            {fixtureList.map((fixture, index) => (
+              <Tab key={fixture.id} eventKey={fixture.id} title={fixture.name}>
+                {/* <div style={{ display: "flex" }}>
                 <div
                   className="image-swiper-button-prev"
                   style={{
@@ -148,80 +141,68 @@ export default function Fixtures() {
                   <LeftOutlined style={{ fontSize: "35px", color: "#9C9C9C" }} />
                 </div> */}
 
-              {console.log("fixture", fixture.matches)}
+                {console.log("fixture", fixture.matches)}
 
-              {fixture.matches.length == 0 ? (
-                ""
-              ) : (
-                <div
-                  className="image-swiper-button-prev"
-                  style={{
-                    position: "relative",
-                    top: "105px",
-                    zIndex: " 999",
-                    marginLeft: "-35px",
-                  }}
-                >
-                  <LeftOutlined
-                    style={{ fontSize: "35px", color: "#9C9C9C" }}
-                  />
-                </div>
-              )}
-              
+                {fixture.matches.length == 0 ? (
+                  ""
+                ) : (
+                  <div
+                    className="image-swiper-button-prev"
+                    style={{
+                      position: "relative",
+                      top: "105px",
+                      zIndex: " 999",
+                      marginLeft: "-35px",
+                    }}
+                  >
+                    <LeftOutlined
+                      style={{ fontSize: "35px", color: "#9C9C9C" }}
+                    />
+                  </div>
+                )}
 
-              {fixture.matches.length == 0 ? (
-                <div
-                  style={{
-                    textAlign: "center",
-                    padding: "50px",
-                    fontSize: "35px",
-                    float: " none",
-                    textAlign: "center",
-                    color: " #eee",
-                  }}
-                >
-                  No Match Found
-                </div>
-              ) : (
-                <Swiper
-                  id="swiper-color"
-                  spaceBetween={10}
-                  slidesPerView={1}
-                  // navigation
-                  navigation={{
-                    nextEl: ".image-swiper-button-next",
-                    prevEl: ".image-swiper-button-prev",
-                    disabledClass: "swiper-button-disabled",
-                  }}
-                  modules={[Navigation]} //you can add any other module here such as navigation and whatever else
-                  // nagination={{ clickable: true }}
-                  breakpoints={{
-                    640: {
-                      slidesPerView: 1,
-                      showSwitchArrows: false,
-                    },
-                    768: {
-                      slidesPerView: 2,
-                    },
+                {fixture.matches.length == 0 ? (
+                  <div className="not-found">No Match Found</div>
+                ) : (
+                  <Swiper
+                    id="swiper-color"
+                    spaceBetween={10}
+                    slidesPerView={1}
+                    // navigation
+                    navigation={{
+                      nextEl: ".image-swiper-button-next",
+                      prevEl: ".image-swiper-button-prev",
+                      disabledClass: "swiper-button-disabled",
+                    }}
+                    modules={[Navigation]} //you can add any other module here such as navigation and whatever else
+                    // nagination={{ clickable: true }}
+                    breakpoints={{
+                      640: {
+                        slidesPerView: 1,
+                        showSwitchArrows: false,
+                      },
+                      768: {
+                        slidesPerView: 2,
+                      },
 
-                    1024: {
-                      slidesPerView: 4,
-                    },
-                  }}
-                >
-                  {fixture.matches.map((match, index) => (
-                    <div key={index}>
-                      {match.tournament_team_one != null &&
-                        match.tournament_team_two != null && (
-                          <SwiperSlide>
-                            <FixtureCard match={match} />
-                          </SwiperSlide>
-                        )}
-                    </div>
-                  ))}
-                </Swiper>
-              )}
-              {/* 
+                      1024: {
+                        slidesPerView: 4,
+                      },
+                    }}
+                  >
+                    {fixture.matches.map((match, index) => (
+                      <div key={index}>
+                        {match.tournament_team_one != null &&
+                          match.tournament_team_two != null && (
+                            <SwiperSlide>
+                              <FixtureCard match={match} />
+                            </SwiperSlide>
+                          )}
+                      </div>
+                    ))}
+                  </Swiper>
+                )}
+                {/* 
               <Swiper
                 id="swiper-color"
                 spaceBetween={10}
@@ -260,24 +241,24 @@ export default function Fixtures() {
                 ))}
               </Swiper> */}
 
-              {fixture.matches.length == 0 ? (
-                ""
-              ) : (
-                <div className="image-swiper-button-next">
-                  <RightOutlined
-                    style={{
-                      fontSize: "35px",
-                      color: "#9C9C9C",
-                      position: "relative",
-                      top: "-7rem",
-                      zIndex: "999",
-                      marginLeft: "81rem",
-                    }}
-                  />
-                </div>
-              )}
+                {fixture.matches.length == 0 ? (
+                  ""
+                ) : (
+                  <div className="image-swiper-button-next">
+                    <RightOutlined
+                      style={{
+                        fontSize: "35px",
+                        color: "#9C9C9C",
+                        position: "relative",
+                        top: "-7rem",
+                        zIndex: "999",
+                        marginLeft: "81rem",
+                      }}
+                    />
+                  </div>
+                )}
 
-              {/* <div
+                {/* <div
                   className=" image-swiper-button-next"
                   style={{
                     display: "flex",
@@ -290,7 +271,7 @@ export default function Fixtures() {
                 </div>
               </div> */}
 
-              {/* <Slider {...settings}>
+                {/* <Slider {...settings}>
                 {fixture.matches.map((match, index) => (
                   <div key={index} className="w-100">
                     {match.tournament_team_one != null &&
@@ -300,13 +281,11 @@ export default function Fixtures() {
                   </div>
                 ))}
               </Slider> */}
-            </Tab>
-          ))}
-        </Tabs>
-       </div>
+              </Tab>
+            ))}
+          </Tabs>
         </div>
-   
-     
+      </div>
     </div>
   );
 }
