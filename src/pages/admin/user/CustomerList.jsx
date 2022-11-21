@@ -89,7 +89,7 @@ export default function CustomerList() {
 
       await axios
         .get(
-          `${API_PUBLIC_URL}api/search/user-search?searchQuery=${searchQuery}`,
+          `${API_PUBLIC_URL}api/search/customer-search?searchQuery=${searchQuery}`,
           {
             headers: {
               Authorization: token,

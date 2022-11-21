@@ -5,6 +5,17 @@ import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import ReactPaginate from "react-paginate";
 import "../style.css";
+import { Card, Button, Table, Form, Input } from "antd";
+import {
+  EditOutlined,
+  FormOutlined,
+  DeleteOutlined,
+  ContainerOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import moment from "moment";
+import { Typography } from 'antd';
+const { Title } = Typography;
 
 export default function UserList() {
   const [userList, setUserList] = useState([]);
@@ -15,6 +26,8 @@ export default function UserList() {
   const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
+
+  // console.log("user", currentItems);
 
   const getData = async () => {
     if (getLoginData === null) {
@@ -79,10 +92,10 @@ export default function UserList() {
   };
 
   const submitSearch = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (searchQuery.trim() === "") {
-      toast.error("Search field is required!");
+      // toast.error("Search field is required!");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -116,10 +129,238 @@ export default function UserList() {
     }
   };
 
+  useEffect(() => {
+    submitSearch();
+  }, [searchQuery]);
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => currentItems.indexOf(record) + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      // render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    // {
+    //   title: "Phone Number",
+    //   dataIndex: "phone_number",
+    //   key: "phone_number",
+    // },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (item) =>
+        Object.values(item) === null ? " " : Object.values(item)[1],
+    },
+    {
+      title: "Register",
+      dataIndex: "createdAt",
+      key: "date",
+      render: (_, record) => moment(record.createdAt).calendar(),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Link
+          to={`/admin/users/${record.id}/detail`}
+          style={{ textDecoration: " none" }}
+        >
+          <Button
+            style={{
+              backgroundColor: "#5cb85c",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "5px",
+              textDecoration: " none",
+            }}
+          >
+            <ContainerOutlined /> Detail
+          </Button>
+        </Link>
+      ),
+    },
+
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Link
+          to={`/admin/users/${record.id}`}
+          style={{ textDecoration: " none" }}
+        >
+          <Button
+            type="primary"
+            htmlType="submit"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "5px",
+              textDecoration: " none",
+            }}
+          >
+            <EditOutlined /> Edit
+          </Button>
+        </Link>
+      ),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Button
+          type="danger"
+          htmlType="submit"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            borderRadius: "5px",
+          }}
+          onClick={() => {
+            window.confirm("Are You Delete This Item?") &&
+              deleteUser(record.id);
+          }}
+        >
+          <DeleteOutlined /> Delete
+        </Button>
+      ),
+    },
+  ];
+  const data = currentItems;
+
   return (
     <>
+      <Card
+      // type="inner"
+      // title="Inner Card title"
+      // extra={<a href="#">More</a>}
+      >
+        <div className="float-start">
+        <Title level={3}>User List</Title>
+        </div>
+
+        <div className="float-end d-flex">
+          <Form
+            name="basic"
+            layout="inline"
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              // label="Username"
+              name="username"
+              // rules={[
+              //   {
+              //     required: true,
+              //     message: "Please enter your search!",
+              //   },
+              // ]}
+            >
+              <Input
+                prefix={<SearchOutlined style={{ fontSize: "15px" }} />}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </Form.Item>
+          </Form>
+
+          <div>
+            <Link
+              to={`/admin/users/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => submitSearch()}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+      {/* <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+          // title="Inner Card title"
+          // extra={<a href="#">More</a>}
+        >
+          <Form
+            name="basic"
+            layout="inline"
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              // label="Username"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: "Please enter your search!",
+                },
+              ]}
+            >
+              <Input onChange={(e) => setSearchQuery(e.target.value)} />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                // shape="round"
+                htmlType="submit"
+                onClick={() => submitSearch()}
+              >
+                Search
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="danger"
+                htmlType="submit"
+                onClick={() => window.location.reload(false)}
+              >
+                Refresh
+              </Button>
+            </Form.Item>
+          </Form>
+        </Card> */}
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+        // title="Inner Card title"
+        // extra={<a href="#">More</a>}
+      >
+        <Table scroll={{ x: "600px" }} columns={columns} dataSource={data} />
+      </Card>
+
       {/* <div className="container mt-2"> */}
-      <div className="card">
+      {/* <div className="card">
         <div className="card-body d-md-flex flex-md-column">
           <div className="mb-5 main-title">
             <div className="float-start">
@@ -146,7 +387,7 @@ export default function UserList() {
             <button>Search</button>
           </div> */}
 
-          <div className="mt-5">
+      {/*   <div className="mt-5">
             <form onSubmit={submitSearch}>
               <div className="mb-3 row from-action">
                 <div className="offset-md-3 col-md-6">
@@ -185,68 +426,70 @@ export default function UserList() {
                     Refresh
                   </button>
                 </div> */}
-              </div>
+      {/*    </div>
             </form>
           </div>
 
-          <div className="table-responsive" style={{ marginBottom: "10px" }}>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Name</th>
-                  <th>Email</th>
-                  <th>Phone Number</th>
-                  <th>Role</th>
-                  <th>Created At</th>
-                  <th>Detail</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((user, index) => (
-                  <tr key={user.id}>
-                    <td>{itemOffset + index + 1}</td>
-                    <td>{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.phone_number}</td>
-                    <td>{user.role == null ? "" : user.role.role_name}</td>
-                    <td>{user.createdAt}</td>
-                    <td>
-                      <Link
-                        to={`/admin/users/${user.id}/detail`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Detail
-                      </Link>
-                    </td>
-                    <td>
-                      <Link
-                        to={`/admin/users/${user.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deleteUser(user.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+       
 
-          {/* <center  style={{display: "flex", overflow: "scroll"}}>
+      <div className="table-responsive" style={{ marginBottom: "10px" }}>
+        <table className="table">
+          <thead>
+            <tr>
+              <th>SL</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Role</th>
+              <th>Created At</th>
+              <th>Detail</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            {currentItems.map((user, index) => (
+              <tr key={user.id}>
+                <td>{itemOffset + index + 1}</td>
+                <td>{user.name}</td>
+                <td>{user.email}</td>
+                <td>{user.phone_number}</td>
+                <td>{user.role == null ? "" : user.role.role_name}</td>
+                <td>{user.createdAt}</td>
+                <td>
+                  <Link
+                    to={`/admin/users/${user.id}/detail`}
+                    className="btn btn-success btn-sm"
+                  >
+                    Detail
+                  </Link>
+                </td>
+                <td>
+                  <Link
+                    to={`/admin/users/${user.id}`}
+                    className="btn btn-success btn-sm"
+                  >
+                    Edit
+                  </Link>
+                </td>
+                <td>
+                  <button
+                    className="btn btn-danger btn-sm"
+                    onClick={() => {
+                      window.confirm("Are You Delete This Item?") &&
+                        deleteUser(user.id);
+                    }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* <center  style={{display: "flex", overflow: "scroll"}}>
             <nav className="mt-3">
               <ul className="pagination">
                 {pageNumbers.map((number) => (
@@ -264,7 +507,7 @@ export default function UserList() {
             </nav>
           </center> */}
 
-          <ReactPaginate
+      {/*     <ReactPaginate
             breakLabel="..."
             nextLabel=">"
             onPageChange={handlePageClick}
@@ -280,7 +523,7 @@ export default function UserList() {
             disabledLinkClassName="disabled"
           />
         </div>
-      </div>
+      </div> */}
       {/* </div> */}
     </>
   );
