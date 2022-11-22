@@ -5,6 +5,17 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import "../style.css";
+import { Card, Button, Table, Form, Input } from "antd";
+import {
+  EditOutlined,
+  FormOutlined,
+  DeleteOutlined,
+  ContainerOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import moment from "moment";
+import { Typography } from "antd";
+const { Title } = Typography;
 
 export default function CustomerList() {
   const [userList, setUserList] = useState([]);
@@ -79,10 +90,10 @@ export default function CustomerList() {
   };
 
   const submitSearch = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (searchQuery.trim() === "") {
-      toast.error("Search field is required!");
+      // toast.error("Search field is required!");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -116,23 +127,170 @@ export default function CustomerList() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  useEffect(() => {
+    submitSearch();
+  }, [searchQuery]);
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => currentItems.indexOf(record) + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      // render: (text) => <a>{text}</a>,
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    // {
+    //   title: "Phone Number",
+    //   dataIndex: "phone_number",
+    //   key: "phone_number",
+    // },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (item) =>
+        Object.values(item) === null ? " " : Object.values(item)[1],
+    },
+    {
+      title: "Register",
+      dataIndex: "createdAt",
+      key: "date",
+      render: (_, record) => moment(record.createdAt).calendar(),
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Link
+          to={`/admin/users/${record.id}/detail`}
+          style={{ textDecoration: " none" }}
+        >
+          <Button
+            style={{
+              backgroundColor: "#5cb85c",
+              color: "white",
+              display: "flex",
+              alignItems: "center",
+              borderRadius: "5px",
+              textDecoration: " none",
+            }}
+          >
+            <ContainerOutlined /> Detail
+          </Button>
+        </Link>
+      ),
+    },
+
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Link
+    //       to={`/admin/users/${record.id}`}
+    //       style={{ textDecoration: " none" }}
+    //     >
+    //       <Button
+    //         type="primary"
+    //         htmlType="submit"
+    //         style={{
+    //           display: "flex",
+    //           alignItems: "center",
+    //           borderRadius: "5px",
+    //           textDecoration: " none",
+    //         }}
+    //       >
+    //         <EditOutlined /> Edit
+    //       </Button>
+    //     </Link>
+    //   ),
+    // },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Button
+    //       type="danger"
+    //       htmlType="submit"
+    //       style={{
+    //         display: "flex",
+    //         alignItems: "center",
+    //         borderRadius: "5px",
+    //       }}
+    //       onClick={() => {
+    //         window.confirm("Are You Delete This Item?") &&
+    //           deleteUser(record.id);
+    //       }}
+    //     >
+    //       <DeleteOutlined /> Delete
+    //     </Button>
+    //   ),
+    // },
+  ];
+
+  const data = currentItems;
+
   return (
     <>
       {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body">
-          <div>
-            <div className="float-start">
-              <h4 className="card-title">Customer List</h4>
-            </div>
-            {/* <div className="float-end">
+
+      <Card>
+        <div className="float-start">
+        <Title level={3}>Customer List</Title>
+        </div>
+
+        <div className="float-end d-flex">
+          <Form
+            name="basic"
+            layout="inline"
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item name="username">
+              <Input
+                prefix={<SearchOutlined style={{ fontSize: "15px" }} />}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </Form.Item>
+          </Form>
+        </div>
+        {/* <div className="float-end">
               <Link to={`/admin/users/create`} className="btn btn-info">
                 + Create New
               </Link>
             </div> */}
-          </div>
+      </Card>
 
-          {/* <div className="input-group rounded">
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+        // title="Inner Card title"
+        // extra={<a href="#">More</a>}
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+        />
+      </Card>
+
+      {/* <div className="input-group rounded">
             <input
               type="search"
               className="form-control rounded"
@@ -146,7 +304,7 @@ export default function CustomerList() {
             <button>Search</button>
           </div> */}
 
-          <div
+      {/* <div
             className="mt-5"
             style={{ display: "flex", justifyContent: "space-evenly" }}
           >
@@ -179,7 +337,7 @@ export default function CustomerList() {
                     Refresh
                   </button>
                 </div> */}
-              </div>
+      {/*   </div>
             </form>
             <div>
               <button
@@ -189,40 +347,40 @@ export default function CustomerList() {
                 Refresh
               </button>
             </div>
-          </div>
-
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                <th>Role</th>
-                <th>Created At</th>
-                <th>Detail</th>
-                {/* <th>Edit</th>
+          </div> */}
+      {/* 
+      <table className="table">
+        <thead>
+          <tr>
+            <th>SL</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Role</th>
+            <th>Created At</th>
+            <th>Detail</th> */}
+      {/* <th>Edit</th>
                 <th>Delete</th> */}
-              </tr>
-            </thead>
-            <tbody>
-              {currentItems.map((user, index) => (
-                <tr key={user.id}>
-                  <td>{itemOffset + index + 1}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone_number}</td>
-                  <td>{user.role == null ? "" : user.role.role_name}</td>
-                  <td>{user.createdAt}</td>
-                  <td>
-                    <Link
-                      to={`/admin/users/${user.id}/detail`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Detail
-                    </Link>
-                  </td>
-                  {/* <td>
+      {/* </tr>
+        </thead>
+        <tbody>
+          {currentItems.map((user, index) => (
+            <tr key={user.id}>
+              <td>{itemOffset + index + 1}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.phone_number}</td>
+              <td>{user.role == null ? "" : user.role.role_name}</td>
+              <td>{user.createdAt}</td>
+              <td>
+                <Link
+                  to={`/admin/users/${user.id}/detail`}
+                  className="btn btn-success btn-sm"
+                >
+                  Detail
+                </Link>
+              </td> */}
+      {/* <td>
                     <Link
                       to={`/admin/users/${user.id}`}
                       className="btn btn-success btn-sm"
@@ -230,7 +388,7 @@ export default function CustomerList() {
                       Edit
                     </Link>
                   </td> */}
-                  {/* <td>
+      {/* <td>
                     <button
                       className="btn btn-danger btn-sm"
                       onClick={() => {
@@ -241,28 +399,27 @@ export default function CustomerList() {
                       Delete
                     </button>
                   </td> */}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/* </tr>
+          ))}
+        </tbody>
+      </table> */}
 
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={2}
-            pageCount={pageCount}
-            previousLabel="<"
-            renderOnZeroPageCount={null}
-            containerClassName="pagination"
-            pageLinkClassName="page-num"
-            previousLinkClassName="page-num"
-            nextLinkClassName="page-num"
-            activeLinkClassName="active"
-            disabledLinkClassName="disabled"
-          />
-        </div>
-      </div>
+      {/* <ReactPaginate
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={2}
+        pageCount={pageCount}
+        previousLabel="<"
+        renderOnZeroPageCount={null}
+        containerClassName="pagination"
+        pageLinkClassName="page-num"
+        previousLinkClassName="page-num"
+        nextLinkClassName="page-num"
+        activeLinkClassName="active"
+        disabledLinkClassName="disabled"
+      /> */}
+
       {/* </div> */}
     </>
   );
