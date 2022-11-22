@@ -201,7 +201,7 @@ export default function CustomerDetail() {
               </React.Fragment>
             ))
           : tournament_id && (
-              <p>This coustomer has no team for this tournament</p>
+              <p>This customer has no team for this tournament</p>
             )}
       </div>
     </>
