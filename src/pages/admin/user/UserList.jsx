@@ -14,7 +14,7 @@ import {
   SearchOutlined,
 } from "@ant-design/icons";
 import moment from "moment";
-import { Typography } from 'antd';
+import { Typography } from "antd";
 const { Title } = Typography;
 
 export default function UserList() {
@@ -252,7 +252,7 @@ export default function UserList() {
       // extra={<a href="#">More</a>}
       >
         <div className="float-start">
-        <Title level={3}>User List</Title>
+          <Title level={3}>User List</Title>
         </div>
 
         <div className="float-end d-flex">
@@ -356,7 +356,12 @@ export default function UserList() {
         // title="Inner Card title"
         // extra={<a href="#">More</a>}
       >
-        <Table scroll={{ x: "600px" }} columns={columns} dataSource={data} />
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+        />
       </Card>
 
       {/* <div className="container mt-2"> */}
