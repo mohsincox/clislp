@@ -1,8 +1,19 @@
+import {
+  ContainerOutlined,
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined,
+  KeyOutlined,
+  LockOutlined,
+} from "@ant-design/icons";
+import { Typography } from "antd";
+import { Button, Card, Space, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
 
 export default function RoleList() {
   const [roleList, setRoleList] = useState([]);
@@ -84,10 +95,106 @@ export default function RoleList() {
     }
   }
 
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => roleList.indexOf(record) + 1,
+    },
+    {
+      title: "Role Name",
+      dataIndex: "role_name",
+      key: "role_name ",
+    },
+    {
+      title: "Role Description",
+      dataIndex: "role_description",
+      key: "role_description",
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/roles/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Link to={`/admin/roles/permissions/${record.id}/edit`}>
+            <Button
+              type="primary"
+              style={{
+                backgroundColor: "#5cb85c",
+                color: "white",
+                border: "none",
+              }}
+              icon={<LockOutlined />}
+              shape="circle"
+            />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteRole(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = roleList;
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
+      <Card>
+      <div className="float-start">
+          <Title level={3}>Role List</Title>
+        </div>
+
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/roles/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+
+        <Card
+          style={{
+            marginTop: 16,
+          }}
+          type="inner"
+        >
+          <Table
+            rowKey="id"
+            scroll={{ x: "600px" }}
+            columns={columns}
+            dataSource={data}
+          />
+        </Card>
+   
+
+      {/* <div className="card">
         <div className="card-body d-md-flex flex-md-column">
           <div className="mb-5 main-title">
             <div className="float-start">
@@ -151,7 +258,7 @@ export default function RoleList() {
             </table>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* </div> */}
     </>
   );

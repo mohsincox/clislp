@@ -27,7 +27,7 @@ export default function UserList() {
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
-  console.log("user", currentItems);
+ 
 
   const getData = async () => {
     if (getLoginData === null) {
@@ -247,6 +247,7 @@ export default function UserList() {
               style={{
                 backgroundColor: "#5cb85c",
                 color: "white",
+                border: "none"
               }}
               shape="circle"
             />
@@ -270,6 +271,8 @@ export default function UserList() {
     },
   ];
   const data = currentItems;
+
+  // console.log("data", data)
 
   return (
     <>
@@ -314,7 +317,7 @@ export default function UserList() {
               <Button
                 type="primary"
                 htmlType="submit"
-                onClick={() => submitSearch()}
+                // onClick={() => submitSearch()}
                 style={{
                   display: "flex",
                   alignItems: "center",
