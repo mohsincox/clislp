@@ -7,9 +7,14 @@ import { Link } from "react-router-dom";
 import Header from "./Header";
 import MobileHeader from "./MobileHeader";
 import WebLayout from "../layouts/WebLayout";
+import ReactPaginate from "react-paginate";
 
 export default function LatestNews() {
   const [newsList, setNewsList] = useState([]);
+  const [currentItems, setCurrentItems] = useState([]);
+  const [pageCount, setPageCount] = useState(0);
+  const [itemOffset, setItemOffset] = useState(0);
+  const itemsPerPage = 5;
 
   let contentMaxLength = 200;
   useEffect(() => {
@@ -49,13 +54,24 @@ export default function LatestNews() {
     });
   }
 
+  useEffect(() => {
+    const endOffset = itemOffset + itemsPerPage;
+    setCurrentItems(newsList.slice(itemOffset, endOffset));
+    setPageCount(Math.ceil(newsList.length / itemsPerPage));
+  }, [itemOffset, itemsPerPage, newsList]);
+
+  const handlePageClick = (event) => {
+    const newOffset = (event.selected * itemsPerPage) % newsList.length;
+    setItemOffset(newOffset);
+  };
+
   return (
     <WebLayout>
       <div className="container" style={{ marginTop: "70px" }}>
         <h5>Latest News</h5>
         <div className="row">
           <div className="col-sm-8">
-            {newsList.map((nnn, index) => (
+            {currentItems.map((nnn, index) => (
               <div className="single-latest-new mb-3" key={nnn.id}>
                 <div className="l-new-left">
                   <h6 className="m-0 text-danger mb-2">
@@ -122,6 +138,22 @@ export default function LatestNews() {
               //     </div>
               // </div>
             ))}
+
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel=">"
+              onPageChange={handlePageClick}
+              pageRangeDisplayed={2}
+              pageCount={pageCount}
+              previousLabel="<"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageLinkClassName="page-num"
+              previousLinkClassName="page-num"
+              nextLinkClassName="page-num"
+              activeLinkClassName="active"
+              disabledLinkClassName="disabled"
+            />
           </div>
 
           <div className="col-sm-4">
