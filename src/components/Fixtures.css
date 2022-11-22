@@ -25,9 +25,9 @@
   margin-right: 10px;
 }
 
-.fixture-full-container ul.nav.nav-pills {
+/* .fixture-full-container ul.nav.nav-pills {
   margin-bottom: 25px;
-}
+} */
 
 /* .fixture-full-container .prev,
 .fixture-full-container .next {
@@ -48,7 +48,6 @@
 .fixture-full-container .next {
   right: -60px;
 }
-
 .fixture-full-container .prev {
   left: -60px;
 } */
@@ -84,6 +83,15 @@
   color: #ddd;
 }
 
+.not-found {
+  text-align: center;
+  padding: 101px;
+  font-size: 35px;
+  float: none;
+  text-align: center;
+  color: #eee;
+}
+
 /* @media only screen and (min-width: 993px) and (max-width: 767px) {
   .image-swiper-button-next .anticon {
     margin-left: 58rem !important;
@@ -94,6 +102,15 @@
   .image-swiper-button-prev,
   .image-swiper-button-next {
     display: none;
+  }
+
+  .not-found {
+    text-align: center;
+    padding: 66px;
+    font-size: 35px;
+    float: none;
+    text-align: center;
+    color: #eee;
   }
 }
 
@@ -113,13 +130,12 @@
   .image-swiper-button-next .anticon {
     margin-left: 70rem !important;
   }
-
 }
 
-.nav {
+/* .nav {
   display: flex;
   align-items: center;
-}
+} */
 
 .nav-item .disabled {
   background-color: transparent !important;
@@ -131,42 +147,64 @@
 
 .fixture-full-container {
   position: relative;
+  padding-bottom: 35px;
 }
 
 .fixture-full-container::before {
   position: absolute;
-  top: 18%;
+  top: 13%;
   left: -100%;
   content: "";
   height: 1px;
   width: 300%;
   background: #acacac;
 }
-@media only screen and (max-width: 600px) {
+
+.fixture-full-container::after {
+  position: absolute;
+  top: 89%;
+  left: -100%;
+  content: "";
+  height: 1px;
+  width: 300%;
+  background: #acacac;
+}
+
+/* @media only screen and (max-width: 600px) {
   .fixture-full-container::before {
     top: 15% !important;
   }
-}
 
+  .fixture-full-container::after {
+    top: 90%;
+  }
+} */
 
 .fixture-full-container .nav-pills {
   flex-wrap: nowrap;
   overflow-x: auto;
 }
+.fixture-full-container .nav-item .nav-link {
+  min-width: 110px;
+}
 
-@media only screen and (max-width: 600px) {
+.fixture-full-container .nav-item .nav-link {
+  white-space: nowrap;
+}
+
+/* .fixture-full-container .nav-item {
+  margin-bottom: 1px;
+} */
+/* .fixture-full-container .nav-pills ::-webkit-scrollbar-thumb {
+  background: red !important; 
+} */
+
+/* @media only screen and (max-width: 600px) {
   .fixture-full-container .nav-item .nav-link {
     min-width: 110px;
   }
-}
+} */
 
-.fixture-full-container .nav-pills {
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
-@media only screen and (max-width: 600px) {
-  .fixture-full-container .nav-item .nav-link {
-    min-width: 110px;
-  }
-}
+/* .fixture-full-container .nav::-webkit-scrollbar-track {
+  background-color: red;
+} */
