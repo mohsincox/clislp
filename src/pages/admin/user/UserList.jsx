@@ -391,6 +391,7 @@ export default function UserList() {
           scroll={{ x: "600px" }}
           columns={columns}
           dataSource={data}
+          size="middle"
         />
       </Card>
 

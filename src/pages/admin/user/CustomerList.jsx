@@ -162,8 +162,10 @@ export default function CustomerList() {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      render: (item) =>
-        Object?.values(item) === null ? " " : Object.values(item)[1],
+      // render: (item) =>
+      //   Object?.values(item) === null ? " " : Object.values(item)[1],
+
+        render: (_, record) => (record.role ? record.role["role_name"] : null),
     },
     {
       title: "Register",
@@ -284,6 +286,7 @@ export default function CustomerList() {
           scroll={{ x: "600px" }}
           columns={columns}
           dataSource={data}
+          size="middle"
         />
       </Card>
 
