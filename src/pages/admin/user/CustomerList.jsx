@@ -153,17 +153,19 @@ export default function CustomerList() {
       dataIndex: "email",
       key: "email",
     },
-    // {
-    //   title: "Phone Number",
-    //   dataIndex: "phone_number",
-    //   key: "phone_number",
-    // },
+    {
+      title: "Phone Number",
+      dataIndex: "phone_number",
+      key: "phone_number",
+    },
     {
       title: "Role",
       dataIndex: "role",
       key: "role",
-      render: (item) =>
-        Object.values(item) === null ? " " : Object.values(item)[1],
+      // render: (item) =>
+      //   Object?.values(item) === null ? " " : Object.values(item)[1],
+
+        render: (_, record) => (record.role ? record.role["role_name"] : null),
     },
     {
       title: "Register",
@@ -180,17 +182,14 @@ export default function CustomerList() {
           style={{ textDecoration: " none" }}
         >
           <Button
+            icon={<ContainerOutlined />}
             style={{
               backgroundColor: "#5cb85c",
               color: "white",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: "5px",
-              textDecoration: " none",
+              border: "none",
             }}
-          >
-            <ContainerOutlined /> Detail
-          </Button>
+            shape="circle"
+          />
         </Link>
       ),
     },
@@ -249,7 +248,7 @@ export default function CustomerList() {
 
       <Card>
         <div className="float-start">
-        <Title level={3}>Customer List</Title>
+          <Title level={3}>Customer List</Title>
         </div>
 
         <div className="float-end d-flex">
@@ -287,6 +286,7 @@ export default function CustomerList() {
           scroll={{ x: "600px" }}
           columns={columns}
           dataSource={data}
+          size="middle"
         />
       </Card>
 

@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import ReactPaginate from "react-paginate";
 import "../style.css";
-import { Card, Button, Table, Form, Input } from "antd";
+import { Card, Button, Table, Form, Input, Space } from "antd";
 import {
   EditOutlined,
   FormOutlined,
@@ -27,7 +27,7 @@ export default function UserList() {
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
 
-  // console.log("user", currentItems);
+ 
 
   const getData = async () => {
     if (getLoginData === null) {
@@ -173,76 +173,106 @@ export default function UserList() {
       key: "date",
       render: (_, record) => moment(record.createdAt).calendar(),
     },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Link
-          to={`/admin/users/${record.id}/detail`}
-          style={{ textDecoration: " none" }}
-        >
-          <Button
-            style={{
-              backgroundColor: "#5cb85c",
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              borderRadius: "5px",
-              textDecoration: " none",
-            }}
-          >
-            <ContainerOutlined /> Detail
-          </Button>
-        </Link>
-      ),
-    },
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Link
+    //       to={`/admin/users/${record.id}/detail`}
+    //       style={{ textDecoration: " none" }}
+    //     >
+    //       <Button
+    //         style={{
+    //           backgroundColor: "#5cb85c",
+    //           color: "white",
+    //           display: "flex",
+    //           alignItems: "center",
+    //           borderRadius: "5px",
+    //           textDecoration: " none",
+    //         }}
+    //       >
+    //         <ContainerOutlined /> Detail
+    //       </Button>
+    //     </Link>
+    //   ),
+    // },
 
+    // {
+    //   title: "Action",
+    //   key: "action",
+    //   render: (_, record) => (
+    //     <Link
+    //       to={`/admin/users/${record.id}`}
+    //       style={{ textDecoration: " none" }}
+    //     >
+    //       <Button
+    //         type="primary"
+    //         htmlType="submit"
+    //         style={{
+    //           display: "flex",
+    //           alignItems: "center",
+    //           borderRadius: "5px",
+    //           textDecoration: " none",
+    //         }}
+    //       >
+    //         <EditOutlined /> Edit
+    //       </Button>
+    //     </Link>
+    //   ),
+    // },
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
-        <Link
-          to={`/admin/users/${record.id}`}
-          style={{ textDecoration: " none" }}
-        >
+        // <Button
+        //   type="danger"
+        //   htmlType="submit"
+        //   style={{
+        //     display: "flex",
+        //     alignItems: "center",
+        //     borderRadius: "5px",
+        //   }}
+        //   onClick={() => {
+        //     window.confirm("Are You Delete This Item?") &&
+        //       deleteUser(record.id);
+        //   }}
+        // >
+        //   <DeleteOutlined /> Delete
+        // </Button>
+
+        <Space wrap>
+          <Link to={`/admin/users/${record.id}/detail`} style={{textDecoration: "none"}}>
+            <Button
+              icon={<ContainerOutlined />}
+              style={{
+                backgroundColor: "#5cb85c",
+                color: "white",
+                border: "none"
+              }}
+              shape="circle"
+            />
+          </Link>
+
+          <Link to={`/admin/users/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
           <Button
-            type="primary"
-            htmlType="submit"
-            style={{
-              display: "flex",
-              alignItems: "center",
-              borderRadius: "5px",
-              textDecoration: " none",
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteUser(record.id);
             }}
-          >
-            <EditOutlined /> Edit
-          </Button>
-        </Link>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Button
-          type="danger"
-          htmlType="submit"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            borderRadius: "5px",
-          }}
-          onClick={() => {
-            window.confirm("Are You Delete This Item?") &&
-              deleteUser(record.id);
-          }}
-        >
-          <DeleteOutlined /> Delete
-        </Button>
+          />
+        </Space>
       ),
     },
   ];
   const data = currentItems;
+
+  // console.log("data", data)
 
   return (
     <>
@@ -287,7 +317,7 @@ export default function UserList() {
               <Button
                 type="primary"
                 htmlType="submit"
-                onClick={() => submitSearch()}
+                // onClick={() => submitSearch()}
                 style={{
                   display: "flex",
                   alignItems: "center",
@@ -361,6 +391,7 @@ export default function UserList() {
           scroll={{ x: "600px" }}
           columns={columns}
           dataSource={data}
+          size="middle"
         />
       </Card>
 
