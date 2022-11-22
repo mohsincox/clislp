@@ -160,13 +160,13 @@ export default function UserList() {
     //   dataIndex: "phone_number",
     //   key: "phone_number",
     // },
-    {
-      title: "Role",
-      dataIndex: "role",
-      key: "role",
-      render: (item) =>
-        Object.values(item) === null ? " " : Object.values(item)[1],
-    },
+    // {
+    //   title: "Role",
+    //   dataIndex: "role",
+    //   key: "role",
+    //   render: (item) =>
+    //     Object.values(item) === null ? " " : Object.values(item)[1],
+    // },
     {
       title: "Register",
       dataIndex: "createdAt",
