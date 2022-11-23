@@ -151,7 +151,7 @@ export default function RoleList() {
 
   return (
     <>
-      <Card>
+      <Card       style={{ height: 80 }}>
       <div className="float-start">
           <Title level={3}>Role List</Title>
         </div>

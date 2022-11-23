@@ -246,7 +246,7 @@ export default function CustomerList() {
     <>
       {/* <div className="container mt-2"> */}
 
-      <Card>
+      <Card       style={{ height: 80 }}>
         <div className="float-start">
           <Title level={3}>Customer List</Title>
         </div>
