@@ -252,7 +252,9 @@ export default function TournamentTeamList() {
       <Card
         style={{
           marginTop: 16,
+         
         }}
+        
       >
         <Form
           name="basic"
@@ -264,12 +266,16 @@ export default function TournamentTeamList() {
             justifyContent: "center",
             alignItems: "center",
           }}
+          span={12}
         >
           <Form.Item name="username">
             <Input
               prefix={<SearchOutlined style={{ fontSize: "15px" }} />}
               placeholder="Search Group Name"
               onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: 350,
+              }}
             />
           </Form.Item>
 
@@ -277,7 +283,7 @@ export default function TournamentTeamList() {
             <Select
               placeholder="Select Tournament"
               style={{
-                width: 150,
+                width: 200,
               }}
               onChange={(e) => setTournament_id(e)}
               options={options}
