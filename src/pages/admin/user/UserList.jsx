@@ -280,9 +280,10 @@ export default function UserList() {
       // type="inner"
       // title="Inner Card title"
       // extra={<a href="#">More</a>}
+      style={{ height: 80 }}
       >
         <div className="float-start">
-          <Title level={3}>User List</Title>
+          <Title level={4}>User List</Title>
         </div>
 
         <div className="float-end d-flex">

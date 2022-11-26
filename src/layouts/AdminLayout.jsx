@@ -208,8 +208,11 @@ const items = [
       "97"
     ),
     getItem(
-      <Link to={`#`} style={{ textDecoration: "none" }}>
-        Report 2
+      <Link
+        to={`/admin/reports/tournament-customer`}
+        style={{ textDecoration: "none" }}
+      >
+        Tournament wise customer
       </Link>,
       "96"
     ),

@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import { Card, Table, Typography } from "antd";
+const { Title } = Typography;
 
 export default function TournamentWiseRanking() {
   const [tournament_id, setTournament_id] = useState("");
@@ -26,7 +28,7 @@ export default function TournamentWiseRanking() {
             },
           })
           .then((response) => {
-            console.log("tour List", response.data);
+            // console.log("tour List", response.data);
             setTournamentList(response.data);
           })
           .catch((error) => {
@@ -68,17 +70,49 @@ export default function TournamentWiseRanking() {
       }
     })();
   }, [tournament_id]);
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => rankTeamList.indexOf(record) + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+      render: (_, record) => (record.user ? record.user["name"] : null),
+    },
+    {
+      title: "Phone Number",
+      dataIndex: "phone_number",
+      key: "phone_number",
+      render: (_, record) => (record.user ? record.user["phone_number"] : null),
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+      render: (_, record) => (record.user ? record.user["email"] : null),
+    },
+  ];
+  const data = rankTeamList;
+
+  // console.log("data", data)
+
   return (
     <>
       <div className="mb-3 row">
         <div className="col-sm-6 offset-sm-3">
+          <Title level={3}>Tournament wise Customer List</Title>
           <select
             className="form-select"
             value={tournament_id}
             name="tournament_id"
             onChange={(e) => setTournament_id(e.target.value)}
           >
-            <option>Select Tournament</option>
+            <option>Please Select Tournament</option>
             {tournamentList.map((item, index) => (
               <option key={item.id} value={item.id}>
                 {item.name} {item.year}
@@ -87,22 +121,15 @@ export default function TournamentWiseRanking() {
           </select>
         </div>
       </div>
-      <div>TournamentWiseRanking</div>
+      {/* <div>Tournament Wise Customer Report</div>
       <div className="offset-sm-1 col-sm-6">
-        <p>{rankTeamList[0]?.tournament.name} Ranking</p>
-        {/* <ul className="list-group">
-              {rankTeamList.map((rankTeam, index) => (
-                <li className="list-group-item" key={rankTeam.team_id}>
-                  User: {rankTeam.user.name} ---- Point: {rankTeam.total_point}
-                </li>
-              ))}
-            </ul> */}
+        <p>{rankTeamList[0]?.tournament.name} Customer Report</p>
+
         <table className="table table-bordered">
           <thead>
             <tr>
               <th>SL</th>
-              <th>Team</th>
-              <th>Point</th>
+              <th>Customer Name</th>
             </tr>
           </thead>
           <tbody>
@@ -110,12 +137,28 @@ export default function TournamentWiseRanking() {
               <tr key={rankTeam.team_id}>
                 <td>{index + 1}</td>
                 <td>{rankTeam.user?.name}</td>
-                <td>{rankTeam.total_point}</td>
               </tr>
             ))}
           </tbody>
         </table>
-      </div>
+      </div> */}
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+        // title="Inner Card title"
+        // extra={<a href="#">More</a>}
+      >
+        <Table
+          rowKey="team_id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
   );
 }

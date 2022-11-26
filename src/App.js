@@ -430,7 +430,7 @@ function App() {
               />
 
               <Route
-                path={`/admin/reports/tournament-wise-ranking`}
+                path={`/admin/reports/tournament-customer`}
                 exact={true}
                 element={<TournamentWiseRanking />}
               />

@@ -178,6 +178,7 @@ export default function TournamentList() {
       // type="inner"
       // title="Inner Card title"
       // extra={<a href="#">More</a>}
+      style={{ height: 80 }}
       >
         <div className="float-start">
           <Title level={3}>Tournament List</Title>

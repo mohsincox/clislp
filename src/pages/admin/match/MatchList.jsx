@@ -3,7 +3,18 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
-import Select from "react-select";
+// import Select from "react-select";
+import { Card, Button, Table, Form, Input, Space, Select } from "antd";
+import {
+  EditOutlined,
+  FormOutlined,
+  DeleteOutlined,
+  ContainerOutlined,
+  SearchOutlined,
+} from "@ant-design/icons";
+import moment from "moment";
+import { Typography } from "antd";
+const { Title } = Typography;
 
 export default function MatchList() {
   const [matchList, setMatchList] = useState([]);
@@ -93,10 +104,10 @@ export default function MatchList() {
   };
 
   const submitSearch = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (match_search_id === "") {
-      toast.error("Search field is required!");
+      // toast.error("Search field is required!");
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -126,6 +137,10 @@ export default function MatchList() {
         });
     }
   };
+
+  useEffect(() => {
+    submitSearch();
+  }, [match_search_id]);
 
   const options = [];
 
@@ -161,10 +176,174 @@ export default function MatchList() {
     });
   }
 
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => matchList.indexOf(record) + 1,
+    },
+    {
+      title: "Tournament",
+      dataIndex: "tournament",
+      render: (_, record) =>
+        record.tournament ? record.tournament["name"] : "",
+    },
+    {
+      title: "Team One",
+      dataIndex: "tournament",
+      render: (_, record) =>
+        record.tournament_team_one != null && (
+          <span>
+            {record.tournament_team_one.country == null ? (
+              <img
+                src={`${API_PUBLIC_URL}${record.tournament_team_one?.franchise?.logo}`}
+                alt=""
+                width="80px"
+              />
+            ) : (
+              <img
+                src={`${API_PUBLIC_URL}${record.tournament_team_one?.country?.flag}`}
+                alt=""
+                width="80px"
+              />
+            )}
+          </span>
+        ),
+    },
+    {
+      title: "Team Two",
+      dataIndex: "category",
+      render: (_, record) =>
+        record.tournament_team_two != null && (
+          <span>
+            {record.tournament_team_two.country == null ? (
+              <img
+                src={`${API_PUBLIC_URL}${record.tournament_team_two?.franchise?.logo}`}
+                alt=""
+                width="80px"
+              />
+            ) : (
+              <img
+                src={`${API_PUBLIC_URL}${record.tournament_team_two?.country?.flag}`}
+                alt=""
+                width="80px"
+              />
+            )}
+          </span>
+        ),
+    },
+    {
+      title: "Date",
+      dataIndex: "start_date",
+    },
+    {
+      title: "Time",
+      dataIndex: "start_time",
+    },
+    {
+      title: "Venue",
+      dataIndex: "venue",
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+    },
+
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/matches/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteMatch(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  const data = matchList;
+
+  // console.log("data", data);
+
   return (
     <>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={3}>Match List</Title>
+        </div>
+
+        <div className="float-end d-flex">
+          <Form
+            name="basic"
+            layout="inline"
+            // onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item name="username">
+              <Select
+                placeholder="Select Tournament"
+                style={{
+                  width: 200,
+                }}
+                // onChange={(e) => setTournament_id(e)}
+                // onChange={(e) => console.log(e)}
+                onChange={(e) => setMatch_search_id(e)}
+                options={options}
+              />
+            </Form.Item>
+          </Form>
+
+          <div>
+            <Link
+              to={`/admin/users/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                // onClick={() => submitSearch()}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
+
       {/* <div className="container mt-2"> */}
-      <div className="card">
+      {/* <div className="card">
         <div className="card-body   d-md-flex flex-md-column">
           <div className="mb-5 main-title">
             <div className="float-start">
@@ -177,13 +356,13 @@ export default function MatchList() {
             </div>
           </div>
 
-          <div
-            className="mt-5"
-       
-          >
+          <div className="mt-5">
             <form onSubmit={submitSearch}>
               <div className="mb-3 row from-action">
-                <div className="offset-sm-2 col-sm-3" style={{ width: "400px" }}>
+                <div
+                  className="offset-sm-2 col-sm-3"
+                  style={{ width: "400px" }}
+                >
                   <Select
                     onChange={(e) => setMatch_search_id(e.value)}
                     options={options}
@@ -212,33 +391,33 @@ export default function MatchList() {
           </div>
 
           <div class="table-responsive">
-          <table className="table">
-            <thead>
-              <tr>
-                <th>SL</th>
-                {/* <th>Stage Name</th> */}
-                <th>Tournament</th>
-                {/* <th>VS</th> */}
-                <th>Team One</th>
-                {/* <th>VS</th> */}
-                <th>Team Two</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Venue</th>
-                <th>Status</th>
-                <th>Edit</th>
-                <th>Delete</th>
-              </tr>
-            </thead>
-            <tbody>
-              {matchList.map((match, index) => (
-                <tr key={match.id}>
-                  <td>{index + 1}</td>
-                  {/* <td>{match.stage_name}</td> */}
-                  <td>
-                    {match.tournament == null ? "" : match.tournament["name"]}
-                  </td>
-                  {/* <td>
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>SL</th>
+                  {/* <th>Stage Name</th> */}
+      {/* <th>Tournament</th> */}
+      {/* <th>VS</th> */}
+      {/* <th>Team One</th> */}
+      {/* <th>VS</th> */}
+      {/* <th>Team Two</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Venue</th>
+      <th>Status</th>
+      <th>Edit</th>
+      <th>Delete</th> */}
+      {/*  </tr>
+              </thead>
+              <tbody>
+                {matchList.map((match, index) => (
+                  <tr key={match.id}>
+                    <td>{index + 1}</td>
+                    {/* <td>{match.stage_name}</td> */}
+      {/*  <td>
+                      {match.tournament == null ? "" : match.tournament["name"]}
+                    </td>
+                    {/* <td>
                     {match.tournament_team_one != null && (
                       <span>
                         {match.tournament_team_one.name == null
@@ -247,30 +426,30 @@ export default function MatchList() {
                       </span>
                     )}
                   </td> */}
-                  <td>
-                    {/* {match.tournament_team_one.country == null
+      {/*     <td>
+                      {/* {match.tournament_team_one.country == null
                     ? match.tournament_team_one.franchise.logo
                     : match.tournament_team_one.country.flag} */}
 
-                    {match.tournament_team_one != null && (
-                      <span>
-                        {match.tournament_team_one.country == null ? (
-                          <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_one?.franchise?.logo}`}
-                            alt=""
-                            width="80px"
-                          />
-                        ) : (
-                          <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_one?.country?.flag}`}
-                            alt=""
-                            width="80px"
-                          />
-                        )}
-                      </span>
-                    )}
-                  </td>
-                  {/* <td>
+      {/*     {match.tournament_team_one != null && (
+                        <span>
+                          {match.tournament_team_one.country == null ? (
+                            <img
+                              src={`${API_PUBLIC_URL}${match.tournament_team_one?.franchise?.logo}`}
+                              alt=""
+                              width="80px"
+                            />
+                          ) : (
+                            <img
+                              src={`${API_PUBLIC_URL}${match.tournament_team_one?.country?.flag}`}
+                              alt=""
+                              width="80px"
+                            />
+                          )}
+                        </span>
+                      )}
+                    </td>
+                    {/* <td>
                     {match.tournament_team_two != null && (
                       <span>
                         {match.tournament_team_two.name == null
@@ -279,58 +458,58 @@ export default function MatchList() {
                       </span>
                     )}
                   </td> */}
-                  <td>
-                    {/* {match.tournament_team_two.country == null
+      {/*    <td>
+                      {/* {match.tournament_team_two.country == null
                     ? match.tournament_team_two.franchise.logo
                     : match.tournament_team_two.country.flag} */}
-                    {match.tournament_team_two != null && (
-                      <span>
-                        {match.tournament_team_two.country == null ? (
-                          <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_two?.franchise?.logo}`}
-                            alt=""
-                            width="80px"
-                          />
-                        ) : (
-                          <img
-                            src={`${API_PUBLIC_URL}${match.tournament_team_two?.country?.flag}`}
-                            alt=""
-                            width="80px"
-                          />
-                        )}
-                      </span>
-                    )}
-                  </td>
-                  <td>{match.start_date}</td>
-                  <td>{match.start_time}</td>
-                  <td>{match.venue}</td>
-                  <td>{match.status}</td>
-                  <td>
-                    <Link
-                      to={`/admin/matches/${match.id}`}
-                      className="btn btn-success btn-sm"
-                    >
-                      Edit
-                    </Link>
-                  </td>
-                  <td>
-                    <button
-                      className="btn btn-danger btn-sm"
-                      onClick={() => {
-                        window.confirm("Are You Delete This Item?") &&
-                          deleteMatch(match.id);
-                      }}
-                    >
-                      Delete
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+      {/*    {match.tournament_team_two != null && (
+                        <span>
+                          {match.tournament_team_two.country == null ? (
+                            <img
+                              src={`${API_PUBLIC_URL}${match.tournament_team_two?.franchise?.logo}`}
+                              alt=""
+                              width="80px"
+                            />
+                          ) : (
+                            <img
+                              src={`${API_PUBLIC_URL}${match.tournament_team_two?.country?.flag}`}
+                              alt=""
+                              width="80px"
+                            />
+                          )}
+                        </span>
+                      )}
+                    </td>
+                    <td>{match.start_date}</td>
+                    <td>{match.start_time}</td>
+                    <td>{match.venue}</td>
+                    <td>{match.status}</td>
+                    <td>
+                      <Link
+                        to={`/admin/matches/${match.id}`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Edit
+                      </Link>
+                    </td>
+                    <td>
+                      <button
+                        className="btn btn-danger btn-sm"
+                        onClick={() => {
+                          window.confirm("Are You Delete This Item?") &&
+                            deleteMatch(match.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* </div> */}
     </>
   );
