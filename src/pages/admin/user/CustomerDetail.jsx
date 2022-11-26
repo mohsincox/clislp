@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
@@ -91,6 +91,7 @@ export default function CustomerDetail() {
   return (
     <>
       <div className="mb-3 row">
+        <Link to={`/admin/customers`}> Back </Link>
         <h3 className="text-center">Tournament wise customer's team</h3>
         <div className="col-sm-6 offset-sm-3">
           <select
