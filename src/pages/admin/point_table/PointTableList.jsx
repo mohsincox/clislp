@@ -1,11 +1,13 @@
+import { DeleteOutlined, EditOutlined, FormOutlined } from "@ant-design/icons";
+import { Button, Card, Form, Space, Table, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Select from "react-select";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
-import Select from "react-select";
-import ReactPaginate from "react-paginate";
 import "../style.css";
+const { Title } = Typography;
 
 export default function PointTableList() {
   const [pointTableList, setPointTableList] = useState([]);
@@ -43,8 +45,36 @@ export default function PointTableList() {
     }
   };
 
+
+  const getPointDetails = async () => {
+    if (getLoginData === null) {
+      navigate("/login");
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/point-tables`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setPointTableList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    }
+  };
+
+
   useEffect(() => {
     getData();
+    getPointDetails();
   }, []);
 
   function deletePointTable(id) {
@@ -84,6 +114,7 @@ export default function PointTableList() {
     getMatchDetails();
   }, []);
 
+
   const getMatchDetails = async () => {
     if (getLoginData === null) {
       navigate("/login");
@@ -110,17 +141,31 @@ export default function PointTableList() {
   };
 
   const submitSearch = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (match_id === "") {
-      toast.error("Search field is required!");
+      // toast.error("Search field is required!");
+    } else if (match_id.value === "all") {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+
+      await axios
+        .get(`${API_PUBLIC_URL}api/point-tables`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          console.log("response ----", response);
+          setPointTableList(response.data);
+        })
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
 
       await axios
         .get(
-          `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id}`,
+          `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id.value}`,
           {
             headers: {
               Authorization: token,
@@ -144,7 +189,15 @@ export default function PointTableList() {
     }
   };
 
-  const options = [];
+  useEffect(() => {
+    submitSearch();
+  }, [match_id]);
+
+  const options = [{
+    label: 'Select all Match',
+    value: 'all'
+  }];
+
 
   for (let i = 0; i < matchList.length; i++) {
     let countryTeamOne = "";
@@ -178,265 +231,232 @@ export default function PointTableList() {
     });
   }
 
+
+  //new
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => pointTableList.indexOf(record) + 1,
+    },
+    {
+      title: "Tournament",
+      dataIndex: "tournament",
+      render: (_, record) =>
+        record.match.tournament ? record.match.tournament["name"] : null,
+    },
+    {
+      title: "Team One",
+      dataIndex: "team_one",
+      render: (_, record) =>
+        record.match.tournament_team_one.country ? record.match.tournament_team_one.country["name"] : null,
+    },
+    {
+      title: "Team Two",
+      dataIndex: "team_two",
+      render: (_, record) =>
+        record.match.tournament_team_two.country ? record.match.tournament_team_two.country["name"] : null,
+    },
+    {
+      title: "Player",
+      dataIndex: "player",
+      render: (_, record) =>
+        record.player ? record.player["name"] : null,
+    },
+    {
+      title: "Team",
+      dataIndex: "team",
+      render: (_, record) =>
+        record.tournament_team.country ? record.tournament_team.country["name"] : null,
+    },
+    {
+      title: "Goal",
+      dataIndex: "goal",
+      render: (_, record) =>
+        record.Goal,
+    },
+    {
+      title: "Assist",
+      dataIndex: "assist",
+      render: (_, record) =>
+        record.Assist,
+    },
+    {
+      title: "Goal Save",
+      dataIndex: "goal_save",
+      render: (_, record) =>
+        record.Goal_Save,
+    },
+    {
+      title: "Penalty Save",
+      dataIndex: "penalty_save",
+      render: (_, record) =>
+        record.Penalty_Save,
+    },
+    {
+      title: "Clean Sheet",
+      dataIndex: "clean_sheet",
+      render: (_, record) =>
+        record.Clean_Sheet,
+    },
+    {
+      title: "Run",
+      dataIndex: "run",
+      render: (_, record) =>
+        (record.run == 0) ? 0 : (record.run == null) ? null : record.run,
+    },
+    {
+      title: "Wicket",
+      dataIndex: "wicket",
+      render: (_, record) =>
+        (record.wicket == 0) ? 0 : (record.wicket == null) ? null : record.wicket,
+    },
+    {
+      title: "Man of the match",
+      dataIndex: "man_of_the_match",
+      render: (_, record) =>
+        (record.man_of_the_match == true) ? 'True' : (record.man_of_the_match == false) ? 'False' : record.man_of_the_match,
+    },
+    {
+      title: "Fifty",
+      dataIndex: "fifty",
+      render: (_, record) =>
+        (record.fifty == true) ? 'True' : (record.fifty == false) ? 'False' : record.fifty,
+    },
+    {
+      title: "Hundred",
+      dataIndex: "hundred",
+      render: (_, record) =>
+        (record.hundred == true) ? 'True' : (record.hundred == false) ? 'False' : record.hundred,
+    },
+    {
+      title: "Five Wickets",
+      dataIndex: "five_wickets",
+      render: (_, record) =>
+        (record.five_wickets == true) ? 'True' : (record.five_wickets == false) ? 'False' : record.five_wickets,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/point-tables/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deletePointTable(record.id);
+            }}
+          />
+
+        </Space>
+      ),
+    },
+  ];
+  const data = pointTableList;
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="row">
-            <div className="mb-5 main-title">
-              <div className="float-start">
-                <h4 className="card-title">Point Table List</h4>
-              </div>
-              <div className="float-end">
-                <Link
-                  to={`/admin/point-tables/create`}
-                  className="btn btn-info"
-                >
-                  + Create New
-                </Link>
-              </div>
-            </div>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Point Table List</Title>
+        </div>
 
-            <div className="mt-5">
-              <form onSubmit={submitSearch}>
-                <div className="mb-3 row from-action">
-                  <div
-                    className="offset-sm-2 col-sm-3"
-                    style={{ width: "400px" }}
-                  >
-                    <Select
-                      onChange={(e) => setMatch_id(e.value)}
-                      options={options}
-                      placeholder={"Select..."}
-                    />
-                  </div>
-                  <div className="col-sm-1 from-action-btn">
-                    <button
-                      type="button"
-                      className="btn btn-primary from-action-btn-btn"
-                      onClick={submitSearch}
-                    >
-                      Search
-                    </button>
-                  </div>
-                  <div className="col-sm-1 from-action-btn">
-                    <button
-                      onClick={() => window.location.reload(false)}
-                      className="btn btn-success pl-3 from-action-btn-btn"
-                    >
-                      Refresh
-                    </button>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <div className="table-responsive" style={{ marginBottom: "20px" }}>
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>SL</th>
-                    <th>Tournament</th>
-                    <th>Team One</th>
-                    <th>Team Two</th>
-                    <th>Player</th>
-                    <th>Team</th>
-                    <th>Goal</th>
-                    <th>Assist</th>
-                    <th>Goal Save</th>
-                    <th>Penalty Save</th>
-                    <th>Clean Sheet</th>
-                    <th>Run</th>
-                    <th>Wicket</th>
-                    <th>Man of the match</th>
-                    <th>Fifty</th>
-                    <th>Hundred</th>
-                    <th>Five Wickets</th>
-                    <th>Edit</th>
-                    <th>Delete</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentItems.map((pointTable, index) => (
-                    <tr key={pointTable.id}>
-                      <td>{itemOffset + index + 1}</td>
-                      <td>
-                        {pointTable.match.tournament == null
-                          ? ""
-                          : pointTable.match.tournament["name"]}
-                      </td>
-                      <td>
-                        {pointTable.match.tournament_team_one != null && (
-                          <span>
-                            {/* {pointTable.match.tournament_team_one.country !=
-                              null && (
-                              <img
-                                src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.country.flag}`}
-                                alt=""
-                                width="80px"
-                              />
-                            )} */}
-                            {pointTable.match.tournament_team_one.country !=
-                              null && (
-                              <span>
-                                {
-                                  pointTable?.match?.tournament_team_one
-                                    ?.country?.name
-                                }
-                              </span>
-                            )}
-
-                            {pointTable.match.tournament_team_one.franchise !=
-                              null && (
-                              <span>
-                                {
-                                  pointTable?.match?.tournament_team_one
-                                    ?.franchise?.name
-                                }
-                              </span>
-                            )}
-
-                            {/* {pointTable.match.tournament_team_one.franchise !=
-                              null && (
-                              <img
-                                src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_one.franchise.logo}`}
-                                alt=""
-                                width="80px"
-                              />
-                            )} */}
-                          </span>
-                        )}
-                      </td>
-                      <td>
-                        {pointTable.match.tournament_team_two != null && (
-                          <span>
-                            {/* {pointTable.match.tournament_team_two.country !=
-                              null && (
-                              <img
-                                src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.country.flag}`}
-                                alt=""
-                                width="80px"
-                              />
-                            )}
-
-                            {pointTable.match.tournament_team_two.franchise !=
-                              null && (
-                              <img
-                                src={`${API_PUBLIC_URL}${pointTable.match.tournament_team_two.franchise.logo}`}
-                                alt=""
-                                width="80px"
-                              />
-                            )} */}
-
-                            {pointTable.match.tournament_team_two.country !=
-                              null && (
-                              <span>
-                                {
-                                  pointTable?.match?.tournament_team_two
-                                    ?.country?.name
-                                }
-                              </span>
-                            )}
-
-                            {pointTable.match.tournament_team_two.franchise !=
-                              null && (
-                              <span>
-                                {
-                                  pointTable?.match?.tournament_team_two
-                                    ?.franchise?.name
-                                }
-                              </span>
-                            )}
-                          </span>
-                        )}
-                      </td>
-
-                      <td>{pointTable.player.name}</td>
-                      <td>
-                        {pointTable.tournament_team?.country?.name}{" "}
-                        {pointTable.tournament_team?.franchise?.name}
-                      </td>
-                      <td>{pointTable.Goal}</td>
-                      <td>{pointTable.Assist}</td>
-                      <td>{pointTable.Goal_Save}</td>
-                      <td>{pointTable.Penalty_Save}</td>
-                      <td>{pointTable.Clean_Sheet}</td>
-                      <td>{pointTable.run}</td>
-                      <td>{pointTable.wicket}</td>
-                      <td>
-                        {pointTable.man_of_the_match === false
-                          ? "False"
-                          : pointTable.man_of_the_match === true
-                          ? "True"
-                          : pointTable.man_of_the_match}
-                      </td>
-                      {/* <td>{pointTable.man_of_the_match}</td> */}
-                      <td>
-                        {pointTable.fifty === false
-                          ? "False"
-                          : pointTable.fifty === true
-                          ? "True"
-                          : pointTable.fifty}
-                      </td>
-                      <td>
-                        {pointTable.hundred === false
-                          ? "False"
-                          : pointTable.hundred === true
-                          ? "True"
-                          : pointTable.hundred}
-                      </td>
-                      <td>
-                        {pointTable.five_wickets === false
-                          ? "False"
-                          : pointTable.five_wickets === true
-                          ? "True"
-                          : pointTable.five_wickets}
-                      </td>
-                      <td>
-                        <Link
-                          to={`/admin/point-tables/${pointTable.id}`}
-                          className="btn btn-success btn-sm"
-                        >
-                          Edit
-                        </Link>
-                      </td>
-                      <td>
-                        <button
-                          className="btn btn-danger btn-sm"
-                          onClick={() => {
-                            window.confirm("Are You Delete This Item?") &&
-                              deletePointTable(pointTable.id);
-                          }}
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            <ReactPaginate
-              breakLabel="..."
-              nextLabel=">"
-              onPageChange={handlePageClick}
-              pageRangeDisplayed={2}
-              pageCount={pageCount}
-              previousLabel="<"
-              renderOnZeroPageCount={null}
-              containerClassName="pagination"
-              pageLinkClassName="page-num"
-              previousLinkClassName="page-num"
-              nextLinkClassName="page-num"
-              activeLinkClassName="active"
-              disabledLinkClassName="disabled"
-            />
+        <div className="float-end d-flex">
+          <Form>
+            <Form.Item style={{
+              width: 500,
+              height: 32,
+              marginRight: 15
+            }}>
+              <Select
+                placeholder="Select Match"
+                onChange={(e) => setMatch_id(e)}
+                options={options}
+              />
+            </Form.Item>
+          </Form>
+          <div>
+            <Link
+              to={`/admin/point-tables/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
-      {/* </div> */}
+      </Card>
+
+      {/* <Card
+        style={{
+          marginTop: 16,
+
+        }}
+
+      >
+        <Form style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center"
+
+        }} >
+          <Form.Item style={{
+            width: 500,
+            marginRight: 15
+          }}>
+            <Select
+              placeholder="Select..."
+              style={{
+                width: 200,
+              }}
+              onChange={(e) => setMatch_id(e)}
+              options={options}
+            />
+          </Form.Item>
+          <Form.Item>
+            <button
+              onClick={() => window.location.reload(false)}
+              className="btn btn-success pl-3 from-action-btn-btn" >
+              Refresh
+            </button>
+
+          </Form.Item>
+
+        </Form>
+      </Card> */}
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
+
   );
 }

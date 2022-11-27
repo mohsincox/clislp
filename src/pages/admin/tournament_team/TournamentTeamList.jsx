@@ -3,18 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 // import Select from "react-select";
+import {
+  DeleteOutlined, EditOutlined,
+  FormOutlined, SearchOutlined
+} from "@ant-design/icons";
+import { Button, Card, Form, Input, Select, Space, Table, Typography } from "antd";
 import { API_PUBLIC_URL } from "../../../constants";
 import "../style.css";
-import { Card, Button, Table, Form, Input, Space, Select } from "antd";
-import {
-  EditOutlined,
-  FormOutlined,
-  DeleteOutlined,
-  ContainerOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import moment from "moment";
-import { Typography } from "antd";
 const { Title } = Typography;
 
 export default function TournamentTeamList() {
@@ -138,7 +133,7 @@ export default function TournamentTeamList() {
         });
     }
   };
-
+  
   useEffect(() => {
     submitSearch();
   }, [searchQuery, tournament_id]);
