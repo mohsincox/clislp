@@ -121,7 +121,7 @@ export default function RoleList() {
             <Button type="primary" icon={<EditOutlined />} shape="circle" />
           </Link>
 
-          <Link to={`/admin/roles/permissions/${record.id}/edit`}>
+          <Link to={`/admin/roles/permissions/${record.id}/edit/new`}>
             <Button
               type="primary"
               style={{
@@ -151,8 +151,8 @@ export default function RoleList() {
 
   return (
     <>
-      <Card       style={{ height: 80 }}>
-      <div className="float-start">
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
           <Title level={3}>Role List</Title>
         </div>
 
@@ -178,22 +178,20 @@ export default function RoleList() {
         </div>
       </Card>
 
-
-        <Card
-          style={{
-            marginTop: 16,
-          }}
-          type="inner"
-        >
-          <Table
-            rowKey="id"
-            scroll={{ x: "600px" }}
-            columns={columns}
-            dataSource={data}
-            size="middle"
-          />
-        </Card>
-   
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
 
       {/* <div className="card">
         <div className="card-body d-md-flex flex-md-column">

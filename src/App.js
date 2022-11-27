@@ -97,6 +97,7 @@ import CustomerList from "./pages/admin/user/CustomerList";
 import LatestNewsDetails from "./pages/LatestNewsDetails";
 import GetAllLatestNews from "./components/GetAllLatestNews";
 import Hello from "./pages/admin/hello/Hello";
+import RolePermissionEditNew from "./pages/admin/role/RolePermissionEditNew";
 
 export const UserContext = React.createContext(null);
 
@@ -174,6 +175,11 @@ function App() {
                 path={`/admin/roles/permissions/:id/edit`}
                 exact={true}
                 element={<RolePermissionEdit />}
+              />
+              <Route
+                path={`/admin/roles/permissions/:id/edit/new`}
+                exact={true}
+                element={<RolePermissionEditNew />}
               />
               <Route
                 path={`/admin/roles/permissions/e/:id`}
