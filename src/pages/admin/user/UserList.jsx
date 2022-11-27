@@ -26,6 +26,7 @@ export default function UserList() {
   const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
+  
 
   const getData = async () => {
     if (getLoginData === null) {
