@@ -26,8 +26,7 @@ export default function UserList() {
   const itemsPerPage = 30;
   const navigate = useNavigate();
   const getLoginData = localStorage.getItem("loginData");
-
- 
+  
 
   const getData = async () => {
     if (getLoginData === null) {
@@ -168,6 +167,12 @@ export default function UserList() {
     //     Object.values(item) === null ? " " : Object.values(item)[1],
     // },
     {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+      render: (_, record) => (record.role ? record.role["role_name"] : null),
+    },
+    {
       title: "Register",
       dataIndex: "createdAt",
       key: "date",
@@ -241,17 +246,20 @@ export default function UserList() {
         // </Button>
 
         <Space wrap>
-          <Link to={`/admin/users/${record.id}/detail`} style={{textDecoration: "none"}}>
+          {/* <Link
+            to={`/admin/users/${record.id}/detail`}
+            style={{ textDecoration: "none" }}
+          >
             <Button
               icon={<ContainerOutlined />}
               style={{
                 backgroundColor: "#5cb85c",
                 color: "white",
-                border: "none"
+                border: "none",
               }}
               shape="circle"
             />
-          </Link>
+          </Link> */}
 
           <Link to={`/admin/users/${record.id}`}>
             <Button type="primary" icon={<EditOutlined />} shape="circle" />
@@ -277,10 +285,10 @@ export default function UserList() {
   return (
     <>
       <Card
-      // type="inner"
-      // title="Inner Card title"
-      // extra={<a href="#">More</a>}
-      style={{ height: 80 }}
+        // type="inner"
+        // title="Inner Card title"
+        // extra={<a href="#">More</a>}
+        style={{ height: 80 }}
       >
         <div className="float-start">
           <Title level={4}>User List</Title>

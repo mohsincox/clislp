@@ -3,6 +3,10 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+import { Card, Col, Row, Select, Space } from "antd";
+import { Button, Form, Input } from "antd";
+
+const { Option } = Select;
 
 export default function UserCreate() {
   const [name, setName] = useState("");
@@ -52,7 +56,7 @@ export default function UserCreate() {
   }, []);
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i;
     if (name.trim() === "") {
@@ -117,10 +121,117 @@ export default function UserCreate() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
   return (
     <>
       {/* <div className="container"> */}
-      <div className="col-sm-8 offset-sm-2">
+
+      <Card>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 10,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={submitForm}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Username"
+            name="username"
+            rules={[
+              {
+                required: true,
+                message: "Please input your username!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => setName(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item
+            label="Email"
+            name="email"
+            rules={[
+              {
+                required: true,
+                message: "Please input your email!",
+              },
+            ]}
+          >
+            <Input onChange={(e) => setEmail(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item
+            label="Password"
+            name="password"
+            rules={[
+              {
+                required: true,
+                message: "Please input your password!",
+              },
+            ]}
+          >
+            <Input.Password onChange={(e) => setPassword(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select a option and change input text above"
+              value={role_id}
+              name="role_id"
+              onChange={(e) => setRole_id(e)}
+              allowClear
+            >
+              {roleList.map((item, index) => (
+                <Option key={item.id} value={item.id}>
+                  {item.role_name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Row>
+            <Col
+              span={18}
+              style={{
+                textAlign: "right",
+              }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={() => submitForm()}
+              >
+                Submit
+              </Button>
+
+              <Button
+                type="danger"
+                style={{
+                  marginLeft: "20px",
+                }}
+                htmlType="submit"
+                onClick={() => {
+                  navigate("/admin/users");
+                }}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
+
+      {/* <div className="col-sm-8 offset-sm-2">
         <div className="card">
           <div className="card-body">
             <h5 className="card-title">User Create</h5>
@@ -215,7 +326,7 @@ export default function UserCreate() {
             </form>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* </div> */}
     </>
   );
