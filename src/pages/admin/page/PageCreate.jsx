@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import slugify from '@sindresorhus/slugify';
 import axios from "axios";
+import React, { useEffect, useState } from "react";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-import slugify from '@sindresorhus/slugify';
 
 export default function PageCreate() {
   const [allPage, setAllPage] = useState([]);
@@ -137,7 +137,7 @@ export default function PageCreate() {
       <div className="col-sm-8 offset-sm-2">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">User Create</h5>
+            <h5 className="card-title">Page Create</h5>
             <form onSubmit={submitForm} encType="multipart/form-data">
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">

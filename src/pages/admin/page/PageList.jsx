@@ -4,6 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined
+} from "@ant-design/icons";
+import { Button, Card, Space, Table, Typography } from "antd";
+const { Title } = Typography;
+
 export default function PageList() {
   const [pageList, setPageList] = useState([]);
   const navigate = useNavigate();
@@ -59,68 +67,95 @@ export default function PageList() {
         }
       });
   }
+  console.log(pageList)
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => pageList.indexOf(record) + 1,
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      render: (_, record) =>
+        record.name ? record.name : null,
+    },
+    {
+      title: "Slug",
+      dataIndex: "slug",
+      render: (_, record) =>
+        record.slug ? record.slug : null,
+    },
+    
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/pages/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deletePage(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = pageList;
 
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="mb-5 main-title">
-            <div className="float-start">
-              <h4 className="card-title">Page List</h4>
-            </div>
-            <div className="float-end">
-              <Link to={`/admin/pages/create`} className="btn btn-info">
-                + Create New
-              </Link>
-            </div>
-          </div>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Page List</Title>
+        </div>
 
-          <div class="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Name</th>
-                  <th>Slug</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pageList.map((page, index) => (
-                  <tr key={page.id}>
-                    <td>{index + 1}</td>
-                    <td>{page.name}</td>
-                    <td>{page.slug}</td>
-
-                    <td>
-                      <Link
-                        to={`/admin/pages/${page.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deletePage(page.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/pages/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
-      {/* </div> */}
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
   );
 }

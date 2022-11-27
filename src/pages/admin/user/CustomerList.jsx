@@ -1,20 +1,15 @@
+import {
+  ContainerOutlined,
+  SearchOutlined
+} from "@ant-design/icons";
+import { Button, Card, Form, Input, Table, Typography } from "antd";
 import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import "../style.css";
-import { Card, Button, Table, Form, Input } from "antd";
-import {
-  EditOutlined,
-  FormOutlined,
-  DeleteOutlined,
-  ContainerOutlined,
-  SearchOutlined,
-} from "@ant-design/icons";
-import moment from "moment";
-import { Typography } from "antd";
 const { Title } = Typography;
 
 export default function CustomerList() {
@@ -248,7 +243,7 @@ export default function CustomerList() {
 
       <Card       style={{ height: 80 }}>
         <div className="float-start">
-          <Title level={3}>Customer List</Title>
+          <Title level={4}>Customer List</Title>
         </div>
 
         <div className="float-end d-flex">

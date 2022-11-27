@@ -4,6 +4,16 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined
+} from "@ant-design/icons";
+import { Button, Card, Table, Typography } from "antd";
+import Space from "antd/lib/space";
+const { Title } = Typography;
+
+
 export default function GameList() {
   const [gameList, setGameList] = useState([]);
   const navigate = useNavigate();
@@ -84,66 +94,95 @@ export default function GameList() {
     }
   }
 
+
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => gameList.indexOf(record) + 1,
+    },
+    {
+      title: "Game Name",
+      dataIndex: "game_name",
+      render: (_, record) =>
+        record.name ? record.name : null,
+    },
+    {
+      title: "Details",
+      dataIndex: "detals",
+      render: (_, record) =>
+        record.detail ? record.detail : null,
+    },
+    
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/games/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteGame(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = gameList;
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="mb-5 main-title">
-            <div className="float-start">
-              <h4 className="card-title">Game List</h4>
-            </div>
-            <div className="float-end">
-              <Link to={`/admin/games/create`} className="btn btn-info">
-                + Create New
-              </Link>
-            </div>
-          </div>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Game List</Title>
+        </div>
 
-          <div class="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Game</th>
-                  <th>Detail</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {gameList.map((game, index) => (
-                  <tr key={game.id}>
-                    <td>{index + 1}</td>
-                    <td>{game.name}</td>
-                    <td>{game.detail}</td>
-                    <td>
-                      <Link
-                        to={`/admin/games/${game.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deleteGame(game.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/games/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
-      {/* </div> */}
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
+    
   );
 }

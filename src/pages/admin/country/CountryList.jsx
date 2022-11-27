@@ -1,8 +1,15 @@
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined
+} from "@ant-design/icons";
+import { Button, Card, Space, Table, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
 
 export default function CountryList() {
   const [countryList, setCountryList] = useState([]);
@@ -84,74 +91,100 @@ export default function CountryList() {
     }
   }
 
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => countryList.indexOf(record) + 1,
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      render: (_, record) =>
+        record.name ? record.name : null,
+    },
+    {
+      title: "Short Name",
+      dataIndex: "short_name",
+      render: (_, record) =>
+        record.short_name ? record.short_name : null,
+    },
+    {
+      title: "Flag",
+      dataIndex: "flag",
+      render: (_, record) =>
+        record.flag ? (
+          <img src={`${API_PUBLIC_URL}${record.flag}`} width="80px" />
+        ) : null,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/countries/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteCountry(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = countryList;
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="mb-5 main-title">
-            <div className="float-start">
-              <h4 className="card-title">Country List</h4>
-            </div>
-            <div className="float-end">
-              <Link to={`/admin/countries/create`} className="btn btn-info">
-                + Create New
-              </Link>
-            </div>
-          </div>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Country List</Title>
+        </div>
 
-          <div class="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Country</th>
-                  <th>Short Name</th>
-                  <th>Flag</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {countryList.map((country, index) => (
-                  <tr key={country.id}>
-                    <td>{index + 1}</td>
-                    <td>{country.name}</td>
-                    <td>{country.short_name}</td>
-                    <td>
-                      <img
-                        src={`${API_PUBLIC_URL}${country.flag}`}
-                        alt=""
-                        width="80px"
-                      />
-                    </td>
-                    <td>
-                      <Link
-                        to={`/admin/countries/${country.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deleteCountry(country.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/countries/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
-      {/* </div> */}
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
   );
 }

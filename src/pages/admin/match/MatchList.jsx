@@ -4,16 +4,11 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 // import Select from "react-select";
-import { Card, Button, Table, Form, Input, Space, Select } from "antd";
 import {
-  EditOutlined,
-  FormOutlined,
-  DeleteOutlined,
-  ContainerOutlined,
-  SearchOutlined,
+  DeleteOutlined, EditOutlined,
+  FormOutlined
 } from "@ant-design/icons";
-import moment from "moment";
-import { Typography } from "antd";
+import { Button, Card, Form, Select, Space, Table, Typography } from "antd";
 const { Title } = Typography;
 
 export default function MatchList() {
@@ -281,7 +276,7 @@ export default function MatchList() {
     <>
       <Card style={{ height: 80 }}>
         <div className="float-start">
-          <Title level={3}>Match List</Title>
+          <Title level={4}>Match List</Title>
         </div>
 
         <div className="float-end d-flex">
@@ -295,7 +290,7 @@ export default function MatchList() {
               <Select
                 placeholder="Select Tournament"
                 style={{
-                  width: 200,
+                  width: 350,
                 }}
                 // onChange={(e) => setTournament_id(e)}
                 // onChange={(e) => console.log(e)}

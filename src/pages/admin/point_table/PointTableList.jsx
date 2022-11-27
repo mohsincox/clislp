@@ -372,7 +372,7 @@ export default function PointTableList() {
         <div className="float-end d-flex">
           <Form>
             <Form.Item style={{
-              width: 500,
+              width: 350,
               height: 32,
               marginRight: 15
             }}>

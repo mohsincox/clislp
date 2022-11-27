@@ -1,12 +1,19 @@
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined, SearchOutlined
+} from "@ant-design/icons";
+import { Button, Card, Form, Input, Space, Table, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import ReactPaginate from "react-paginate";
 import { Link, useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
 
 export default function PlayerList() {
+  const [playerTeamList, setPlayerTeamList] = useState([]);
   const [playerList, setPlayerList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [country_id, setCountry_id] = useState("");
@@ -108,12 +115,47 @@ export default function PlayerList() {
     setItemOffset(newOffset);
   };
 
+  // const submitSearch = async (e) => {
+  //   // e.preventDefault();
+
+  //   if (searchQuery.trim() === "") {
+  //     // toast.error("At least one search field is required!");
+  //   } else {
+  //     const storageData = JSON.parse(getLoginData);
+  //     const token = storageData.accessToken;
+
+  //     await axios
+  //       .get(
+  //         `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}`,
+  //         {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         }
+  //       )
+  //       .then((response) => {
+  //         console.log("response ----", response);
+  //         setPlayerList(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //         if (error.response.status === 400) {
+  //           toast.error(error.response.data.msg);
+  //         }
+  //         if (error.response.status === 403) {
+  //           toast.error("No Permission");
+  //           navigate("/admin/no-permission");
+  //         }
+  //       });
+  //   }
+  // };
+
   const submitSearch = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (searchQuery.trim() === "" && country_id === "") {
-      toast.error("At least one search field is required!");
-    } else {
+      // toast.error("At least one search field is required!");
+    } else if (searchQuery.trim() != "" && country_id === "") {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
 
@@ -129,6 +171,37 @@ export default function PlayerList() {
         .then((response) => {
           console.log("response ----", response);
           setPlayerList(response.data);
+
+          // console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
+    } else {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+
+      await axios
+        .get(
+          `${API_PUBLIC_URL}api/search/player-search?searchQuery=${searchQuery}&country_id=${country_id.value}`,
+          {
+            headers: {
+              Authorization: token,
+            },
+          }
+        )
+        .then((response) => {
+          console.log("response ----", response);
+          setPlayerList(response.data);
+
+          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -143,6 +216,10 @@ export default function PlayerList() {
     }
   };
 
+  useEffect(() => {
+    submitSearch();
+  }, [searchQuery, country_id]);
+
   const options = [];
 
   for (let i = 0; i < countryList.length; i++) {
@@ -152,228 +229,230 @@ export default function PlayerList() {
     });
   }
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+  console.log(playerList)
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => playerList.indexOf(record) + 1,
+    },
+    {
+      title: "Player Name",
+      dataIndex: "player_name",
+      render: (_, record) =>
+        record.name ? record.name : null,
+    },
+    {
+      title: "Game",
+      dataIndex: "game",
+      render: (_, record) =>
+        record.game ? record.game.name : null,
+    },
+    {
+      title: "Specification",
+      dataIndex: "specification",
+      render: (_, record) => {
+        let spec = JSON.parse(record.specification)
+        if (spec['All Rounder'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            All Rounder
+          </span>)
+        } else if (spec['Batsman'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Batsman
+          </span>)
+        } else if (spec['Bowler'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Bowler
+          </span>)
+        } else if (spec['Defender'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Defender
+          </span>)
+        } else if (spec['Forward'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Forward
+          </span>)
+        } else if (spec['Goalkeeper'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Goalkeeper
+          </span>)
+        } else if (spec['Keeper'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Keeper
+          </span>)
+        } else if (spec['Midfielder'] === true) {
+          return (<span
+            className="badge bg-secondary"
+            style={{ marginRight: "3px" }}
+          >
+            Midfielder
+          </span>)
+        }
+      }
+
+      // record.game.name ? record.game.name : null,
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      render: (_, record) =>
+        record.country ? record.country.name : null,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      render: (_, record) =>
+        record.status ? record.status : null,
+    },
+    {
+      title: "Image",
+      dataIndex: "image",
+      render: (_, record) =>
+        record.image ? (
+          <img src={`${API_PUBLIC_URL}${record.image}`} width="80px" />
+        ) : null,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/players/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deletePlayer(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = playerList;
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="mb-5 main-title">
-            <div className="float-start">
-              <h4 className="card-title">Players List</h4>
-            </div>
-            <div className="float-end">
-              <Link to={`/admin/players/create`} className="btn btn-info">
-                + Create New
-              </Link>
-            </div>
-          </div>
-
-          <div className="mt-5">
-            <form onSubmit={submitSearch}>
-              <div className="mb-3 row from-action">
-                <div className="offset-sm-2 col-sm-3">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Search Player Name"
-                    value={searchQuery}
-                    name="searchQuery"
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  />
-                </div>
-
-                <div className="col-sm-3">
-                  {/* <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Search Name, "
-                    value={searchQuery}
-                    name="searchQuery"
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                  /> */}
-
-                  <Select
-                    onChange={(e) => setCountry_id(e.value)}
-                    options={options}
-                    placeholder={"Select Country"}
-                  />
-                </div>
-
-                <div className="col-sm-1 from-action-btn">
-                  <button
-                    type="button"
-                    className="btn btn-primary from-action-btn-btn"
-                    onClick={submitSearch}
-                  >
-                    Search
-                  </button>
-                </div>
-                <div className="col-sm-1 from-action-btn">
-                  <button
-                    onClick={() => window.location.reload(false)}
-                    className="btn btn-success pl-3 from-action-btn-btn"
-                  >
-                    Refresh
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
-
-          <div class="table-responsive" style={{ marginBottom: "10px" }}>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Player Name</th>
-                  <th>Game</th>
-                  <th>Specification</th>
-                  <th>Country</th>
-                  {/* <th>Franchise</th>
-                <th>Point</th>
-                <th>Ranking</th> */}
-                  <th>Status</th>
-                  <th>Image</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {currentItems.map((player, index) => (
-                  // (JSON.parse(player.specification))
-                  <tr key={player.id}>
-                    <td>{itemOffset + index + 1}</td>
-                    <td>{player.name}</td>
-                    <td>{player.game == null ? "" : player.game["name"]}</td>
-                    <td>
-                      {JSON.parse(player.specification)["All Rounder"] ===
-                        true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          All Rounder
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Batsman"] === true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Batsman
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Bowler"] === true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Bowler
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Keeper"] === true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Wicket Keeper
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Goalkeeper"] ===
-                        true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Goalkeeper
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Defender"] ===
-                        true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Defender
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Midfielder"] ===
-                        true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Midfielder
-                        </span>
-                      )}
-                      {JSON.parse(player.specification)["Striker"] === true && (
-                        <span
-                          className="badge bg-secondary"
-                          style={{ marginRight: "3px" }}
-                        >
-                          Striker
-                        </span>
-                      )}
-                    </td>
-                    <td>
-                      {player.country == null ? "" : player.country["name"]}
-                    </td>
-                    {/* <td>
-                    {player.franchise == null ? "" : player.franchise["name"]}
-                  </td>
-                  <td>{player.point}</td>
-                  <td>{player.ranking}</td> */}
-                    <td>{player.status}</td>
-                    <td>
-                      <img
-                        src={`${API_PUBLIC_URL}${player.image}`}
-                        alt=""
-                        width="80px"
-                      />
-                    </td>
-                    <td>
-                      <Link
-                        to={`/admin/players/${player.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deletePlayer(player.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          <ReactPaginate
-            breakLabel="..."
-            nextLabel=">"
-            onPageChange={handlePageClick}
-            pageRangeDisplayed={2}
-            pageCount={pageCount}
-            previousLabel="<"
-            renderOnZeroPageCount={null}
-            containerClassName="pagination"
-            pageLinkClassName="page-num"
-            previousLinkClassName="page-num"
-            nextLinkClassName="page-num"
-            activeLinkClassName="active"
-            disabledLinkClassName="disabled"
-          />
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Player List</Title>
         </div>
-      </div>
-      {/* </div> */}
+
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/players/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+
+        }}
+
+      >
+        <Form
+          name="basic"
+          layout="inline"
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+          span={12}
+        >
+          <Form.Item name="username">
+            <Input
+              prefix={<SearchOutlined style={{ fontSize: "15px" }} />}
+              placeholder="Search Player Name"
+              onChange={(e) => setSearchQuery(e.target.value)}
+              style={{
+                width: 350,
+              }}
+            />
+          </Form.Item>
+
+          <Form.Item style={{
+            width: 350,
+          }}>
+            <Select
+              placeholder="Select Country"
+              style={{
+                width: 200,
+              }}
+              onChange={(e) => setCountry_id(e)}
+              options={options}
+            />
+          </Form.Item>
+        </Form>
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
+
+
     </>
   );
 }

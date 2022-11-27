@@ -1,8 +1,16 @@
+import {
+  DeleteOutlined,
+  EditOutlined,
+  FormOutlined
+} from "@ant-design/icons";
+import { Button, Card, Space, Table, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
+
 
 export default function FranchiseList() {
   const [franchiseList, setFranchiseList] = useState([]);
@@ -59,79 +67,101 @@ export default function FranchiseList() {
         }
       });
   }
+  
+  const columns = [
+    {
+      title: "SL",
+      dataIndex: "id",
+      key: "id",
+      render: (_, record) => franchiseList.indexOf(record) + 1,
+    },
+    {
+      title: "Franchise Name",
+      dataIndex: "franchise_name",
+      render: (_, record) =>
+        record.name ? record.name : null,
+    },
+    {
+      title: "Country",
+      dataIndex: "country",
+      render: (_, record) =>
+        record.country.name ? record.country.name : null,
+    },
+    {
+      title: "Logo",
+      dataIndex: "logo",
+      render: (_, record) =>
+        record.logo ? (
+          <img src={`${API_PUBLIC_URL}${record.logo}`} width="80px" />
+        ) : null,
+    },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Space wrap>
+          <Link to={`/admin/franchises/${record.id}`}>
+            <Button type="primary" icon={<EditOutlined />} shape="circle" />
+          </Link>
+
+          <Button
+            type="danger"
+            shape="circle"
+            icon={<DeleteOutlined />}
+            onClick={() => {
+              window.confirm("Are You Delete This Item?") &&
+                deleteFranchise(record.id);
+            }}
+          />
+        </Space>
+      ),
+    },
+  ];
+  const data = franchiseList;
 
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="card">
-        <div className="card-body d-md-flex flex-md-column">
-          <div className="mb-5 main-title">
-            <div className="float-start">
-              <h4 className="card-title">Franchise List</h4>
-            </div>
-            <div className="float-end">
-              <Link to={`/admin/franchises/create`} className="btn btn-info">
-                + Create New
-              </Link>
-            </div>
-          </div>
+      <Card style={{ height: 80 }}>
+        <div className="float-start">
+          <Title level={4}>Franchise List</Title>
+        </div>
 
-          <div class="table-responsive">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>SL</th>
-                  <th>Franchise Name</th>
-                  <th>Country</th>
-                  <th>Logo</th>
-                  <th>Edit</th>
-                  <th>Delete</th>
-                </tr>
-              </thead>
-              <tbody>
-                {franchiseList.map((franchise, index) => (
-                  <tr key={franchise.id}>
-                    <td>{index + 1}</td>
-                    <td>{franchise.name}</td>
-                    <td>
-                      {franchise.country == null
-                        ? ""
-                        : franchise.country["name"]}
-                    </td>
-                    <td>
-                      <img
-                        src={`${API_PUBLIC_URL}${franchise.logo}`}
-                        alt=""
-                        width="80px"
-                      />
-                    </td>
-                    <td>
-                      <Link
-                        to={`/admin/franchises/${franchise.id}`}
-                        className="btn btn-success btn-sm"
-                      >
-                        Edit
-                      </Link>
-                    </td>
-                    <td>
-                      <button
-                        className="btn btn-danger btn-sm"
-                        onClick={() => {
-                          window.confirm("Are You Delete This Item?") &&
-                            deleteFranchise(franchise.id);
-                        }}
-                      >
-                        Delete
-                      </button>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+        <div className="float-end d-flex">
+          <div>
+            <Link
+              to={`/admin/franchises/create`}
+              style={{ textDecoration: " none" }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  borderRadius: "5px",
+                }}
+              >
+                <FormOutlined /> Create New
+              </Button>
+            </Link>
           </div>
         </div>
-      </div>
-      {/* </div> */}
+      </Card>
+
+      <Card
+        style={{
+          marginTop: 16,
+        }}
+        type="inner"
+      >
+        <Table
+          rowKey="id"
+          scroll={{ x: "600px" }}
+          columns={columns}
+          dataSource={data}
+          size="middle"
+        />
+      </Card>
     </>
   );
 }
