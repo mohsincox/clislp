@@ -98,6 +98,7 @@ import LatestNewsDetails from "./pages/LatestNewsDetails";
 import GetAllLatestNews from "./components/GetAllLatestNews";
 import Hello from "./pages/admin/hello/Hello";
 import RolePermissionEditNew from "./pages/admin/role/RolePermissionEditNew";
+import ContactDetail from "./pages/admin/contact/ContactDetail";
 
 export const UserContext = React.createContext(null);
 
@@ -433,6 +434,11 @@ function App() {
                 path={`/admin/contacts`}
                 exact={true}
                 element={<ContactList />}
+              />
+              <Route
+                path={`/admin/contacts/:id/detail`}
+                exact={true}
+                element={<ContactDetail />}
               />
 
               <Route

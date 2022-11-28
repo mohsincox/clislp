@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 
@@ -47,7 +47,7 @@ function ContactList() {
             </div>
           </div>
 
-          <div class="table-responsive">
+          <div className="table-responsive">
             <table className="table">
               <thead>
                 <tr>
@@ -56,6 +56,7 @@ function ContactList() {
                   <th>Email</th>
                   <th>Message</th>
                   {/* <th>Created At</th> */}
+                  <th>Detail</th>
                 </tr>
               </thead>
               <tbody>
@@ -64,8 +65,22 @@ function ContactList() {
                     <td>{index + 1}</td>
                     <td>{contact.name}</td>
                     <td>{contact.email}</td>
-                    <td>{contact.message}</td>
+                    {/* <td>{contact.message}</td> */}
+                    {contact.message && contact.message.length > 50 ? (
+                      <td>{contact.message.substring(0, 50) + " ..."}</td>
+                    ) : (
+                      <td>{contact.message}</td>
+                    )}
+
                     {/* <td>{contact.createdAt}</td> */}
+                    <td>
+                      <Link
+                        to={`/admin/contacts/${contact.id}/detail`}
+                        className="btn btn-success btn-sm"
+                      >
+                        Detail
+                      </Link>
+                    </td>
                   </tr>
                 ))}
               </tbody>
