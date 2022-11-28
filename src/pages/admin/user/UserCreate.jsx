@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Form, Input, Row, Select, Typography } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
-import { Card, Col, Row, Select, Space } from "antd";
-import { Button, Form, Input } from "antd";
 
+const { Title } = Typography;
 const { Option } = Select;
 
 export default function UserCreate() {
@@ -127,109 +127,121 @@ export default function UserCreate() {
   return (
     <>
       {/* <div className="container"> */}
+      <div style={{
+        display: "flex",
+        justifyContent: "center"
+      }}>
+        <Card style={{
+          width: 900,
+        }}>
+          <div style={{
+            textAlign: "center"
 
-      <Card>
-        <Form
-          name="basic"
-          labelCol={{
-            span: 8,
-          }}
-          wrapperCol={{
-            span: 10,
-          }}
-          initialValues={{
-            remember: true,
-          }}
-          onFinish={submitForm}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-        >
-          <Form.Item
-            label="Username"
-            name="username"
-            rules={[
-              {
-                required: true,
-                message: "Please input your username!",
-              },
-            ]}
+          }}>
+            <Title level={4}>User Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
           >
-            <Input onChange={(e) => setName(e.target.value)} />
-          </Form.Item>
-
-          <Form.Item
-            label="Email"
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: "Please input your email!",
-              },
-            ]}
-          >
-            <Input onChange={(e) => setEmail(e.target.value)} />
-          </Form.Item>
-
-          <Form.Item
-            label="Password"
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: "Please input your password!",
-              },
-            ]}
-          >
-            <Input.Password onChange={(e) => setPassword(e.target.value)} />
-          </Form.Item>
-
-          <Form.Item name="role" label="Role" rules={[{ required: true }]}>
-            <Select
-              placeholder="Select a option and change input text above"
-              value={role_id}
-              name="role_id"
-              onChange={(e) => setRole_id(e)}
-              allowClear
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your username!",
+                },
+              ]}
             >
-              {roleList.map((item, index) => (
-                <Option key={item.id} value={item.id}>
-                  {item.role_name}
-                </Option>
-              ))}
-            </Select>
-          </Form.Item>
+              <Input onChange={(e) => setName(e.target.value)} />
+            </Form.Item>
 
-          <Row>
-            <Col
-              span={18}
-              style={{
-                textAlign: "right",
-              }}
+            <Form.Item
+              label="Email"
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your email!",
+                },
+              ]}
             >
-              <Button
-                type="primary"
-                htmlType="submit"
-                onClick={() => submitForm()}
+              <Input onChange={(e) => setEmail(e.target.value)} />
+            </Form.Item>
+
+            <Form.Item
+              label="Password"
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your password!",
+                },
+              ]}
+            >
+              <Input.Password onChange={(e) => setPassword(e.target.value)} />
+            </Form.Item>
+
+            <Form.Item name="role" label="Role" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select a option and change input text above"
+                value={role_id}
+                name="role_id"
+                onChange={(e) => setRole_id(e)}
+                allowClear
               >
-                Submit
-              </Button>
+                {roleList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.role_name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <Button
-                type="danger"
+            <Row>
+              <Col
+                span={18}
                 style={{
-                  marginLeft: "20px",
-                }}
-                htmlType="submit"
-                onClick={() => {
-                  navigate("/admin/users");
+                  textAlign: "right",
                 }}
               >
-                Cancel
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
+                  onClick={() => {
+                    navigate("/admin/users");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
+      </div>
 
       {/* <div className="col-sm-8 offset-sm-2">
         <div className="card">

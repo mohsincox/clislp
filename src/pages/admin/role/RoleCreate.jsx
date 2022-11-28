@@ -1,21 +1,30 @@
+import { Button, Card, Col, Form, Input, Row, Typography } from "antd";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
 
 function RoleCreate() {
   const initialValues = { role_name: "", role_description: "" };
-  const [formValues, setFormValues] = useState(initialValues);
+  const [formValues, setFormValues] = useState({ role_name: "", role_description: "" });
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormValues({ ...formValues, [name]: value });
-  };
+  const handleChange = (evt) => {
 
+    const value = evt.target.value;
+
+    setFormValues({
+      ...formValues, [evt.target.name]: value
+
+    });
+    // const { name, value } = e.target;
+    // setFormValues({ ...formValues, [name]: value });
+  };
+  console.log(formValues)
   const handleSubmit = (e) => {
     e.preventDefault();
     if (formValues.role_name.trim() === "") {
@@ -83,70 +92,100 @@ function RoleCreate() {
     return errors;
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
-    <div className="container">
-      <div className="col-sm-8 offset-sm-2">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Role Create</h5>
-            <form onSubmit={handleSubmit}>
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Role Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Role Name"
-                    value={formValues.role_name}
-                    name="role_name"
-                    onChange={handleChange}
-                  />
-                  {/* <p className="text-danger">{formErrors.role_name}</p> */}
-                </div>
-              </div>
+    <>
+      <div style={{
+        display: "flex",
+        justifyContent: "center"
+      }}>
+        <Card style={{
+          width: 900,
+        }}>
+          <div style={{
+            textAlign: "center"
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Role Description <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Role Description"
-                    value={formValues.role_description}
-                    name="role_description"
-                    onChange={handleChange}
-                  />
-                  {/* <p className="text-danger">{formErrors.role_description}</p> */}
-                </div>
-              </div>
+          }}>
+            <Title level={4}>Role Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            onFinish={handleSubmit}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Role Name"
+              name="role_name"
+              rules={[
+                {
+                  required: true,
+                  message: "Enter Role Name",
+                },
+              ]}
+            >
+              <Input name="role_name" onChange={handleChange} />
+            </Form.Item>
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+            <Form.Item
+              label="Role Description"
+              name="role_description"
+              rules={[
+                {
+                  required: true,
+                  message: "Enter Role Description",
+                },
+              ]}
+            >
+              <Input name="role_description" onChange={handleChange} />
+            </Form.Item>
+
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={handleSubmit}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/roles");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={handleSubmit}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-    </div>
+
+    </>
   );
 }
 
