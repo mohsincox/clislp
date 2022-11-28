@@ -1,9 +1,8 @@
 import { DeleteOutlined, EditOutlined, FormOutlined } from "@ant-design/icons";
-import { Button, Card, Form, Space, Table, Typography } from "antd";
+import { Button, Card, Form, Select, Space, Table, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Select from "react-select";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
 import "../style.css";
@@ -145,7 +144,7 @@ export default function PointTableList() {
 
     if (match_id === "") {
       // toast.error("Search field is required!");
-    } else if (match_id.value === "all") {
+    } else if (match_id === "all") {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
 
@@ -165,7 +164,7 @@ export default function PointTableList() {
 
       await axios
         .get(
-          `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id.value}`,
+          `${API_PUBLIC_URL}api/search/point-table-search?match_id=${match_id}`,
           {
             headers: {
               Authorization: token,
@@ -370,14 +369,16 @@ export default function PointTableList() {
         </div>
 
         <div className="float-end d-flex">
-          <Form>
-            <Form.Item style={{
-              width: 350,
-              height: 32,
-              marginRight: 15
-            }}>
+          <Form name="basic"
+            layout="inline"
+            // onFinishFailed={onFinishFailed}
+            autoComplete="off" >
+            <Form.Item name="username" >
               <Select
                 placeholder="Select Match"
+                style={{
+                  width: 350,
+                }}
                 onChange={(e) => setMatch_id(e)}
                 options={options}
               />

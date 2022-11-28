@@ -101,7 +101,44 @@ export default function TournamentTeamList() {
     // e.preventDefault();
 
     if (searchQuery.trim() === "" && tournament_id === "") {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/tournament-teams`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setTournamentTeamList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
       // toast.error("At least one search field is required!");
+    } else if (searchQuery.trim() === "" && tournament_id === "all") {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/tournament-teams`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setTournamentTeamList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -138,7 +175,10 @@ export default function TournamentTeamList() {
     submitSearch();
   }, [searchQuery, tournament_id]);
 
-  const options = [];
+  const options = [{
+    label: "Select All",
+    value: "all"
+  }];
 
   for (let i = 0; i < tournamentList.length; i++) {
     options.push({
@@ -146,7 +186,7 @@ export default function TournamentTeamList() {
       label: tournamentList[i].name,
     });
   }
-
+// console.log(tournamentTeamList.map(i => i.tournament.id))
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
   };

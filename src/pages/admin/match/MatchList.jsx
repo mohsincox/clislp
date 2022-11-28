@@ -103,6 +103,25 @@ export default function MatchList() {
 
     if (match_search_id === "") {
       // toast.error("Search field is required!");
+    } else if (match_search_id === "all") {
+      const storageData = JSON.parse(getLoginData);
+      const token = storageData.accessToken;
+      await axios
+        .get(`${API_PUBLIC_URL}api/matches`, {
+          headers: {
+            Authorization: token,
+          },
+        })
+        .then((response) => {
+          setMatchList(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          if (error.response.status === 403) {
+            toast.error("No Permission");
+            navigate("/admin/no-permission");
+          }
+        });
     } else {
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
@@ -137,7 +156,10 @@ export default function MatchList() {
     submitSearch();
   }, [match_search_id]);
 
-  const options = [];
+  const options = [{
+    label: 'Select All',
+    value: "all"
+  }];
 
   for (let i = 0; i < match_searchList.length; i++) {
     let countryTeamOne = "";
