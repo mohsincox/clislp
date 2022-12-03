@@ -43,7 +43,7 @@ export default function Test() {
                       <div className="row">
                         <div className="col-sm-5">
                           <img
-                            src={`${API_PUBLIC_URL}${match.country_one.flag}`}
+                            src={`${API_PUBLIC_URL}${match?.country_one?.flag}`}
                             alt=""
                             width="78px"
                             height="59px"
@@ -57,7 +57,7 @@ export default function Test() {
                         </div>
                         <div className="col-sm-5">
                           <img
-                            src={`${API_PUBLIC_URL}${match.country_two.flag}`}
+                            src={`${API_PUBLIC_URL}${match?.country_two?.flag}`}
                             alt=""
                             width="78px"
                             height="59px"
@@ -66,10 +66,10 @@ export default function Test() {
                       </div>
                       <div>
                         <div className="float-start">
-                          {match.country_one.name}
+                          {match?.country_one?.name}
                         </div>
                         <div className="float-end">
-                          {match.country_two.name}
+                          {match?.country_two?.name}
                         </div>
                       </div>
                     </div>

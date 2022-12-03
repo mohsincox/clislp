@@ -1,39 +1,51 @@
-import { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { Column } from "@ant-design/plots";
 
-const ImageUpload = () => {
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState();
-
-  // create a preview as a side effect, whenever selected file is changed
-  useEffect(() => {
-    if (!selectedFile) {
-      setPreview(undefined);
-      return;
-    }
-
-    const objectUrl = URL.createObjectURL(selectedFile);
-    setPreview(objectUrl);
-
-    // free memory when ever this component is unmounted
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [selectedFile]);
-
-  const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
-      return;
-    }
-
-    // I've kept this example simple by using the first image instead of multiple
-    setSelectedFile(e.target.files[0]);
+const DemoColumn = () => {
+  const data = [
+    {
+      tournament: "T1",
+      user: 38,
+    },
+    {
+      tournament: "T2",
+      user: 52,
+    },
+    {
+      tournament: "T3",
+      user: 42,
+    },
+  ];
+  const config = {
+    data,
+    xField: "tournament",
+    yField: "user",
+    label: {
+      // 可手动配置 label 数据标签位置
+      position: "middle",
+      // 'top', 'bottom', 'middle',
+      // 配置样式
+      style: {
+        fill: "#FFFFFF",
+        opacity: 0.6,
+      },
+    },
+    xAxis: {
+      label: {
+        autoHide: true,
+        autoRotate: false,
+      },
+    },
+    meta: {
+      tournament: {
+        alias: "Tour",
+      },
+      sales: {
+        alias: "User",
+      },
+    },
   };
-
-  return (
-    <div>
-      <input type="file" onChange={onSelectFile} />
-      {selectedFile && <img src={preview} alt="" width={"100px"} />}
-    </div>
-  );
+  return <Column {...config} />;
 };
 
-export default ImageUpload;
+export default DemoColumn;
