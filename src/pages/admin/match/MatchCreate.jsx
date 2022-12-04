@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { API_PUBLIC_URL } from "./../../../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
+// import { TimePicker } from "antd";
+import TimePicker from "react-time-picker";
 
 export default function MatchCreate() {
   // const [stage_name, setStage_name] = useState("");
@@ -16,6 +18,11 @@ export default function MatchCreate() {
   const [tourTeamList, setTourTeamList] = useState([]);
   const [status, setStatus] = useState("Active");
   const navigate = useNavigate();
+
+  const onChangeStartTime = (time, timeString) => {
+    console.log(time, timeString);
+    setStart_time(timeString);
+  };
 
   const getLoginData = localStorage.getItem("loginData");
 
@@ -259,13 +266,25 @@ export default function MatchCreate() {
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">Start Time</label>
                 <div className="col-sm-9">
-                  <input
+                  {/* <input
                     className="form-control"
                     type="text"
                     placeholder="Enter start time"
                     value={start_time}
                     name="start_time"
                     onChange={(e) => setStart_time(e.target.value)}
+                  /> */}
+                  {/* <TimePicker
+                    className="form-control"
+                    use12Hours
+                    format="h:mm A"
+                    onChange={onChangeStartTime}
+                  /> */}
+
+                  <TimePicker
+                    className="form-control"
+                    onChange={setStart_time}
+                    value={start_time}
                   />
                 </div>
               </div>

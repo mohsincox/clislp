@@ -220,7 +220,7 @@ export default function PlayerList() {
             </form>
           </div>
 
-          <div class="table-responsive" style={{ marginBottom: "10px" }}>
+          <div className="table-responsive" style={{ marginBottom: "10px" }}>
             <table className="table">
               <thead>
                 <tr>

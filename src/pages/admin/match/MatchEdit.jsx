@@ -3,6 +3,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { API_PUBLIC_URL } from "./../../../constants";
 import axios from "axios";
 import { toast } from "react-toastify";
+import TimePicker from "react-time-picker";
+import "react-time-picker/dist/TimePicker.css";
+import "react-clock/dist/Clock.css";
 
 export default function MatchEdit() {
   // const [stage_name, setStage_name] = useState("");
@@ -294,16 +297,25 @@ export default function MatchEdit() {
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">Start Time</label>
                 <div className="col-sm-9">
-                  <input
+                  {/* <input
                     className="form-control"
                     type="text"
                     placeholder="Enter start time"
                     value={start_time}
                     name="start_time"
                     onChange={(e) => setStart_time(e.target.value)}
+                  /> */}
+                  <TimePicker
+                    className="form-control"
+                    onChange={setStart_time}
+                    value={start_time}
                   />
                 </div>
               </div>
+
+              {/* <div>
+                <TimePicker onChange={onChange} value={start_time} />
+              </div> */}
 
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">Venue</label>

@@ -64,33 +64,33 @@ export default function PlayerEdit() {
     }
   };
 
-  useEffect(() => {
-    if (getLoginData === null) {
-      navigate("/login");
-    } else {
-      const storageData = JSON.parse(getLoginData);
-      const token = storageData.accessToken;
-      (async () => {
-        await axios
-          .get(`${API_PUBLIC_URL}api/games/${game_id}`, {
-            headers: {
-              Authorization: token,
-            },
-          })
-          .then((response) => {
-            setGame_id(response.data.id);
-            console.log("setGame_id", response.data.id);
-          })
-          .catch((error) => {
-            console.log(error);
-            if (error.response.status === 403) {
-              toast.error("No Permission");
-              navigate("/admin/no-permission");
-            }
-          });
-      })();
-    }
-  }, [game_id]);
+  // useEffect(() => {
+  //   if (getLoginData === null) {
+  //     navigate("/login");
+  //   } else {
+  //     const storageData = JSON.parse(getLoginData);
+  //     const token = storageData.accessToken;
+  //     (async () => {
+  //       await axios
+  //         .get(`${API_PUBLIC_URL}api/games/${game_id}`, {
+  //           headers: {
+  //             Authorization: token,
+  //           },
+  //         })
+  //         .then((response) => {
+  //           setGame_id(response.data.id);
+  //           console.log("setGame_id", response.data.id);
+  //         })
+  //         .catch((error) => {
+  //           console.log(error);
+  //           if (error.response.status === 403) {
+  //             toast.error("No Permission");
+  //             navigate("/admin/no-permission");
+  //           }
+  //         });
+  //     })();
+  //   }
+  // }, [game_id]);
 
   const getCountryDetails = async () => {
     if (getLoginData === null) {
@@ -157,7 +157,7 @@ export default function PlayerEdit() {
         .then((response) => {
           const specificationParse = JSON.parse(response.data.specification);
           setName(response.data.name);
-          // setGame_id(response.data.game_id);
+          setGame_id(response.data.game_id);
           setCountry_id(response.data.country_id);
           setFranchise_id(response.data.franchise_id);
           setPoint(response.data.point);
@@ -241,15 +241,44 @@ export default function PlayerEdit() {
     setIsStriker(!isStriker);
   };
 
+  const handelSpecification = (e) => {
+    if (e.target.name == "Goalkeeper") {
+      setIsGoalkeeper(true);
+      setIsDefender(false);
+      setIsMidfielder(false);
+      setIsStriker(false);
+    } else if (e.target.name == "Defender") {
+      setIsGoalkeeper(false);
+      setIsDefender(true);
+      setIsMidfielder(false);
+      setIsStriker(false);
+    } else if (e.target.name == "Midfielder") {
+      setIsGoalkeeper(false);
+      setIsDefender(false);
+      setIsMidfielder(true);
+      setIsStriker(false);
+    } else if (e.target.name == "Striker") {
+      setIsGoalkeeper(false);
+      setIsDefender(false);
+      setIsMidfielder(false);
+      setIsStriker(true);
+    }
+  };
+
   const submitForm = async (e) => {
     e.preventDefault();
 
     console.log("game_id", game_id);
+    console.log("game_id typeOf", typeof game_id);
     // return;
 
     if (name.trim() === "") {
       toast.error("Player Name field is required!");
     } else if (game_id === "") {
+      toast.error("Game field is required!");
+    } else if (game_id === 0) {
+      toast.error("Game field is required!");
+    } else if (isNaN(game_id)) {
       toast.error("Game field is required!");
     } else if (game_id === undefined) {
       toast.error("Game field is required!");
@@ -342,6 +371,16 @@ export default function PlayerEdit() {
     setImage(e.target.files[0]);
   };
 
+  const handleGameSelect = (e) => {
+    if (parseInt(e.target.value) === isNaN) {
+      setGame_id("");
+    } else {
+      setGame_id(parseInt(e.target.value));
+    }
+
+    console.log(parseInt(e.target.value));
+  };
+
   return (
     <>
       <div className="container mt-2">
@@ -373,12 +412,13 @@ export default function PlayerEdit() {
                   </label>
                   <div className="col-sm-9">
                     <select
-                      className="form-select is-invalid"
+                      className="form-select"
                       value={game_id}
                       name="game_id"
-                      onChange={(e) => setGame_id(e.target.value)}
+                      // onChange={(e) => setGame_id(e.target.value)}
+                      onChange={(e) => handleGameSelect(e)}
                     >
-                      <option>Select Game</option>
+                      <option value={""}>Select Game</option>
                       {gameList.map((item, index) => (
                         <option key={item.id} value={item.id}>
                           {item.name}
@@ -431,7 +471,7 @@ export default function PlayerEdit() {
                   </div>
                 )}
 
-                {game_id === 2 && (
+                {/* {game_id === 2 && (
                   <div className="mb-3 row">
                     <label className="form-label col-sm-3">Specification</label>
                     <div className="col-sm-9">
@@ -467,6 +507,53 @@ export default function PlayerEdit() {
                           type="checkbox"
                           checked={isStriker}
                           onChange={handleStriker}
+                        />
+                        Striker
+                      </div>
+                    </div>
+                  </div>
+                )} */}
+
+                {game_id === 2 && (
+                  <div className="mb-3 row">
+                    <label className="form-label col-sm-3">Specification</label>
+                    <div className="col-sm-9">
+                      <div>
+                        <input
+                          type="radio"
+                          name="Goalkeeper"
+                          checked={isGoalkeeper}
+                          onChange={(e) => handelSpecification(e)}
+                        />
+                        Goalkeeper
+                      </div>
+
+                      <div>
+                        <input
+                          type="radio"
+                          name="Defender"
+                          checked={isDefender}
+                          onChange={(e) => handelSpecification(e)}
+                        />
+                        Defender
+                      </div>
+
+                      <div>
+                        <input
+                          type="radio"
+                          name="Midfielder"
+                          checked={isMidfielder}
+                          onChange={(e) => handelSpecification(e)}
+                        />
+                        Midfielder
+                      </div>
+
+                      <div>
+                        <input
+                          type="radio"
+                          name="Striker"
+                          checked={isStriker}
+                          onChange={(e) => handelSpecification(e)}
                         />
                         Striker
                       </div>
