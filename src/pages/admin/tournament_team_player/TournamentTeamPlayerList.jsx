@@ -64,7 +64,7 @@ export default function TournamentTeamPlayerList() {
       });
   }
   // console.log(tournamentTeamPlayerList)
-    const columns = [
+  const columns = [
     {
       title: "SL",
       dataIndex: "id",
@@ -89,13 +89,13 @@ export default function TournamentTeamPlayerList() {
       render: (_, record) =>
         record.tournament_team.country ? record.tournament_team.country["name"] : null,
     },
-    
+
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Space wrap>
-          <Link to={`/admin/tournament-team-players/view/${record.id}`} style={{textDecoration: "none"}}>
+          <Link to={`/admin/tournament-team-players/view/${record.id}`} style={{ textDecoration: "none" }}>
             <Button
               icon={<ContainerOutlined />}
               style={{
@@ -126,7 +126,7 @@ export default function TournamentTeamPlayerList() {
 
   return (
     <>
-    <Card style={{ height: 80 }}>
+      <Card style={{ height: 80 }}>
         <div className="float-start">
           <Title level={4}>Tournament Team Player List</Title>
         </div>
@@ -134,7 +134,7 @@ export default function TournamentTeamPlayerList() {
         <div className="float-end d-flex">
           <div>
             <Link
-              to={`/admin/point-tables/create`}
+              to={`/admin/tournament-team-players/create`}
               style={{ textDecoration: " none" }}
             >
               <Button
@@ -167,6 +167,6 @@ export default function TournamentTeamPlayerList() {
         />
       </Card>
     </>
-    
+
   );
 }

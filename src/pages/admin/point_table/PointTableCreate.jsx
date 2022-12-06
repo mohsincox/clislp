@@ -1,11 +1,14 @@
+import { Button, Card, Checkbox, Col, Form, Input, Row, Select, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import Select from "react-select";
-import { API_PUBLIC_URL } from "../../../constants";
 import { isNull } from "underscore";
+import { API_PUBLIC_URL } from "../../../constants";
 import { footballPlayerSpecification } from "../../../context/helper";
+
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function PointTableCreate() {
   const [match_id, setMatch_id] = useState("");
@@ -145,13 +148,14 @@ export default function PointTableCreate() {
     setFive_wickets(!five_wickets);
   };
   const handleSelectMatch = (e) => {
-    setMatch_id(e.value);
+    setMatch_id(e);
 
-    let cMatch = matchList.find((m) => m.id == e.value);
+    let cMatch = matchList.find((m) => m.id == e);
     setCurrentMatch(cMatch);
   };
 
   const currentMatchGame = () => {
+    console.log(currentMatch)
     if (isNull(currentMatch)) return null;
     if (currentMatch["tournament"]["game"]["name"] === "Cricket")
       return "Cricket";
@@ -224,7 +228,7 @@ export default function PointTableCreate() {
   }
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (match_id === "") {
       toast.error("Match field is required!");
@@ -284,7 +288,7 @@ export default function PointTableCreate() {
 
           toast.success("Successfully created!");
           // navigate("/admin/point-tables");
-          window.location.href = "/admin/point-tables/create";
+          window.location.href = "/admin/point-tables";
         })
         .catch((error) => {
           console.log(error);
@@ -299,293 +303,268 @@ export default function PointTableCreate() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-10 offset-sm-1">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Point Table Create</h5>
-            <form onSubmit={submitForm}>
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Select Match <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
+
+          }}>
+            <Title level={4}>Point Table Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item name="match-name" label="Select Match" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Match"
+                // value={tournament_id}
+                name="match_id"
+                onChange={(e) => handleSelectMatch(e)}
+                options={options}
+              >
+              </Select>
+            </Form.Item>
+
+            <Form.Item name="team-field" label="Team" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Team"
+                value={tournament_team_id}
+                name="tournament_team_id"
+                onChange={(e) => setTournament_team_id(e)}
+              >
+                <Option value="">Select team</Option>
+                {tt_idList.map((item, index) => (
+                  <Option key={item} value={item}>
+                    {index == 0 ? "Team One" : "Team Two"}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            {playerList.length > 0 && (
+              <>
+                <Form.Item name="player-field" label="Player" rules={[{ required: true }]}>
                   <Select
-                    onChange={(e) => handleSelectMatch(e)}
-                    options={options}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Team <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_id}
-                    name="tournament_team_id"
-                    onChange={(e) => setTournament_team_id(e.target.value)}
+                    placeholder="Select Player"
+                    value={player_id}
+                    name="player_id"
+                    onChange={(e) => setPlayer_id(e)}
                   >
-                    <option>Select Team</option>
-                    {tt_idList.map((item, index) => (
-                      <option key={item} value={item}>
-                        {index == 0 ? "Team One" : "Team Two"}
-                      </option>
+                    <Option value="">Select Player</Option>
+                    {playerList.map((item, index) => (
+                      <Option key={index} value={item.player.id}>
+                        {item.player.name}
+                      </Option>
                     ))}
-                  </select>
-                </div>
-              </div>
+                  </Select>
+                </Form.Item>
 
-              {playerList.length > 0 && (
-                <>
-                  <div className="mb-3 row">
-                    <label className="form-label col-sm-3">
-                      Player <span style={{ color: "#ff0000" }}>*</span>
-                    </label>
-                    <div className="col-sm-9">
-                      <select
-                        className="form-select"
-                        value={player_id}
-                        name="player_id"
-                        onChange={(e) => setPlayer_id(e.target.value)}
-                      >
-                        <option value="">Select Player</option>
-                        {playerList.map((item, index) => (
-                          <option key={index} value={item.player.id}>
-                            {item.player.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
+                {currentMatchGame() === "Cricket" ? (
+                  <div className="cricket-point-form">
+                    {player_id && (
+                      <>
+                        <Form.Item
+                          label="Run"
+                        >
+                          <Input
+                            placeholder="Enter Run"
+                            value={run}
+                            name="run"
+                            onChange={(e) => setRun(e.target.value)}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Wicket"
+                        >
+                          <Input
+                            placeholder="Enter Wicket"
+                            value={wicket}
+                            name="wicket"
+                            onChange={(e) => setWicket(e.target.value)}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Man of the match"
+                        >
+                          <Checkbox
+                            style={{ width: "20px", height: "20px" }}
+                            checked={man_of_the_match}
+                            onChange={handleManOfTheMatch}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Fifty"
+                        >
+                          <Checkbox
+                            style={{ width: "20px", height: "20px" }}
+                            checked={fifty}
+                            onChange={handleFifty}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Hundred"
+                        >
+                          <Checkbox
+                            style={{ width: "20px", height: "20px" }}
+                            checked={hundred}
+                            onChange={handleHundred}
+                          />
+                        </Form.Item>
+
+                        <Form.Item
+                          label="Five Wickets"
+                        >
+                          <Checkbox
+                            style={{ width: "20px", height: "20px" }}
+                            checked={five_wickets}
+                            onChange={handleFiveWickets}
+                          />
+                        </Form.Item>
+                      </>
+                    )}
                   </div>
-
-                  {currentMatchGame() === "Cricket" ? (
-                    <div className="cricket-point-form">
-                      {player_id && (
-                        <>
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">Run</label>
-                            <div className="col-sm-9">
-                              <input
-                                className="form-control"
-                                type="number"
-                                placeholder="Enter Run"
-                                value={run}
-                                name="run"
-                                onChange={(e) => setRun(e.target.value)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">
-                              Wicket
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                className="form-control"
-                                type="number"
-                                placeholder="Enter Wicket"
-                                value={wicket}
-                                name="wicket"
-                                onChange={(e) => setWicket(e.target.value)}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">
-                              Man of the match
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="checkbox"
-                                checked={man_of_the_match}
-                                onChange={handleManOfTheMatch}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">Fifty</label>
-                            <div className="col-sm-9">
-                              <input
-                                type="checkbox"
-                                checked={fifty}
-                                onChange={handleFifty}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">
-                              Hundred
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="checkbox"
-                                checked={hundred}
-                                onChange={handleHundred}
-                              />
-                            </div>
-                          </div>
-
-                          <div className="mb-3 row">
-                            <label className="form-label col-sm-3">
-                              Five Wickets
-                            </label>
-                            <div className="col-sm-9">
-                              <input
-                                type="checkbox"
-                                checked={five_wickets}
-                                onChange={handleFiveWickets}
-                              />
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  ) : (
-                    <div className="football-point-form">
-                      {player_id && (
-                        <>
-                          <hr />
-                          <div className="mb-3 row">
-                            <div className="col-lg-12">
-                              <div className="card">
-                                <div className="card-header">
-                                  <h5 className="m-0">Player Score</h5>
-                                </div>
-                                <div className="card-body">
-                                  <div className="row">
-                                    <div className="col-lg-2">
-                                      <div className="form-group">
-                                        <label className="form-label">
-                                          Goal
-                                        </label>
-                                        <input
-                                          className="form-control"
-                                          type="number"
-                                          placeholder="Enter Goal"
-                                          value={footballPoints["Goal"]}
-                                          name="Goal"
-                                          onChange={(e) =>
-                                            handleFootballPoints(e)
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-2">
-                                      <div className="form-group">
-                                        <label className="form-label">
-                                          Assist
-                                        </label>
-                                        <input
-                                          className="form-control"
-                                          type="number"
-                                          placeholder="Enter Goal"
-                                          value={footballPoints["Assist"]}
-                                          name="Assist"
-                                          onChange={(e) =>
-                                            handleFootballPoints(e)
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-2">
-                                      <div className="form-group">
-                                        <label className="form-label">
-                                          Goal_Save
-                                        </label>
-                                        <input
-                                          className="form-control"
-                                          type="number"
-                                          placeholder="Enter Goal"
-                                          value={footballPoints["Goal_Save"]}
-                                          name="Goal_Save"
-                                          onChange={(e) =>
-                                            handleFootballPoints(e)
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    <div className="col-lg-2">
-                                      <div className="form-group">
-                                        <label className="form-label">
-                                          Penalty_Save
-                                        </label>
-                                        <input
-                                          className="form-control"
-                                          type="number"
-                                          placeholder="Enter Goal"
-                                          value={footballPoints["Penalty_Save"]}
-                                          name="Penalty_Save"
-                                          onChange={(e) =>
-                                            handleFootballPoints(e)
-                                          }
-                                        />
-                                      </div>
-                                    </div>
-                                    {currentPlayerSpcification ==
-                                      "Goalkeeper" ||
-                                    currentPlayerSpcification == "Defender" ? (
-                                      <div className="col-lg-2">
-                                        <div className="form-group">
-                                          <label className="form-label">
-                                            Clean_Sheet
-                                          </label>
-                                          <input
-                                            className="form-check"
-                                            type="checkbox"
-                                            placeholder="Enter Goal"
-                                            value={
-                                              footballPoints["Clean_Sheet"]
-                                            }
-                                            name="Clean_Sheet"
-                                            onChange={(e) =>
-                                              handleFootballPoints(e)
-                                            }
-                                          />
-                                        </div>
-                                      </div>
-                                    ) : null}
-                                  </div>
-                                </div>
+                ) : (
+                  <div className="football-point-form">
+                    {player_id && (
+                      <>
+                        <hr />
+                        <div className="mb-3 row">
+                          <div className="col-lg-12">
+                            <div className="card">
+                              <div className="card-header">
+                                <h5 className="m-0">Player Score</h5>
                               </div>
+                              <Card>
+                                <Form.Item
+                                  label="Goal"
+                                >
+                                  <Input
+                                    placeholder="Enter Goal"
+                                    value={footballPoints["Goal"]}
+                                    name="Goal"
+                                    onChange={(e) =>
+                                      handleFootballPoints(e)
+                                    }
+                                  />
+                                </Form.Item>
+                                <Form.Item
+                                  label="Assist"
+                                >
+                                  <Input
+                                    placeholder="Enter Assist"
+                                    value={footballPoints["Assist"]}
+                                    name="Assist"
+                                    onChange={(e) =>
+                                      handleFootballPoints(e)
+                                    }
+                                  />
+                                </Form.Item>
+                                <Form.Item
+                                  label="Goal Save"
+                                >
+                                  <Input
+                                    placeholder="Enter Goal Save"
+                                    value={footballPoints["Goal_Save"]}
+                                    name="Goal_Save"
+                                    onChange={(e) =>
+                                      handleFootballPoints(e)
+                                    }
+                                  />
+                                </Form.Item>
+                                <Form.Item
+                                  label="Penalty Save"
+                                >
+                                  <Input
+                                    placeholder="Enter Penalty Save"
+                                    value={footballPoints["Penalty_Save"]}
+                                    name="Penalty_Save"
+                                    onChange={(e) =>
+                                      handleFootballPoints(e)
+                                    }
+                                  />
+                                </Form.Item>
+                                {currentPlayerSpcification ==
+                                  "Goalkeeper" ||
+                                  currentPlayerSpcification == "Defender" ? (
+                                  <Form.Item
+                                    label="Clean Sheet"
+                                  >
+                                    <Input
+                                      placeholder="Enter Clean Sheet"
+                                      value={
+                                        footballPoints["Clean_Sheet"]
+                                      }
+                                      name="Clean_Sheet"
+                                      onChange={(e) =>
+                                        handleFootballPoints(e)
+                                      }
+                                    />
+                                  </Form.Item>
+                                ) : null}
+                              </Card>
                             </div>
                           </div>
-                        </>
-                      )}
-                    </div>
-                  )}
-                </>
-              )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                )}
+              </>
+            )}
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/point-tables");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
     </>
   );

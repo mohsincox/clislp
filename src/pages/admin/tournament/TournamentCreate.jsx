@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row, Select, Typography, Upload } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function TournamentCreate() {
   const [name, setName] = useState("");
@@ -58,14 +62,14 @@ export default function TournamentCreate() {
   }, []);
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (disable) {
       console.log("disable", disable);
       return;
     }
 
-    if (game_id.trim() === "") {
+    if (game_id === "") {
       toast.error("Game Name field is required!");
     } else if (name.trim() === "") {
       toast.error("Tournament Name field is required!");
@@ -93,7 +97,7 @@ export default function TournamentCreate() {
       // for (var [key, value] of formData.entries()) {
       //   console.log(key, value);
       // }
-      // console.log("formData", formData.name);
+      // console.log("formData", formData);
 
       // console.log(formData.get("name"));
       // console.log(formData.get("selectedFile").name);
@@ -148,202 +152,209 @@ export default function TournamentCreate() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [logo]);
 
+  // const onSelectFile = (e) => {
+  //   console.log('Upload event:', e);
+  //   if (!e.target.files || e.target.files.length === 0) {
+  //     setLogo(undefined);
+  //     return;
+  //   }
+  //   setLogo(e.target.files[0]);
+  // };
+
   const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setLogo(undefined);
-      return;
+    // console.log('Upload event:', e);
+    if (e.fileList.length === 0) {
+      setLogo(null)
+    } else {
+      setLogo(e.fileList[0].originFileObj)
+
     }
-    setLogo(e.target.files[0]);
   };
+
+  // console.log(logo)
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
 
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-8 offset-sm-2">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Tournament Create</h5>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Game Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={game_id}
-                    name="game_id"
-                    onChange={(e) => setGame_id(e.target.value)}
-                  >
-                    <option value="">Select Game</option>
-                    {gameList.map((sm, index) => (
-                      <option key={sm.id} value={sm.id}>
-                        {sm.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+      <Card>
+        <div style={{
+          textAlign: "center"
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Tournament Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Type <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="category"
-                    value={category}
-                    className="form-control"
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    <option value="">Select Category</option>
-                    <option value="International">International</option>
-                    <option value="Franchise">Franchise</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Month</label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={month}
-                    name="month"
-                    onChange={(e) => setMonth(e.target.value)}
-                  >
-                    <option value={""}>Select Month</option>
-                    <option value={"January"}>January</option>
-                    <option value={"February"}>February</option>
-                    <option value={"March"}>March</option>
-                    <option value={"April"}>April</option>
-                    <option value={"May"}>May</option>
-                    <option value={"June"}>June</option>
-                    <option value={"July"}>July</option>
-                    <option value={"August"}>August</option>
-                    <option value={"September"}>September</option>
-                    <option value={"October"}>October</option>
-                    <option value={"November"}>November</option>
-                    <option value={"December"}>December</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Year</label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={year}
-                    name="year"
-                    onChange={(e) => setYear(e.target.value)}
-                  >
-                    <option value={""}>Select Year</option>
-                    <option value={"2022"}>2022</option>
-                    <option value={"2023"}>2023</option>
-                    <option value={"2024"}>2024</option>
-                    <option value={"2025"}>2025</option>
-                    <option value={"2026"}>2026</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Status <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="status"
-                    value={status}
-                    className="form-control"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="">Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Upcomming <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="upcomming"
-                    value={upcomming}
-                    className="form-control"
-                    onChange={(e) => setUpcomming(e.target.value)}
-                  >
-                    <option value="">Select Upcomming</option>
-                    <option value="Yes">Yes</option>
-                    <option value="No">No</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Logo</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="file"
-                    placeholder="Enter Image"
-                    name="logo"
-                    // onChange={(e) => setLogo(e.target.files[0])}
-                    onChange={onSelectFile}
-                  />
-
-                  <div style={{ marginTop: "10px" }}>
-                    {logo && (
-                      <img src={preview} alt="" width="80px" height="50px" />
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
-                  onClick={() => {
-                    navigate("/admin/tournaments");
-                  }}
-                >
-                  Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                  disabled={disable}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
+        }}>
+          <Title level={4}>Tournament Create</Title>
         </div>
-      </div>
-      {/* </div> */}
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 10,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={submitForm}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item name="game_name" label="Game Name" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select Game"
+              value={game_id}
+              name="game_id"
+              onChange={(e) => setGame_id(e)}
+            >
+              {gameList.map((item, index) => (
+                <Option key={item.id} value={item.id}>
+                  {item.name}
+                </Option>
+              ))}
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            label="Tournament Name"
+            name="tournament_name"
+            rules={[
+              {
+                required: true,
+                message: "Enter Tournament Name",
+              },
+            ]}
+          >
+            <Input value={name} name="name" placeholder="Enter Tournament Name" onChange={(e) => setName(e.target.value)} />
+          </Form.Item>
+
+          <Form.Item name="tournament_type" label="Tournament Type" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select Category"
+              name="category"
+              value={category}
+              onChange={(e) => setCategory(e)}
+            >
+              <Option value="">Select Category</Option>
+              <Option value="International">International</Option>
+              <Option value="Franchise">Franchise</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="month-field" label="Month">
+            <Select
+              placeholder="Select Month"
+              value={month}
+              name="month"
+              onChange={(e) => setMonth(e)}
+            >
+              <Option value="">Select Month</Option>
+              <Option value="January">January</Option>
+              <Option value="February">February</Option>
+              <Option value="March">March</Option>
+              <Option value="April">April</Option>
+              <Option value="May">May</Option>
+              <Option value="June">June</Option>
+              <Option value="July">July</Option>
+              <Option value="August">August</Option>
+              <Option value="September">September</Option>
+              <Option value="October">October</Option>
+              <Option value="November">November</Option>
+              <Option value="December">December</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="year-field" label="Year">
+            <Select
+              placeholder="Select Year"
+              value={year}
+              name="year"
+              onChange={(e) => setYear(e)}
+            >
+              <Option value="">Select Year</Option>
+              <Option value="2022">2022</Option>
+              <Option value="2023">2023</Option>
+              <Option value="2024">2024</Option>
+              <Option value="2025">2025</Option>
+              <Option value="2026">2026</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="status-field" label="Status" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select Status"
+              name="status"
+              value={status}
+              onChange={(e) => setStatus(e)}
+            >
+              <Option value="">Select Status</Option>
+              <Option value="Active">Active</Option>
+              <Option value="Inactive">Inactive</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item name="upcomming-field" label="Upcomming" rules={[{ required: true }]}>
+            <Select
+              placeholder="Select Upcomming"
+              name="upcomming"
+              value={upcomming}
+              onChange={(e) => setUpcomming(e)}
+            >
+              <Option value="">Select Upcomming</Option>
+              <Option value="Yes">Yes</Option>
+              <Option value="No">No</Option>
+            </Select>
+          </Form.Item>
+
+          <Form.Item
+            name="upload"
+            label="Logo"
+            valuePropName="file"
+            multiple={false}
+          // getValueFromEvent={onSelectFile}
+          >
+            <Upload multiple={false} maxCount="1" name="logo" onChange={onSelectFile} listType="picture">
+              <Button icon={<UploadOutlined />}>Browse</Button>
+            </Upload>
+            <div style={{ marginTop: "10px" }}>
+              {logo && (
+                <img src={preview} alt="" width="80px" height="50px" />
+              )}
+            </div>
+          </Form.Item>
+          <Row>
+            <Col
+              span={18}
+              style={{
+                textAlign: "right",
+              }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={submitForm}
+              >
+                Submit
+              </Button>
+
+              <Button
+                type="danger"
+                style={{
+                  marginLeft: "20px",
+                }}
+                htmlType="submit"
+                onClick={() => {
+                  navigate("/admin/tournaments");
+                }}
+              >
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
     </>
   );
 }

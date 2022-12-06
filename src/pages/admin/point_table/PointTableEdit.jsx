@@ -1,11 +1,15 @@
+import { Button, Card, Checkbox, Col, Form, Input, Row, Select, Typography } from "antd";
 import axios from "axios";
-import React, {useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
-import {toast} from "react-toastify";
-import Select from "react-select";
-import {API_PUBLIC_URL} from "../../../constants";
-import {isNull} from "underscore";
-import {footballPlayerSpecification} from "../../../context/helper";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+// import Select from "react-select";
+import { toast } from "react-toastify";
+import { isNull } from "underscore";
+import { API_PUBLIC_URL } from "../../../constants";
+import { footballPlayerSpecification } from "../../../context/helper";
+
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function PointTableEdit() {
 
@@ -32,10 +36,10 @@ export default function PointTableEdit() {
     const [hundred, setHundred] = useState(false);
     const [five_wickets, setFive_wickets] = useState(false);
     let navigate = useNavigate();
-    const {id} = useParams();
+    const { id } = useParams();
 
     const getLoginData = localStorage.getItem("loginData");
-
+    console.log(tt_idList)
     useEffect(() => {
         getGameDetails();
         getPointTableDetails();
@@ -55,6 +59,7 @@ export default function PointTableEdit() {
                         },
                     })
                     .then((response) => {
+                        console.log(response.data)
                         // setStage_name(response.data.stage_name);
                         setMatch_id(response.data.match_id);
                         setTournament_team_id(response.data.tournament_team_id);
@@ -78,8 +83,9 @@ export default function PointTableEdit() {
         }
     };
 
+
     useEffect(() => {
-        if(match_id && matchList.length) {
+        if (match_id && matchList.length) {
             let cMatch = matchList.find(m => m.id == match_id);
             setCurrentMatch(cMatch);
         }
@@ -125,6 +131,7 @@ export default function PointTableEdit() {
                         },
                     })
                     .then((response) => {
+                        console.log(response.data)
                         var arr = [];
                         if (response.data.tournament_team_one_id !== undefined) {
                             arr.push(response.data.tournament_team_one_id);
@@ -195,11 +202,7 @@ export default function PointTableEdit() {
     };
 
 
-    const currentMatchGame = () => {
-        if (isNull(currentMatch)) return null
-        if (currentMatch["tournament"]["game"]["name"] === "Cricket") return "Cricket";
-        else if (currentMatch["tournament"]["game"]["name"] === "Football") return "Football";
-    }
+
 
     // section set player specification
     useEffect(() => {
@@ -229,12 +232,22 @@ export default function PointTableEdit() {
     }
 
     const handleSelectMatch = (e) => {
-        setMatch_id(e.value);
+        console.log(e)
+        setMatch_id(e);
 
-        let cMatch = matchList.find(m => m.id == e.value);
+        let cMatch = matchList.find(m => m.id == e);
+        console.log(cMatch)
         setCurrentMatch(cMatch);
     }
 
+    const currentMatchGame = () => {
+        // console.log(currentMatch["tournament"]["game"]["name"])
+        if (isNull(currentMatch)) { return null } else {
+            if (currentMatch["tournament"]["game"]["name"] === "Cricket") { return "Cricket" }
+            else if (currentMatch["tournament"]["game"]["name"] === "Football") { return "Football" }
+        }
+    }
+    console.log(currentMatch)
     const submitForm = async (e) => {
         e.preventDefault();
 
@@ -262,7 +275,7 @@ export default function PointTableEdit() {
 
             let url = `${API_PUBLIC_URL}api/point-tables/${id}`;
 
-            if(currentMatchGame() == "Football") url = `${API_PUBLIC_URL}api/point-tables/${id}/football`;
+            if (currentMatchGame() == "Football") url = `${API_PUBLIC_URL}api/point-tables/${id}/football`;
 
             const storageData = JSON.parse(getLoginData);
             const token = storageData.accessToken;
@@ -333,279 +346,304 @@ export default function PointTableEdit() {
         });
     }
 
+    // const teamOptions = [{
+    //     value: "",
+    //     label: "Select Team"
+    // }];
+
+
+    // {
+    //     tt_idList.map((item, index) => (
+
+    //         <Option Option key={index} value={item} >
+    //             {index == 0 ? "Team One" : "Team Two"}
+    //         </Option>
+    //     ))
+    // }
+
+    // for (let i = 0; i < tt_idList.length; i++) {
+    //     if (i == 0) {
+    //         teamOptions.push({
+    //             value: tt_idList[i],
+    //             label: "Team One"
+    //         });
+    //     } else {
+    //         teamOptions.push({
+    //             value: tt_idList[i],
+    //             label: "Team Two"
+    //         });
+    //     }
+    // }
+
+
+    const onFinishFailed = (errorInfo) => {
+        console.log("Failed:", errorInfo);
+    };
+
     return (
         <>
-            {/* <div className="container mt-2"> */}
-            <div className="col-sm-10 offset-sm-1">
-                <div className="card">
-                    <div className="card-body">
-                        <h5 className="card-title">Point Table Edit</h5>
-                        <form onSubmit={submitForm}>
-                            <div className="mb-3 row">
-                                <label className="form-label col-sm-3">
-                                    Select Match <span style={{color: "#ff0000"}}>*</span>
-                                </label>
-                                <div className="col-sm-9">
+            <div>
+                <Card>
+                    <div style={{
+                        textAlign: "center"
+
+                    }}>
+                        <Title level={4}>Point Table Edit</Title>
+                    </div>
+                    <Form
+                        name="basic"
+                        labelCol={{
+                            span: 8,
+                        }}
+                        wrapperCol={{
+                            span: 10,
+                        }}
+                        initialValues={{
+                            remember: true,
+                        }}
+                        // onFinish={submitForm}
+                        onFinishFailed={onFinishFailed}
+                        autoComplete="off"
+                    >
+                        <Form.Item label="Select Match">
+                            <Select
+                                placeholder="Select Match"
+                                name="match_id"
+                                value={options.filter((obj) => obj.value === match_id)}
+                                onChange={(e) => handleSelectMatch(e.value)}
+                                options={options}
+                            >
+                            </Select>
+                        </Form.Item>
+
+                        <Form.Item label="Team">
+                            <Select
+                                placeholder="Select Team"
+                                value={tournament_team_id}
+                                name="tournament_team_id"
+                                onChange={(e) => setTournament_team_id(e)}
+                            >
+                                <Option value="">Select team</Option>
+
+                                {tt_idList.map((item, index) => (
+                                    <Option key={item} value={item} >
+                                        {index == 0 ? "Team One" : "Team Two"}
+                                    </Option>
+                                ))}
+                            </Select>
+                        </Form.Item>
+
+                        {playerList.length > 0 && (
+                            <>
+                                <Form.Item label="Player">
                                     <Select
-                                        value={options.filter((obj) => obj.value === match_id)}
-                                        onChange={(e) => handleSelectMatch(e)}
-                                        options={options}
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="mb-3 row">
-                                <label className="form-label col-sm-3">
-                                    Team <span style={{color: "#ff0000"}}>*</span>
-                                </label>
-                                <div className="col-sm-9">
-                                    <select
-                                        className="form-select"
-                                        value={tournament_team_id}
-                                        name="tournament_team_id"
-                                        onChange={(e) => setTournament_team_id(e.target.value)}
+                                        placeholder="Select Player"
+                                        value={player_id}
+                                        name="player_id"
+                                        onChange={(e) => setPlayer_id(e)}
                                     >
-                                        <option>Select Team</option>
-                                        {tt_idList.map((item, index) => (
-                                            <option key={item} value={item}>
-                                                {index == 0 ? "Team One" : "Team Two"}
-                                            </option>
+                                        <Option value="">Select Player</Option>
+                                        {playerList.map((item, index) => (
+                                            <Option key={index} value={item.player.id}>
+                                                {item.player.name}
+                                            </Option>
                                         ))}
-                                    </select>
-                                </div>
-                            </div>
+                                    </Select>
+                                </Form.Item>
 
-                            {playerList.length > 0 && (
-                                <>
-                                    <div className="mb-3 row">
-                                        <label className="form-label col-sm-3">
-                                            Player <span style={{color: "#ff0000"}}>*</span>
-                                        </label>
-                                        <div className="col-sm-9">
-                                            <select
-                                                className="form-select"
-                                                value={player_id}
-                                                name="player_id"
-                                                onChange={(e) => setPlayer_id(e.target.value)}
-                                            >
-                                                <option value="">Select Player</option>
-                                                {playerList.map((item, index) => (
-                                                    <option key={index} value={item.player.id}>
-                                                        {item.player.name}
-                                                    </option>
-                                                ))}
-                                            </select>
-                                        </div>
+                                {currentMatchGame() === "Cricket" ? (
+                                    <div className="cricket-point-form">
+                                        {player_id && (
+                                            <>
+                                                <Form.Item
+                                                    label="Run"
+                                                >
+                                                    <Input
+                                                        placeholder="Enter Run"
+                                                        value={run}
+                                                        name="run"
+                                                        onChange={(e) => setRun(e.target.value)}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Wicket"
+                                                >
+                                                    <Input
+                                                        placeholder="Enter Wicket"
+                                                        value={wicket}
+                                                        name="wicket"
+                                                        onChange={(e) => setWicket(e.target.value)}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Man of the match"
+                                                >
+                                                    <Checkbox
+                                                        style={{ width: "20px", height: "20px" }}
+                                                        checked={man_of_the_match}
+                                                        onChange={handleManOfTheMatch}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Fifty"
+                                                >
+                                                    <Checkbox
+                                                        style={{ width: "20px", height: "20px" }}
+                                                        checked={fifty}
+                                                        onChange={handleFifty}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Hundred"
+                                                >
+                                                    <Checkbox
+                                                        style={{ width: "20px", height: "20px" }}
+                                                        checked={hundred}
+                                                        onChange={handleHundred}
+                                                    />
+                                                </Form.Item>
+
+                                                <Form.Item
+                                                    label="Five Wickets"
+                                                >
+                                                    <Checkbox
+                                                        style={{ width: "20px", height: "20px" }}
+                                                        checked={five_wickets}
+                                                        onChange={handleFiveWickets}
+                                                    />
+                                                </Form.Item>
+                                            </>
+                                        )}
                                     </div>
-
-                                    {
-                                        currentMatchGame() === 'Cricket' ? (
-                                            <div className="cricket-point-form">
-                                                {
-                                                    player_id && <>
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">Run</label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    className="form-control"
-                                                                    type="number"
-                                                                    placeholder="Enter Run"
-                                                                    value={run}
-                                                                    name="run"
-                                                                    onChange={(e) => setRun(e.target.value)}
-                                                                />
+                                ) : (
+                                    <div className="football-point-form">
+                                        {player_id && (
+                                            <>
+                                                <hr />
+                                                <div className="mb-3 row">
+                                                    <div className="col-lg-12">
+                                                        <div className="card">
+                                                            <div className="card-header">
+                                                                <h5 className="m-0">Player Score</h5>
                                                             </div>
-                                                        </div>
-
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">Wicket</label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    className="form-control"
-                                                                    type="number"
-                                                                    placeholder="Enter Wicket"
-                                                                    value={wicket}
-                                                                    name="wicket"
-                                                                    onChange={(e) => setWicket(e.target.value)}
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">
-                                                                Man of the match
-                                                            </label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={man_of_the_match}
-                                                                    onChange={handleManOfTheMatch}
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">Fifty</label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={fifty}
-                                                                    onChange={handleFifty}
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">Hundred</label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={hundred}
-                                                                    onChange={handleHundred}
-                                                                />
-                                                            </div>
-                                                        </div>
-
-                                                        <div className="mb-3 row">
-                                                            <label className="form-label col-sm-3">Five Wickets</label>
-                                                            <div className="col-sm-9">
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={five_wickets}
-                                                                    onChange={handleFiveWickets}
-                                                                />
-                                                            </div>
-                                                        </div>
-                                                    </>
-                                                }
-                                            </div>
-                                        ) : (
-                                            <div className="football-point-form">
-                                                {
-                                                    player_id && <>
-                                                        <hr/>
-                                                        <div className="mb-3 row">
-                                                            <div className="col-lg-12">
-                                                                <div className="card">
-                                                                    <div className="card-header">
-                                                                        <h5 className="m-0">Player Score</h5>
-                                                                    </div>
-                                                                    <div className="card-body">
-                                                                        <div className="row">
-                                                                            <div className="col-lg-2">
-                                                                                <div className="form-group">
-                                                                                    <label
-                                                                                        className="form-label">Goal</label>
-                                                                                    <input
-                                                                                        className="form-control"
-                                                                                        type="number"
-                                                                                        placeholder="Enter Goal"
-                                                                                        value={footballPoints["Goal"]}
-                                                                                        name="Goal"
-                                                                                        onChange={(e) => handleFootballPoints(e)}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-lg-2">
-                                                                                <div className="form-group">
-                                                                                    <label
-                                                                                        className="form-label">Assist</label>
-                                                                                    <input
-                                                                                        className="form-control"
-                                                                                        type="number"
-                                                                                        placeholder="Enter Goal"
-                                                                                        value={footballPoints["Assist"]}
-                                                                                        name="Assist"
-                                                                                        onChange={(e) => handleFootballPoints(e)}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-lg-2">
-                                                                                <div className="form-group">
-                                                                                    <label
-                                                                                        className="form-label">Goal_Save</label>
-                                                                                    <input
-                                                                                        className="form-control"
-                                                                                        type="number"
-                                                                                        placeholder="Enter Goal"
-                                                                                        value={footballPoints["Goal_Save"]}
-                                                                                        name="Goal_Save"
-                                                                                        onChange={(e) => handleFootballPoints(e)}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            <div className="col-lg-2">
-                                                                                <div className="form-group">
-                                                                                    <label
-                                                                                        className="form-label">Penalty_Save</label>
-                                                                                    <input
-                                                                                        className="form-control"
-                                                                                        type="number"
-                                                                                        placeholder="Enter Goal"
-                                                                                        value={footballPoints["Penalty_Save"]}
-                                                                                        name="Penalty_Save"
-                                                                                        onChange={(e) => handleFootballPoints(e)}
-                                                                                    />
-                                                                                </div>
-                                                                            </div>
-                                                                            {
-                                                                                currentPlayerSpcification == "Goalkeeper" || currentPlayerSpcification == "Defender" ? (
-                                                                                    <div className="col-lg-2">
-                                                                                        <div className="form-group">
-                                                                                            <label
-                                                                                                className="form-label">Clean_Sheet</label>
-                                                                                            <input
-                                                                                                className="form-check"
-                                                                                                type="checkbox"
-                                                                                                placeholder="Enter Goal"
-                                                                                                value={footballPoints["Clean_Sheet"]}
-                                                                                                checked={footballPoints["Clean_Sheet"]}
-                                                                                                name="Clean_Sheet"
-                                                                                                onChange={(e) => handleFootballPoints(e)}
-                                                                                            />
-
-                                                                                        </div>
-                                                                                    </div>
-                                                                                ) : null
+                                                            <Card>
+                                                                <Form.Item
+                                                                    label="Goal"
+                                                                >
+                                                                    <Input
+                                                                        placeholder="Enter Goal"
+                                                                        value={footballPoints["Goal"]}
+                                                                        name="Goal"
+                                                                        onChange={(e) =>
+                                                                            handleFootballPoints(e)
+                                                                        }
+                                                                    />
+                                                                </Form.Item>
+                                                                <Form.Item
+                                                                    label="Assist"
+                                                                >
+                                                                    <Input
+                                                                        placeholder="Enter Assist"
+                                                                        value={footballPoints["Assist"]}
+                                                                        name="Assist"
+                                                                        onChange={(e) =>
+                                                                            handleFootballPoints(e)
+                                                                        }
+                                                                    />
+                                                                </Form.Item>
+                                                                <Form.Item
+                                                                    label="Goal Save"
+                                                                >
+                                                                    <Input
+                                                                        placeholder="Enter Goal Save"
+                                                                        value={footballPoints["Goal_Save"]}
+                                                                        name="Goal_Save"
+                                                                        onChange={(e) =>
+                                                                            handleFootballPoints(e)
+                                                                        }
+                                                                    />
+                                                                </Form.Item>
+                                                                <Form.Item
+                                                                    label="Penalty Save"
+                                                                >
+                                                                    <Input
+                                                                        placeholder="Enter Penalty Save"
+                                                                        value={footballPoints["Penalty_Save"]}
+                                                                        name="Penalty_Save"
+                                                                        onChange={(e) =>
+                                                                            handleFootballPoints(e)
+                                                                        }
+                                                                    />
+                                                                </Form.Item>
+                                                                {currentPlayerSpcification ==
+                                                                    "Goalkeeper" ||
+                                                                    currentPlayerSpcification == "Defender" ? (
+                                                                    <Form.Item
+                                                                        label="Clean Sheet"
+                                                                    >
+                                                                        <Input
+                                                                            placeholder="Enter Clean Sheet"
+                                                                            value={
+                                                                                footballPoints["Clean_Sheet"]
                                                                             }
-
-                                                                        </div>
-
-                                                                    </div>
-                                                                </div>
-                                                            </div>
+                                                                            name="Clean_Sheet"
+                                                                            onChange={(e) =>
+                                                                                handleFootballPoints(e)
+                                                                            }
+                                                                        />
+                                                                    </Form.Item>
+                                                                ) : null}
+                                                            </Card>
                                                         </div>
-                                                    </>
-                                                }
-                                            </div>
-                                        )
-                                    }
-                                </>
-                            )}
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </>
+                        )}
 
-                            <div className="float-end">
-                                <button
-                                    className="btn btn-danger me-3"
+                        <Row>
+                            <Col
+                                span={18}
+                                style={{
+                                    textAlign: "right",
+                                }}
+                            >
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    onClick={() => submitForm()}
+                                >
+                                    Submit
+                                </Button>
+
+                                <Button
+                                    type="danger"
+                                    style={{
+                                        marginLeft: "20px",
+                                    }}
+                                    htmlType="submit"
                                     onClick={() => {
                                         navigate("/admin/point-tables");
                                     }}
                                 >
                                     Cancel
-                                </button>
-
-                                <button
-                                    type="button"
-                                    className="btn btn-primary"
-                                    onClick={submitForm}
-                                >
-                                    Update
-                                </button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                                </Button>
+                            </Col>
+                        </Row>
+                    </Form>
+                </Card>
             </div>
-            {/* </div> */}
+
+
+
+
         </>
     );
 }

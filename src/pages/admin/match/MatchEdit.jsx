@@ -1,8 +1,12 @@
+import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography } from "antd";
+import axios from "axios";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { API_PUBLIC_URL } from "./../../../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { API_PUBLIC_URL } from "./../../../constants";
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function MatchEdit() {
   // const [stage_name, setStage_name] = useState("");
@@ -47,7 +51,7 @@ export default function MatchEdit() {
             setStart_time(response.data.start_time);
             setVenue(response.data.venue);
             setStatus(response.data.status);
-            console.log(response.data);
+            // console.log(response.data);
           });
       })();
     }
@@ -67,10 +71,10 @@ export default function MatchEdit() {
         })
         .then((response) => {
           setTournamentList(response.data);
-          console.log(response.data);
+          // console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
             navigate("/admin/no-permission");
@@ -78,6 +82,24 @@ export default function MatchEdit() {
         });
     }
   };
+
+  const setDateInput = (e) => {
+    if (e === null || e === "") {
+      setStart_date(start_date)
+    } else {
+      var d = new Date(e._d),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2)
+        month = '0' + month;
+      if (day.length < 2)
+        day = '0' + day;
+      // console.log(start_date)
+      setStart_date([year, month, day].join('-'))
+    }
+  }
 
   useEffect(() => {
     if (getLoginData === null) {
@@ -94,10 +116,10 @@ export default function MatchEdit() {
           })
           .then((response) => {
             setTourTeamList(response.data);
-            console.log(response.data);
+            // console.log(response.data);
           })
           .catch((error) => {
-            console.log(error);
+            // console.log(error);
             if (error.response.status === 403) {
               toast.error("No Permission");
               navigate("/admin/no-permission");
@@ -108,7 +130,7 @@ export default function MatchEdit() {
   }, [tournament_id]);
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     // if (stage_name.trim() === "") {
     //   toast.error("Stage Name field is required!");
@@ -165,7 +187,7 @@ export default function MatchEdit() {
           navigate("/admin/matches");
         })
         .catch((error) => {
-          console.log(error);
+          // console.log(error);
           if (error.response.status === 403) {
             toast.error("No Permission");
             navigate("/admin/no-permission");
@@ -174,192 +196,166 @@ export default function MatchEdit() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-10 offset-sm-1">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Match Edit</h5>
-            <form onSubmit={submitForm}>
-              {/* <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Stage Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Stage Name"
-                    value={stage_name}
-                    name="stage_name"
-                    onChange={(e) => setStage_name(e.target.value)}
-                  />
-                </div>
-              </div> */}
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_id}
-                    name="tournament_id"
-                    onChange={(e) => setTournament_id(e.target.value)}
-                  >
-                    <option value={""}>Select Tournament</option>
-                    {tournamentList.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+          }}>
+            <Title level={4}>Match Edit</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item label="Tournament Name">
+              <Select
+                placeholder="Select Tournament"
+                value={tournament_id}
+                name="tournament_id"
+                onChange={(e) => setTournament_id(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                {tournamentList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Team One{" "}
-                  <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_one_id}
-                    name="tournament_team_one_id"
-                    onChange={(e) => setTournament_team_one_id(e.target.value)}
-                  >
-                    <option value={""}>Select team one</option>
-                    {tourTeamList.map((item, index) => (
-                      <option key={index} value={item.id}>
-                        {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item label="Tournament Team One">
+              <Select
+                placeholder="Select Team One"
+                value={tournament_team_one_id}
+                name="tournament_team_one_id"
+                onChange={(e) => setTournament_team_one_id(e)}
+              >
+                <Option value="">Select team one</Option>
+                {tourTeamList.map((item, index) => (
+                  <Option key={index} value={item.id}>
+                    {item.country == null
+                      ? item.franchise.name
+                      : item.country.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Team Two{" "}
-                  <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_two_id}
-                    name="tournament_team_two_id"
-                    onChange={(e) => setTournament_team_two_id(e.target.value)}
-                  >
-                    <option value={""}>Select team Two</option>
-                    {tourTeamList.map((item, index) => (
-                      <option key={index} value={item.id}>
-                        {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item label="Tournament Team Two">
+              <Select
+                placeholder="Select Team Two"
+                value={tournament_team_two_id}
+                name="tournament_team_two_id"
+                onChange={(e) => setTournament_team_two_id(e)}
+              >
+                <Option value="">Select team two</Option>
+                {tourTeamList.map((item, index) => (
+                  <Option key={index} value={item.id}>
+                    {item.country == null
+                      ? item.franchise.name
+                      : item.country.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Start Date</label>
-                <div className="col-sm-9">
-                  {/* <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter start date"
-                    value={start_date}
-                    name="start_date"
-                    onChange={(e) => setStart_date(e.target.value)}
-                  /> */}
-                  <input
-                    className="form-control"
-                    type="date"
-                    placeholder="dd-mm-yyyy"
-                    value={start_date}
-                    name="start_date"
-                    onChange={(e) => setStart_date(e.target.value)}
-                    min="2022-01-01"
-                    max="2030-12-31"
-                  />
-                </div>
-              </div>
+            <Form.Item
+              label="Start Date"
+            >
+              <DatePicker
+                value={moment(start_date)}
+                name="start_date"
+                onChange={(e) => setDateInput(e)}
+                allowClear={false}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Start Time"
+            >
+              <Input
+                placeholder="Enter start time"
+                value={start_time}
+                name="start_time"
+                onChange={(e) => setStart_time(e.target.value)}
+              />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Start Time</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter start time"
-                    value={start_time}
-                    name="start_time"
-                    onChange={(e) => setStart_time(e.target.value)}
-                  />
-                </div>
-              </div>
+            <Form.Item
+              label="Venue"
+            >
+              <Input
+                placeholder="Enter Venue"
+                value={venue}
+                name="venue"
+                onChange={(e) => setVenue(e.target.value)}
+              />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Venue</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Venue"
-                    value={venue}
-                    name="venue"
-                    onChange={(e) => setVenue(e.target.value)}
-                  />
-                </div>
-              </div>
+            <Form.Item label="Status">
+              <Select
+                placeholder="Select Status"
+                value={status}
+                name="status"
+                onChange={(e) => setStatus(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                <Option value="Active">Active</Option>
+                <Option value="Inactive">Inactive</Option>
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Status <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="status"
-                    value={status}
-                    className="form-control"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="">Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/matches");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-      {/* </div> */}
+
     </>
   );
 }

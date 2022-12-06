@@ -324,7 +324,7 @@ export default function MatchList() {
 
           <div>
             <Link
-              to={`/admin/users/create`}
+              to={`/admin/matches/create`}
               style={{ textDecoration: " none" }}
             >
               <Button

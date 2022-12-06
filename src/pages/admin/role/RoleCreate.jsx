@@ -98,92 +98,85 @@ function RoleCreate() {
 
   return (
     <>
-      <div style={{
-        display: "flex",
-        justifyContent: "center"
-      }}>
-        <Card style={{
-          width: 900,
+      <Card>
+        <div style={{
+          textAlign: "center"
+
         }}>
-          <div style={{
-            textAlign: "center"
-
-          }}>
-            <Title level={4}>Role Create</Title>
-          </div>
-          <Form
-            name="basic"
-            labelCol={{
-              span: 8,
-            }}
-            wrapperCol={{
-              span: 10,
-            }}
-            initialValues={{
-              remember: true,
-            }}
-            onFinish={handleSubmit}
-            onFinishFailed={onFinishFailed}
-            autoComplete="off"
+          <Title level={4}>Role Create</Title>
+        </div>
+        <Form
+          name="basic"
+          labelCol={{
+            span: 8,
+          }}
+          wrapperCol={{
+            span: 10,
+          }}
+          initialValues={{
+            remember: true,
+          }}
+          // onFinish={handleSubmit}
+          onFinishFailed={onFinishFailed}
+          autoComplete="off"
+        >
+          <Form.Item
+            label="Role Name"
+            name="role_name"
+            rules={[
+              {
+                required: true,
+                message: "Enter Role Name",
+              },
+            ]}
           >
-            <Form.Item
-              label="Role Name"
-              name="role_name"
-              rules={[
-                {
-                  required: true,
-                  message: "Enter Role Name",
-                },
-              ]}
-            >
-              <Input name="role_name" onChange={handleChange} />
-            </Form.Item>
+            <Input name="role_name" onChange={handleChange} />
+          </Form.Item>
 
-            <Form.Item
-              label="Role Description"
-              name="role_description"
-              rules={[
-                {
-                  required: true,
-                  message: "Enter Role Description",
-                },
-              ]}
-            >
-              <Input name="role_description" onChange={handleChange} />
-            </Form.Item>
+          <Form.Item
+            label="Role Description"
+            name="role_description"
+            rules={[
+              {
+                required: true,
+                message: "Enter Role Description",
+              },
+            ]}
+          >
+            <Input name="role_description" onChange={handleChange} />
+          </Form.Item>
 
-            <Row>
-              <Col
-                span={18}
+          <Row>
+            <Col
+              span={18}
+              style={{
+                textAlign: "right",
+              }}
+            >
+              <Button
+                type="primary"
+                htmlType="submit"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+
+              <Button
+                type="danger"
                 style={{
-                  textAlign: "right",
+                  marginLeft: "20px",
+                }}
+                htmlType="submit"
+                onClick={() => {
+                  navigate("/admin/roles");
                 }}
               >
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  onClick={handleSubmit}
-                >
-                  Submit
-                </Button>
-
-                <Button
-                  type="danger"
-                  style={{
-                    marginLeft: "20px",
-                  }}
-                  htmlType="submit"
-                  onClick={() => {
-                    navigate("/admin/roles");
-                  }}
-                >
-                  Cancel
-                </Button>
-              </Col>
-            </Row>
-          </Form>
-        </Card>
-      </div>
+                Cancel
+              </Button>
+            </Col>
+          </Row>
+        </Form>
+      </Card>
 
     </>
   );

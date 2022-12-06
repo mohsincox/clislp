@@ -1,8 +1,11 @@
+import { Button, Card, Checkbox, Col, Form, Row, Select, Typography } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function TournamentTeamPlayerCreate() {
   const [tournament_id, setTournament_id] = useState("");
@@ -204,7 +207,7 @@ export default function TournamentTeamPlayerCreate() {
   }, [game_id]);
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     console.log("tournament_team_id", tournament_team_id);
 
@@ -291,105 +294,116 @@ export default function TournamentTeamPlayerCreate() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-12 offset-sm-0">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Tournament Team Player Create</h5>
-            <form onSubmit={submitForm}>
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_id}
-                    name="tournament_id"
-                    onChange={(e) => setTournament_id(e.target.value)}
-                  >
-                    <option value={""}>Select Tournament</option>
-                    {tournamentList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-              {tournamentTeamList.length > 0 && (
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Select Team <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <select
-                      className="form-select"
-                      value={tournament_team_id}
-                      name="tournament_team_id"
-                      onChange={(e) => setTournament_team_id(e.target.value)}
+          }}>
+            <Title level={4}>Tournament Team Player Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 5,
+            }}
+            // wrapperCol={{
+            //   span: 10,
+            // }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item name="tournament-name" label="Tournament Name" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Tournament"
+                // value={tournament_id}
+                name="tournament_id"
+                onChange={(e) => setTournament_id(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                {tournamentList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            {tournamentTeamList.length > 0 && (
+              <Form.Item name="team-field" label="Select Team" rules={[{ required: true }]}>
+                <Select
+                  placeholder="Select Team"
+                  value={tournament_team_id}
+                  name="tournament_team_id"
+                  onChange={(e) => setTournament_team_id(e)}
+                >
+                  <Option value="">Select team</Option>
+                  {tournamentTeamList.map((item, index) => (
+                    <Option key={index} value={item.id}>
+                      {item.country != null && item.country.name}
+                      {item.franchise != null && item.franchise.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            )}
+
+            {playerList.length > 0 && (
+              <>
+                {isInternational == "Franchise" && (
+                  <Form.Item name="country-name" label="Country" rules={[{ required: true }]}>
+                    <Select
+                      placeholder="Select Country"
+                      value={country_id}
+                      name="country_id"
+                      onChange={(e) => setCountry_id(e)}
                     >
-                      <option value={""}>Select Team</option>
-                      {tournamentTeamList.map((item, index) => (
-                        <option key={item.id} value={item.id}>
-                          {item.country != null && item.country.name}
-
-                          {item.franchise != null && item.franchise.name}
-                        </option>
+                      <Option value="">Select Country</Option>
+                      {countryList.map((item, index) => (
+                        <Option key={item.id} value={item.id}>
+                          {item.name}
+                        </Option>
                       ))}
-                    </select>
+                    </Select>
+                  </Form.Item>
+                )}
+
+                <div className="mb-5">
+                  <div className="float-start">Select Players:</div>
+                  <div className="float-end">
+                    {state.selections.length} Selected
                   </div>
                 </div>
-              )}
-
-              {playerList.length > 0 && (
-                <>
-                  {isInternational == "Franchise" && (
-                    <div className="mb-3 row">
-                      <label className="form-label col-sm-3">
-                        Country <span style={{ color: "#ff0000" }}>*</span>
-                      </label>
-                      <div className="col-sm-9">
-                        <select
-                          className="form-select"
-                          value={country_id}
-                          name="country_id"
-                          onChange={(e) => setCountry_id(e.target.value)}
-                        >
-                          <option>Select Country</option>
-                          {countryList.map((item, index) => (
-                            <option key={item.id} value={item.id}>
-                              {item.name}
-                            </option>
-                          ))}
-                        </select>
-                      </div>
-                    </div>
-                  )}
-
-                  <div className="mb-5">
-                    <div className="float-start">Select Players:</div>
-                    <div className="float-end">
-                      {state.selections.length} Selected
-                    </div>
-                  </div>
-                  <div className="row mt-4">
-                    {playerList.map((player, index) => (
-                      <React.Fragment key={player.id}>
-                        {player.country_id == country_id && (
+                <div className="row mt-10">
+                  {playerList.map((player, index) => (
+                    <React.Fragment key={player.id}>
+                      {player.country_id == country_id && (
+                        <>
                           <div
                             className="col-sm-2 mb-3"
                             style={{ textAlign: "center" }}
                           >
-                            <input
+                            <Checkbox
+                              style={{ width: "20px", height: "20px" }}
+                              checked={state.selections.includes(player.id)}
+                              onChange={() => handleCheckboxChange(player.id)}
+                            />
+                            {/* <input
                               style={{ width: "20px", height: "20px" }}
                               type="checkbox"
                               checked={state.selections.includes(player.id)}
                               onChange={() => handleCheckboxChange(player.id)}
-                            />
+                            /> */}
                             <span style={{ position: "relative" }}>
                               <img
                                 src={`${API_PUBLIC_URL}${player.image}`}
@@ -412,94 +426,107 @@ export default function TournamentTeamPlayerCreate() {
                               {JSON.parse(player.specification)[
                                 "All Rounder"
                               ] === true && (
-                                <>
-                                  <small>All Rounder</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>All Rounder</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)["Batsman"] ===
                                 true && (
-                                <>
-                                  <small>Batsman</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Batsman</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)["Bowler"] ===
                                 true && (
-                                <>
-                                  <small>Bowler</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Bowler</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)["Keeper"] ===
                                 true && (
-                                <>
-                                  <small>Wicket Keeper</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Wicket Keeper</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)[
                                 "Goalkeeper"
                               ] === true && (
-                                <>
-                                  <small>Goalkeeper</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Goalkeeper</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)["Defender"] ===
                                 true && (
-                                <>
-                                  <small>Defender</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Defender</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)[
                                 "Midfielder"
                               ] === true && (
-                                <>
-                                  <small>Midfielder</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Midfielder</small>
+                                    <br />
+                                  </>
+                                )}
                               {JSON.parse(player.specification)["Forward"] ===
                                 true && (
-                                <>
-                                  <small>Forward</small>
-                                  <br />
-                                </>
-                              )}
+                                  <>
+                                    <small>Forward</small>
+                                    <br />
+                                  </>
+                                )}
                             </small>
                           </div>
-                        )}
-                      </React.Fragment>
-                    ))}
-                  </div>
-                </>
-              )}
+                        </>
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+              </>
+            )}
+
+            <Row>
+              <Col
+                span={24}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
-                    navigate("/admin/tournament-team-players");
+                    navigate("/admin/matches");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-      {/* </div> */}
+
+
     </>
   );
 }

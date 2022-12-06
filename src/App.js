@@ -1,102 +1,101 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Contact from "./pages/Contact";
-import Home from "./pages/Home";
-import Page from "./pages/Page";
-import Test from "./pages/Test";
-import Tournament from "./pages/Tournament";
-import Register from "./pages/Register";
-import Login from "./pages/Login";
-import Profile from "./pages/Profile";
-import RegStepOne from "./pages/RegStepOne";
-import Dashboard from "./pages/admin/Dashboard";
 import AdminLayout from "./layouts/AdminLayout";
-import PermissionList from "./pages/admin/premission/PermissionList";
-import NoPermission from "./pages/admin/NoPermission";
-import PermissionCreate from "./pages/admin/premission/PermissionCreate";
-import PermissionEdit from "./pages/admin/premission/PermissionEdit";
-import RoleList from "./pages/admin/role/RoleList";
-import RoleCreate from "./pages/admin/role/RoleCreate";
-import RolePermissionCreate from "./pages/admin/role/RolePermissionCreate";
-import Test2 from "./pages/Test2";
-import Test3 from "./pages/Test3";
 import CountryCreate from "./pages/admin/country/CountryCreate";
-import GameList from "./pages/admin/game/GameList";
-import GameCreate from "./pages/admin/game/GameCreate";
-import GameEdit from "./pages/admin/game/GameEdit";
-import CountryList from "./pages/admin/country/CountryList";
 import CountryEdit from "./pages/admin/country/CountryEdit";
-import TournamentList from "./pages/admin/tournament/TournamentList";
-import TournamentCreate from "./pages/admin/tournament/TournamentCreate";
-import TournamentEdit from "./pages/admin/tournament/TournamentEdit";
-import BuildTeam from "./pages/BuildTeam";
-import PlayerList from "./pages/admin/player/PlayerList";
-import PlayerCreate from "./pages/admin/player/PlayerCreate";
-import PlayerEdit from "./pages/admin/player/PlayerEdit";
-import ViewTeam from "./pages/ViewTeam";
-import WelcomeTeam from "./pages/WelcomeTeam";
-import SliderList from "./pages/admin/slider/SliderList";
-import SliderCreate from "./pages/admin/slider/SliderCreate";
-import MatchList from "./pages/admin/match/MatchList";
-import MatchCreate from "./pages/admin/match/MatchCreate";
-import FranchiseList from "./pages/admin/franchise/FranchiseList";
+import CountryList from "./pages/admin/country/CountryList";
+import Dashboard from "./pages/admin/Dashboard";
 import FranchiseCreate from "./pages/admin/franchise/FranchiseCreate";
 import FranchiseEdit from "./pages/admin/franchise/FranchiseEdit";
-import SliderEdit from "./pages/admin/slider/SliderEdit";
-import TournamentTeamList from "./pages/admin/tournament_team/TournamentTeamList";
-import TournamentTeamCreate from "./pages/admin/tournament_team/TournamentTeamCreate";
-import TournamentTeamEdit from "./pages/admin/tournament_team/TournamentTeamEdit";
+import FranchiseList from "./pages/admin/franchise/FranchiseList";
+import GameCreate from "./pages/admin/game/GameCreate";
+import GameEdit from "./pages/admin/game/GameEdit";
+import GameList from "./pages/admin/game/GameList";
+import MatchCreate from "./pages/admin/match/MatchCreate";
 import MatchEdit from "./pages/admin/match/MatchEdit";
-import UserList from "./pages/admin/user/UserList";
-import UserCreate from "./pages/admin/user/UserCreate";
-import RolePermissionEdit from "./pages/admin/role/RolePermissionEdit";
-import NewsList from "./pages/admin/news/NewsList";
+import MatchList from "./pages/admin/match/MatchList";
 import NewsCreate from "./pages/admin/news/NewsCreate";
 import NewsEdit from "./pages/admin/news/NewsEdit";
-import RolePermissionE from "./pages/admin/role/RolePermissionE";
-import LoginAdmin from "./pages/LoginAdmin";
-import UserEdit from "./pages/admin/user/UserEdit";
+import NewsList from "./pages/admin/news/NewsList";
+import NoPermission from "./pages/admin/NoPermission";
+import PlayerCreate from "./pages/admin/player/PlayerCreate";
+import PlayerEdit from "./pages/admin/player/PlayerEdit";
+import PlayerList from "./pages/admin/player/PlayerList";
+import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
+import PermissionCreate from "./pages/admin/premission/PermissionCreate";
+import PermissionEdit from "./pages/admin/premission/PermissionEdit";
+import PermissionList from "./pages/admin/premission/PermissionList";
+import RoleCreate from "./pages/admin/role/RoleCreate";
 import RoleEdit from "./pages/admin/role/RoleEdit";
-import GameTournaments from "./pages/GameTournamets";
+import RoleList from "./pages/admin/role/RoleList";
+import RolePermissionCreate from "./pages/admin/role/RolePermissionCreate";
+import RolePermissionE from "./pages/admin/role/RolePermissionE";
+import RolePermissionEdit from "./pages/admin/role/RolePermissionEdit";
+import SliderCreate from "./pages/admin/slider/SliderCreate";
+import SliderEdit from "./pages/admin/slider/SliderEdit";
+import SliderList from "./pages/admin/slider/SliderList";
+import TournamentCreate from "./pages/admin/tournament/TournamentCreate";
+import TournamentEdit from "./pages/admin/tournament/TournamentEdit";
+import TournamentList from "./pages/admin/tournament/TournamentList";
+import TournamentTeamCreate from "./pages/admin/tournament_team/TournamentTeamCreate";
+import TournamentTeamEdit from "./pages/admin/tournament_team/TournamentTeamEdit";
+import TournamentTeamList from "./pages/admin/tournament_team/TournamentTeamList";
 import TournamentTeamPlayerCreate from "./pages/admin/tournament_team_player/TournamentTeamPlayerCreate";
 import TournamentTeamPlayerList from "./pages/admin/tournament_team_player/TournamentTeamPlayerList";
 import TournamentTeamPlayerView from "./pages/admin/tournament_team_player/TournamentTeamPlayerView";
-import PointTableCreate from "./pages/admin/point_table/PointTableCreate";
+import UserCreate from "./pages/admin/user/UserCreate";
+import UserEdit from "./pages/admin/user/UserEdit";
+import UserList from "./pages/admin/user/UserList";
+import BuildTeam from "./pages/BuildTeam";
+import Contact from "./pages/Contact";
+import GameTournaments from "./pages/GameTournamets";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import LoginAdmin from "./pages/LoginAdmin";
+import Page from "./pages/Page";
+import Profile from "./pages/Profile";
+import Register from "./pages/Register";
+import RegStepOne from "./pages/RegStepOne";
+import Test from "./pages/Test";
+import Test2 from "./pages/Test2";
+import Test3 from "./pages/Test3";
+import Tournament from "./pages/Tournament";
+import ViewTeam from "./pages/ViewTeam";
+import WelcomeTeam from "./pages/WelcomeTeam";
 
-import PointTableList from "./pages/admin/point_table/PointTableList";
-import PointTableEdit from "./pages/admin/point_table/PointTableEdit";
-import SettingsShow from "./pages/admin/settings/SettingsShow";
-import ClubList from "./pages/admin/club/ClubList";
 import ClubCreate from "./pages/admin/club/ClubCreate";
 import ClubEdit from "./pages/admin/club/ClubEdit";
+import ClubList from "./pages/admin/club/ClubList";
+import PointTableEdit from "./pages/admin/point_table/PointTableEdit";
+import PointTableList from "./pages/admin/point_table/PointTableList";
+import SettingsShow from "./pages/admin/settings/SettingsShow";
 import Ranking from "./pages/Ranking";
 
-import Widget from "./components/Widget";
-import Ads from "./components/Ads";
-import PageCreate from "./pages/admin/page/PageCreate";
-import PageList from "./pages/admin/page/PageList";
-import PageEdit from "./pages/admin/page/PageEdit";
-import axios from "axios";
-import { API_PUBLIC_URL } from "./constants";
-import MyTeam from "./pages/MyTeam";
 import "./App.css";
-import "./responsive.css";
-import ChangePassword from "./pages/ChangePassword";
+import Ads from "./components/Ads";
+import Widget from "./components/Widget";
 import ChangePasswordAdmin from "./pages/admin/auth_user/ChangePasswordAdmin";
-import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
 import ContactList from "./pages/admin/contact/ContactList";
+import PageCreate from "./pages/admin/page/PageCreate";
+import PageEdit from "./pages/admin/page/PageEdit";
+import PageList from "./pages/admin/page/PageList";
+import TournamentWiseRanking from "./pages/admin/reports/TournamentWiseRanking";
+import ChangePassword from "./pages/ChangePassword";
+import MyTeam from "./pages/MyTeam";
+import "./responsive.css";
 
-import ForgotPassword from "./pages/ForgotPassword";
 import CustomerDetail from "./pages/admin/user/CustomerDetail";
+import ForgotPassword from "./pages/ForgotPassword";
 
+import GetAllLatestNews from "./components/GetAllLatestNews";
+import AdminFormLayout from "./layouts/AdminFormLayout";
 import GamePointSettingsForm from "./pages/admin/game_settings/GamePointSettingsForm";
 import GameTeamSettingsForm from "./pages/admin/game_settings/GameTeamSettingsForm";
+import Hello from "./pages/admin/hello/Hello";
 import CustomerList from "./pages/admin/user/CustomerList";
 import LatestNewsDetails from "./pages/LatestNewsDetails";
-import GetAllLatestNews from "./components/GetAllLatestNews";
-import Hello from "./pages/admin/hello/Hello";
 
 export const UserContext = React.createContext(null);
 
@@ -155,16 +154,7 @@ function App() {
                 exact={true}
                 element={<RoleList />}
               />
-              <Route
-                path={`/admin/roles/create`}
-                exact={true}
-                element={<RoleCreate />}
-              />
-              <Route
-                path={`/admin/roles/:id`}
-                exact={true}
-                element={<RoleEdit />}
-              />
+
               <Route
                 path={`/admin/roles/permissions/:id`}
                 exact={true}
@@ -187,62 +177,21 @@ function App() {
                 element={<GameList />}
               />
               <Route
-                path={`/admin/games/create`}
-                exact={true}
-                element={<GameCreate />}
-              />
-              <Route
-                path={`/admin/games/:id`}
-                exact={true}
-                element={<GameEdit />}
-              />
-
-              <Route
                 path={`/admin/countries`}
                 exact={true}
                 element={<CountryList />}
               />
               <Route
-                path={`/admin/countries/create`}
-                exact={true}
-                element={<CountryCreate />}
-              />
-              <Route
-                path={`/admin/countries/:id`}
-                exact={true}
-                element={<CountryEdit />}
-              />
-
-              <Route
                 path={`/admin/tournaments`}
                 exact={true}
                 element={<TournamentList />}
               />
-              <Route
-                path={`/admin/tournaments/create`}
-                exact={true}
-                element={<TournamentCreate />}
-              />
-              <Route
-                path={`/admin/tournaments/:id`}
-                exact={true}
-                element={<TournamentEdit />}
-              />
+
 
               <Route
                 path={`/admin/players`}
                 exact={true}
                 element={<PlayerList />}
-              />
-              <Route
-                path={`/admin/players/create`}
-                exact={true}
-                element={<PlayerCreate />}
-              />
-              <Route
-                path={`/admin/players/:id`}
-                exact={true}
-                element={<PlayerEdit />}
               />
 
               <Route
@@ -250,31 +199,11 @@ function App() {
                 exact={true}
                 element={<SliderList />}
               />
-              <Route
-                path={`/admin/sliders/create`}
-                exact={true}
-                element={<SliderCreate />}
-              />
-              <Route
-                path={`/admin/sliders/:id`}
-                exact={true}
-                element={<SliderEdit />}
-              />
 
               <Route
                 path={`/admin/matches`}
                 exact={true}
                 element={<MatchList />}
-              />
-              <Route
-                path={`/admin/matches/create`}
-                exact={true}
-                element={<MatchCreate />}
-              />
-              <Route
-                path={`/admin/matches/:id`}
-                exact={true}
-                element={<MatchEdit />}
               />
 
               <Route
@@ -282,31 +211,11 @@ function App() {
                 exact={true}
                 element={<FranchiseList />}
               />
-              <Route
-                path={`/admin/franchises/create`}
-                exact={true}
-                element={<FranchiseCreate />}
-              />
-              <Route
-                path={`/admin/franchises/:id`}
-                exact={true}
-                element={<FranchiseEdit />}
-              />
 
               <Route
                 path={`/admin/tournament-teams`}
                 exact={true}
                 element={<TournamentTeamList />}
-              />
-              <Route
-                path={`/admin/tournament-teams/create`}
-                exact={true}
-                element={<TournamentTeamCreate />}
-              />
-              <Route
-                path={`/admin/tournament-teams/:id`}
-                exact={true}
-                element={<TournamentTeamEdit />}
               />
 
               <Route
@@ -319,16 +228,7 @@ function App() {
                 exact={true}
                 element={<CustomerList />}
               />
-              <Route
-                path={`/admin/users/create`}
-                exact={true}
-                element={<UserCreate />}
-              />
-              <Route
-                path={`/admin/users/:id`}
-                exact={true}
-                element={<UserEdit />}
-              />
+
               <Route
                 path={`/admin/users/:id/detail`}
                 exact={true}
@@ -340,39 +240,15 @@ function App() {
                 exact={true}
                 element={<PageList />}
               />
-              <Route
-                path={`/admin/pages/create`}
-                exact={true}
-                element={<PageCreate />}
-              />
-              <Route
-                path={`/admin/pages/:id`}
-                exact={true}
-                element={<PageEdit />}
-              />
 
               <Route path={`/admin/news`} exact={true} element={<NewsList />} />
-              <Route
-                path={`/admin/news/create`}
-                exact={true}
-                element={<NewsCreate />}
-              />
-              <Route
-                path={`/admin/news/:id`}
-                exact={true}
-                element={<NewsEdit />}
-              />
 
               <Route
                 path={`/admin/tournament-team-players`}
                 exact={true}
                 element={<TournamentTeamPlayerList />}
               />
-              <Route
-                path={`/admin/tournament-team-players/create`}
-                exact={true}
-                element={<TournamentTeamPlayerCreate />}
-              />
+
               <Route
                 path={`/admin/tournament-team-players/view/:id`}
                 exact={true}
@@ -384,37 +260,13 @@ function App() {
                 exact={true}
                 element={<PointTableList />}
               />
-              <Route
-                path={`/admin/point-tables/create`}
-                exact={true}
-                element={<PointTableCreate />}
-              />
-              <Route
-                path={`/admin/point-tables/:id`}
-                exact={true}
-                element={<PointTableEdit />}
-              />
 
-              <Route
-                path={`/admin/settings`}
-                exact={true}
-                element={<SettingsShow />}
-              />
+
 
               <Route
                 path={`/admin/clubs`}
                 exact={true}
                 element={<ClubList />}
-              />
-              <Route
-                path={`/admin/clubs/create`}
-                exact={true}
-                element={<ClubCreate />}
-              />
-              <Route
-                path={`/admin/clubs/:id`}
-                exact={true}
-                element={<ClubEdit />}
               />
 
               <Route
@@ -455,6 +307,164 @@ function App() {
                 path={`/admin/game_team_settings`}
                 exact={true}
                 element={<GameTeamSettingsForm />}
+              />
+            </Route>
+
+            {/* create & edit routes */}
+
+            <Route path={`/admin`} element={<AdminFormLayout />}>
+              <Route
+                path={`/admin/roles/create`}
+                exact={true}
+                element={<RoleCreate />}
+              />
+              <Route
+                path={`/admin/roles/:id`}
+                exact={true}
+                element={<RoleEdit />}
+              />
+
+              <Route
+                path={`/admin/matches/create`}
+                exact={true}
+                element={<MatchCreate />}
+              />
+              <Route
+                path={`/admin/matches/:id`}
+                exact={true}
+                element={<MatchEdit />}
+              />
+
+              <Route
+                path={`/admin/players/create`}
+                exact={true}
+                element={<PlayerCreate />}
+              />
+              <Route
+                path={`/admin/players/:id`}
+                exact={true}
+                element={<PlayerEdit />}
+              />
+              <Route
+                path={`/admin/sliders/create`}
+                exact={true}
+                element={<SliderCreate />}
+              />
+              <Route
+                path={`/admin/sliders/:id`}
+                exact={true}
+                element={<SliderEdit />}
+              />
+              <Route
+                path={`/admin/games/create`}
+                exact={true}
+                element={<GameCreate />}
+              />
+              <Route
+                path={`/admin/games/:id`}
+                exact={true}
+                element={<GameEdit />}
+              />
+              <Route
+                path={`/admin/countries/create`}
+                exact={true}
+                element={<CountryCreate />}
+              />
+              <Route
+                path={`/admin/countries/:id`}
+                exact={true}
+                element={<CountryEdit />}
+              />
+              <Route
+                path={`/admin/tournaments/create`}
+                exact={true}
+                element={<TournamentCreate />}
+              />
+              <Route
+                path={`/admin/tournaments/:id`}
+                exact={true}
+                element={<TournamentEdit />}
+              />
+              <Route
+                path={`/admin/clubs/create`}
+                exact={true}
+                element={<ClubCreate />}
+              />
+              <Route
+                path={`/admin/clubs/:id`}
+                exact={true}
+                element={<ClubEdit />}
+              />
+              <Route
+                path={`/admin/point-tables/create`}
+                exact={true}
+                element={<PointTableCreate />}
+              />
+              <Route
+                path={`/admin/point-tables/:id`}
+                exact={true}
+                element={<PointTableEdit />}
+              />
+              <Route
+                path={`/admin/news/create`}
+                exact={true}
+                element={<NewsCreate />}
+              />
+              <Route
+                path={`/admin/news/:id`}
+                exact={true}
+                element={<NewsEdit />}
+              />
+              <Route
+                path={`/admin/pages/create`}
+                exact={true}
+                element={<PageCreate />}
+              />
+              <Route
+                path={`/admin/pages/:id`}
+                exact={true}
+                element={<PageEdit />}
+              />
+              <Route
+                path={`/admin/tournament-team-players/create`}
+                exact={true}
+                element={<TournamentTeamPlayerCreate />}
+              />
+
+              <Route
+                path={`/admin/tournament-teams/create`}
+                exact={true}
+                element={<TournamentTeamCreate />}
+              />
+              <Route
+                path={`/admin/tournament-teams/:id`}
+                exact={true}
+                element={<TournamentTeamEdit />}
+              />
+              <Route
+                path={`/admin/franchises/create`}
+                exact={true}
+                element={<FranchiseCreate />}
+              />
+              <Route
+                path={`/admin/franchises/:id`}
+                exact={true}
+                element={<FranchiseEdit />}
+              />
+              <Route
+                path={`/admin/users/create`}
+                exact={true}
+                element={<UserCreate />}
+              />
+              <Route
+                path={`/admin/users/:id`}
+                exact={true}
+                element={<UserEdit />}
+              />
+              <Route
+                path={`/admin/settings`}
+                exact={true}
+                element={<SettingsShow />}
               />
             </Route>
           </Routes>

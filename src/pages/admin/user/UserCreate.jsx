@@ -127,13 +127,8 @@ export default function UserCreate() {
   return (
     <>
       {/* <div className="container"> */}
-      <div style={{
-        display: "flex",
-        justifyContent: "center"
-      }}>
-        <Card style={{
-          width: 900,
-        }}>
+      <div>
+        <Card>
           <div style={{
             textAlign: "center"
 
@@ -151,7 +146,7 @@ export default function UserCreate() {
             initialValues={{
               remember: true,
             }}
-            onFinish={submitForm}
+            // onFinish={submitForm}
             onFinishFailed={onFinishFailed}
             autoComplete="off"
           >

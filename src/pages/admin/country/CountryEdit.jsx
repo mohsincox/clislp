@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row, Typography, Upload } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
 
 export default function CountryEdit() {
   const [name, setName] = useState("");
@@ -58,7 +61,7 @@ export default function CountryEdit() {
   };
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     if (selectedFile !== null) {
       const validExtensions = ["png", "jpeg", "jpg", "gif"];
@@ -134,100 +137,132 @@ export default function CountryEdit() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [selectedFile]);
 
+  // const onSelectFile = (e) => {
+  //   if (!e.target.files || e.target.files.length === 0) {
+  //     setSelectedFile(undefined);
+  //     return;
+  //   }
+  //   setSelectedFile(e.target.files[0]);
+  // };
+
   const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setSelectedFile(undefined);
+    console.log('Upload event:', e);
+    if (e.fileList.length === 0) {
+      setSelectedFile(undefined)
       return;
+    } else {
+      setSelectedFile(e.fileList[0].originFileObj)
+
     }
-    setSelectedFile(e.target.files[0]);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   return (
     <>
-      <div className="container mt-2">
-        <div className="col-sm-8 offset-sm-2">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Country Edit</h5>
-              <form onSubmit={submitForm} encType="multipart/form-data">
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Country Name <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter Country Name"
-                      value={name}
-                      name="name"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                </div>
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Short Name</label>
-                  <div className="col-sm-9">
-                    <input
-                      className="form-control"
-                      type="type"
-                      placeholder="Enter Short Name"
-                      value={short_name}
-                      onChange={(e) => setShort_name(e.target.value)}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Image</label>
-                  <div className="col-sm-9">
-                    <input
-                      className="form-control"
-                      type="file"
-                      placeholder="Enter Image"
-                      name="selectedFile"
-                      // onChange={(e) => setSelectedFile(e.target.files[0])}
-                      onChange={onSelectFile}
-                    />
-
-                    <div style={{ marginTop: "10px" }}>
-                      {selectedFile ? (
-                        <img src={preview} alt="" width="80px" height="50px" />
-                      ) : (
-                        <img
-                          src={`${API_PUBLIC_URL}${im}`}
-                          alt=""
-                          width="80px"
-                          height="50px"
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="float-end">
-                  <button
-                    className="btn btn-danger me-3"
-                    onClick={() => {
-                      navigate("/admin/countries");
-                    }}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={submitForm}
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
+          }}>
+            <Title level={4}>Country Create</Title>
           </div>
-        </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Country Name"
+            >
+              <Input
+                placeholder="Enter Country Name"
+                value={name}
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              label="Short Name"
+            >
+              <Input
+                placeholder="Enter Short Name"
+                value={short_name}
+                name="short_name"
+                onChange={(e) => setShort_name(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item
+              name="upload"
+              label="Image"
+              valuePropName="file"
+              multiple={false}
+              getValueFromEvent={onSelectFile}
+              placeholder="Enter Image"
+            >
+              <Upload multiple={false} maxCount="1" name="selectedFile" onChange={onSelectFile} listType="picture">
+                <Button icon={<UploadOutlined />}>Browse</Button>
+              </Upload>
+              <div style={{ marginTop: "10px" }}>
+                {selectedFile ? (
+                  <img src={preview} alt="" width="80px" height="50px" />
+                ) : (
+                  <img
+                    src={`${API_PUBLIC_URL}${im}`}
+                    alt=""
+                    width="80px"
+                    height="50px"
+                  />
+                )}
+              </div>
+            </Form.Item>
+
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
+                  onClick={() => {
+                    navigate("/admin/matches");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
     </>
   );

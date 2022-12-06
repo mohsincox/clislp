@@ -1,8 +1,11 @@
-import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Form, Input, Row, Select, Typography } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function UserEdit() {
   const [name, setName] = useState("");
@@ -112,7 +115,7 @@ export default function UserEdit() {
           setRole_id("");
           setRoleList([]);
 
-          toast.success("Successfully created!");
+          toast.success("Successfully updated!");
           navigate("/admin/users");
         })
         .catch((error) => {
@@ -128,90 +131,108 @@ export default function UserEdit() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
-      {/* <div className="container"> */}
-      <div className="col-sm-8 offset-sm-2">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">User Edit</h5>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div>
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Email <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Email"
-                    value={email}
-                    name="email"
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-              </div>
+          }}>
+            <Title level={4}>User Edit</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your name!",
+                },
+              ]}
+            >
+              <Input name="name" value={name} onChange={(e) => setName(e.target.value)} />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Role <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={role_id}
-                    name="role_id"
-                    onChange={(e) => setRole_id(e.target.value)}
-                  >
-                    <option value="">Select Role</option>
-                    {roleList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.role_name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item
+              label="Email"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your email!",
+                },
+              ]}
+            >
+              <Input name="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </Form.Item>
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+            <Form.Item label="Role" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select a option and change input text above"
+                value={role_id}
+                name="role_id"
+                onChange={(e) => setRole_id(e)}
+                allowClear
+              >
+                {roleList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.role_name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={submitForm}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/users");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-      {/* </div> */}
+
     </>
   );
 }

@@ -1,8 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Card, Col, Form, Input, Row, Select, Typography, Upload } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function FranchiseEdit() {
   const [name, setName] = useState("");
@@ -145,108 +150,138 @@ export default function FranchiseEdit() {
     return () => URL.revokeObjectURL(objectUrl);
   }, [logo]);
 
+  // const onSelectFile = (e) => {
+  //   if (!e.target.files || e.target.files.length === 0) {
+  //     setLogo(undefined);
+  //     return;
+  //   }
+  //   setLogo(e.target.files[0]);
+  // };
+
   const onSelectFile = (e) => {
-    if (!e.target.files || e.target.files.length === 0) {
-      setLogo(undefined);
+    console.log('Upload event:', e);
+    if (e.fileList.length === 0) {
+      setLogo(undefined)
       return;
+    } else {
+      setLogo(e.fileList[0].originFileObj)
+
     }
-    setLogo(e.target.files[0]);
+  };
+
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
   };
 
   return (
     <>
-      <div className="container mt-2">
-        <div className="col-sm-8 offset-sm-2">
-          <div className="card">
-            <div className="card-body">
-              <h5 className="card-title">Franchise Edit</h5>
-              <form onSubmit={submitForm} encType="multipart/form-data">
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <input
-                      className="form-control"
-                      type="text"
-                      placeholder="Enter Franchise Name"
-                      value={name}
-                      name="name"
-                      onChange={(e) => setName(e.target.value)}
-                    />
-                  </div>
-                </div>
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Origin Country <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <select
-                      className="form-select"
-                      value={country_id}
-                      name="country_id"
-                      onChange={(e) => setCountry_id(e.target.value)}
-                    >
-                      <option value="">Select Country</option>
-                      {countryList.map((sm, index) => (
-                        <option key={sm.id} value={sm.id}>
-                          {sm.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">Logo</label>
-                  <div className="col-sm-9">
-                    <input
-                      className="form-control"
-                      type="file"
-                      placeholder="Enter Image"
-                      name="logo"
-                      // onChange={(e) => setLogo(e.target.files[0])}
-                      onChange={onSelectFile}
-                    />
-
-                    <div style={{ marginTop: "10px" }}>
-                      {logo ? (
-                        <img src={preview} alt="" width="80px" height="50px" />
-                      ) : (
-                        <img
-                          src={`${API_PUBLIC_URL}${im}`}
-                          alt=""
-                          width="80px"
-                          height="50px"
-                        />
-                      )}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="float-end">
-                  <button
-                    className="btn btn-danger me-3"
-                    onClick={() => {
-                      navigate("/admin/franchises");
-                    }}
-                  >
-                    Cancel
-                  </button>
-
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={submitForm}
-                  >
-                    Save
-                  </button>
-                </div>
-              </form>
-            </div>
+          }}>
+            <Title level={4}>Franchise Edit</Title>
           </div>
-        </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Franchise Name"
+            >
+              <Input
+                placeholder="Enter Franchise Name"
+                value={name}
+                name="name"
+                onChange={(e) => setName(e.target.value)}
+              />
+            </Form.Item>
+
+            <Form.Item label="Origin Country" >
+              <Select
+                placeholder="Select Country"
+                value={country_id}
+                name="country_id"
+                onChange={(e) => setCountry_id(e)}
+              >
+                <Option value="">Select Country</Option>
+                {countryList.map((sm, index) => (
+                  <Option key={sm.id} value={sm.id}>
+                    {sm.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
+
+            <Form.Item
+              label="Logo"
+              valuePropName="file"
+              multiple={false}
+              // getValueFromEvent={onSelectFile}
+              placeholder="Enter Image"
+            >
+              <Upload multiple={false} maxCount="1" placeholder="Enter Image"
+                name="logo"
+                onChange={onSelectFile} listType="picture">
+                <Button icon={<UploadOutlined />}>Browse</Button>
+              </Upload>
+              <div style={{ marginTop: "10px" }}>
+                {logo ? (
+                  <img src={preview} alt="" width="80px" height="50px" />
+                ) : (
+                  <img
+                    src={`${API_PUBLIC_URL}${im}`}
+                    alt=""
+                    width="80px"
+                    height="50px"
+                  />
+                )}
+              </div>
+            </Form.Item>
+
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
+
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
+                  onClick={() => {
+                    navigate("/admin/franchises");
+                  }}
+                >
+                  Cancel
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
     </>
   );

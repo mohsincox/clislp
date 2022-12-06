@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { Button, Card, Col, Form, Input, Row, Select, Typography } from "antd";
 import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { API_PUBLIC_URL } from "../../../constants";
+
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function TournamentTeamCreate() {
   const [name, setName] = useState("");
@@ -16,6 +20,11 @@ export default function TournamentTeamCreate() {
   let navigate = useNavigate();
 
   const getLoginData = localStorage.getItem("loginData");
+
+  const storageData = JSON.parse(getLoginData);
+  const token = storageData.accessToken;
+
+  // console.log("token", token)
 
   useEffect(() => {
     getSelectTournamentDetails();
@@ -127,9 +136,9 @@ export default function TournamentTeamCreate() {
   };
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
-    if (name.trim() === "") {
+    if (name === "") {
       toast.error("Group Name field is required!");
     } else if (tournament_id === "") {
       toast.error("Tournament field is required!");
@@ -154,11 +163,14 @@ export default function TournamentTeamCreate() {
         tournament_id: tournament_id,
         category: category,
         country_id: country_id,
-        franchise_id: franchise_id,
+        franchise_id: "",
       };
 
+      // console.log(postBody)
       const storageData = JSON.parse(getLoginData);
       const token = storageData.accessToken;
+
+
 
       await axios
         .post(`${API_PUBLIC_URL}api/tournament-teams`, postBody, {
@@ -186,139 +198,132 @@ export default function TournamentTeamCreate() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-8 offset-sm-2">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Tournament Team Create</h5>
-            <form onSubmit={submitForm} encType="multipart/form-data">
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Group Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Group Name"
-                    value={name}
-                    name="name"
-                    onChange={(e) => setName(e.target.value)}
-                  />
-                </div>
-              </div>
+          }}>
+            <Title level={4}>Tournament Team Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item
+              label="Group Name"
+              name="game-name"
+              rules={[
+                {
+                  required: true,
+                  message: "Please input your group name!",
+                },
+              ]}
+            >
+              <Input name="name" onChange={(e) => setName(e.target.value)} />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_id}
-                    name="tournament_id"
-                    onChange={(e) => setTournament_id(e.target.value)}
-                  >
-                    <option value={""}>Select Tournament</option>
-                    {tournamentList.map((item, index) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item name="tournament-name" label="Tournament Name" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Tournament"
+                value={tournament_id}
+                name="tournament_id"
+                onChange={(e) => setTournament_id(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                {tournamentList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              {/* <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Team Category <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="category"
-                    value={category}
-                    className="form-control"
-                    onChange={(e) => setCategory(e.target.value)}
-                  >
-                    <option value="">Select Category</option>
-                    <option value="International">International</option>
-                    <option value="Franchise">Franchise</option>
-                  </select>
-                </div>
-              </div> */}
+            {category === "International" && (
+              <Form.Item name="country-name" label="Country Name" >
+                <Select
+                  placeholder="Select Country"
+                  value={country_id}
+                  name="country_id"
+                  onChange={(e) => setCountry_id(e)}
+                >
+                  <Option value="">Select Country</Option>
+                  {countryList.map((item, index) => (
+                    <Option key={item.id} value={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            )}
 
-              {category === "International" && (
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Country Name <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <select
-                      className="form-select"
-                      value={country_id}
-                      name="country_id"
-                      onChange={(e) => setCountry_id(e.target.value)}
-                    >
-                      <option value={""}>Select Country</option>
-                      {countryList.map((item, index) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
+            {category === "Franchise" && (
+              <Form.Item name="franchise-name" label="Franchise Name" >
+                <Select
+                  placeholder="Select Franchise"
+                  value={franchise_id}
+                  name="franchise_id"
+                  onChange={(e) => setFranchise_id(e)}
+                >
+                  <Option value="">Select Franchise</Option>
+                  {franchiseList.map((item, index) => (
+                    <Option key={item.id} value={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            )}
 
-              {category === "Franchise" && (
-                <div className="mb-3 row">
-                  <label className="form-label col-sm-3">
-                    Franchise Name <span style={{ color: "#ff0000" }}>*</span>
-                  </label>
-                  <div className="col-sm-9">
-                    <select
-                      className="form-select"
-                      value={franchise_id}
-                      name="franchise_id"
-                      onChange={(e) => setFranchise_id(e.target.value)}
-                    >
-                      <option value={""}>Select Franchise</option>
-                      {franchiseList.map((item, index) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-                </div>
-              )}
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
+                >
+                  Submit
+                </Button>
 
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/tournament-teams");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-      {/* </div> */}
     </>
   );
 }

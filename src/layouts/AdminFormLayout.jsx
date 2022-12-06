@@ -207,7 +207,7 @@ const items = [
   ]),
 ];
 
-const AdminLayout = () => {
+const AdminFormLayout = () => {
   const [collapsed, setCollapsed] = useState(false);
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -454,27 +454,39 @@ const AdminLayout = () => {
         <Content
           style={{
             margin: "0 16px",
+            // marginTop: "16px",
+            // display: "flex",
+            // justifyContent: "center",
           }}
         >
-          <Breadcrumb
-            style={{
-              margin: "16px 0",
-            }}
-          >
-            {/* <Breadcrumb.Item>User</Breadcrumb.Item>
+          <div style={{
+            marginTop: "16px",
+            display: "flex",
+            justifyContent: "center"
+          }} className="abc">
+            <Breadcrumb
+              style={{
+                margin: "16px 0",
+              }}
+            >
+              {/* <Breadcrumb.Item>User</Breadcrumb.Item>
                   <Breadcrumb.Item>Bill</Breadcrumb.Item> */}
-          </Breadcrumb>
-          <div
-            className="site-layout-background"
-            style={{
-              padding: 24,
-              minHeight: 360,
-            }}
-          >
-            {/* Bill is a cat. */}
-            <Outlet />
+            </Breadcrumb>
+            <div
+              className="site-layout-background"
+              style={{
+                padding: 24,
+                // minHeight: 360,
+                width: "50%"
+              }}
+            >
+              {/* Bill is a cat. */}
+              <Outlet />
+            </div>
           </div>
+
         </Content>
+
         <Footer
           style={{
             textAlign: "center",
@@ -487,4 +499,4 @@ const AdminLayout = () => {
   );
 };
 
-export default AdminLayout;
+export default AdminFormLayout;

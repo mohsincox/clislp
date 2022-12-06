@@ -1,8 +1,11 @@
+import { Button, Card, Col, DatePicker, Form, Input, Row, Select, Typography } from "antd";
+import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_PUBLIC_URL } from "./../../../constants";
-import axios from "axios";
 import { toast } from "react-toastify";
+import { API_PUBLIC_URL } from "./../../../constants";
+const { Title } = Typography;
+const { Option } = Select;
 
 export default function MatchCreate() {
   // const [stage_name, setStage_name] = useState("");
@@ -18,6 +21,26 @@ export default function MatchCreate() {
   const navigate = useNavigate();
 
   const getLoginData = localStorage.getItem("loginData");
+  // console.log(venue)
+
+
+  const setDateInput = (e) => {
+    if (e === null || e === "") {
+      setStart_date(null)
+    } else {
+      var d = new Date(e._d),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+      if (month.length < 2)
+        month = '0' + month;
+      if (day.length < 2)
+        day = '0' + day;
+      // console.log(start_date)
+      setStart_date([year, month, day].join('-'))
+    }
+  }
 
   useEffect(() => {
     getSelectTournament();
@@ -78,7 +101,7 @@ export default function MatchCreate() {
   }, [tournament_id]);
 
   const submitForm = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     // if (stage_name.trim() === "") {
     //   toast.error("Stage Name field is required!");
@@ -147,212 +170,163 @@ export default function MatchCreate() {
     }
   };
 
+  const onFinishFailed = (errorInfo) => {
+    console.log("Failed:", errorInfo);
+  };
+
   return (
     <>
-      {/* <div className="container mt-2"> */}
-      <div className="col-sm-10 offset-sm-1">
-        <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">Match Create</h5>
-            <form onSubmit={submitForm}>
-              {/* <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Stage Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Stage Name"
-                    value={stage_name}
-                    name="stage_name"
-                    onChange={(e) => setStage_name(e.target.value)}
-                  />
-                </div>
-              </div> */}
+      <div>
+        <Card>
+          <div style={{
+            textAlign: "center"
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Name <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_id}
-                    name="tournament_id"
-                    onChange={(e) => setTournament_id(e.target.value)}
-                  >
-                    <option value={""}>Select Tournament</option>
-                    {tournamentList.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+          }}>
+            <Title level={4}>Match Create</Title>
+          </div>
+          <Form
+            name="basic"
+            labelCol={{
+              span: 8,
+            }}
+            wrapperCol={{
+              span: 10,
+            }}
+            initialValues={{
+              remember: true,
+            }}
+            // onFinish={submitForm}
+            onFinishFailed={onFinishFailed}
+            autoComplete="off"
+          >
+            <Form.Item name="tournament-name" label="Tournament Name" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Tournament"
+                // value={tournament_id}
+                name="tournament_id"
+                onChange={(e) => setTournament_id(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                {tournamentList.map((item, index) => (
+                  <Option key={item.id} value={item.id}>
+                    {item.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Team One{" "}
-                  <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_one_id}
-                    name="tournament_team_one_id"
-                    onChange={(e) => setTournament_team_one_id(e.target.value)}
-                  >
-                    <option value={""}>Select team one</option>
-                    {tourTeamList.map((item, index) => (
-                      <option key={index} value={item.id}>
-                        {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item name="tournament-team-one" label="Tournament Team One" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Team One"
+                // value={tournament_team_one_id}
+                name="tournament_team_one_id"
+                onChange={(e) => setTournament_team_one_id(e)}
+              >
+                <Option value="">Select team one</Option>
+                {tourTeamList.map((item, index) => (
+                  <Option key={index} value={item.id}>
+                    {item.country == null
+                      ? item.franchise.name
+                      : item.country.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Tournament Team Two{" "}
-                  <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    className="form-select"
-                    value={tournament_team_two_id}
-                    name="tournament_team_two_id"
-                    onChange={(e) => setTournament_team_two_id(e.target.value)}
-                  >
-                    <option value={""}>Select team Two</option>
-                    {tourTeamList.map((item, index) => (
-                      <option key={index} value={item.id}>
-                        {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
+            <Form.Item name="tournament-team-two" label="Tournament Team Two" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Team Two"
+                // value={tournament_team_one_id}
+                name="tournament_team_two_id"
+                onChange={(e) => setTournament_team_two_id(e)}
+              >
+                <Option value="">Select team two</Option>
+                {tourTeamList.map((item, index) => (
+                  <Option key={index} value={item.id}>
+                    {item.country == null
+                      ? item.franchise.name
+                      : item.country.name}
+                  </Option>
+                ))}
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Start Date</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="date"
-                    placeholder="dd-mm-yyyy"
-                    value={start_date}
-                    name="start_date"
-                    onChange={(e) => setStart_date(e.target.value)}
-                    min="2022-01-01"
-                    max="2030-12-31"
-                  />
-                </div>
-              </div>
+            <Form.Item
+              label="Start Date"
+            >
+              <DatePicker
+                name="start_date"
+                onChange={(e) => setDateInput(e)}
+                allowClear={false}
+              />
+            </Form.Item>
+            <Form.Item
+              label="Start Time"
+            >
+              <Input
+                placeholder="Enter start time"
+                value={start_time}
+                name="start_time"
+                onChange={(e) => setStart_time(e.target.value)}
+              />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Start Time</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter start time"
-                    value={start_time}
-                    name="start_time"
-                    onChange={(e) => setStart_time(e.target.value)}
-                  />
-                </div>
-              </div>
+            <Form.Item
+              label="Venue"
+            >
+              <Input
+                placeholder="Enter Venue"
+                value={venue}
+                name="venue"
+                onChange={(e) => setVenue(e.target.value)}
+              />
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">Venue</label>
-                <div className="col-sm-9">
-                  <input
-                    className="form-control"
-                    type="text"
-                    placeholder="Enter Venue"
-                    value={venue}
-                    name="venue"
-                    onChange={(e) => setVenue(e.target.value)}
-                  />
-                </div>
-              </div>
+            <Form.Item name="status-field" label="Status" rules={[{ required: true }]}>
+              <Select
+                placeholder="Select Status"
+                value={status}
+                name="status"
+                onChange={(e) => setStatus(e)}
+              >
+                <Option value="">Select Tournament</Option>
+                <Option value="Active">Active</Option>
+                <Option value="Inactive">Inactive</Option>
+              </Select>
+            </Form.Item>
 
-              <div className="mb-3 row">
-                <label className="form-label col-sm-3">
-                  Status <span style={{ color: "#ff0000" }}>*</span>
-                </label>
-                <div className="col-sm-9">
-                  <select
-                    name="status"
-                    value={status}
-                    className="form-control"
-                    onChange={(e) => setStatus(e.target.value)}
-                  >
-                    <option value="">Select Status</option>
-                    <option value="Active">Active</option>
-                    <option value="Inactive">Inactive</option>
-                  </select>
-                </div>
-              </div>
-
-              {/* <div className="form-group col-md-4">
-                <label className="mb-2">Country</label>
-                <select
-                  name="country"
-                  className="form-control"
-                  onChange={(e) => setTournament_id(e.target.value)}
+            <Row>
+              <Col
+                span={18}
+                style={{
+                  textAlign: "right",
+                }}
+              >
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  onClick={() => submitForm()}
                 >
-                  <option value={""}>Select Tournament</option>
-                  {tournamentList.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
+                  Submit
+                </Button>
 
-              {/* <div className="form-group col-md-4">
-                <label className="mb-2">State</label>
-                <select name="state" className="form-control">
-                  <option value={""}>Select State</option>
-                  {teamTourList.map((st, index) => (
-                    <option key={index} value={st.id}>
-                      {st.name}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
-
-              <div className="float-end">
-                <button
-                  className="btn btn-danger me-3"
+                <Button
+                  type="danger"
+                  style={{
+                    marginLeft: "20px",
+                  }}
+                  htmlType="submit"
                   onClick={() => {
                     navigate("/admin/matches");
                   }}
                 >
                   Cancel
-                </button>
-
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={submitForm}
-                >
-                  Save
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
+                </Button>
+              </Col>
+            </Row>
+          </Form>
+        </Card>
       </div>
-      {/* </div> */}
     </>
   );
 }
