@@ -234,8 +234,12 @@ export default function MatchList() {
         ),
     },
     {
-      title: "Date",
+      title: "Start Date",
       dataIndex: "start_date",
+    },
+    {
+      title: "End Date",
+      dataIndex: "end_date",
     },
     {
       title: "Time",

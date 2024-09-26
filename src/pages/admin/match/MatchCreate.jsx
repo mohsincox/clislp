@@ -12,6 +12,7 @@ export default function MatchCreate() {
   const [tournament_team_one_id, setTournament_team_one_id] = useState("");
   const [tournament_team_two_id, setTournament_team_two_id] = useState("");
   const [start_date, setStart_date] = useState("");
+  const [end_date, setEnd_date] = useState("");
   const [start_time, setStart_time] = useState("");
   const [venue, setVenue] = useState("");
   const [tournamentList, setTournamentList] = useState([]);
@@ -116,6 +117,7 @@ export default function MatchCreate() {
         tournament_team_one_id: tournament_team_one_id,
         tournament_team_two_id: tournament_team_two_id,
         start_date: start_date,
+        end_date: end_date,
         start_time: start_time,
         venue: venue,
         status: status,
@@ -146,6 +148,12 @@ export default function MatchCreate() {
         })
         .catch((error) => {
           console.log(error);
+          if (error.response.status === 400) {
+            toast.error(error.response.data.msg);
+          }
+          if (error.response.status === 401) {
+            toast.error(error.response.data.msg);
+          }
           if (error.response.status === 403) {
             toast.error("No Permission");
             navigate("/admin/no-permission");
@@ -215,8 +223,8 @@ export default function MatchCreate() {
                     {tourTeamList.map((item, index) => (
                       <option key={index} value={item.id}>
                         {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
+                          ? item.franchise?.name
+                          : item.country?.name}
                       </option>
                     ))}
                   </select>
@@ -239,8 +247,8 @@ export default function MatchCreate() {
                     {tourTeamList.map((item, index) => (
                       <option key={index} value={item.id}>
                         {item.country == null
-                          ? item.franchise.name
-                          : item.country.name}
+                          ? item.franchise?.name
+                          : item.country?.name}
                       </option>
                     ))}
                   </select>
@@ -257,6 +265,22 @@ export default function MatchCreate() {
                     value={start_date}
                     name="start_date"
                     onChange={(e) => setStart_date(e.target.value)}
+                    min="2022-01-01"
+                    max="2030-12-31"
+                  />
+                </div>
+              </div>
+
+              <div className="mb-3 row">
+                <label className="form-label col-sm-3">End Date</label>
+                <div className="col-sm-9">
+                  <input
+                    className="form-control"
+                    type="date"
+                    placeholder="dd-mm-yyyy"
+                    value={end_date}
+                    name="end_date"
+                    onChange={(e) => setEnd_date(e.target.value)}
                     min="2022-01-01"
                     max="2030-12-31"
                   />

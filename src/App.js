@@ -97,6 +97,7 @@ import CustomerList from "./pages/admin/user/CustomerList";
 import LatestNewsDetails from "./pages/LatestNewsDetails";
 import GetAllLatestNews from "./components/GetAllLatestNews";
 import Hello from "./pages/admin/hello/Hello";
+import ChangePasswordBk from "./pages/ChangePasswordBk";
 
 export const UserContext = React.createContext(null);
 
@@ -131,6 +132,7 @@ function App() {
             <Route path="/ranking" element={<Ranking />} />
             <Route path="/my-team" element={<MyTeam />} />
             <Route path="/change-password" element={<ChangePassword />} />
+            <Route path="/change-password-bk" element={<ChangePasswordBk />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
 
             <Route path={`/admin`} element={<AdminLayout />}>

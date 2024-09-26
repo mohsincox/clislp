@@ -116,7 +116,7 @@ export const Widget = () => {
 
 
                             <div className="float-end">
-                                <button className="btn btn-danger me-3" onClick={ () => {navigate("/admin/users"); }} >Cancel</button>
+                                {/* <button className="btn btn-danger me-3" onClick={ () => {navigate("/admin/users"); }} >Cancel</button> */}
 
                                 <button type="button" className="btn btn-primary" onClick={submitForm}>Save</button>
                             </div>

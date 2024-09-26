@@ -601,7 +601,7 @@ export default function PlayerEdit() {
                   </div>
                 </div>
 
-                <div className="mb-3 row">
+                {/* <div className="mb-3 row">
                   <label className="form-label col-sm-3">Point</label>
                   <div className="col-sm-9">
                     <input
@@ -612,7 +612,7 @@ export default function PlayerEdit() {
                       onChange={(e) => setPoint(e.target.value)}
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="mb-3 row">
                   <label className="form-label col-sm-3">Current Ranking</label>

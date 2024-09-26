@@ -5,11 +5,8 @@ import { toast } from "react-toastify";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { API_PUBLIC_URL } from "../constants";
-import WebLayout from "../layouts/WebLayout";
-import BasicTemplate from "./Template/BasicTemplate";
-import { Input } from "antd";
 
-export default function ChangePassword() {
+export default function ChangePasswordBk() {
   const [email, setEmail] = useState("");
   const [old_password, setOld_password] = useState("");
   const [new_password, setNew_password] = useState("");
@@ -85,81 +82,20 @@ export default function ChangePassword() {
   };
 
   return (
-    <WebLayout>
-      <div className="build-team-section ku-section section-top-required">
-        <div className="container-fluid" style={{ marginBottom: "15px" }}>
-          <BasicTemplate>
-            <div className="col-12 col-lg-8">
+    <>
+      <Header />
+      <hr />
+      <div className="container-fluid" style={{ marginBottom: "15px" }}>
+        <div className="row">
+          <div className="col-sm-2 d-none d-sm-block">
+            <img
+              src={require("../images/add_spon_dr_side.png")}
+              alt=""
+              width={"200px"}
+            />
+          </div>
 
-            <div className="login-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5">
-                <h2
-                  className="text-center text-uppercase mb-4"
-                  style={{ color: "#C50B0E" }}
-                >
-                  Change Password
-                </h2>
-                <form onSubmit={submitForm} className="mt-3">
-                  <div className="mb-3">
-                    <label className="form-label">Old Password</label>
-
-                    <Input
-                      size="large"
-                      type="password"
-                      placeholder="Enter Old Password"
-                      value={old_password}
-                      name="old_password"
-                      onChange={(e) => setOld_password(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">New Password</label>
-
-                    <Input
-                      size="large"
-                      type="password"
-                      placeholder="Enter New Password"
-                      value={new_password}
-                      name="new_password"
-                      onChange={(e) => setNew_password(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="mb-3">
-                    <label className="form-label">Old Password</label>
-
-                    <Input
-                      size="large"
-                      type="password"
-                      placeholder="Enter Confirm Password"
-                      value={confirm_password}
-                      name="confirm_password"
-                      onChange={(e) => setConfirm_password(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="d-flex justify-content-center align-items-center mt-5">
-                    <button
-                      type="submit"
-                      className="btn btn-lg ku-c-button"
-                      style={{ borderRadius: "0px", minWidth: "200px" }}
-                    >
-                      Change Password
-                    </button>
-                  </div>
-                  
-                </form>
-              </div>
-
-              {/* <div className="welcome-team-area basic-temp-main-content-area p-3 p-sm-3 p-md-3 p-lg-5 p-xl-5 bg-transparent">
-                <div
-                  style={{
-                    marginTop: "50px",
-                    textAlign: "center",
-                  }}
-                >
-                  
-                  <div className="col-sm-12 offset-sm-0">
+          <div className="col-sm-6 offset-sm-1">
             <div style={{ marginTop: "50px" }}>
               <div className="card">
                 <div className="card-body">
@@ -237,14 +173,17 @@ export default function ChangePassword() {
               </div>
             </div>
           </div>
-                </div>
-              </div> */}
-
-
-            </div>
-          </BasicTemplate>
+          <div className="col-sm-1"></div>
+          <div className="col-sm-2 d-none d-sm-block">
+            <img
+              src={require("../images/add_spon_dr_side.png")}
+              alt=""
+              width={"200px"}
+            />
+          </div>
         </div>
       </div>
-    </WebLayout>
+      <Footer />
+    </>
   );
 }

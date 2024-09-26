@@ -297,7 +297,7 @@ export default function TournamentTeamPlayerCreate() {
       <div className="col-sm-12 offset-sm-0">
         <div className="card">
           <div className="card-body">
-            <h5 className="card-title">Tournament Team Player Create</h5>
+            <h5 className="card-title">Tournament Team Player Create or Update</h5>
             <form onSubmit={submitForm}>
               <div className="mb-3 row">
                 <label className="form-label col-sm-3">
